@@ -5,7 +5,6 @@ import {
   ArrowUpTrayIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  HandThumbDownIcon,
   HandThumbUpIcon,
   ShareIcon,
   TrashIcon,
@@ -25,10 +24,7 @@ export const StoryDisplay = ({
   imagesUnsaved,
   setOpen,
   handleSaveBook,
-  processing,
-  myBooks,
   dismiss,
-  setDismiss,
   handleLikeBook,
   selectedBook,
   userId,
@@ -36,7 +32,6 @@ export const StoryDisplay = ({
   extractTitleFromStory,
   loading,
   handleDeleteBook,
-  message,
   unsaved,
 }) => {
   // Helper function to get default image based on page
@@ -56,7 +51,7 @@ export const StoryDisplay = ({
         : getDefaultImage(page); // Default image when loading or no images
 
     return (
-      <div className="flex justify-center items-center relative fade-in">
+      <div className="flex justify-center items-center relative fade-in ">
         {<div className="spinner w-full h-full absolute"></div>}
         {imageSrc && (
           <Image
@@ -104,8 +99,6 @@ export const StoryDisplay = ({
     // Slice the paragraphs for the current page
     const currentPageParagraphs = paragraphs.slice(startIndex, endIndex);
 
-    // const pages = paragraphs.length / 2;
-
     if (currentPage == 5) {
       return (
         <div className="h-full flex items-center justify-center text-center mx-6 px-6">
@@ -143,49 +136,61 @@ export const StoryDisplay = ({
     );
   };
 
- 
-  
-
-
   return (
     <>
-      <div className="z-10 right-5 lg:right-10 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center h-[60vh] gap-8 w-10 mt-4 xl:mt-0 ">
+      <div className="z-10 right-5 lg:right-10 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
         {unsaved && selectedBook?.id == undefined && !dismiss && (
           <div
             onClick={handleSaveBook}
-            className="animate-pulse max-w-xs border-2 border-rose-500 text-sm text-rose-500 hover:bg-rose-500 hover:text-white rounded-lg shadow-lg relative cursor-pointer"
+            className="group relative text-white animate-pulse max-w-xs md:border-2 md:border-rose-500 text-sm md:text-rose-500 md:hover:bg-rose-500 md:hover:text-white rounded shadow-lg cursor-pointer"
             role="alert"
           >
             <ArrowUpTrayIcon className="h-9 w-9 p-1" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-slate-700 p-1 rounded">
+              Save
+            </span>
           </div>
         )}
 
         <div
           onClick={() => setPage(5)}
-          className=" md:text-amber-500 border-2 rounded-lg md:border-amber-500 hover:cursor-pointer md:hover:bg-amber-500 bg-amber-500 md:hover:text-white md:bg-transparent"
+          className="group relative text-white md:text-amber-500 md:border-2 rounded md:border-amber-500 hover:cursor-pointer md:hover:bg-amber-500 bg-amber-500 md:hover:text-white md:bg-transparent"
         >
           <UserCircleIcon className="h-9 w-9 p-1" />
+          <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-slate-700 p-1 rounded">
+            Creator
+          </span>
         </div>
 
-        <div className=" md:text-indigo-500 border-2 rounded-lg md:border-indigo-500 hover:cursor-pointer md:hover:bg-indigo-500 bg-indigo-500 md:hover:text-white md:bg-transparent">
+        <div className="group relative text-white md:text-indigo-500 md:border-2 rounded md:border-indigo-500 hover:cursor-pointer md:hover:bg-indigo-500 bg-indigo-500 md:hover:text-white md:bg-transparent">
           <ShareIcon className="h-9 w-9 p-1" />
+          <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-slate-700 p-1 rounded">
+            Share
+          </span>
         </div>
 
-        {selectedBook?.userId != undefined && userId != selectedBook?.userId && (
-          <div
-            onClick={() => handleLikeBook(selectedBook?.id, userId)}
-            className=" md:text-teal-500 border-2 rounded-lg md:border-teal-500 hover:cursor-pointer  md:hover:bg-teal-500 bg-teal-500 md:hover:text-white md:bg-transparent"
-          >
-            <HandThumbUpIcon className="h-9 w-9  p-1" />
-          </div>
-        )}
+        {selectedBook?.userId != undefined &&
+          userId != selectedBook?.userId && (
+            <div
+              onClick={() => handleLikeBook(selectedBook?.id, userId)}
+              className="group relative text-white md:text-teal-500 border-2 rounded md:border-teal-500 hover:cursor-pointer  md:hover:bg-teal-500 bg-teal-500 md:hover:text-white md:bg-transparent"
+            >
+              <HandThumbUpIcon className="h-9 w-9  p-1" />
+              <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-slate-700 p-1 rounded">
+                Like
+              </span>
+            </div>
+          )}
 
         {userId == selectedBook?.userId && (
           <div
             onClick={() => handleDeleteBook(selectedBook?.id)}
-            className=" md:text-pink-600 border-2 rounded-lg md:border-pink-600 hover:cursor-pointer  md:hover:bg-pink-500 bg-pink-500 md:hover:text-white md:bg-transparent"
+            className="group relative text-white md:text-pink-600 md:border-2 rounded md:border-pink-600 hover:cursor-pointer  md:hover:bg-pink-500 bg-pink-500 md:hover:text-white md:bg-transparent"
           >
             <TrashIcon className="h-9 w-9  p-1" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-slate-700 p-1 rounded">
+              Delete
+            </span>
           </div>
         )}
       </div>
@@ -196,7 +201,6 @@ export const StoryDisplay = ({
               xl:bg-gradient-to-r from-orange-200 from-20% via-stone-700 via-50% to-orange-200 to-60% ..."
         >
           {/* Image Section */}
-
           <div
             className="sm:border-r-2 sm:border-l-1 sm:rounded-xl sm:border-stone-800 mx-auto
                xl:flex
@@ -217,7 +221,6 @@ export const StoryDisplay = ({
             </div>
 
             {/* Text Section */}
-
             <div
               className="flex flex-col w-full 
                xl:w-1/2 
@@ -239,7 +242,7 @@ export const StoryDisplay = ({
                     setOpen(false);
                     setMessage("");
                   }}
-                  className="w-12 hover:text-orange-500 text-center"
+                  className="w-12 hover:text-orange-500 text-center z-30"
                 >
                   <XMarkIcon className="h-6 w-12" />
                   Close
@@ -273,7 +276,6 @@ export const StoryDisplay = ({
                       </div>
                     }
                   </div>
-
                   <div className="w-2/3 md:w-1/2 text-right flex items-center justify-end">
                     {selectedBook?.userId !== userId &&
                       selectedBook?.userId != undefined && (
@@ -320,21 +322,10 @@ export const StoryDisplay = ({
                   </div>
                 </div>
               </div>
-              {/* Controls Section End*/}
-
-              {/* Text Section End*/}
             </div>
           </div>
-
-          {/* Image Section */}
         </div>
       </div>
-      {/* Fade in end */}
-
-      {/* Error Start */}
-
-      {/* )} */}
-      {/* ErrorEnd */}
     </>
   );
 };

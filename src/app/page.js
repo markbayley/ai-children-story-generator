@@ -50,6 +50,11 @@ export default function StoryPage() {
   const [myStoriesSelected, setMyStoriesSelected] = useState(false);
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
 
+  
+
+
+
+
   useEffect(() => {
     fetchUserBooks();
     fetchAllBooks();
@@ -67,11 +72,11 @@ export default function StoryPage() {
     event.preventDefault();
 
     if (!prompt) {
-      setMessage({ text: "No Prompt Entered!", type: "info" });
+      setMessage({ text: "Enter A Prompt", type: "info" });
       return;
     }
     if (prompt.length < 10) {
-      setMessage({ text: "Prompt Too Short!", type: "info" });
+      setMessage({ text: "Longer Prompt", type: "info" });
       return;
     }
     resetStory();
@@ -433,15 +438,9 @@ export default function StoryPage() {
                 currentSliceIndex={currentSliceIndex}
                 setCurrentSliceIndex={setCurrentSliceIndex}
                 selectedBook={selectedBook}
+                user={user}
               />
-                  <FooterNav
-                message={message}
-                resetStory={resetStory}
-                setMyBooks={setMyBooks}
-                setUserId={setUserId}
-                setMyStoriesSelected={setMyStoriesSelected}
-                setMessage={setMessage}
-              />
+             
            
             </>
           ) : (
@@ -472,6 +471,16 @@ export default function StoryPage() {
             />
           )}
         </div>
+        { !open &&
+        <FooterNav
+                message={message}
+                resetStory={resetStory}
+                setMyBooks={setMyBooks}
+                setUserId={setUserId}
+                setMyStoriesSelected={setMyStoriesSelected}
+                setMessage={setMessage}
+              />
+        }
     
       </div>
     </>

@@ -42,7 +42,7 @@ export const FooterNav = ({
   
 
   return (
-    <div className="text-gray-300 px-2 py-2 flex justify-around text-xs fixed bottom-0 w-full z-20  bg-gray-900">
+    <div className="text-gray-300 px-2 py-4 flex justify-around text-xs  bottom-0 w-full z-20  bg-gray-900 ">
    
  <div>Contact</div>
  <div>Terms & Conditions</div>

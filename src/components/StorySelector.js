@@ -6,7 +6,7 @@ import {
   ChevronRightIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const StorySelector = ({
   myBooks,
@@ -23,86 +23,89 @@ export const StorySelector = ({
   currentSliceIndex,
   setCurrentSliceIndex,
   selectedBook,
+  user,
 }) => {
   const PreviewContent = ({ book }) => {
-    // console.log("selectedBook", selectedBook?.id, "book.id", book?.id);
+    const [imageLoadError, setImageLoadError] = useState(false);
+
+    const handleImageError = () => {
+      setImageLoadError(true);
+    };
+
+    useEffect(() => {
+      setImageLoadError(false);
+    }, [user]);
 
     return (
       <>
         {/* User Icon */}
         <div
-          className={
+          className={`z-10 left-1 top-1 absolute h-1/6  ${
             userId != book.userId
-              ? "z-10 left-1 top-1 absolute rounded-tl-lg text-white  rounded-full bg-slate-700"
-              : "z-10 left-1 top-1 absolute bg-amber-500 rounded-tl-lg text-white rounded-full"
-          }
+              ? "bg-slate-700 border-amber-500 text-amber-500"
+              : "bg-amber-500 border-white text-white"
+          } border-2 rounded-tl-lg rounded-full`}
         >
-          {/* {userId == book.userId && */}
-          <div className="flex items-center  pr-1">
-            <span className="px-1"> {book?.creatorName || book?.displayName} </span>
-            {book?.creatorPhotoURL ? (
-              <img
-                src={book?.creatorPhotoURL}
-                alt="profile-mini"
-                className="h-10 w-10 lg:h-5 lg:w-5 object-cover  p-1 lg:p-0 m-[1px] lg:m-[2px] rounded-full"
-              />
+          <div className=" px-1 flex h-full items-center justify-center">
+            <span className="">{book?.creatorName || book?.displayName}</span>
+            {book?.creatorPhotoURL && !imageLoadError ? (
+              <div className="relative aspect-square rounded-full w-11 md:w-6  mx-[2px]  ">
+                <Image
+                  src={book?.creatorPhotoURL}
+                  alt="profile-mini"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full border-2  "
+                  onError={handleImageError}
+                />
+              </div>
             ) : (
-              <UserCircleIcon className="h-10 w-10 lg:h-6 lg:w-6" />
+              <UserCircleIcon className="w-12 aspect-square md:w-7" />
             )}
           </div>
-          {/* } */}
         </div>
+
         {/* Likes Icon */}
-        <button
-          // onClick={(event) => {
-          //   event.stopPropagation();
-          //   handleLikeBook(book.id);
-          // }}
-          className={
+        <div
+          className={`z-10 right-1 top-1 absolute w-1/6 h-1/6 flex justify-center items-center group rounded-full rounded-br ${
             book?.likedBy?.includes(userId)
-              ? "z-10 right-1 top-1 absolute bg-teal-500 rounded-tl-full rounded-full rounded-br   text-white  border-2 border-teal-500 "
-              : "z-10 right-1 top-1 absolute  rounded-tl-full rounded-full rounded-br    text-teal-500 border-2 border-teal-500 bg-slate-700"
-          }
+              ? "bg-teal-500 border-teal-500 text-slate-700"
+              : "bg-slate-700 text-teal-500 border-teal-500"
+          } border-2`}
         >
-          <div className="relative h-10 w-10 lg:h-5 lg:w-5 rounded-full text-lg md:text-md lg:text-xs flex justify-center items-center text-center p-3 shadow-xl">
-            <span className="absolute  left-0 top-0 text-white"></span>
+          <div className=" rounded-full text-center shadow-xl">
+            <span className="scale-0 group-hover:scale-100 transition-all absolute right-8 bg-slate-700 px-2 rounded text-white">
+              likes
+            </span>
             {book.likes}
           </div>
-        </button>
-        {/* Delete Icon */}
-        {/* <div
-          onClick={(event) => {
-            event.stopPropagation();
-            handleDeleteBook(book.id);
-          }}
-          className="z-10 right-1 bottom-1 absolute hover:bg-pink-500 rounded text-pink-500 border-2 border-pink-500  bg-slate-700 hover:text-slate-700"
-        >
-          {userId == book.userId && (
-            <TrashIcon className="h-10 w-10 lg:h-6 lg:w-6 p-1" />
-          )}
-        </div> */}
-        {/* Image */}
-        <div
-          className={
-            "bg-cover relative w-[100vw] aspect-square rounded-tr-xl flex items-end"
-          }
-        >
-          {/* Title */}
-          <h5 className="p-1 px-2 absolute text-white tracking-wide font-light w-auto text-center z-10 bg-gradient-to-r from-sky-950 from-0% to-[#3c3232] to-100%  rounded  font-antiqua border-b-2 border-gray-900 opacity-90 drop-shadow-2xl">
+        </div>
+
+        {/* Title */}
+        <div className="absolute bottom-0 left-0 h-1/6  z-10">
+          <h5 className="px-3 flex h-full items-center justify-center rounded-r-full  text-white tracking-wide font-light  bg-gradient-to-r from-sky-950 to-[#3c3232] rounded border-b-2 border-gray-900 opacity-90 drop-shadow-2xl">
             {extractTitleFromStory(book.story) || "Untitled"}
           </h5>
-
-          <Image
-            src={
-            book.imageUrls && book.imageUrls.length > 0
-              ? book.imageUrls[0]
-              : pic7 }
-              fill
-            alt="preview"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            cover="true"
-            className={selectedBook?.id != book?.id ? "rounded-tr-xl z-5" : " animate-pulse rounded-tr-xl z-5" }
-          />
+        </div>
+        {/* Image */}
+        <div className="relative w-full aspect-square">
+          {book.imageUrls && book.imageUrls.length > 0 && !imageLoadError ? (
+            <Image
+              // src={book.imageUrls[0] || pic7}
+              src={pic7}
+              layout="fill"
+              alt="preview"
+              className="rounded-tr-xl"
+              onError={handleImageError}
+            />
+          ) : (
+            <Image
+              src={pic7}
+              layout="fill"
+              alt="preview"
+              className="rounded-tr-xl"
+            />
+          )}
         </div>
       </>
     );
@@ -129,9 +132,9 @@ export const StorySelector = ({
 
   return (
     <>
-      <div className="pt-4 lg:mt-4 text-2xl px-5 pb-80">
-        {/* Stories Sorted By Likes */}
-        <div className="font-sans text-sm  w-full  rounded-t-lg flex justify-end pr-8 gap-2">
+      <div className="pt-4 lg:mt-4 text-2xl px-4 pb-80">
+        {/* All Stories Tab */}
+        <div className="font-sans text-sm w-full  rounded-t-lg flex justify-end pr-8 gap-2">
           <button
             className={
               !myStoriesSelected
@@ -142,7 +145,7 @@ export const StorySelector = ({
           >
             Most Liked
           </button>
-          {/* User Stories */}
+          {/* User Stories Tab*/}
           {/* {myBooks.length > 0 && ( */}
           <button
             className={
@@ -160,12 +163,11 @@ export const StorySelector = ({
           </button>
         </div>
 
-        <div className="flex justify-end text-amber-500">
+        <div className="">
           {/* Map User Stories */}
           {myStoriesSelected ? (
             <div
-              dir="rtl"
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  xl:grid-cols-6  gap-2 text-sm mb-3   "
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm mb-3"
             >
               {myBooks.map((book) => (
                 <div
@@ -183,10 +185,11 @@ export const StorySelector = ({
             </div>
           ) : (
             <div className=" w-full relative">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6  gap-2 text-sm mb-3">
+                {/* Map All Stories */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm mb-3">
                 <button
                   onClick={handleSlider("left")}
-                  className=" h-full w-12 absolute -left-20 hover:text-gray-500"
+                  className=" h-full w-12 absolute -left-20 hover:text-gray-500 text-amber-500"
                 >
                   <ChevronLeftIcon className="h-10 w-10" />
                 </button>
@@ -211,7 +214,7 @@ export const StorySelector = ({
 
                 <button
                   onClick={handleSlider("right")}
-                  className=" h-full w-12 absolute -right-20 hover:text-gray-500"
+                  className=" h-full w-12 absolute -right-20 hover:text-gray-500 text-amber-500"
                 >
                   <ChevronRightIcon className="h-10 w-10" />
                 </button>

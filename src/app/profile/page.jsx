@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import Settings from "./settings";
 import Image from "next/image";
 import Contact from "./contact";
@@ -23,25 +23,40 @@ const Profile = ({ user, setMessage }) => {
   const [settings, setSettings] = useState(false);
   const [contact, setContact] = useState(false);
 
+  // Inside your component
+  const [imageLoadError, setImageLoadError] = useState(false);
+
+  const handleImageError = () => {
+    setImageLoadError(true); // Set the error state to true
+  };
+
+  useEffect(() => {
+    // Reset the image load error state whenever the user changes
+    setImageLoadError(false);
+  }, [user]);
+
+  console.log("photo", user);
+
   return (
     <>
       <Menu as="div" className="relative inline-block text-left z-20">
         <div className="hover:text-gray-400 text-white">
-          <Menu.Button className=" inline-flex w-full justify-center items-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold  shadow-sm ring-1 ring-inset ring-gray-300 ">
-            {user.photoURL ? (
-              <img
+          <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
+            {user && user.photoURL && !imageLoadError ? (
+              <Image
                 src={user.photoURL}
-                // width={30}
-                // height={30}
-                alt="logo"
-                className="rounded-full  h-8 w-8 object-cover   xs:ml-2 ml-0"
+              
+                width={30}
+                height={30}
+                alt="profile-image"
+                onError={handleImageError}
+                className="rounded-full h-8 w-8 object-cover xs:ml-2 ml-0"
               />
             ) : (
-              <UserCircleIcon className="h-6 w-6  " />
+              <UserCircleIcon className="h-6 w-6" />
             )}
-            <span className="">{user.displayName}</span>
-
-            <ChevronDownIcon className="-mr-1 h-5 w-5  " aria-hidden="true" />
+            <span>{user?.displayName}</span>
+            <ChevronDownIcon className="-mr-1 h-5 w-5" aria-hidden="true" />
           </Menu.Button>
         </div>
 
@@ -109,7 +124,7 @@ const Profile = ({ user, setMessage }) => {
 
                     <div>
                       {" "}
-                      {settings && <Settings setMessage={setMessage} /> }
+                      {settings && <Settings setMessage={setMessage} />}
                     </div>
                   </>
                 )}
@@ -137,10 +152,7 @@ const Profile = ({ user, setMessage }) => {
                       />
                     </a>
 
-                    <div>
-                      {" "}
-                      {contact && <Contact setMessage={setMessage} /> }
-                    </div>
+                    <div> {contact && <Contact setMessage={setMessage} />}</div>
                   </>
                 )}
               </Menu.Item>
