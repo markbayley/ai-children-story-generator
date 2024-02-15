@@ -148,9 +148,7 @@ export const StoryForm = ({
             </p>
           </label>
         </div>
-        {/* <h4 className="flex justify-between px-4 text-gray-300 text-xs pt-3">
-          Buy credits to generate amazing storybook images!
-        </h4> */}
+    
         <div className="flex text-[15px]">
           {loading ? (
             <button
