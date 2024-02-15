@@ -48,7 +48,7 @@ const SignIn = ({ setUserStatus }) => {
         Sign In
       </button>
       <p className="text-sm pt-4">
-        Don't have an account? Create account
+        Dont have an account? Create account
         <a
           onClick={() => setUserStatus(true)}
           className="text-indigo-500 hover:text-indigo-400 cursor-pointer"

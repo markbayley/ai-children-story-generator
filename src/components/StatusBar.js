@@ -16,6 +16,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { FaInstagram, FaFacebook, FaTwitter  } from "react-icons/fa";
+// import { InstagramEmbed } from 'react-social-media-embed';
 
 export const StatusBar = ({
   resetStory,
@@ -24,6 +25,12 @@ export const StatusBar = ({
   setUserId,
   setMyStoriesSelected,
   setMessage,
+  show,
+  setShow,
+  setShared,
+  handleShareBook,
+  selectedBook,
+  userId
 }) => {
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);
@@ -40,6 +47,8 @@ export const StatusBar = ({
         return "text-red-600";
       case "info":
         return "text-indigo-500";
+        case "share":
+          return "text-indigo-500";
       case "create":
         return "text-amber-500";
       // default:
@@ -47,44 +56,56 @@ export const StatusBar = ({
     }
   };
 
-  const [show, setShow] = useState(true);
+
+
+
+ 
 
   return (
     <div className="text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
       <div
-        onClick={() => setShow(!show)}
+        // 
         className="flex cursor-pointer group relative shadow-md hover:shadow-lg hover:shadow-indigo-500/100 shadow-indigo-500/70 rounded-full "
       >
         {/* <Image src={pic7} alt="logo" className="rounded-full h-12 w-12 " /> */}
         {!show ? (
           <>
-          <PlusIcon className="h-12 w-12 border-2 rounded-full p-3 fade-in" />
+          <PlusIcon className="h-12 w-12 border-2 rounded-full p-3 fade-in" onClick={() => setShow(true)}/>
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">Open</span >
             </>
         ) : (
           <>
-          <MinusIcon className="h-12 w-12 border-2 rounded-full p-3 fade-in" />
+          <MinusIcon className="h-12 w-12 border-2 rounded-full p-3 fade-in" onClick={() => setShow(false)}/>
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">Close</span >
           </>
         )}
       </div>
 
       {show && (
-        <div className="backdrop-blur-md bg-sky-950/30 lg:bg-transparent l p-2 lg:p-1 fade-in z-10 left-1 lg:left-2 top-16 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-8 w-auto mt-2  ">
+        <div className="backdrop-blur-md bg-sky-950/30 md:bg-transparent l p-2 lg:p-1 fade-in z-10 left-1 lg:left-2 top-16 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-8 w-auto mt-2  ">
           {/* {unsaved && selectedBook?.id == undefined && !dismiss && ( */}
-          <div
-            onClick={resetStory}
-            className="group max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
-            role="alert"
+          <a
+            // onClick={resetStory}
+          // onClick={() => setShared(true)}
+          onClick={() => handleShareBook(selectedBook?.id, userId)}
+           // href="https://www.instagram.com/explore/search/keyword/?q=faeries"
+           // target="_blank"
+            className={ selectedBook?.sharedBy?.includes(userId) ? "group max-w-xs text-sm bg-indigo-500 text-white rounded-md relative cursor-pointer"
+           : "group max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer" }
           >
          
             <FaInstagram className="h-9 w-9 p-2"/>
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
-              Reset
+              Instagram
             </span>
-          </div>
+          </a>
 
-          <div
+          {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
+  <InstagramEmbed url="https://www.instagram.com/p/CUbHfhpswxt/" width={328} />
+</div> */}
+
+          <a href="https://www.facebook.com"
+          target="_blank"
             // onClick={handleSaveBook}
             className="group max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
@@ -92,20 +113,21 @@ export const StatusBar = ({
          
             < FaFacebook  className="h-9 w-9 p-2"/>
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
-              Save
+              Facebook
             </span>
-          </div>
+          </a>
 
-          <div
+          <a href="https://www.twitter.com"
+          target="_blank"
             // onClick={() => setPage(5)}
             className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
             <FaTwitter className="h-9 w-9 p-2" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
-              Profile
+              Twitter
             </span>
-          </div>
+          </a>
 
           <div
             className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
@@ -120,12 +142,13 @@ export const StatusBar = ({
           {/* {selectedBook?.userId != undefined && userId != selectedBook?.userId && ( */}
           <div
             // onClick={() => handleLikeBook(selectedBook?.id, userId)}
+            onClick={resetStory}
             className="group  max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
             <ArrowPathIcon className="h-9 w-9 p-2" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
-              Like
+              Reset
             </span>
           </div>
           {/* )} */}

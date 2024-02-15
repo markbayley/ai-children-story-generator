@@ -47,14 +47,16 @@ export const StorySelector = ({
           } border-2 rounded-tl-lg rounded-full`}
         >
           <div className="px-1 flex h-full items-center justify-center">
-            <span className="text-lg md:text-sm">{book?.creatorName || book?.displayName}</span>
+            <span className="text-lg md:text-sm">
+              {book?.creatorName || book?.displayName}
+            </span>
             {book?.creatorPhotoURL && !imageLoadError ? (
               <div className="relative aspect-square rounded-full w-11 md:w-6 mx-[2px]">
                 <Image
                   src={book?.creatorPhotoURL}
                   alt="profile-mini"
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  cover
                   className="rounded-full border-2"
                   onError={handleImageError}
                 />
@@ -82,8 +84,8 @@ export const StorySelector = ({
         </div>
 
         {/* Title */}
-        <div className="absolute bottom-0 left-0 h-1/6 z-10 text-xl capitalize md:text-sm">
-          <h5 className="px-3 flex h-full items-center justify-center rounded-r-full text-white tracking-wide font-light bg-gradient-to-r from-sky-950 to-[#3c3232] rounded border-b-2 border-gray-900 opacity-90 drop-shadow-2xl">
+        <div className="absolute bottom-0 left-0 h-1/6 z-10 text-lg capitalize md:text-sm ">
+          <h5 className="px-1 flex h-full items-center justify-center rounded-r-full text-white  font-light bg-gradient-to-r from-sky-950 to-[#3c3232] rounded border-b-2 border-gray-900  drop-shadow-2xl">
             {extractTitleFromStory(book.story) || "Untitled"}
           </h5>
         </div>
@@ -113,6 +115,27 @@ export const StorySelector = ({
 
   const booksPerPage = 6;
 
+  const totalPages = Math.ceil(allBooks.length / booksPerPage);
+
+  const PaginationBars = ({ totalPages, currentSliceIndex, booksPerPage }) => {
+   const currentPage = Math.ceil(currentSliceIndex / booksPerPage);
+
+ 
+
+    return (
+      <div className="flex items-center justify-center space-x-4">
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <div
+            key={index}
+            className={`h-1 w-8 mt-4 mb-2 rounded-sm ${
+              currentPage === index ? "bg-amber-500" : "bg-gray-500"
+            }`}
+          ></div>
+        ))}
+      </div>
+    );
+  };
+
   const handleSlider = (direction) => () => {
     setCurrentSliceIndex((prevIndex) => {
       let newIndex = prevIndex;
@@ -130,9 +153,11 @@ export const StorySelector = ({
     });
   };
 
+  
+
   return (
     <>
-      <div className=" text-2xl px-4 pb-80">
+      <div className="mt-10 text-2xl px-4 pb-80">
         {/* All Stories Tab */}
         <div className="font-sans text-sm w-full rounded-t-lg flex justify-end pr-8 gap-2">
           <button
@@ -164,11 +189,9 @@ export const StorySelector = ({
         </div>
 
         <div className="">
-          {/* Map User Stories */}
+          {/* Map All User Stories */}
           {myStoriesSelected ? (
-            <div
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm mb-3 bg-sky-950 rounded-md opacity-80 p-2 border-2 border-amber-500"
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm mb-3  bg-sky-950 rounded-md  p-2 border-2 border-amber-500">
               {myBooks.map((book) => (
                 <div
                   onClick={() => handlePreviewMine(book.id)}
@@ -176,7 +199,7 @@ export const StorySelector = ({
                   className={
                     selectedBook?.id != book?.id
                       ? "relative flex items-end justify-center cursor-pointer fade-in border-2 border-[#15161b] hover:border-2 transition ease-in-out hover:border-amber-500 duration-200 rounded-tr-xl"
-                      : "relative flex items-end justify-center cursor-pointer fade-in border-2 border-amber-500 hover:border-2 transition ease-in-out hover:border-amber-500 duration-200 rounded-tr-xl"
+                      : "relative flex items-end justify-center cursor-pointer fade-in border-2 border-amber-500 hover:border-2 transition ease-in-out hover:border-amber-500 duration-200 rounded-tr-xl "
                   }
                 >
                   <PreviewContent book={book} />
@@ -184,9 +207,9 @@ export const StorySelector = ({
               ))}
             </div>
           ) : (
-            <div className=" w-full relative bg-sky-950 rounded-md opacity-80 p-2 border-2 border-teal-500">
-                {/* Map All Stories */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm">
+            <div className=" w-full relative bg-sky-950 rounded-md opacity-95 p-2 border-2 border-teal-500">
+              {/* Map All Stories */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm ">
                 <button
                   onClick={handleSlider("left")}
                   className="h-full w-12 absolute -left-20 hover:text-gray-500 text-amber-500"
@@ -204,8 +227,8 @@ export const StorySelector = ({
                       key={book.id}
                       className={
                         selectedBook?.id != book?.id
-                          ? "relative flex items-end justify-center cursor-pointer fade-in border border-[#15161b] shadow-md transition ease-in-out hover:shadow-teal-500 duration-200 rounded-tr-xl"
-                          : "relative flex items-end justify-center cursor-pointer fade-in border border-[#15161b] shadow-md shadow-teal-500 transition ease-in-out hover:shadow-teal-500 duration-200 rounded-tr-xl"
+                          ? "relative flex items-end justify-center cursor-pointer fade-in border-2 border-gray-900 shadow-md transition ease-in-out hover:shadow-teal-500 duration-200 rounded-tr-xl "
+                          : "relative flex items-end justify-center cursor-pointer fade-in border-2 border-gray-900 shadow-md shadow-teal-500 transition ease-in-out hover:shadow-teal-500 duration-200 rounded-tr-xl"
                       }
                     >
                       <PreviewContent book={book} />
@@ -219,6 +242,11 @@ export const StorySelector = ({
                   <ChevronRightIcon className="h-10 w-10" />
                 </button>
               </div>
+              <PaginationBars
+                totalPages={totalPages}
+                currentSliceIndex={currentSliceIndex}
+                booksPerPage={booksPerPage}
+              />
             </div>
           )}
         </div>

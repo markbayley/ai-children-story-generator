@@ -42,6 +42,7 @@ export default function StoryPage() {
   const [processing, setProcessing] = useState(false);
   const [dismiss, setDismiss] = useState(false);
   const [unsaved, setUnsaved] = useState(false);
+  const [shared, setShared] = useState(false);
 
   const [myBooks, setMyBooks] = useState([]);
   const [allBooks, setAllBooks] = useState([]);
@@ -49,6 +50,8 @@ export default function StoryPage() {
   // const [unsavedBook, setUnsavedBook] = useState([]);
   const [myStoriesSelected, setMyStoriesSelected] = useState(false);
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
+
+  const [show, setShow] = useState(true);
 
   
 
@@ -168,6 +171,7 @@ export default function StoryPage() {
       setMessage({ text: "Maximum Books Saved!", type: "save" });
       return;
     }
+    // if (myBooks.id)
     setProcessing(true);
     setDismiss(true);
     setMessage({ text: "Saving Storybook...", type: "save" });
@@ -246,7 +250,7 @@ export default function StoryPage() {
     const querySnapshot = await getDocs(q);
     let myBooks = [];
     querySnapshot.forEach((doc) => {
-      myBooks.push({ id: doc.id, ...doc.data() });
+      myBooks.push({ id: doc.id, ...doc.data(), creatorPhotoURL: user.photoURL });
     });
     return myBooks;
   };
@@ -290,6 +294,58 @@ export default function StoryPage() {
 //     });
 //     return allUsers;
 //   };
+
+const handleShareBook = async (bookId, userId) => {
+  // if (userId === selectedBook?.userId) {
+  //   setMessage({ text: "Can't Share Own Book!", type: "like" });
+  //   return;
+  // }
+
+  try {
+    await fetchBookToShare(bookId, userId); // Now passing userId
+ 
+
+    // UI logic as previously described
+  } catch (error) {
+    setMessage(setMessage({ text: "Can't Share Book Twice!", type: "like" }));
+    console.error("Error sharing book: ", error);
+  }
+  fetchAllBooks();
+};
+
+
+const fetchBookToShare = async (bookId, userId) => {
+  const db = getFirestore();
+  const bookRef = doc(db, "books", bookId);
+
+  const docSnap = await getDoc(bookRef);
+  if (docSnap.exists()) {
+    const bookData = docSnap.data();
+
+    // Check if the user has already liked the book
+    if (bookData.sharedBy && !bookData.sharedBy.includes(userId)) {
+      // Update the document to add the user to the likedBy array and increment likes
+      setSelectedBook({
+        ...selectedBook,
+        shares: (selectedBook.shares || 0) + 1,
+        sharedBy: [...(selectedBook.sharedBy || []), userId], // Also optimistically update the likedBy array
+      });
+      await updateDoc(bookRef, {
+        sharedBy: arrayUnion(userId),
+        shares: increment(1),
+      });
+      setMessage({ text: "Book Shared!", type: "share" });
+    } else {
+      setMessage({ text: "Already Shared!", type: "share" });
+      // Optionally handle this case in the UI, e.g., by showing a message
+    }
+  } else {
+    console.log("No such document!");
+  }
+};
+
+
+
 
   /////////////// LIKE UPDATE BOOK
   //|| myBooks[0]?.userId
@@ -345,6 +401,7 @@ export default function StoryPage() {
 
   const handleDeleteBook = async (bookId) => {
     setMessage({ text: "Deleting Book...", type: "delete" });
+    setDismiss(true);
     try {
       await deleteBookFromFirestore(bookId);
 
@@ -412,14 +469,14 @@ export default function StoryPage() {
     setDismiss(false);
   };
 
-  console.log(
-    "userId:",
-    userId,
-    "selectedBook?.likedBy:",
-    selectedBook?.likedBy
-  );
+  // console.log(
+  //   "userId:",
+  //   userId,
+  //   "selectedBook?.likedBy:",
+  //   selectedBook?.likedBy
+  // );
 
-  console.log("allBooks", allBooks)
+  console.log("myBooks", myBooks)
 
   return (
     <>
@@ -431,6 +488,12 @@ export default function StoryPage() {
           setUserId={setUserId}
           setMyStoriesSelected={setMyStoriesSelected}
           setMessage={setMessage}
+          show={show}
+          setShow={setShow}
+          setShared={setShared}
+          handleShareBook={handleShareBook}
+          selectedBook={selectedBook}
+          userId={userId}
         />
 
         <div className="mx-0 md:mx-[10%] no-scroll pt-16">
@@ -491,6 +554,10 @@ export default function StoryPage() {
               handleDeleteBook={handleDeleteBook}
               message={message}
               unsaved={unsaved}
+              shared={shared}
+              setShared={setShared}
+              show={show}
+              setShow={setShow}
             />
           )}
         </div>

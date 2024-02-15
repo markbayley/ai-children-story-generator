@@ -35,16 +35,16 @@ const Profile = ({ user, setMessage }) => {
     setImageLoadError(false);
   }, [user]);
 
-  console.log("photo", user);
+ 
 
   return (
     <>
       <Menu as="div" className="relative inline-block text-left z-20">
         <div className="hover:text-gray-400 text-white">
           <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
-            {user && user.photoURL && !imageLoadError ? (
+            {user && user?.photoURL && !imageLoadError ? (
               <Image
-                src={user.photoURL}
+                src={user?.photoURL}
               
                 width={30}
                 height={30}
@@ -82,7 +82,7 @@ const Profile = ({ user, setMessage }) => {
                     <div>
                       {" "}
                       Signed in as
-                      <span className="flex  font-semibold"> {user.email}</span>
+                      <span className="flex  font-semibold"> {user?.email}</span>
                     </div>
                   </a>
 
