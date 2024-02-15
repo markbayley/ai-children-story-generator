@@ -1,14 +1,11 @@
-"use client";
-import Image from "next/image";
+// "use client";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { useState } from "react";
 import Profile from "@/app/profile/page";
-import pic7 from "/public/pic7.jpg";
 import  Authy from "@/app/auth/page";
 import {
   ArrowPathIcon,
-  HandThumbUpIcon,
   InformationCircleIcon,
   MinusIcon,
   PlusIcon,
