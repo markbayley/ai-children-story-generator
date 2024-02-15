@@ -1,4 +1,4 @@
-// "use client";
+ "use client";
 import { useEffect, useRef, useState } from "react";
 import { fetchStory } from "./api/openai/fetchStory";
 import { fetchImages } from "./api/stability/fetchImages";
