@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
- 
+  // Add basePath
+  basePath: '/github-pages',
     images: {
         domains: ["firebasestorage.googleapis.com"],
       },
