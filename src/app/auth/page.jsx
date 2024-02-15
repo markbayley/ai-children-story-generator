@@ -2,9 +2,17 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import SignIn from "@/app/auth/sign-in";
-import SignUp from "@/app/auth/sign-up";
 import { UserIcon } from "@heroicons/react/24/outline";
+import dynamic from 'next/dynamic';
+
+const SignIn = dynamic(() => import('@/app/auth/sign-in'), {
+  ssr: false, // This prevents server-side rendering for the component
+});
+
+const SignUp = dynamic(() => import('@/app/auth/sign-up'), {
+  ssr: false,
+});
+
 
 export const AuthDisplay = ({ userStatus, setUserStatus }) => {
   return (
