@@ -62,7 +62,7 @@ const Settings = ({ setMessage }) => {
   //////////////////////////////////
 
   const [displayName, setDisplayName] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  // const [photoURL, setPhotoURL] = useState("");
   const [updateProfile, updating, error] = useUpdateProfile(auth);
 
   if (error) {
@@ -128,7 +128,7 @@ const Settings = ({ setMessage }) => {
       </div>
 
       <button
-        className="w-full mt-4 p-3 bg-indigo-600 rounded text-white hover:bg-indigo-500 text-[15px]"
+        className="w-full mt-4 p-3 bg-indigo-600 rounded-md text-white hover:bg-indigo-500 text-[15px]"
         onClick={handleUpdateProfile}
       >
         Update Profile

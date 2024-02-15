@@ -52,12 +52,10 @@ export default function StoryPage() {
 
   
 
-
-
-
   useEffect(() => {
     fetchUserBooks();
     fetchAllBooks();
+    // fetchAllUsers();
   }, [userId]); // Fetch books on component mount or when userId changes
 
   // useEffect(() => {
@@ -270,6 +268,29 @@ export default function StoryPage() {
     return allBooks;
   };
 
+
+  ///////////////// GET USERS /////////////////////
+// const [ allUsers, setAllUsers ] = useState([])
+
+//   const fetchAllUsers = async () => {
+//     const fetchedUsers = await getAllUsers(userId);
+//     setAllUsers(fetchedUsers);
+//     setMessage({text: "All Users Fetched", type: "success"});
+//     console.log("allUsers", allUsers)
+//   };
+
+
+//   const getAllUsers = async () => {
+//     const db = getFirestore();
+//     const q = query(collection(db, "users"));
+//     const querySnapshot = await getDocs(q);
+//     let allUsers = [];
+//     querySnapshot.forEach((doc) => {
+//       allUsers.push({ id: doc.id, ...doc.data() });
+//     });
+//     return allUsers;
+//   };
+
   /////////////// LIKE UPDATE BOOK
   //|| myBooks[0]?.userId
   const handleLikeBook = async (bookId, userId) => {
@@ -397,6 +418,8 @@ export default function StoryPage() {
     "selectedBook?.likedBy:",
     selectedBook?.likedBy
   );
+
+  console.log("allBooks", allBooks)
 
   return (
     <>

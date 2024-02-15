@@ -70,15 +70,15 @@ export const StatusBar = ({
       </div>
 
       {show && (
-        <div className="bg-sky-950 lg:bg-transparent l p-2 lg:p-1 fade-in z-10 left-1 rounded lg:left-2 top-16 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-8 w-auto mt-2  ">
+        <div className="backdrop-blur-md bg-sky-950/30 lg:bg-transparent l p-2 lg:p-1 fade-in z-10 left-1 lg:left-2 top-16 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-8 w-auto mt-2  ">
           {/* {unsaved && selectedBook?.id == undefined && !dismiss && ( */}
           <div
             onClick={resetStory}
-            className="group max-w-xs  text-sm text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-lg shadow-lg relative cursor-pointer"
+            className="group max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
          
-            <FaInstagram className="h-9 w-9 p-1"/>
+            <FaInstagram className="h-9 w-9 p-2"/>
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Reset
             </span>
@@ -86,11 +86,11 @@ export const StatusBar = ({
 
           <div
             // onClick={handleSaveBook}
-            className="group animate-pulse max-w-xs  text-sm text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-lg shadow-lg relative cursor-pointer"
+            className="group max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
          
-            < FaFacebook  className="h-9 w-9 p-1"/>
+            < FaFacebook  className="h-9 w-9 p-2"/>
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Save
             </span>
@@ -98,20 +98,20 @@ export const StatusBar = ({
 
           <div
             // onClick={() => setPage(5)}
-            className="group  max-w-xs  text-sm text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-lg shadow-lg relative cursor-pointer"
+            className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-            <FaTwitter className="h-9 w-9 p-1" />
+            <FaTwitter className="h-9 w-9 p-2" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Profile
             </span>
           </div>
 
           <div
-            className="group  max-w-xs  text-sm text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-lg shadow-lg relative cursor-pointer"
+            className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-            <ShareIcon className="h-9 w-9 p-1" />
+            <ShareIcon className="h-9 w-9 p-2" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Share
             </span>
@@ -120,10 +120,10 @@ export const StatusBar = ({
           {/* {selectedBook?.userId != undefined && userId != selectedBook?.userId && ( */}
           <div
             // onClick={() => handleLikeBook(selectedBook?.id, userId)}
-            className="group  max-w-xs text-sm text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-lg shadow-lg relative cursor-pointer"
+            className="group  max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-            <ArrowPathIcon className="h-9 w-9 p-1" />
+            <ArrowPathIcon className="h-9 w-9 p-2" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Like
             </span>
@@ -131,16 +131,16 @@ export const StatusBar = ({
           {/* )} */}
 
           {/* {userId == selectedBook?.userId && ( */}
-          <div
-            // onClick={() => handleDeleteBook(selectedBook?.id)}
-            className="group  max-w-xs  text-sm text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-lg shadow-lg relative cursor-pointer"
+          {/* <div
+             onClick={() => handleDeleteBook(selectedBook?.id)}
+            className="group  max-w-xs  text-sm  hover:bg-indigo-500 hover:text-white rounded-lg shadow-lg relative cursor-pointer"
             role="alert"
           >
             <InformationCircleIcon className="h-9 w-9 p-1" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Delete
             </span>
-          </div>
+          </div> */}
           {/* )} */}
         </div>
       )}

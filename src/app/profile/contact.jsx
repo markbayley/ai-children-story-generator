@@ -71,7 +71,7 @@ const Contact = ({ setMessage }) => {
 
       <button
         onClick={handleSubmit}
-        className="w-full p-3 bg-indigo-600 rounded text-white hover:bg-indigo-500 text-[15px]"
+        className="w-full p-3 bg-indigo-600 rounded-md text-white hover:bg-indigo-500 text-[15px]"
       >
         Send Message
       </button>

@@ -138,7 +138,7 @@ export const StoryDisplay = ({
 
   return (
     <>
-      <div className="z-10 right-5 lg:right-10 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
+      <div className="z-10 right-5 lg:right-10 lg:pb-5 absolute flex flex-col justify-start md:justify-end items-center h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
         {unsaved && selectedBook?.id == undefined && !dismiss && (
           <div
             onClick={handleSaveBook}
@@ -173,7 +173,9 @@ export const StoryDisplay = ({
           userId != selectedBook?.userId && (
             <div
               onClick={() => handleLikeBook(selectedBook?.id, userId)}
-              className="group relative text-white md:text-teal-500 border-2 rounded md:border-teal-500 hover:cursor-pointer  md:hover:bg-teal-500 bg-teal-500 md:hover:text-white md:bg-transparent"
+              className={  selectedBook?.likedBy?.includes(userId) 
+                ? "group relative text-white rounded hover:cursor-pointer border-2 border-teal-500 bg-teal-500 "
+                : "group relative text-white md:text-teal-500 border-2 rounded md:border-teal-500 hover:cursor-pointer  md:hover:bg-teal-500 bg-teal-500 md:hover:text-white md:bg-transparent" }
             >
               <HandThumbUpIcon className="h-9 w-9  p-1" />
               <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-slate-700 p-1 rounded">
@@ -271,7 +273,7 @@ export const StoryDisplay = ({
                           controls
                           src={`${audio}`}
                           className="w-full"
-                          style={{ height: "43px", border: "2px" }}
+                          style={{ height: "40px", border: "2px" }}
                         />
                       </div>
                     }
