@@ -5,7 +5,7 @@ import { auth } from "@/app/firebase/config";
 import { useState } from "react";
 import Profile from "@/app/profile/page";
 import pic7 from "/public/pic7.jpg";
-import { AuthDisplay } from "../app/auth/page";
+import { Auth } from "../app/auth/page";
 import {
   ArrowPathIcon,
   HandThumbUpIcon,
@@ -190,7 +190,7 @@ export const StatusBar = ({
           />
         </div>
       ) : (
-        <AuthDisplay userStatus={userStatus} setUserStatus={setUserStatus} />
+        <Auth userStatus={userStatus} setUserStatus={setUserStatus} />
       )}
     </div>
   );

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";

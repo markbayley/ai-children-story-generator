@@ -1,3 +1,4 @@
+"use client";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -13,7 +14,7 @@ const SignUp = dynamic(() => import('@/app/auth/sign-up'), {
 });
 
 
-export const AuthDisplay = ({ userStatus, setUserStatus }) => {
+export const Auth = ({ userStatus, setUserStatus }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
