@@ -47,7 +47,7 @@ export default function StoryPage() {
   const [myBooks, setMyBooks] = useState([]);
   const [allBooks, setAllBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
-  // const [unsavedBook, setUnsavedBook] = useState([]);
+
   const [myStoriesSelected, setMyStoriesSelected] = useState(false);
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
 
@@ -89,7 +89,7 @@ export default function StoryPage() {
       const storyData = await fetchStory(prompt);
       setMessage({ text: "Story Created!", type: "create" });
       setStoryUnsaved(storyData.story);
-      //console.log("storyData", storyData, "story", story);
+    
       const storyTitle = extractTitleFromStory(storyData.story);
       console.log("storyTitle", storyTitle);
       setOpen(true);
@@ -97,7 +97,7 @@ export default function StoryPage() {
       setMessage({ text: "Creating Images...", type: "create" });
       const imageData = await fetchImages(storyData.story);
       setImagesUnsaved(imageData.images);
-      //console.log("imageData.images", imageData.images);
+  
       setMessage({ text: "Images Finished!", type: "create" });
 
       // Uncomment if you want to fetch audio
