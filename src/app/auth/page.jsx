@@ -14,7 +14,7 @@ const SignUp = dynamic(() => import('@/app/auth/sign-up'), {
 });
 
 
-export const Auth = ({ userStatus, setUserStatus }) => {
+const Authy = ({ userStatus, setUserStatus }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -46,3 +46,5 @@ export const Auth = ({ userStatus, setUserStatus }) => {
     </Menu>
   );
 };
+
+export default Authy
