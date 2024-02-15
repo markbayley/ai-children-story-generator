@@ -56,7 +56,7 @@ export const StorySelector = ({
                   src={book?.creatorPhotoURL}
                   alt="profile-mini"
                   fill
-                  cover
+                  cover="true"
                   className="rounded-full border-2"
                   onError={handleImageError}
                 />
@@ -95,18 +95,13 @@ export const StorySelector = ({
             <Image
               // src={book.imageUrls[0] || pic7}
               src={pic7}
-              layout="fill"
+              fill
               alt="preview"
               className="rounded-tr-xl"
               onError={handleImageError}
             />
           ) : (
-            <Image
-              src={pic7}
-              layout="fill"
-              alt="preview"
-              className="rounded-tr-xl"
-            />
+            <Image src={pic7} fill alt="preview" className="rounded-tr-xl" />
           )}
         </div>
       </>
@@ -118,9 +113,7 @@ export const StorySelector = ({
   const totalPages = Math.ceil(allBooks.length / booksPerPage);
 
   const PaginationBars = ({ totalPages, currentSliceIndex, booksPerPage }) => {
-   const currentPage = Math.ceil(currentSliceIndex / booksPerPage);
-
- 
+    const currentPage = Math.ceil(currentSliceIndex / booksPerPage);
 
     return (
       <div className="flex items-center justify-center space-x-4">
@@ -153,8 +146,6 @@ export const StorySelector = ({
     });
   };
 
-  
-
   return (
     <>
       <div className="mt-10 text-2xl px-4 pb-80">
@@ -178,10 +169,9 @@ export const StorySelector = ({
                 ? "text-amber-500 bg-slate-800 rounded-t-lg px-3 py-2 border-x-2 border-t-2 border-amber-500"
                 : "text-gray-500 hover:text-amber-500 bg-slate-800 rounded-t-lg px-3 py-2 border-x border-t border-gray-500"
             }
-            onClick={
-              myBooks.length > 0
-                ? () => setMyStoriesSelected(true)
-                : () => setMessage("No Stories Created")
+            onClick={() => setMyStoriesSelected(true)
+              // : () =>
+              //     setMessage({ text: "No Stories Created", type: "create" })
             }
           >
             My Stories
