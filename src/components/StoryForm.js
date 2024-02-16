@@ -131,6 +131,7 @@ export const StoryForm = ({
           <input
             id="prompt"
             type="text"
+            autoComplete="true"
             placeholder="A magical castle in the sky"
             value={prompt}
             onChange={(e) => {

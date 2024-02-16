@@ -109,7 +109,7 @@ export const StorySelector = ({
           ) : (
             <Image src={pic7} loading="eager" priority={true} fill sizes="(max-width: 768px) 100vw,
             (max-width: 1200px) 50vw,
-            33vw" alt="preview" className="rounded-tr-xl" />
+            33vw" alt="preview" className="rounded-tr-xl relative" />
           )}
         </div>
       </>

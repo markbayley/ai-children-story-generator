@@ -44,7 +44,9 @@ const Contact = ({ setMessage }) => {
     <div className="bg-sky-950 px-4 md:px-10 pt-2 pb-6 rounded-lg shadow-xl w-80 md:w-96 ">
       <h6 className="text-white text-[16px] mb-5">Your Message</h6>
       <input
-        type="text"
+      id="name"
+        //type="text"
+        autoComplete="true"
         placeholder="Name"
         value={displayName}
         onChange={(e) => setName(e.target.value)}
@@ -52,7 +54,9 @@ const Contact = ({ setMessage }) => {
         onKeyDown={(e) => e.stopPropagation()}
       />
       <textarea
-        type="text"
+      id="content"
+        //type="text"
+        autoComplete="true"
         rows={3}
         placeholder="Say Something..."
         value={content}
@@ -61,7 +65,9 @@ const Contact = ({ setMessage }) => {
         onKeyDown={(e) => e.stopPropagation()}
       />
       <input
-        type="email"
+      id="email"
+      autoComplete="true"
+       // type="email"
         placeholder="Email Address"
         value={email}
         onChange={(e) => setEmail(e.target.value)}

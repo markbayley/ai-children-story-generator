@@ -469,14 +469,8 @@ const fetchBookToShare = async (bookId, userId) => {
     setDismiss(false);
   };
 
-  // console.log(
-  //   "userId:",
-  //   userId,
-  //   "selectedBook?.likedBy:",
-  //   selectedBook?.likedBy
-  // );
 
-  console.log("myBooks", myBooks)
+ 
 
   return (
     <>

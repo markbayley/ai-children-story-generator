@@ -76,6 +76,8 @@ const Settings = ({ setMessage }) => {
     <div className="bg-sky-950 px-4 md:px-10 pt-2 pb-6 rounded-lg shadow-xl w-80 md:w-96 ">
       <h6 className="text-white text-[16px] mb-5">Profile Details</h6>
       <input
+       id="displayName"
+       autoComplete="true"
         type="displayName"
         placeholder="Display Name"
         value={displayName}
@@ -89,6 +91,8 @@ const Settings = ({ setMessage }) => {
         id="dropzone"
       >
         <input
+        id="file"
+     
           type="file"
           accept="image/*"
           onChange={handleFileChange}
@@ -109,7 +113,7 @@ const Settings = ({ setMessage }) => {
           )}
 
           <h3 className="mt-2 text-sm font-light text-white">
-            <label for="file-upload" className="relative">
+            <label htmlFor="file-upload" className="relative">
               <span>Drag and drop</span>
               <span className="text-indigo-400"> or browse </span>
               <span>to upload</span>
