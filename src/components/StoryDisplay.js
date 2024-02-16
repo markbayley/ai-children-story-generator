@@ -147,7 +147,7 @@ export const StoryDisplay = ({
 
     // Render each paragraph separately
     return (
-      <div className="">
+      <div className="font-antiqua">
         {currentPageParagraphs.map((paragraph, index) => (
           <p key={index} style={{ textAlign: "justify", marginBottom: "1em" }}>
             {paragraph}
@@ -314,7 +314,7 @@ export const StoryDisplay = ({
 
               <div className="h-full text-stone-900 pr-4 lg:pr-0 text-2xl xl:text-xl 2xl:text-3xl py-4  w-full  no-scrollbar overflow-y-auto">
                 {!storySelected && !storyUnsaved && !loading ? (
-                  <div className="flex justify-center items-center h-full italic text-center">
+                  <div className="flex justify-center items-center h-full italic text-center font-antiqua">
                     Please click on a story or create a new story to start
                     reading here.
                   </div>
