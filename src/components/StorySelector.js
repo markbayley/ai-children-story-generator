@@ -56,8 +56,11 @@ export const StorySelector = ({
                   src={book?.creatorPhotoURL}
                   alt="profile-mini"
                   fill
+                  sizes="(max-width: 768px) 100vw,
+                  (max-width: 1200px) 50vw,
+                  33vw"
                   cover="true"
-                  className="rounded-full border-2"
+                  className="rounded-full object-cover border-2"
                   onError={handleImageError}
                 />
               </div>
@@ -96,12 +99,17 @@ export const StorySelector = ({
               // src={book.imageUrls[0] || pic7}
               src={pic7}
               fill
+              sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
               alt="preview"
               className="rounded-tr-xl"
               onError={handleImageError}
             />
           ) : (
-            <Image src={pic7} fill alt="preview" className="rounded-tr-xl" />
+            <Image src={pic7} loading="eager" priority={true} fill sizes="(max-width: 768px) 100vw,
+            (max-width: 1200px) 50vw,
+            33vw" alt="preview" className="rounded-tr-xl" />
           )}
         </div>
       </>

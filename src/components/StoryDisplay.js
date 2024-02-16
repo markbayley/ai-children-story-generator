@@ -122,23 +122,24 @@ export const StoryDisplay = ({
     if (currentPage == 5) {
       return (
         <div className="h-full flex items-center justify-center text-center mx-6 px-6">
-          <div className="text-3xl italic">
-            This fine tale was created by...
-            <br />
+          <div className="text-2xl xl:text-xl 2xl:text-3xl italic font-antiqua">
+          
             {selectedBook?.creatorPhotoURL && (
               <div className="w-full flex  justify-center">
                 <img
                   src={selectedBook?.creatorPhotoURL}
                   alt="profile-mini"
-                  className="h-20 w-20 object-cover border-2 border-stone-700 m-[2px] rounded-full"
+                  className="h-28 w-28 object-cover border-2 border-stone-700 m-[2px] rounded-full"
                 />
               </div>
             )}
+              This fine tale was created by...
+       
             {selectedBook?.creatorName ||
               selectedBook?.displayName ||
-              " a mysterious unknown author"}
-            <br />
-            If you enjoyed reading their story please give it a like!
+              "a mysterious unknown author"}
+           
+            . If you enjoyed reading their story please give it a like!
           </div>
         </div>
       );
@@ -146,7 +147,7 @@ export const StoryDisplay = ({
 
     // Render each paragraph separately
     return (
-      <div>
+      <div className="">
         {currentPageParagraphs.map((paragraph, index) => (
           <p key={index} style={{ textAlign: "justify", marginBottom: "1em" }}>
             {paragraph}
@@ -196,7 +197,7 @@ export const StoryDisplay = ({
           className={
             selectedBook?.sharedBy?.includes(userId)
               ? "group relative text-white rounded hover:cursor-pointer border-2 border-indigo-500 bg-indigo-500"
-              : "group relative text-white md:text-indigo-500 md:border-2 rounded md:border-indigo-500 hover:cursor-pointer md:hover:bg-indigo-500 bg-indigo-500 md:hover:text-white md:bg-transparent"
+              : "group relative text-white md:text-indigo-500 md:border-2  rounded md:border-indigo-500 hover:cursor-pointer md:hover:bg-indigo-500 bg-indigo-500 md:hover:text-white md:bg-transparent"
           }
         >
           <ShareIcon className="h-9 w-9 p-1" />
@@ -206,8 +207,8 @@ export const StoryDisplay = ({
           <span
             className={
               selectedBook?.sharedBy?.includes(userId)
-                ? "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-indigo-500 border-2  rounded-bl-xl text-white rounded-full"
-                : "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-slate-700 border-2 border-indigo-500 rounded-bl-xl text-indigo-500 rounded-full"
+                ? "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-indigo-500 border-2   rounded-bl-xl text-white rounded-full"
+                : "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-slate-900 border-2 border-indigo-500 rounded-bl-xl text-indigo-500 rounded-full"
             }
           >
             {selectedBook?.shares || 0}
@@ -232,7 +233,7 @@ export const StoryDisplay = ({
                 className={
                   selectedBook?.likedBy?.includes(userId)
                     ? "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-teal-500 border-2  rounded-bl-xl text-white rounded-full "
-                    : "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-slate-700 border-2 border-teal-500 rounded-bl-xl text-teal-500 rounded-full"
+                    : "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-slate-900 border-2 border-teal-500 rounded-bl-xl text-teal-500 rounded-full"
                 }
               >
                 {selectedBook?.likes || 0}
@@ -287,7 +288,7 @@ export const StoryDisplay = ({
               className="flex flex-col w-full 
                xl:w-1/2 
                p-4  xl:p-10 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-25% to-orange-200 to-90% ... 
-                sm:rounded xl:rounded-xl xl:border xl:rounded-tr-lg xl:rounded-br-lg xl:border-l-4 xl:border-stone-700 ... overflow-y-hidden text-stone-900 font-antiqua"
+                sm:rounded xl:rounded-xl xl:border xl:rounded-tr-lg xl:rounded-br-lg xl:border-l-4 xl:border-stone-700 ... overflow-y-hidden text-stone-900 "
             >
               <div className="flex justify-between text-stone-900">
                 <h1 className="text-3xl xl:text-4xl 2xl:text-5xl font-bold capitalize font-antiqua">
