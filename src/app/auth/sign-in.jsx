@@ -2,13 +2,13 @@
 import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const SignIn = ({ setUserStatus }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleSignIn = async () => {
     try {
@@ -18,7 +18,7 @@ const SignIn = ({ setUserStatus }) => {
       sessionStorage.setItem("user", true);
       setEmail("");
       setPassword("");
-      router.push("/");
+      // router.push("/");
     } catch (e) {
       console.error(e);
     }
