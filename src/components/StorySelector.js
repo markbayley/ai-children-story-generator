@@ -116,7 +116,7 @@ export const StorySelector = ({
     );
   };
 
-  const booksPerPage = 6;
+  const booksPerPage = 12;
 
   const totalPages = Math.ceil(allBooks.length / booksPerPage);
 

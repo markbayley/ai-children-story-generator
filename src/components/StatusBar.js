@@ -62,12 +62,12 @@ export const StatusBar = ({
     <div className="text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
       <div
         // 
-        className="flex cursor-pointer group relative shadow-md hover:shadow-lg hover:shadow-indigo-500/100 shadow-indigo-500/70 rounded-full "
+        className="flex cursor-pointer group relative shadow-md  hover:shadow-lg hover:shadow-indigo-500/100 shadow-indigo-500/70 rounded-full "
       >
         {/* <Image src={pic7} alt="logo" className="rounded-full h-12 w-12 " /> */}
         {!show ? (
           <>
-          <PlusIcon className="h-12 w-12 border-2 rounded-full p-3 fade-in" onClick={() => setShow(true)}/>
+          <ShareIcon className="h-12 w-12 border-2 rounded-full p-3 fade-in" onClick={() => setShow(true)}/>
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">Open</span >
             </>
         ) : (

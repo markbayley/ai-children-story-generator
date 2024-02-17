@@ -43,7 +43,7 @@ const Profile = ({ user, setMessage }) => {
         <div className="hover:text-gray-400 text-white">
           <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
             {user && user?.photoURL && !imageLoadError ? (
-              <div className="relative aspect-square rounded-full w-11 md:w-6 mx-[2px]">
+              <div className="relative aspect-square rounded-full w-8 mx-[2px]">
               <Image
                 src={user?.photoURL}
                 sizes="(max-width: 768px) 100vw,
