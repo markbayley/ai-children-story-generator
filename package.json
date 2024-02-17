@@ -2,16 +2,13 @@
   "name": "aistory",
   "version": "0.1.0",
   "private": true,
-  "main": "firebaseFunctions.js",
   "scripts": {
-    "dev": "next src/",
-    "build": "next build src/",
-    "start": "next start src/",
-    "serve": "npm run build && firebase emulators:start --only functions,hosting",
-    "shell": "npm run build && firebase functions:shell",
-    "deploy": "firebase deploy --only functions,hosting",
-    "logs": "firebase functions:log"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
+  "proxy": "https://firebasestorage.googleapis.com/v0/b/story-60f4f.appspot.com",
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
@@ -25,8 +22,6 @@
     "eslint-config-next": "13.4.19",
     "firebase": "^10.7.2",
     "firebaseui": "^6.1.0",
-    "firebase-admin": "^9.4.2",
-    "firebase-functions": "^3.13.1",
     "next": "13.4.19",
     "node-fetch": "^3.3.2",
     "openai": "^4.6.0",
@@ -42,9 +37,5 @@
     "slick-carousel": "^1.8.1",
     "stream": "^0.0.2",
     "tailwindcss": "3.3.3"
-  },
-  "devDependencies": {
-    "firebase-functions-test": "^0.2.3",
-    "firebase-tools": "^9.3.0"
   }
 }
