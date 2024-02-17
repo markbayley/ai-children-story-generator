@@ -9,10 +9,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        inter: ["var(--font-inter)"],
+       
         antiqua: ["var(--font-antiqua)"],
-        sans: ["var(--font-opensans)"],
-        sedgwick: ["var(--font-sedgwick)"],
+    
       },
     },
   },

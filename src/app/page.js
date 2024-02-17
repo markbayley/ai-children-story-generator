@@ -123,10 +123,10 @@ export default function StoryPage() {
     }
     // Extract the first three words as the title
     return storyText
-      .substring(4, titleEndIndex)
+      .substring(0, titleEndIndex)
       .trim()
       .split(" ")
-      .slice(0, 3)
+      .slice(0, 4)
       .join(" ");
   };
 
