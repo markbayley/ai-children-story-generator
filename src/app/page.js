@@ -470,7 +470,7 @@ const fetchBookToShare = async (bookId, userId) => {
   };
 
 
- 
+ console.log("allBooks", allBooks, "myBooks", myBooks, "userId", userId)
 
   return (
     <>
