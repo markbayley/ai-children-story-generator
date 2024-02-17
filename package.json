@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "export": "next export"
+    "lint": "next lint"
   },
   "proxy": "https://firebasestorage.googleapis.com/v0/b/story-60f4f.appspot.com",
   "dependencies": {
