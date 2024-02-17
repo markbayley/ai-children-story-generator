@@ -18,7 +18,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" rel="preload" as="style">
-      <body  className={`${openSans.variable} ${inter.variable} ${antiqua.variable} ${sedgwick.variable} font-sans`} >{children}</body>
+      <body  className={`${openSans.variable} ${inter.variable} ${antiqua.variable} ${sedgwick.variable} font-sans`} ><main>{children}</main></body>
     </html>
   )
 }
