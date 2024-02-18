@@ -36,7 +36,7 @@ export const FooterNav = ({
           case "create":
             return "text-amber-500";
       default:
-        return "text-amber-500"; // Default color
+        return "text-amber-500"; 
     }
   };
   
