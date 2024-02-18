@@ -11,7 +11,7 @@ export async function POST(req) {
   for (let i = 0; i < prompts.length; i++) {
     const text_prompts = [{ text: prompts[i] }];
     const response = await fetch(
-      "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image",
+      "https://api.stability.ai/v1/generation/stable-diffusion-v1-6/text-to-image",
       {
         method: "POST",
         headers: {
@@ -31,10 +31,10 @@ export async function POST(req) {
 //|a boy playing with a cute friendly pet dinosaur, ${style}
 async function getPrompts(story) {
   const OpenAI = require("openai");
-  const style = "children's story book illustrations"
+  const style = "Art by Maurice Brazil Prendergast, Charline von Heyl, Michael Leunig, Edward Okun, Anna Dittmann, Kazumasa Nagai, Desmond Morris. Intricate, beautiful, cute. Beautiful and strange creatures, magical night. Watercolor and ink, impasto, volumetric lighting, spectacular, intricate, beautiful, fantastic view, extremely detailed"
   const openai = new OpenAI(process.env.OPENAI_API_KEY);
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo-16k",
+    model: "gpt-3.5-turbo",
     messages: [
       {
         role: "system",
