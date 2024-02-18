@@ -187,7 +187,7 @@ export const StatusBar = ({
           />
         </div>
       ) : (
-       <Authy userStatus={userStatus} setUserStatus={setUserStatus} />
+       <Authy userStatus={userStatus} setUserStatus={setUserStatus} setMessage={setMessage}/>
         
       )}
     </div>

@@ -53,9 +53,7 @@ export const StoryDisplay = ({
   // Helper Component for Image Display
   const ImageDisplay = ({ imagesSelected, imagesUnsaved, page }) => {
     const imageSrc =
-      page == 5
-        ? getDefaultImage(page) 
-        : imagesSelected?.length > 0
+      imagesSelected?.length > 0
         ? imagesSelected[page]
         : imagesUnsaved?.length > 0
         ? `data:image/jpeg;base64,${imagesUnsaved[page]}`

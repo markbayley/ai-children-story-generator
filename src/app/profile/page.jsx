@@ -94,6 +94,7 @@ const Profile = ({ user, setMessage }) => {
                     onClick={() => {
                       signOut(auth);
                       sessionStorage.removeItem("user");
+                      setMessage({text: "Signed Out", type: "create"});
                     }}
                     className="flex items-center text-white px-4 py-2 m-4 rounded-md bg-indigo-600 hover:bg-indigo-500  justify-center border-b-2 border-stone-700"
                   >

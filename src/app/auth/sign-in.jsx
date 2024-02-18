@@ -4,13 +4,16 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 // import { useRouter } from "next/navigation";
 
-const SignIn = ({ setUserStatus }) => {
+const SignIn = ({ setUserStatus, setMessage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   // const router = useRouter();
+  const [loading, setLoading] = useState(false)
 
   const handleSignIn = async () => {
+    setMessage({text: "Signing In...", type: "create"});
+    setLoading(true)
     try {
       const res = await signInWithEmailAndPassword(email, password);
     
@@ -18,9 +21,13 @@ const SignIn = ({ setUserStatus }) => {
       sessionStorage.setItem("user", true);
       setEmail("");
       setPassword("");
+      setMessage({text: "Welcome Back!", type: "create"});
       // router.push("/");
+      setLoading(false)
     } catch (e) {
       console.error(e);
+      setMessage({text: "Check Details", type: "error"});
+      setLoading(false)
     }
   };
 
@@ -45,7 +52,7 @@ const SignIn = ({ setUserStatus }) => {
         onClick={handleSignIn}
         className="w-full p-3 bg-indigo-600 rounded text-white hover:bg-indigo-500"
       >
-        Sign In
+      { loading ? "Signing In..." : "Sign In"}  
       </button>
       <p className="text-sm pt-4">
         Dont have an account? Create account

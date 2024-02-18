@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 
-const SignUp = ({ setUserStatus }) => {
+const SignUp = ({ setUserStatus, setMessage  }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [displayName, setDisplayName] = useState("");
@@ -14,6 +14,7 @@ const SignUp = ({ setUserStatus }) => {
     useCreateUserWithEmailAndPassword(auth);
 
   const handleSignUp = async () => {
+    //setMessage({text: "Signing Up...", type: "create"});
     try {
       const res = await createUserWithEmailAndPassword(email, password);
       console.log({ res });
@@ -23,8 +24,10 @@ const SignUp = ({ setUserStatus }) => {
       setEmail("");
       setPassword("");
       setDisplayName("");
+      setMessage({text: "All Signed Up!", type: "create"});
     } catch (e) {
       console.error(e);
+      setMessage({text: "Already Registered", type: "error"});
     }
   };
 

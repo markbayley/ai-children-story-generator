@@ -95,8 +95,13 @@ export default function StoryPage() {
       setOpen(true);
 
       setMessage({ text: "Creating Images...", type: "create" });
-      const imageData = await fetchImages(storyData.story);
-      setImagesUnsaved(imageData.images);
+
+
+      // const imageData = await fetchImages(storyData.story);
+      // setImagesUnsaved(imageData.images);
+      // Fetch images twice and combine the results
+  const allImages = await fetchImagesTwice(storyData.story);
+  setImagesUnsaved(allImages);
   
       setMessage({ text: "Images Finished!", type: "create" });
 
@@ -114,6 +119,22 @@ export default function StoryPage() {
       setLoading(false);
     }
   };
+
+  // First, define an async function to fetch images based on the story
+async function fetchImagesTwice(story) {
+  // Make two concurrent requests to fetch images
+  const fetchPromise1 = fetchImages(story);
+  const fetchPromise2 = fetchImages(story);
+  const fetchPromise3 = fetchImages(story);
+
+  // Wait for both promises to resolve
+  const results = await Promise.all([fetchPromise1, fetchPromise2, fetchPromise3]);
+
+  // Combine the images from both results
+  const allImages = [...results[0].images, ...results[1].images, ...results[2].images];
+
+  return allImages;
+}
 
   // const extractTitleFromStory = (storyText) => {
   //   const titleEndIndex = storyText.indexOf("Once upon a time");
@@ -491,7 +512,7 @@ const fetchBookToShare = async (bookId, userId) => {
   };
 
 
- console.log("storyUnsaved", storyUnsaved, "prompt", prompt)
+ console.log("imagesUnsaved", imagesUnsaved)
 
   return (
     <>
@@ -509,6 +530,7 @@ const fetchBookToShare = async (bookId, userId) => {
           handleShareBook={handleShareBook}
           selectedBook={selectedBook}
           userId={userId}
+         
         />
 
         <div className="mx-0 md:mx-[10%] no-scroll pt-16">
