@@ -1,6 +1,11 @@
 "use client";
 import Image from "next/image";
 import pic7 from "/public/pic7.jpg";
+import pic4 from "/public/pic4.jpg";
+import pic5 from "/public/pic5.jpg";
+import pic6 from "/public/pic6.jpg";
+import pic8 from "/public/pic8.jpg";
+import pic9 from "/public/pic9.jpg";
 import {
   ArrowUpTrayIcon,
   ChevronLeftIcon,
@@ -41,14 +46,14 @@ export const StoryDisplay = ({
 }) => {
   // Helper function to get default image based on page
   const getDefaultImage = (page) => {
-    const defaultImages = [pic7];
+    const defaultImages = [pic7, pic4, pic5, pic4, pic5, pic6];
     return defaultImages[page] || defaultImages[0];
   };
   // Helper Component for Image Display
   const ImageDisplay = ({ imagesSelected, imagesUnsaved, page }) => {
     const imageSrc =
-      page != 0
-        ? getDefaultImage(page) // Default image at end of book
+      page == 3 
+        ? getDefaultImage(page) : page == 4 ? getDefaultImage(page) : page == 5 ? getDefaultImage(page)// Default image at end of book
         : imagesSelected?.length > 0
         ? imagesSelected[page]
         : imagesUnsaved?.length > 0
