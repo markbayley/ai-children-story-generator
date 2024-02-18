@@ -1,7 +1,11 @@
 {
+    "version": 2,
     "functions": {
       "app/api/**/*": {
-        "maxDuration": 60 
+        "runtime": "nodejs16.x",
+        "memory": 3008,
+        "maxDuration": 60
       }
     }
   }
+  
