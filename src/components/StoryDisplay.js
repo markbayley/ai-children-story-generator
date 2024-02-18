@@ -145,7 +145,7 @@ export const StoryDisplay = ({
               selectedBook?.displayName ||
               "a mysterious unknown author"}
            
-            . If you enjoyed reading their story please give it a like!
+            . If you enjoyed reading their story please give it a like now!
           </div>
         </div>
       );
