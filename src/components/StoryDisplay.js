@@ -43,6 +43,7 @@ export const StoryDisplay = ({
   setShared,
   show,
   setShow,
+  prompt
 }) => {
   // Helper function to get default image based on page
   const getDefaultImage = (page) => {
@@ -52,7 +53,7 @@ export const StoryDisplay = ({
   // Helper Component for Image Display
   const ImageDisplay = ({ imagesSelected, imagesUnsaved, page }) => {
     const imageSrc =
-      page > 0
+      page == 5
         ? getDefaultImage(page) 
         : imagesSelected?.length > 0
         ? imagesSelected[page]

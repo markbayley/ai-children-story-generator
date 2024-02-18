@@ -115,6 +115,27 @@ export default function StoryPage() {
     }
   };
 
+  // const extractTitleFromStory = (storyText) => {
+  //   const titleEndIndex = storyText.indexOf("Once upon a time");
+  //   if (titleEndIndex === -1) {
+  //     // Handle the case where the phrase is not found
+  //     return "Untitled Story";
+  //   }
+  //   // Extract the first three words as the title
+  //   let title = storyText
+  //     .substring(0, titleEndIndex)
+  //     .trim()
+  //     .split(" ")
+  //     .slice(0, 4)
+  //     .join(" ");
+
+  //    if (title == "") {
+  //    return prompt;
+  //    } else {
+  //     return title;
+  //    }
+  // };
+
   const extractTitleFromStory = (storyText) => {
     const titleEndIndex = storyText.indexOf("Once upon a time");
     if (titleEndIndex === -1) {
@@ -470,7 +491,7 @@ const fetchBookToShare = async (bookId, userId) => {
   };
 
 
- console.log("allBooks", allBooks, "myBooks", myBooks, "userId", userId)
+ console.log("storyUnsaved", storyUnsaved, "prompt", prompt)
 
   return (
     <>
@@ -552,6 +573,7 @@ const fetchBookToShare = async (bookId, userId) => {
               setShared={setShared}
               show={show}
               setShow={setShow}
+              prompt={prompt}
             />
           )}
         </div>
