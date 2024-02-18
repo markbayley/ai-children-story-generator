@@ -47,7 +47,7 @@ export const StoryDisplay = ({
   // Helper Component for Image Display
   const ImageDisplay = ({ imagesSelected, imagesUnsaved, page }) => {
     const imageSrc =
-      page == 5
+      page != 0
         ? getDefaultImage(page) // Default image at end of book
         : imagesSelected?.length > 0
         ? imagesSelected[page]

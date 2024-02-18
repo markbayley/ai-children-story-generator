@@ -28,7 +28,8 @@ export async function POST(req) {
   }
   return NextResponse.json({ images: allImages });
 }
-
+//, ${style}|a black cat near a dark spooky old house at night, ${style}|a beautifull woman crossing a bustling city street, ${style}|a red canoe drifting on a peacefull lake, ${style}|a boy playing with a cute friendly pet dinosaur, ${style}
+//  Please list all two prompts, separated by a "|" symbol.
 async function getPrompts(story) {
   const OpenAI = require("openai");
   const style = "children's story book illustrations"
@@ -38,12 +39,11 @@ async function getPrompts(story) {
     messages: [
       {
         role: "system",
-        content: `Your job is to generate six image prompts for the following story.
-                  Use ${style} for all six prompts.
-                  Each prompt should be a descriptive sentence.
+        content: `Your job is to generate one image prompt for the following story.
+                  Use ${style} for the prompt.
+                  The prompt should be a descriptive sentence.
                   Avoid including words like "mystical", "shimmering", and "glimmering" in prompts.
-                  Please list all six prompts, separated by a "|" symbol.
-                  For example:"a castle high on mountain touching the clouds, ${style}|a boy playing on a bright sunny day at the park, ${style}|a black cat near a dark spooky old house at night, ${style}|a beautifull woman crossing a bustling city street, ${style}|a red canoe drifting on a peacefull lake, ${style}|a boy playing with a cute friendly pet dinosaur, ${style}".`,
+                  For example:"a castle high on mountain touching the clouds, ${style}".`,
       },
       {
         role: "user",
