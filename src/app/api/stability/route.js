@@ -43,8 +43,7 @@ async function getPrompts(story) {
                   Use ${style} for the prompt.
                   The prompt should be a descriptive sentence.
                   Avoid including words like "mystical", "shimmering", and "glimmering" in prompts.
-                 
-                  For example:"a castle high on mountain touching the clouds, ${style}|a boy playing on a bright sunny day at the park".`,
+                  For example:"a castle high on mountain touching the clouds, ${style}".`,
       },
       {
         role: "user",
