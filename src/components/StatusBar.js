@@ -1,9 +1,9 @@
 // "use client";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Profile from "@/app/profile/page";
-import  Authy from "@/app/auth/page";
+import Authy from "@/app/auth/page";
 import {
   ArrowPathIcon,
   InformationCircleIcon,
@@ -12,7 +12,7 @@ import {
   ShareIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { FaInstagram, FaFacebook, FaTwitter  } from "react-icons/fa";
+import { FaInstagram, FaFacebook, FaTwitter } from "react-icons/fa";
 // import { InstagramEmbed } from 'react-social-media-embed';
 
 export const StatusBar = ({
@@ -27,7 +27,10 @@ export const StatusBar = ({
   setShared,
   handleShareBook,
   selectedBook,
-  userId
+  userId,
+  loading,
+  time,
+  setTime
 }) => {
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);
@@ -44,8 +47,8 @@ export const StatusBar = ({
         return "text-red-600";
       case "info":
         return "text-indigo-500";
-        case "share":
-          return "text-indigo-500";
+      case "share":
+        return "text-indigo-500";
       case "create":
         return "text-amber-500";
       // default:
@@ -54,26 +57,50 @@ export const StatusBar = ({
   };
 
 
+  // const [counting, setCounting] = useState(false);
 
-/////
- 
+  useEffect(() => {
+  
+    let timer = setInterval(() => {
+      setTime((time) => {
+        if (time === 0) {
+          clearInterval(timer);
+        
+          return 0;
+        } else return time - 1;
+      });
+    }, 1000);
+  }, []);
+
+  /////
 
   return (
     <div className="text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
-      <div
-        // 
-        className="flex cursor-pointer group relative shadow-md  hover:shadow-lg hover:shadow-indigo-500/100 shadow-indigo-500/70 rounded-full "
-      >
+      <div className="flex cursor-pointer group relative shadow-md  hover:shadow-lg hover:shadow-indigo-500/100 shadow-indigo-500/70 rounded-full ">
         {/* <Image src={pic7} alt="logo" className="rounded-full h-12 w-12 " /> */}
-        {!show ? (
+        {!show && !loading ? (
           <>
-          <ShareIcon className="h-12 w-12 border-2 rounded-full p-3 fade-in" onClick={() => setShow(true)}/>
-          <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">Open</span >
-            </>
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
+              Open
+            </span>
+            <ShareIcon
+              className="h-12 w-12 border-2 rounded-full p-3 fade-in"
+              onClick={() => setShow(true)}
+            />
+          </>
+        ) : loading ? (
+          <span className="flex items-center justify-center px-4  text-lg border-2  rounded-full">
+            {`${time % 60}`}
+          </span>
         ) : (
           <>
-          <MinusIcon className="h-12 w-12 border-2 rounded-full p-3 fade-in" onClick={() => setShow(false)}/>
-          <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">Close</span >
+            <MinusIcon
+              className="h-12 w-12 border-2 rounded-full p-3 fade-in"
+              onClick={() => setShow(false)}
+            />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
+              Close
+            </span>
           </>
         )}
       </div>
@@ -83,15 +110,17 @@ export const StatusBar = ({
           {/* {unsaved && selectedBook?.id == undefined && !dismiss && ( */}
           <a
             // onClick={resetStory}
-          // onClick={() => setShared(true)}
-          onClick={() => handleShareBook(selectedBook?.id, userId)}
-           // href="https://www.instagram.com/explore/search/keyword/?q=faeries"
-           // target="_blank"
-            className={ selectedBook?.sharedBy?.includes(userId) ? "group max-w-xs text-sm bg-indigo-500 text-white rounded-md relative cursor-pointer"
-           : "group max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer" }
+            // onClick={() => setShared(true)}
+            onClick={() => handleShareBook(selectedBook?.id, userId)}
+            // href="https://www.instagram.com/explore/search/keyword/?q=faeries"
+            // target="_blank"
+            className={
+              selectedBook?.sharedBy?.includes(userId)
+                ? "group max-w-xs text-sm bg-indigo-500 text-white rounded-md relative cursor-pointer"
+                : "group max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+            }
           >
-         
-            <FaInstagram className="h-9 w-9 p-2"/>
+            <FaInstagram className="h-9 w-9 p-2" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Instagram
             </span>
@@ -101,21 +130,22 @@ export const StatusBar = ({
   <InstagramEmbed url="https://www.instagram.com/p/CUbHfhpswxt/" width={328} />
 </div> */}
 
-          <a href="https://www.facebook.com"
-          target="_blank"
+          <a
+            href="https://www.facebook.com"
+            target="_blank"
             // onClick={handleSaveBook}
             className="group max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-         
-            < FaFacebook  className="h-9 w-9 p-2"/>
+            <FaFacebook className="h-9 w-9 p-2" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Facebook
             </span>
           </a>
 
-          <a href="https://www.twitter.com"
-          target="_blank"
+          <a
+            href="https://www.twitter.com"
+            target="_blank"
             // onClick={() => setPage(5)}
             className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
@@ -176,7 +206,7 @@ export const StatusBar = ({
           <XMarkIcon className="h-4 w-4 absolute top-1 right-2  " />
         </div>
       )}
-      {user  ? (
+      {user ? (
         <div>
           <Profile
             user={user}
@@ -187,8 +217,11 @@ export const StatusBar = ({
           />
         </div>
       ) : (
-       <Authy userStatus={userStatus} setUserStatus={setUserStatus} setMessage={setMessage}/>
-        
+        <Authy
+          userStatus={userStatus}
+          setUserStatus={setUserStatus}
+          setMessage={setMessage}
+        />
       )}
     </div>
   );

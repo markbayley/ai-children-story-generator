@@ -28,7 +28,7 @@ import { FooterNav } from "@/components/FooterNav";
 export default function StoryPage() {
   const [userId, setUserId] = useState();
 
-  const [prompt, setPrompt] = useState("");
+  const [userPrompt, setUserPrompt] = useState("");
   const [storyUnsaved, setStoryUnsaved] = useState("");
   const [imagesUnsaved, setImagesUnsaved] = useState([]);
   const [audio, setAudio] = useState("");
@@ -52,7 +52,8 @@ export default function StoryPage() {
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
 
   const [show, setShow] = useState(true);
-
+  const [theme, setTheme] = useState("Spooky");
+  const [time, setTime] = useState(5);
   
 
   useEffect(() => {
@@ -67,26 +68,37 @@ export default function StoryPage() {
   //   }
   // }, [audio]);
 
+
+  
+
+ 
+
   ////////////// CREATE BOOK ///////////////////
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!prompt) {
-      setMessage({ text: "Enter A Prompt", type: "info" });
+     console.log("themeHS", theme)
+
+    if (!userPrompt) {
+      setMessage({ text: "Enter Prompt", type: "info" });
       return;
     }
-    if (prompt.length < 10) {
+    if (userPrompt.length < 10) {
       setMessage({ text: "Longer Prompt", type: "info" });
       return;
     }
     resetStory();
-    setPrompt(prompt);
+    //setTheme("Spooky")
+    // const theme = "Spooky"
+    const inputPrompt = userPrompt + ", " + theme + " story theme"
+    console.log("inputPrompt", inputPrompt)
+    setUserPrompt(inputPrompt);
     try {
       setMessage({ text: "Writing Story...", type: "create" });
 
       setLoading(true);
-      const storyData = await fetchStory(prompt);
+      const storyData = await fetchStory(inputPrompt);
       setMessage({ text: "Story Created!", type: "create" });
       setStoryUnsaved(storyData.story);
     
@@ -100,6 +112,9 @@ export default function StoryPage() {
       // const imageData = await fetchImages(storyData.story);
       // setImagesUnsaved(imageData.images);
       // Fetch images twice and combine the results
+
+ 
+ 
   const allImages = await fetchImagesTwice(storyData.story);
   setImagesUnsaved(allImages);
   
@@ -110,7 +125,7 @@ export default function StoryPage() {
       // setAudio(audioUrl);
       //setUnsavedBook([storyData.story, imageData.images, storyTitle]);
       //console.log("UnsavedBook", unsavedBook);
-      setMessage({ text: "Save Your Story", type: "save" });
+      setMessage({ text: "Save Story", type: "save" });
       setLoading(false);
       setUnsaved(true);
     } catch (error) {
@@ -122,6 +137,7 @@ export default function StoryPage() {
 
   // First, define an async function to fetch images based on the story
 async function fetchImagesTwice(story) {
+  //console.log("themePageGIT", theme)
   // Make two concurrent requests to fetch images
   const fetchPromise1 = fetchImages(story);
   const fetchPromise2 = fetchImages(story);
@@ -134,6 +150,7 @@ async function fetchImagesTwice(story) {
   const allImages = [...results[0].images, ...results[1].images, ...results[2].images];
 
   return allImages;
+
 }
 
   // const extractTitleFromStory = (storyText) => {
@@ -210,13 +227,13 @@ async function fetchImagesTwice(story) {
 
   const handleSaveBook = async () => {
     if (myBooks.length >= 12) {
-      setMessage({ text: "Maximum Books Saved!", type: "save" });
+      setMessage({ text: "Maximum Books!", type: "save" });
       return;
     }
     // if (myBooks.id)
     setProcessing(true);
     setDismiss(true);
-    setMessage({ text: "Saving Storybook...", type: "save" });
+    setMessage({ text: "Saving Book...", type: "save" });
     try {
       const validImages = imagesUnsaved.filter((image) => image != null); // Filter out undefined or null images
       const convertedImages = validImages.map((base64Image) =>
@@ -230,11 +247,11 @@ async function fetchImagesTwice(story) {
       // After saving the book, refetch the books list
       fetchUserBooks();
     } catch (error) {
-      setMessage({ text: "Error Saving Book!", type: "save" });
+      setMessage({ text: "Error Saving!", type: "save" });
       setProcessing(false);
     }
     setProcessing(false);
-    setMessage({ text: "Storybook Saved!", type: "create" });
+    setMessage({ text: "Book Saved!", type: "create" });
     setUnsaved(false);
   };
 
@@ -243,6 +260,7 @@ async function fetchImagesTwice(story) {
     const creatorName = user.displayName;
     const creatorPhotoURL = user.photoURL;
     const story = storyUnsaved;
+    //const theme = theme;
     const likedBy = [];
     const likes = 0;
     const book = {
@@ -250,6 +268,7 @@ async function fetchImagesTwice(story) {
       likes,
       likedBy,
       story,
+     // theme,
       imageUrls,
       creatorName,
       creatorPhotoURL,
@@ -349,7 +368,7 @@ const handleShareBook = async (bookId, userId) => {
 
     // UI logic as previously described
   } catch (error) {
-    setMessage(setMessage({ text: "Can't Share Book Twice!", type: "like" }));
+    setMessage(setMessage({ text: "Shared Already!", type: "like" }));
     console.error("Error sharing book: ", error);
   }
   fetchAllBooks();
@@ -393,7 +412,7 @@ const fetchBookToShare = async (bookId, userId) => {
   //|| myBooks[0]?.userId
   const handleLikeBook = async (bookId, userId) => {
     if (userId === selectedBook?.userId) {
-      setMessage({ text: "Can't Like Own Book!", type: "like" });
+      setMessage({ text: "Its Your Book!", type: "like" });
       return;
     }
 
@@ -403,7 +422,7 @@ const fetchBookToShare = async (bookId, userId) => {
 
       // UI logic as previously described
     } catch (error) {
-      setMessage(setMessage({ text: "Can't Like Book Twice!", type: "like" }));
+      setMessage({ text: "Liked Already!", type: "like" });
       console.error("Error liking book: ", error);
     }
     fetchAllBooks();
@@ -451,7 +470,7 @@ const fetchBookToShare = async (bookId, userId) => {
       const updatedBooks = myBooks.filter((book) => book.id !== bookId);
       setMyBooks(updatedBooks);
     } catch (error) {
-      setMessage({ text: "Failed To Delete Book", type: "delete" });
+      setMessage({ text: "Delete Failed!", type: "delete" });
       // Optionally handle the error, e.g., show an error message to the user
     }
     setMessage({ text: "Book Deleted", type: "delete" });
@@ -501,7 +520,7 @@ const fetchBookToShare = async (bookId, userId) => {
     setStoryUnsaved("");
     setImagesUnsaved([]);
     setAudio("");
-    setPrompt("");
+    setUserPrompt("");
     setMessage("");
     setOpen(false);
     setLoading(false);
@@ -511,8 +530,8 @@ const fetchBookToShare = async (bookId, userId) => {
     setDismiss(false);
   };
 
-
- console.log("imagesUnsaved", imagesUnsaved)
+ 
+console.log("themePage.js", theme)
 
   return (
     <>
@@ -530,6 +549,9 @@ const fetchBookToShare = async (bookId, userId) => {
           handleShareBook={handleShareBook}
           selectedBook={selectedBook}
           userId={userId}
+          loading={loading}
+          time={time}
+          setTime={setTime}
          
         />
 
@@ -538,12 +560,14 @@ const fetchBookToShare = async (bookId, userId) => {
             <>
               <StoryForm
                 loading={loading}
-                prompt={prompt}
-                setPrompt={setPrompt}
+                userPrompt={userPrompt}
+                setUserPrompt={setUserPrompt}
                 handleSubmit={handleSubmit}
                 handleOpen={handleOpen}
                 setMessage={setMessage}
                 storyUnsaved={storyUnsaved}
+                theme={theme}
+                setTheme={setTheme}
               />
 
               <StorySelector
@@ -595,7 +619,8 @@ const fetchBookToShare = async (bookId, userId) => {
               setShared={setShared}
               show={show}
               setShow={setShow}
-              prompt={prompt}
+              userPrompt={userPrompt}
+              theme={theme}
             />
           )}
         </div>

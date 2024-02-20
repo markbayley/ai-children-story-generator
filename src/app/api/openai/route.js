@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
+
 export async function POST(req) {
   const OpenAI = require("openai");
   const openai = new OpenAI(process.env.OPENAI_API_KEY);
   //const prompt = req.body.prompt;
   const { prompt } = await req.json();
-
+ console.log("promptRoutePOST", prompt)
   if (!prompt) return NextResponse.json({ message: "Prompt not found." });
  
   const response = await openai.chat.completions.create({

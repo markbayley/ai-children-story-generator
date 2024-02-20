@@ -119,6 +119,11 @@ body, html {
   place-items: center;
 } */
 
+svg {
+  width: 30vmin;
+  overflow: visible;
+}
+
 .spinner {
   display: grid;
   place-items: center;
@@ -208,7 +213,7 @@ animation-iteration-count: 1;
 
 
 
-/* :root {
+:root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 169, 154, 231;
   --background-end-rgb: 76, 76, 142;
@@ -230,7 +235,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-} */
+}
 
 
 

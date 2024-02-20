@@ -40,15 +40,15 @@ const Profile = ({ user, setMessage }) => {
   return (
     <>
       <Menu as="div" className="relative inline-block text-left z-20">
-        <div className="hover:text-gray-400 text-white">
+        <div className="hover:text-gray-300 bg-sky-950  text-white">
           <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
             {user && user?.photoURL && !imageLoadError ? (
               <div className="relative aspect-square rounded-full w-8 mx-[2px]">
               <Image
                 src={user?.photoURL}
-                sizes="(max-width: 768px) 100vw,
-                (max-width: 1200px) 50vw,
-                33vw"
+                // sizes="(max-width: 768px) 100vw,
+                // (max-width: 1200px) 50vw,
+                // 33vw"
                 fill
                 alt="profile-image"
                 onError={handleImageError}
@@ -116,7 +116,7 @@ const Profile = ({ user, setMessage }) => {
                         active
                           ? "flex items-center bg-sky-900 text-white"
                           : "flex items-center bg-sky-950 text-white",
-                        "block px-4 py-2 text-sm hover:text-gray-400"
+                        "block px-4 py-2 text-sm hover:text-gray-300"
                       )}
                     >
                       <Cog6ToothIcon className="h-6 w-6 mr-2" /> Settings{" "}
@@ -146,7 +146,7 @@ const Profile = ({ user, setMessage }) => {
                         active
                           ? "flex items-center bg-sky-900 text-white"
                           : "flex items-center bg-sky-950 text-white",
-                        "block px-4 py-2 text-sm hover:text-gray-400"
+                        "block px-4 py-2 text-sm hover:text-gray-300"
                       )}
                     >
                       <EnvelopeIcon className="h-6 w-6 mr-2" /> Contact{" "}
