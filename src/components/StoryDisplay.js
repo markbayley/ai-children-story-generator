@@ -57,7 +57,7 @@ export const StoryDisplay = ({
 
     if (currentPage == 6) {
       return (
-        <div className="h-full flex items-center justify-center text-center mx-6 px-6">
+        <div className="h-full flex items-center justify-center text-center mx-6 px-6 pb-20">
           <div className="text-2xl 2xl:text-3xl font-antiqua">
             {selectedBook?.creatorPhotoURL && (
               <div className="w-full flex justify-center">
@@ -78,7 +78,7 @@ export const StoryDisplay = ({
               tale was created by&nbsp;
               {selectedBook?.creatorName ||
                 selectedBook?.displayName ||
-                "a mysterious unknown author"}
+                "a mystery author"}
               .
             </p>
             <p className={"text-2xl font-bold font-antiqua"}>
@@ -109,7 +109,7 @@ export const StoryDisplay = ({
               <span className="capitalize">
                 {selectedBook?.creatorName ||
                   selectedBook?.displayName ||
-                  "a mysterious unknown author"}
+                  "a mystery author"}
               </span>
               .
             </p>
@@ -145,6 +145,8 @@ export const StoryDisplay = ({
         setShow={setShow}
         userId={userId}
         show={show}
+        audio={audio}
+        audioRef={audioRef}
       />
 
       <div className="fade-in">
@@ -158,8 +160,9 @@ export const StoryDisplay = ({
             />
             {/* Text Section */}
             <div
+            //overflow-y-hidden
               className="flex flex-col w-full xl:w-1/2 p-4 xl:p-10 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-25% to-orange-200 to-90% 
-                sm:rounded xl:rounded-xl xl:border xl:rounded-tr-lg xl:rounded-br-lg xl:border-l-4 xl:border-stone-700 overflow-y-hidden text-stone-900"
+                sm:rounded xl:rounded-xl xl:border xl:rounded-tr-lg xl:rounded-br-lg xl:border-l-4 xl:border-stone-700  text-stone-900"
             >
               <div className="relative flex justify-end items-start text-stone-900">
                 <button
@@ -167,7 +170,7 @@ export const StoryDisplay = ({
                     setOpen(false);
                     setMessage("");
                   }}
-                  className="absolute -top-6 -right-8 w-12 hover:text-orange-500 text-center z-30"
+                  className="absolute -top-6 xl:-right-8 w-12 hover:text-orange-500 text-center z-30"
                 >
                   <XMarkIcon className="h-6 w-12" />
                 </button>

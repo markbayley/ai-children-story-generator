@@ -1,10 +1,13 @@
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
 /* General Styles */
-
+@import url('https://fonts.googleapis.com/css2?family=Glass+Antiqua&display=swap');
 
 body, html {
     margin: 0;
@@ -108,7 +111,17 @@ body, html {
   animation-name: wobble2;
 }
 
+.glass-antiqua {
+  font-family: "Glass Antiqua", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
 
+#text {
+  font-family: "Glass Antiqua", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
 
 /* body {
   background-color: #000;
@@ -122,6 +135,11 @@ body, html {
 svg {
   width: 30vmin;
   overflow: visible;
+  font-family: "Glass Antiqua", cursive;
+  font-weight: 400;
+  font-style: normal;
+
+ 
 }
 
 .spinner {

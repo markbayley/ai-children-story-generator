@@ -181,11 +181,11 @@ export const StoryForm = ({
 
   return (
     <div className="flex justify-start font-inter w-full sm:w-[60vw] lg:w-[36vw]">
-      <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl">
-        <div className=" text-orange-300 px-4 pb-4">
+      <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl w-full">
+        <div className=" text-orange-300 px-4 ">
           <h1 className="font-bold font-antiqua text-5xl ">Storytime AI</h1>
         </div>
-        <h3 className=" px-4 text-gray-300 text-md font-light">
+        <h3 className=" px-4  text-md font-light">
           Create stories with AI. What do you want to read about?
           <a onClick={() => setUserPrompt("A lonely princess and a frog prince")}>
             {" "}
@@ -196,15 +196,15 @@ export const StoryForm = ({
             A castle in the clouds?{" "}Bring your imagination to life!
           </a>
         </h3>
-        <div className="flex items-center justify-center ">
-          <hr className="h-px my-4 bg-yellow-600 border-0  w-2/5" />{" "}
+        <div className="flex items-center justify-center px-4">
+          <hr className="h-px my-4 bg-yellow-600 border-0  w-full" />{" "}
           <SparklesIcon className="h-6 w-6 mx-4 text-yellow-600" />{" "}
-          <hr className="h-px my-4 bg-yellow-600 border-0  w-2/5" />
+          <hr className="h-px my-4 bg-yellow-600 border-0  w-full" />
         </div>
         <div className="mx-4 rounded-xl">
           <label
             htmlFor="prompt"
-            className="block text-sm py-2  text-orange-300"
+            className="block text-sm py-2"
           >
             {"Create a story about..."}
           </label>
@@ -256,7 +256,7 @@ export const StoryForm = ({
             <button
               type="submit"
               className={
-                "w-full text-white px-4 py-2 m-4 font-sans rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center  border-stone-700"
+                "w-full text-white px-4 py-2 mx-4 my-2 font-sans rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center  border-stone-700"
               }
             >
               Create

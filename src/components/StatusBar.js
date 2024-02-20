@@ -1,9 +1,11 @@
 // "use client";
+import Image from "next/image"
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { useEffect, useState } from "react";
 import Profile from "@/app/profile/page";
 import Authy from "@/app/auth/page";
+import tree from "/public/trace1.svg";
 import {
   ArrowPathIcon,
   InformationCircleIcon,
@@ -78,14 +80,14 @@ export const StatusBar = ({
     <div className="text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
       <div className="flex cursor-pointer group relative shadow-md  hover:shadow-lg hover:shadow-indigo-500/100 shadow-indigo-500/70 rounded-full ">
         {/* <Image src={pic7} alt="logo" className="rounded-full h-12 w-12 " /> */}
-        {!show && !loading ? (
+        {show && !loading ? (
           <>
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
               Open
             </span>
             <ShareIcon
               className="h-12 w-12 border-2 rounded-full p-3 fade-in"
-              onClick={() => setShow(true)}
+              onClick={() => setShow(false)}
             />
           </>
         ) : loading ? (
@@ -94,13 +96,22 @@ export const StatusBar = ({
           </span>
         ) : (
           <>
-            <MinusIcon
+            {/* <MinusIcon
               className="h-12 w-12 border-2 rounded-full p-3 fade-in"
               onClick={() => setShow(false)}
             />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
               Close
-            </span>
+            </span> */}
+                         <Image
+                         onClick={() => setShow(true)}
+      priority
+      src={tree}
+      alt="Follow us on Twitter"
+      className="font-antiqua glass-antiqua h-12 w-12 border-2 rounded-full fade-in text-white"
+      style={{fontFamily: "Glass Antiqua", fontWeight: "400", fontStyle: "normal"}}
+      
+    />
           </>
         )}
       </div>

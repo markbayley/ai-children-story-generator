@@ -15,8 +15,8 @@ const BookControls = ({selectedBook, userId , setPage, page, audio, audioRef}) =
 
   return (
     <div className="flex-1 flex pt-3 ">
-    <div className="w-full flex items-end ">
-      <div className="w-1/3 md:w-1/2   ">
+    <div className="w-full flex items-end justify-end">
+      <div className="w-full    ">
         {
           <div className="mr-2  shadow-lg rounded-full border-2 border-stone-700 opacity-80">
             <audio

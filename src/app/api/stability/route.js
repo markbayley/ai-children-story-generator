@@ -44,9 +44,8 @@ async function getPrompts(story) {
 
   //console.log("themeGP", theme)
 
-  const themeStyle = [
-    "Art by Maurice Brazil Prendergast, Charline von Heyl, Michael Leunig, Edward Okun, Anna Dittmann, Kazumasa Nagai, Desmond Morris. Intricate, beautiful, cute. Watercolor and ink, volumetric lighting.",
-  "fantasy art", "neon punk", "oil painting"]
+  const themeStyle = 
+    "Art by Maurice Brazil Prendergast, Charline von Heyl, Michael Leunig, Edward Okun, Anna Dittmann, Kazumasa Nagai, Desmond Morris. Intricate, beautiful, cute. Watercolor and ink, volumetric lighting."
  // Avoid including words like "mystical", "shimmering", and "glimmering" in prompts.
   // console.log("styleGP", styles)
 

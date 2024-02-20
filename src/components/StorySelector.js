@@ -77,7 +77,7 @@ export const StorySelector = ({
         >
           <div className="rounded-full text-center shadow-xl">
             <span className="scale-0 group-hover:scale-100 transition-all absolute right-8 bg-slate-700 px-2 rounded text-white">
-              likes
+             { book?.likedBy?.includes(userId) ? "liked" : "likes" }
             </span>
             {book.likes}
           </div>
@@ -121,7 +121,7 @@ export const StorySelector = ({
     );
   };
 
-  const booksPerPage = 12;
+  const booksPerPage = 6;
 
   const totalPages = Math.ceil(allBooks.length / booksPerPage);
 
@@ -161,7 +161,7 @@ export const StorySelector = ({
 
   return (
     <>
-      <div className="mt-10 text-2xl px-4 pb-80">
+      <div className=" text-2xl px-4 pb-40">
         {/* All Stories Tab */}
         <div className="font-sans text-sm w-full rounded-t-lg flex justify-end pr-8 gap-2">
           <button

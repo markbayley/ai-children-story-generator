@@ -6,6 +6,7 @@ import fairys from "/public/fairys.jpg";
 import fair from "/public/fair.jpg";
 import pic7 from "/public/pic7round.png";
 import { useEffect, useState } from "react";
+import tree from "/public/trace1.svg";
 
 export const BookImage = ({
   imagesSelected,
@@ -71,17 +72,23 @@ export const BookImage = ({
        xl:w-1/2
        flex-1 "
     >
+     <div>
+
+  </div>
       <div className="m-4 xl:m-12 sm:rounded-tl-xl sm:rounded-bl-xl">
         {page == 6 ? (
-          <div className="relative flex items-center justify-center">
-            <ImageDisplay
-              imagesSelected={imagesSelected}
-              page={page}
-              imagesUnsaved={imagesUnsaved}
-            />
+          <div className="relative flex items-center justify-center font-antiqua glass-antiqua">
+              <Image
+      priority
+      src={tree}
+      alt="Follow us on Twitter"
+      className="font-antiqua glass-antiqua"
+      style={{fontFamily: "Glass Antiqua", fontWeight: "400", fontStyle: "normal"}}
+      
+    />
 
-            <div className="absolute">
-              <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            {/* <div className="absolute">
+              <svg  viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <style type="text/css">
                     @import
@@ -89,29 +96,31 @@ export const BookImage = ({
                   </style>
                 </defs>
                 <path
+              
                   id="circlePath"
                   fill="none"
-                  strokeWidth="2"
+                  strokeWidth=""
                   stroke=""
                   d="
-                    M 0, 40
+                    M -16, 23.9
                     a 40,40 0 1,1 80,0
                     a 40,40 0 1,1 -80,0
                    "
                 />
+            
                 <text
                   id="text"
                   fontFamily="Glass Antiqua"
-                  fontSize="14"
+                  fontSize="10"
                   fontWeight="bold"
-                  fill="#605454"
+                  fill="black"
                 >
                   <textPath id="textPath" href="#circlePath">
                     Storytime AI The best stories in the whole world!
                   </textPath>
                 </text>
               </svg>
-            </div>
+            </div> */}
           </div>
         ) : (
           <ImageDisplay

@@ -62,11 +62,11 @@ export default function StoryPage() {
     // fetchAllUsers();
   }, [userId]); // Fetch books on component mount or when userId changes
 
-  // useEffect(() => {
-  //   if (audio) {
-  //     audioRef.current.play();
-  //   }
-  // }, [audio]);
+  useEffect(() => {
+    if (audio) {
+      audioRef.current.play();
+    }
+  }, [audio]);
 
 
   
@@ -123,8 +123,23 @@ export default function StoryPage() {
       // Uncomment if you want to fetch audio
       // const audioUrl = await fetchAudio(storyData.story);
       // setAudio(audioUrl);
+
+        // Fetching audio based on the story
+    const audioResponse = await fetch("/api/elevenlabs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ textInput: storyData.story }),
+    });
+
+    const arrayBuffer = await audioResponse.arrayBuffer();
+    const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+    const blobUrl = URL.createObjectURL(blob);
+    setAudio(blobUrl);
       //setUnsavedBook([storyData.story, imageData.images, storyTitle]);
       //console.log("UnsavedBook", unsavedBook);
+
+
+
       setMessage({ text: "Save Story", type: "save" });
       setLoading(false);
       setUnsaved(true);
@@ -225,6 +240,16 @@ async function fetchImagesTwice(story) {
     return { bookId, imageUrls };
   };
 
+  // Function to upload audio
+const uploadAudio = async (audioBlob, userId, bookId) => {
+  const storage = getStorage();
+  const audioRef = ref(storage, `audio/${userId}/${bookId}/storyAudio.mp3`);
+  await uploadBytes(audioRef, audioBlob);
+  const url = await getDownloadURL(audioRef);
+  return url;
+};
+
+
   const handleSaveBook = async () => {
     if (myBooks.length >= 12) {
       setMessage({ text: "Maximum Books!", type: "save" });
@@ -242,8 +267,15 @@ async function fetchImagesTwice(story) {
       //console.log("Converted images for upload:", convertedImages);
       const { bookId, imageUrls } = await uploadImages(convertedImages, userId);
 
+       // New: Upload the audio and get its URL
+    // const audioUrl = await uploadAudio(blob, userId, bookId);
+      // Assuming 'audio' state holds the blob URL of the audio
+    // Convert the blob URL to a blob if necessary or directly upload if it's already a Blob
+    const audioBlob = await fetch(audio).then(r => r.blob());
+    const audioUrl = await uploadAudio(audioBlob, userId, bookId);
+
       // Now use bookId and imageUrls to save the book's data to Firestore
-      await saveBookToFirestore(userId, storyUnsaved, imageUrls, bookId);
+      await saveBookToFirestore(userId, storyUnsaved, imageUrls, audioUrl, bookId);
       // After saving the book, refetch the books list
       fetchUserBooks();
     } catch (error) {
@@ -255,12 +287,11 @@ async function fetchImagesTwice(story) {
     setUnsaved(false);
   };
 
-  const saveBookToFirestore = async (userId, storyUnsaved, imageUrls) => {
+  const saveBookToFirestore = async (userId, storyUnsaved, imageUrls, audioUrl) => {
     const db = getFirestore();
     const creatorName = user.displayName;
     const creatorPhotoURL = user.photoURL;
     const story = storyUnsaved;
-    //const theme = theme;
     const likedBy = [];
     const likes = 0;
     const book = {
@@ -268,7 +299,7 @@ async function fetchImagesTwice(story) {
       likes,
       likedBy,
       story,
-     // theme,
+      audioUrl, 
       imageUrls,
       creatorName,
       creatorPhotoURL,
@@ -530,7 +561,7 @@ const fetchBookToShare = async (bookId, userId) => {
     setDismiss(false);
   };
 
- 
+  console.log("audio", audio)
 console.log("themePage.js", theme)
 
   return (
@@ -555,7 +586,7 @@ console.log("themePage.js", theme)
          
         />
 
-        <div className="mx-0 md:mx-[10%] no-scroll pt-16">
+        <div className="mx-0 md:mx-[10%] no-scroll pt-16 ">
           {!open ? (
             <>
               <StoryForm
