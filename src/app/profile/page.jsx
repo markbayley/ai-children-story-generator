@@ -1,5 +1,5 @@
 "use client";
-import { auth } from "@/app/firebase/config";
+import { auth } from "../firebase/config";
 import { signOut } from "firebase/auth";
 import {
   Cog6ToothIcon,
@@ -7,6 +7,7 @@ import {
   EnvelopeIcon,
   UserMinusIcon,
   UserCircleIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
@@ -39,29 +40,34 @@ const Profile = ({ user, setMessage }) => {
 
   return (
     <>
-      <Menu as="div" className="relative inline-block text-left z-20">
-        <div className="hover:text-gray-300 bg-sky-950  text-white">
-          <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
+      <Menu as="div" className="relative inline-block text-left">
+        {/* <div className="hover:text-gray-300 bg-sky-950  text-white"> */}
+          <Menu.Button className="hover:bg-sky-900 bg-sky-950 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
             {user && user?.photoURL && !imageLoadError ? (
-              <div className="relative aspect-square rounded-full w-8 mx-[2px]">
+              // <div className="relative aspect-square rounded-full w-8 mx-[2px]">
               <Image
                 src={user?.photoURL}
-                sizes="(max-width: 768px) 100vw,
-                (max-width: 1200px) 50vw,
-                33vw"
-                fill
+                // sizes="(max-width: 768px) 100vw,
+                // (max-width: 1200px) 50vw,
+                // 33vw"
+                // fill
+                width={100}
+                height={100}
                 alt="profile-image"
                 onError={handleImageError}
-                className="rounded-full h-8 w-8 object-cover xs:ml-2 ml-0"
+                className="rounded-full h-8 w-8 object-cover"
               />
-              </div>
+              // </div>
             ) : (
-              <><UserCircleIcon className="h-8 w-8" />Profile</>
+            <UserCircleIcon className="h-8 w-8" />
             )}
-            <span>{user?.displayName}</span>
-            <ChevronDownIcon className="-mr-1 h-5 w-5" aria-hidden="true" />
+            <>
+            {user?.displayName ? user?.displayName : "Profile"}
+            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+            </>
           </Menu.Button>
-        </div>
+        {/* </div> */}
+     
 
         <Transition
           as={Fragment}

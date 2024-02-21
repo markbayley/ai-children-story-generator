@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
+import { auth } from "../firebase/config";
 
 const SignUp = ({ setUserStatus, setMessage  }) => {
   const [email, setEmail] = useState("");

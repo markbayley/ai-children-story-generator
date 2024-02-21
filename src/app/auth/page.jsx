@@ -2,14 +2,14 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { UserIcon } from "@heroicons/react/24/outline";
+import { UserCircleIcon, UserIcon } from "@heroicons/react/24/outline";
 import dynamic from 'next/dynamic';
 
-const SignIn = dynamic(() => import('@/app/auth/sign-in'), {
+const SignIn = dynamic(() => import('./sign-in'), {
   ssr: false, // This prevents server-side rendering for the component
 });
 
-const SignUp = dynamic(() => import('@/app/auth/sign-up'), {
+const SignUp = dynamic(() => import('./sign-up'), {
   ssr: false,
 });
 
@@ -17,13 +17,13 @@ const SignUp = dynamic(() => import('@/app/auth/sign-up'), {
 const Authy = ({ userStatus, setUserStatus, setMessage }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <Menu.Button className=" inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-3 text-sm font-semibold text-white hover:text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 ">
-          <UserIcon className="h-6 w-6  " />
+      {/* <div className="hover:text-gray-300 bg-sky-950 text-white"> */}
+        <Menu.Button className="hover:text-gray-300 bg-sky-950 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 ">
+          <UserCircleIcon className="h-8 w-8" />
           Login
-          <ChevronDownIcon className="-mr-1 h-5 w-5 " aria-hidden="true" />
+          <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
         </Menu.Button>
-      </div>
+      {/* </div> */}
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"

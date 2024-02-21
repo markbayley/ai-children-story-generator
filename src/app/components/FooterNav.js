@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
+import { auth } from "../firebase/config";
 import { useState } from "react";
-import Profile from "@/app/profile/page";
+import Profile from "../profile/page";
 import pic7 from "/public/pic7.jpg";
-import { AuthDisplay } from "../app/auth/page";
+import { AuthDisplay } from "../auth/page";
 import {
   Cog6ToothIcon,
   CreditCardIcon,
@@ -47,7 +47,7 @@ export const FooterNav = ({
   };
 
   return (
-    <div className=" px-4  py-4 flex justify-between  text-xs text-white bottom-0 w-full z-20 lg:px-[12%] bg-sky-950 ">
+    <div className=" bottom-0 px-4  py-4 flex justify-between  text-xs text-white w-full z-20 lg:px-[12%] bg-sky-950 ">
       <div className="flex flex-col justify-between leading-8 cursor-pointer">
         <div className="flex items-center  hover:text-gray-300">
           <EnvelopeIcon className="h-5 w-5 mr-2" /> Contact

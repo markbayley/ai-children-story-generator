@@ -1,8 +1,8 @@
 import { useUpdateProfile } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
+import { auth } from "../firebase/config";
 import { useEffect, useState } from "react";
 
-import { storage } from "@/app/firebase/config";
+import { storage } from "../firebase/config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 

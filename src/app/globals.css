@@ -59,12 +59,11 @@ body, html {
   audio::-webkit-media-controls-play-button,
      audio::-webkit-media-controls-panel {
      background-color: #eac89e;
-   
+ 
      }
+   
 
-
-
-
+    
 
 .glass-antiqua {
   font-family: "Glass Antiqua", cursive;

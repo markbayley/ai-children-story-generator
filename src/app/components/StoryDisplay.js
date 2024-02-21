@@ -37,8 +37,10 @@ export const StoryDisplay = ({
     const titleEndIndex = storyText.indexOf("Once upon a time");
     const withoutTitle = storyText.substring(titleEndIndex);
 
+    const storyEndIndex = storyText.indexOf("~The End~")
+    const withoutEndTitle = storyText.substring(titleEndIndex, storyEndIndex)
     // Split into paragraphs
-    return withoutTitle.split("\n\n");
+    return withoutEndTitle.split("\n\n");
   };
 
   const getStoryText = (storyText, currentPage) => {
@@ -121,11 +123,23 @@ export const StoryDisplay = ({
     // Render each paragraph separately
     return (
       <div className="font-antiqua">
-        {currentPageParagraphs.map((paragraph, index) => (
+        { page != 5 ? 
+        currentPageParagraphs.map((paragraph, index) => 
           <p key={index} style={{ textAlign: "justify", marginBottom: "1em" }}>
             {paragraph}
-          </p>
-        ))}
+          </p>)
+         : 
+
+         currentPageParagraphs.map((paragraph, index) => (
+        <>
+         <p key={index} style={{ textAlign: "justify", marginBottom: "1em" }}>
+           {paragraph} 
+         </p>
+        
+         </>
+         )
+          
+     ) }
       </div>
     );
   };

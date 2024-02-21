@@ -3,6 +3,7 @@ import {
   ChevronRightIcon,
   HandThumbUpIcon,
 } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 const BookControls = ({
   selectedBook,
@@ -15,15 +16,31 @@ const BookControls = ({
 }) => {
   console.log("audioBC", selectedBook, "audio", audio, "audioRef", audioRef);
 
+ 
   const handlePage = (direction) => {
     let max = 6;
     let min = 0;
+    const audio = audioRef?.current;
+    
     if (direction === "down" && page > min) {
       setPage(page - 1);
+      audio.currentTime = page * 35;
     } else if (direction === "up" && page < max) {
       setPage(page + 1);
+      if (page == 0){
+        return
+      } else {
+        audio.currentTime = page * 35;
+      }
+      
     }
   };
+
+  const onLoadedMetadata = () => {
+    if (audioRef.current) {
+        console.log(audioRef.current.duration);
+    }
+};
 
   return (
     <div className="flex-1 flex pt-3 ">
@@ -32,13 +49,14 @@ const BookControls = ({
 
 
         <div className="w-full">
-          
+     
           <audio
             ref={audioRef}
             controls
             src={selectedBook?.audioUrl || audio}
             className="w-full"
             style={{ height: "45px", border: "2px" }}
+            onLoadedMetadata={onLoadedMetadata}
           />
         </div>
 
@@ -66,21 +84,21 @@ const BookControls = ({
             )} */}
           <button
             onClick={() => handlePage("down")}
-            className="transition ease-in-out hover:scale-105 duration-300 px-3 py-2 text-stone-950 bg-transparent rounded-tl-full rounded-bl-full hover:bg-orange-400 shadow-lg border-2 border-stone-500"
+            className="transition ease-in-out px-3 py-2 text-stone-950 bg-transparent rounded-tl-full rounded-bl-full hover:bg-orange-400 shadow-lg border-2 border-stone-500"
           >
             <ChevronLeftIcon className="h-6 w-6" />
           </button>
 
           <button
             type="submit"
-            className="transition ease-in-out hover:scale-105 duration-300 px-4 py-2 mx-1  text-stone-950 bg-transparent font-sans font-semibold rounded hover:bg-orange-400 shadow-lg border-2 border-stone-500"
+            className="transition ease-in-out px-4 py-2 mx-1  text-stone-950 bg-transparent font-sans font-semibold rounded hover:bg-orange-400 shadow-lg border-2 border-stone-500"
           >
             {page}
           </button>
           <button
             onClick={() => handlePage("up")}
             type="submit"
-            className="transition ease-in-out hover:scale-105 duration-300 px-3 py-2  text-stone-950 bg-transparent rounded-tr-full rounded-br-full hover:bg-orange-400 shadow-lg border-2 border-stone-500"
+            className="transition ease-in-out px-3 py-2  text-stone-950 bg-transparent rounded-tr-full rounded-br-full hover:bg-orange-400 shadow-lg border-2 border-stone-500"
           >
             <ChevronRightIcon className="h-6 w-6" />
           </button>

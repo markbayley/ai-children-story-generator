@@ -20,6 +20,7 @@ export const StorySelector = ({
   setCurrentSliceIndex,
   selectedBook,
   user,
+  loading
 }) => {
   const PreviewContent = ({ book }) => {
     const [imageLoadError, setImageLoadError] = useState(false);
@@ -33,7 +34,9 @@ export const StorySelector = ({
     }, [user]);
 
     return (
+   
       <>
+ 
         {/* User Icon */}
         <div
           className={`z-10   left-1 top-1 absolute h-1/6  ${
@@ -96,7 +99,7 @@ export const StorySelector = ({
             <Image
                //src={book.imageUrls[0] || pic7}
               src={pic7}
-              fill
+              // fill
               // sizes="(max-width: 768px) 100vw,
               // (max-width: 1200px) 50vw,
               // 33vw"
@@ -111,7 +114,9 @@ export const StorySelector = ({
          
           )}
         </div>
+        
       </>
+  
     );
   };
 
@@ -155,7 +160,7 @@ export const StorySelector = ({
 
   return (
     <>
-      <div className=" text-2xl px-4 pb-40 mt-14 ">
+      <div className=" text-2xl px-4 py-16 fade-in">
         {/* All Stories Tab */}
         <div className="font-sans text-sm w-full rounded-t-lg flex justify-end pr-8 gap-2 ">
           <button
@@ -189,7 +194,7 @@ export const StorySelector = ({
         <div className="" >
           {/* Map All User Stories */}
           {myStoriesSelected ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm min-h-[200px] mb-3 bg-sky-950 rounded-md  p-2 border-2 border-amber-500">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm  mb-3 bg-sky-950 rounded-md  p-2 border-2 border-amber-500">
               {myBooks.map((book) => (
                 <div
                   onClick={() => handlePreviewMine(book.id)}
@@ -205,9 +210,10 @@ export const StorySelector = ({
               ))}
             </div>
           ) : (
+          
             <div className=" w-full relative bg-sky-950 rounded-md opacity-95 p-2 border-2 border-teal-500">
               {/* Map All Stories */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm min-h-[200px]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm min-h-[190px]">
                 <button
                   onClick={handleSlider("left")}
                   className="h-full w-12 absolute -left-20 hover:text-gray-500 text-amber-500"

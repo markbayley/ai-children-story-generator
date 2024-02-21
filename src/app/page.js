@@ -1,11 +1,12 @@
  "use client";
+import './globals.css'
 import { useEffect, useRef, useState } from "react";
 import { fetchStory } from "./api/openai/fetchStory";
 import { fetchImages } from "./api/stability/fetchImages";
-import { StatusBar } from "../components/StatusBar";
-import { StoryForm } from "../components/StoryForm";
-import { StoryDisplay } from "../components/StoryDisplay";
-import { StorySelector } from "../components/StorySelector";
+import { StatusBar } from "./components/StatusBar";
+import { StoryForm } from "./components/StoryForm";
+import { StoryDisplay } from "./components/StoryDisplay";
+import { StorySelector } from "./components/StorySelector";
 import {
   getFirestore,
   collection,
@@ -22,8 +23,8 @@ import {
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
-import { FooterNav } from "@/components/FooterNav";
+import { auth } from "../app/firebase/config";
+import { FooterNav } from "./components/FooterNav";
 
 export default function StoryPage() {
   const [userId, setUserId] = useState();
@@ -52,7 +53,7 @@ export default function StoryPage() {
   const [myStoriesSelected, setMyStoriesSelected] = useState(false);
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
 
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [theme, setTheme] = useState("Spooky");
   const [time, setTime] = useState(5);
   
@@ -349,8 +350,10 @@ const uploadAudio = async (audioBlob, userId, bookId) => {
   };
 
   const fetchAllBooks = async () => {
+    setLoading(true)
     const fetchedBooks = await getAllBooks(userId);
     setAllBooks(fetchedBooks);
+    setLoading(false)
     //setMessage({text: "All Books Fetched", type: "success"});
   };
 
@@ -527,7 +530,7 @@ const fetchBookToShare = async (bookId, userId) => {
     if (book) {
       setSelectedBook(book);
     }
-    setAudio(selectedBook?.audioUrl)
+    //setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
     setPage(0);
@@ -538,7 +541,7 @@ const fetchBookToShare = async (bookId, userId) => {
     if (book) {
       setSelectedBook(book);
     }
-    setAudio(selectedBook?.audioUrl)
+    //setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
     setPage(0);
@@ -570,10 +573,13 @@ const fetchBookToShare = async (bookId, userId) => {
 
 useEffect(() => {
   // Ensure the ref is attached and the source is available
-  if (audioRef.current && (selectedBook?.audioUrl || audio)) {
-    audioRef.current.src = selectedBook.audioUrl;
+  if (audioRef?.current && (selectedBook?.audioUrl || audio)) {
+    audioRef.current.src = selectedBook?.audioUrl;
     audioRef.current.load(); // Load the new source
+    // if ( page == 1) {
     audioRef.current.play().catch(error => console.error("Audio playback failed:", error));
+    // }
+    
   }
 }, [selectedBook?.audioUrl, audio, audioRef]);
 
@@ -635,8 +641,9 @@ console.log(audioRef.current); // Debugging line
                 setCurrentSliceIndex={setCurrentSliceIndex}
                 selectedBook={selectedBook}
                 user={user}
+                loading={loading}
               />
-             
+          
            
             </>
           ) : (

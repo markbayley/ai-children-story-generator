@@ -1,14 +1,13 @@
 // "use client";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
+import { auth } from "../firebase/config";
 import { useEffect, useState } from "react";
-import Profile from "@/app/profile/page";
-import Authy from "@/app/auth/page";
+import Profile from "../profile/page";
+import Authy from "../auth/page";
 import {
   ArrowPathIcon,
   InformationCircleIcon,
   MinusIcon,
-  PlusIcon,
   ShareIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -29,8 +28,6 @@ export const StatusBar = ({
   selectedBook,
   userId,
   loading,
-  time,
-  setTime
 }) => {
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);
@@ -42,11 +39,11 @@ export const StatusBar = ({
       case "like":
         return "text-teal-500";
       case "delete":
-        return "text-rose-600";
+        return "text-rose-500";
       case "error":
-        return "text-red-600";
+        return "text-rose-500";
       case "info":
-        return "text-indigo-500";
+        return "text-teal-500";
       case "share":
         return "text-indigo-500";
       case "create":
@@ -56,64 +53,64 @@ export const StatusBar = ({
     }
   };
 
-
   // const [counting, setCounting] = useState(false);
 
-  useEffect(() => {
-  
-    let timer = setInterval(() => {
-      setTime((time) => {
-        if (time === 0) {
-          clearInterval(timer);
-        
-          return 0;
-        } else return time - 1;
-      });
-    }, 1000);
-  }, []);
+  // useEffect(() => {
+
+  //   let timer = setInterval(() => {
+  //     setTime((time) => {
+  //       if (time === 0) {
+  //         clearInterval(timer);
+
+  //         return 0;
+  //       } else return time - 1;
+  //     });
+  //   }, 1000);
+  // }, []);
+
+  // ) : loading ? (
+  //   <span className="flex items-center justify-center px-4  text-lg border-2  rounded-full">
+  //     {`${time % 60}`}
+  //   </span>
+  {
+    /* <Image src={pic7} alt="logo" className="rounded-full h-12 w-12 " /> */
+  }
 
   /////
 
   return (
-    <div className="text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
-      <div className="flex cursor-pointer group relative shadow-md  hover:shadow-lg hover:shadow-indigo-500/100 shadow-indigo-500/70 rounded-full ">
-        {/* <Image src={pic7} alt="logo" className="rounded-full h-12 w-12 " /> */}
-        {!show && !loading ? (
-          <>
-            <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
-              Open
-            </span>
-            <ShareIcon
-              className="h-12 w-12 border-2 rounded-full p-3 fade-in"
-              onClick={() => setShow(true)}
-            />
-          </>
-        ) : loading ? (
-          <span className="flex items-center justify-center px-4  text-lg border-2  rounded-full">
-            {`${time % 60}`}
-          </span>
-        ) : (
-          <>
-            <MinusIcon
-              className="h-12 w-12 border-2 rounded-full p-3 fade-in"
-              onClick={() => setShow(false)}
-            />
-            <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
-              Close
-            </span>
-          </>
-        )}
+    <div className=" cursor-pointer text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
+      {/* Share Icons */}
+      <div className="w-1/3 group relative">
+        <div>
+          {show ? (
+            <div>
+              <MinusIcon
+                className="h-12 w-12 border-2 rounded-full p-3 fade-in"
+                onClick={() => setShow(false)}
+              />
+              <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
+                Close
+              </span>
+            </div>
+          ) : (
+            <div>
+              <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
+                Open
+              </span>
+              <ShareIcon
+                className="h-12 w-12 border-2 rounded-full p-3 fade-in  shadow-md  hover:shadow-lg hover:shadow-indigo-500/50 shadow-indigo-500/30 "
+                onClick={() => setShow(true)}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {show && (
         <div className="backdrop-blur-md bg-sky-950/30 md:bg-transparent l p-2 lg:p-1 fade-in z-10 left-1 lg:left-2 top-16 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-8 w-auto mt-2  ">
-          {/* {unsaved && selectedBook?.id == undefined && !dismiss && ( */}
           <a
-            // onClick={resetStory}
-            // onClick={() => setShared(true)}
             onClick={() => handleShareBook(selectedBook?.id, userId)}
-            // href="https://www.instagram.com/explore/search/keyword/?q=faeries"
-            // target="_blank"
             className={
               selectedBook?.sharedBy?.includes(userId)
                 ? "group max-w-xs text-sm bg-indigo-500 text-white rounded-md relative cursor-pointer"
@@ -126,14 +123,9 @@ export const StatusBar = ({
             </span>
           </a>
 
-          {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
-  <InstagramEmbed url="https://www.instagram.com/p/CUbHfhpswxt/" width={328} />
-</div> */}
-
           <a
             href="https://www.facebook.com"
             target="_blank"
-            // onClick={handleSaveBook}
             className="group max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
@@ -146,7 +138,6 @@ export const StatusBar = ({
           <a
             href="https://www.twitter.com"
             target="_blank"
-            // onClick={() => setPage(5)}
             className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
@@ -165,10 +156,7 @@ export const StatusBar = ({
               Share
             </span>
           </div>
-
-          {/* {selectedBook?.userId != undefined && userId != selectedBook?.userId && ( */}
           <div
-            // onClick={() => handleLikeBook(selectedBook?.id, userId)}
             onClick={resetStory}
             className="group  max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
@@ -178,36 +166,27 @@ export const StatusBar = ({
               Reset
             </span>
           </div>
-          {/* )} */}
+        </div>
+      )}
 
-          {/* {userId == selectedBook?.userId && ( */}
-          {/* <div
-             onClick={() => handleDeleteBook(selectedBook?.id)}
-            className="group  max-w-xs  text-sm  hover:bg-indigo-500 hover:text-white rounded-lg shadow-lg relative cursor-pointer"
-            role="alert"
+      {/* Message Feature */}
+      <div className="flex w-1/3 justify-center">
+        {message && message.text != "" && (
+          <div
+            onClick={() => setMessage({ text: "", type: "" })}
+            className={` pr-7 flex relative items-center text-sm md:text-[16px] cursor-pointer  hover:text-gray-500 hover:border-gray-500 ${messageColor(
+              message.type
+            )} rounded-full rounded-bl-lg  bg-gray-800 shadow-lg `}
           >
-            <InformationCircleIcon className="h-9 w-9 p-1" />
-            <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
-              Delete
-            </span>
-          </div> */}
-          {/* )} */}
-        </div>
-      )}
+            <InformationCircleIcon className="h-6 w-6 mx-2" /> {message.text}
+            <XMarkIcon className="h-4 w-4 absolute top-1 right-2  " />
+          </div>
+        )}
+      </div>
 
-      {message && message.text != "" && (
-        <div
-          onClick={() => setMessage({ text: "", type: "" })}
-          className={` pr-7 flex relative items-center lg:ml-40 text-sm md:text-[16px] cursor-pointer  hover:text-gray-500 hover:border-gray-500 ${messageColor(
-            message.type
-          )} rounded-full rounded-bl-lg  bg-gray-800 shadow-lg `}
-        >
-          <InformationCircleIcon className="h-6 w-6 mx-2" /> {message.text}
-          <XMarkIcon className="h-4 w-4 absolute top-1 right-2  " />
-        </div>
-      )}
-      {user ? (
-        <div>
+      {/* Account Status */}
+      <div className="flex justify-end w-1/3">
+        {user ? (
           <Profile
             user={user}
             setMyBooks={setMyBooks}
@@ -215,14 +194,14 @@ export const StatusBar = ({
             setMyStoriesSelected={setMyStoriesSelected}
             setMessage={setMessage}
           />
-        </div>
-      ) : (
-        <Authy
-          userStatus={userStatus}
-          setUserStatus={setUserStatus}
-          setMessage={setMessage}
-        />
-      )}
+        ) : (
+          <Authy
+            userStatus={userStatus}
+            setUserStatus={setUserStatus}
+            setMessage={setMessage}
+          />
+        )}
+      </div>
     </div>
   );
 };

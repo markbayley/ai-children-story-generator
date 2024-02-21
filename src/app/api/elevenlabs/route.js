@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 config();
-export async function POST(request, res) {
+export async function POST(request) {
   const body = await request.json();
   let { textInput } = body;
   let voice_id = "21m00Tcm4TlvDq8ikWAM"; //Change the value to the available voice ID you prefer.

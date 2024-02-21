@@ -89,7 +89,7 @@ export const StoryForm = ({
 
   const getRandomIdea = (nounsArray, adjectivesArray, placesArray) => {
     // Shuffle the array
-    const shuffledNouns = [...nounsArray].sort(() => 0.5 - Math.random()); 
+    const shuffledNouns = [...nounsArray].sort(() => 0.5 - Math.random());
     const shuffledAdjectives = [...adjectivesArray].sort(
       () => 0.5 - Math.random()
     );
@@ -101,7 +101,7 @@ export const StoryForm = ({
       shuffledNouns.slice(0, 1).join(" ") +
       " " +
       shuffledPlaces.slice(0, 1).join(" ")
-    ); 
+    );
   };
 
   function ThemeDropdown() {
@@ -115,7 +115,7 @@ export const StoryForm = ({
           >
             <div className="flex relative"> </div>
             <ChevronDownIcon className="h-5 w-5 mr-2 text-orange-300" />
-            {theme}{" "}Theme
+            {theme} Theme
           </Menu.Button>
           {/* <span className="text-[10px] text-orange-300 absolute -top-3 ">STYLE</span> */}
           <Menu.Items
@@ -125,44 +125,36 @@ export const StoryForm = ({
           >
             <div className="flex justify-between ">
               <Menu.Item>
-             
-                  <button
-                    onClick={() => setTheme("Spooky")}
-                    className={"mx-2 hover:text-orange-300"}
-                  >
-                    Spooky
-                  </button>
-                
+                <button
+                  onClick={() => setTheme("Spooky")}
+                  className={"mx-2 hover:text-orange-300"}
+                >
+                  Spooky
+                </button>
               </Menu.Item>
               <Menu.Item>
-               
-                  <button
-                    onClick={() => setTheme("Pretty")}
-                    className={"mx-2 hover:text-orange-300"}
-                  >
-                    Pretty
-                  </button>
-              
+                <button
+                  onClick={() => setTheme("Pretty")}
+                  className={"mx-2 hover:text-orange-300"}
+                >
+                  Pretty
+                </button>
               </Menu.Item>
               <Menu.Item>
-             
-                  <button
-                    onClick={() => setTheme("Funny")}
-                    className={"mx-2 hover:text-orange-300"}
-                  >
-                    Funny
-                  </button>
-              
+                <button
+                  onClick={() => setTheme("Funny")}
+                  className={"mx-2 hover:text-orange-300"}
+                >
+                  Funny
+                </button>
               </Menu.Item>
               <Menu.Item>
-           
-                  <button
-                    onClick={() => setTheme("Cute")}
-                    className={"mx-2 hover:text-orange-300"}
-                  >
-                    Cute
-                  </button>
-            
+                <button
+                  onClick={() => setTheme("Cute")}
+                  className={"mx-2 hover:text-orange-300"}
+                >
+                  Cute
+                </button>
               </Menu.Item>
               <Menu.Item>
                 <button
@@ -180,32 +172,31 @@ export const StoryForm = ({
   }
 
   return (
-    <div className="flex justify-start font-inter w-full sm:w-[60vw] lg:w-[36vw]">
+    <div className="flex justify-start w-full sm:w-[60vw] lg:w-[36vw] px-4 ">
       <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl w-full">
-        <div className=" text-orange-300 px-4 ">
+        <div className="text-orange-300 ">
           <h1 className="font-bold font-antiqua text-5xl ">Storytime AI</h1>
         </div>
-        <h3 className=" px-4  text-md font-light">
+        <h3 className="py-2 text-md font-light">
           Create stories with AI. What do you want to read about?
-          <a onClick={() => setUserPrompt("A lonely princess and a frog prince")}>
+          <a
+            onClick={() => setUserPrompt("A lonely princess and a frog prince")}
+          >
             {" "}
             A lonely princess and a wise frog prince?{" "}
           </a>
           <a onClick={() => setUserPrompt("A castle in the clouds")}>
             {" "}
-            A castle in the clouds?{" "}Bring your imagination to life!
+            A castle in the clouds? Bring your imagination to life!
           </a>
         </h3>
-        <div className="flex items-center justify-center px-4">
-          <hr className="h-px my-4 bg-yellow-600 border-0  w-full" />{" "}
-          <SparklesIcon className="h-6 w-6 mx-4 text-yellow-600" />{" "}
-          <hr className="h-px my-4 bg-yellow-600 border-0  w-full" />
+        <div className="flex items-center justify-center">
+          <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}
+          <SparklesIcon className="h-6 w-6 mx-4 text-orange-300" />{" "}
+          <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
-        <div className="mx-4 rounded-xl">
-          <label
-            htmlFor="prompt"
-            className="block text-sm py-2"
-          >
+        <div className="rounded-xl">
+          <label htmlFor="prompt" className="block text-orange-300 text-sm py-2">
             {"Create a story about..."}
           </label>
           <input
@@ -217,9 +208,9 @@ export const StoryForm = ({
             onChange={(e) => {
               setUserPrompt(e.target.value), setMessage("");
             }}
-            className="w-full  p-2   rounded outline-none text-black placeholder-gray-500 bg-white text-[16px]"
+            className="w-full p-2 rounded outline-none text-black placeholder-gray-500 bg-white text-[16px]"
           />
-          <div className="flex w-full justify-between items-center mb-2">
+          <div className="flex w-full justify-between items-center pb-2">
             <ThemeDropdown />
 
             <label
@@ -229,45 +220,36 @@ export const StoryForm = ({
                 )
               }
               htmlFor="prompt"
-              className="  text-md pt-2 text-orange-300 "
+              className="group text-md pt-2 text-orange-300 bg-transparent cursor-pointer"
             >
-              <p className="flex items-center text-sm cursor-pointer hover:text-amber-500">
+              <p className="flex items-center text-sm hover:text-amber-500">
                 Generate idea?{" "}
-                <span className="flex items-center justify-center hover:text-sky-900  hover:bg-orange-300 bg-sky-900  h-8 w-8 ml-1 font-bold border rounded-full border-orange-300 text-lg ">
-                  <LightBulbIcon className="h-5 w-5  " />
+                <span className="flex items-center justify-center bg-sky-900 h-8 w-8 ml-1 font-bold border rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
+                  <LightBulbIcon className="h-5 w-5" />
                 </span>
               </p>
             </label>
           </div>
         </div>
 
-        <div className="flex items-center text-[15px]">
-          {loading ? (
-            <button
-              type="submit"
-              className={
-                "w-full text-white px-4 py-2 m-4  rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center  border-stone-700"
-              }
-            >
-              Creating...
-              <PaintBrushIcon className="h-6 w-6 mx-2" />
-            </button>
-          ) : (
-            <button
-              type="submit"
-              className={
-                "w-full text-white px-4 py-2 mx-4 h-10 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center  border-stone-700"
-              }
-            >
-              Create
-              <PaintBrushIcon className="h-6 w-6 mx-2" />
-            </button>
-          )}
+        <div className="flex items-center text-[15px] gap-4">
+          <button
+            type="submit"
+            className={
+              loading
+                ? "w-full text-white py-2 rounded-md bg-indigo-400 hover:bg-indigo-500 flex justify-center border-stone-700"
+                : "w-full text-white py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center border-stone-700"
+            }
+          >
+            Create
+            <PaintBrushIcon className="h-6 w-6 mx-2" />
+          </button>
+
           {storyUnsaved && (
             <button
               onClick={handleOpen}
               className={
-                "w-full text-white px-4 py-2 m-4 h-10 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center  border-stone-700"
+                "w-full text-white py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center border-stone-700"
               }
             >
               View
