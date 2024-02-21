@@ -43,7 +43,7 @@ export const BookImage = ({
         {imageSrc && !imageLoadError ? (
           <Image
             alt="page-image"
-            style={{ borderRadius: "5px 5px 5px 5px", opacity: "0.85" }}
+            style={{ borderRadius: "5px 5px 5px 5px", opacity: "0.9" }}
             width={650}
             height={650}
             src={imageSrc}
@@ -72,55 +72,21 @@ export const BookImage = ({
        xl:w-1/2
        flex-1 "
     >
-     <div>
-
-  </div>
+      <div></div>
       <div className="m-4 xl:m-12 sm:rounded-tl-xl sm:rounded-bl-xl">
         {page == 6 ? (
           <div className="relative flex items-center justify-center font-antiqua glass-antiqua">
-              <Image
-      priority
-      src={tree}
-      alt="Follow us on Twitter"
-      className="font-antiqua glass-antiqua"
-      style={{fontFamily: "Glass Antiqua", fontWeight: "400", fontStyle: "normal"}}
-      
-    />
-
-            {/* <div className="absolute">
-              <svg  viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <style type="text/css">
-                    @import
-                    url('https://fonts.googleapis.com/css2?family=Glass+Antiqua&display=swap');
-                  </style>
-                </defs>
-                <path
-              
-                  id="circlePath"
-                  fill="none"
-                  strokeWidth=""
-                  stroke=""
-                  d="
-                    M -16, 23.9
-                    a 40,40 0 1,1 80,0
-                    a 40,40 0 1,1 -80,0
-                   "
-                />
-            
-                <text
-                  id="text"
-                  fontFamily="Glass Antiqua"
-                  fontSize="10"
-                  fontWeight="bold"
-                  fill="black"
-                >
-                  <textPath id="textPath" href="#circlePath">
-                    Storytime AI The best stories in the whole world!
-                  </textPath>
-                </text>
-              </svg>
-            </div> */}
+            <Image
+              priority
+              src={tree}
+              alt="Follow us on Twitter"
+              className="font-antiqua glass-antiqua"
+              style={{
+                fontFamily: "Glass Antiqua",
+                fontWeight: "400",
+                fontStyle: "normal",
+              }}
+            />
           </div>
         ) : (
           <ImageDisplay

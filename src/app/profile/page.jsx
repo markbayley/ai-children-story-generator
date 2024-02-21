@@ -46,9 +46,9 @@ const Profile = ({ user, setMessage }) => {
               <div className="relative aspect-square rounded-full w-8 mx-[2px]">
               <Image
                 src={user?.photoURL}
-                // sizes="(max-width: 768px) 100vw,
-                // (max-width: 1200px) 50vw,
-                // 33vw"
+                sizes="(max-width: 768px) 100vw,
+                (max-width: 1200px) 50vw,
+                33vw"
                 fill
                 alt="profile-image"
                 onError={handleImageError}
@@ -56,7 +56,7 @@ const Profile = ({ user, setMessage }) => {
               />
               </div>
             ) : (
-              <UserCircleIcon className="h-6 w-6" />
+              <><UserCircleIcon className="h-8 w-8" />Profile</>
             )}
             <span>{user?.displayName}</span>
             <ChevronDownIcon className="-mr-1 h-5 w-5" aria-hidden="true" />

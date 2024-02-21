@@ -1,6 +1,5 @@
 import Image from "next/image";
 import pic7 from "/public/pic7.jpg";
-import { TrashIcon } from "@heroicons/react/24/solid";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -85,36 +84,31 @@ export const StorySelector = ({
 
         {/* Title */}
         <div className="absolute bottom-0 left-0 h-1/6 z-10 text-lg capitalize md:text-sm ">
-          <h5 className="pr-2 p-1 flex h-full items-center justify-center rounded-r-full text-white  font-light bg-gradient-to-r from-sky-950 to-[#3c3232] rounded border-b-2 border-gray-900  drop-shadow-2xl">
-            {extractTitleFromStory(book.story) || "Untitled"}
+          <h5 className="pr-2 p-1 flex h-full w-full items-center justify-center rounded-r-full text-white  font-light bg-gradient-to-r from-sky-950 to-[#3c3232] rounded border-b-2 border-gray-900  drop-shadow-2xl">
+            {extractTitleFromStory(book?.story) || "Untitled"}
           </h5>
         </div>
         {/* Image */}
-        <div className="relative w-full aspect-square">
-          {book.imageUrls && book.imageUrls.length > 0 && !imageLoadError ? (
+        <div className="relative w-full h-full aspect-square flex items-center justify-center" >
+          {book.imageUrls && book.imageUrls.length > 0 && !imageLoadError && (
+           <>  
+            {/* {<div className="spinner w-10 h-10 absolute z-20"></div>} */}
             <Image
-               src={book.imageUrls[0] || pic7}
-              // src={pic7}
+               //src={book.imageUrls[0] || pic7}
+              src={pic7}
               fill
-              sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw,
-              33vw"
+              // sizes="(max-width: 768px) 100vw,
+              // (max-width: 1200px) 50vw,
+              // 33vw"
+              priority={true}
+              loading="eager"
               alt="preview"
               className="rounded-tr-xl"
               onError={handleImageError}
             />
-          ) : (
-            <Image
-              src={pic7}
-              loading="eager"
-              priority={true}
-              fill
-              sizes="(max-width: 768px) 100vw,
-            (max-width: 1200px) 50vw,
-            33vw"
-              alt="preview"
-              className="rounded-tr-xl relative"
-            />
+            </>
+       
+         
           )}
         </div>
       </>
@@ -161,9 +155,9 @@ export const StorySelector = ({
 
   return (
     <>
-      <div className=" text-2xl px-4 pb-40">
+      <div className=" text-2xl px-4 pb-40 mt-14 ">
         {/* All Stories Tab */}
-        <div className="font-sans text-sm w-full rounded-t-lg flex justify-end pr-8 gap-2">
+        <div className="font-sans text-sm w-full rounded-t-lg flex justify-end pr-8 gap-2 ">
           <button
             className={
               !myStoriesSelected
@@ -192,10 +186,10 @@ export const StorySelector = ({
           </button>
         </div>
 
-        <div className="">
+        <div className="" >
           {/* Map All User Stories */}
           {myStoriesSelected ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm mb-3  bg-sky-950 rounded-md  p-2 border-2 border-amber-500">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm min-h-[200px] mb-3 bg-sky-950 rounded-md  p-2 border-2 border-amber-500">
               {myBooks.map((book) => (
                 <div
                   onClick={() => handlePreviewMine(book.id)}
@@ -211,9 +205,9 @@ export const StorySelector = ({
               ))}
             </div>
           ) : (
-            <div className=" w-full relative bg-sky-950 rounded-md opacity-95 p-2 border-2 border-teal-500 ">
+            <div className=" w-full relative bg-sky-950 rounded-md opacity-95 p-2 border-2 border-teal-500">
               {/* Map All Stories */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm ">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm min-h-[200px]">
                 <button
                   onClick={handleSlider("left")}
                   className="h-full w-12 absolute -left-20 hover:text-gray-500 text-amber-500"

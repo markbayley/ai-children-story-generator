@@ -62,54 +62,9 @@ body, html {
    
      }
 
-.page {
-     -webkit-animation-duration: 30s;
-            animation-duration: 30s ;
-            -webkit-animation-fill-mode: both;
-            animation-fill-mode: both;
-            animation-iteration-count: infinite;
-}
-
-@keyframes wobble {
-  0% {
-    -webkit-transform: translateX(0%) skewY(0deg);
-}
- 15% {
-    -webkit-transform:  skewY(-1deg)  translateY(1%) ;
-}
-85% {
-    -webkit-transform: skewY(1deg)  translateY(-1%) ;
-}
-100% {
-    -webkit-transform: translateX(0%) skewY(0deg);
-}
-}
-
-.wobble {
-  -webkit-animation-name: wobble;
-  animation-name: wobble;
-}
 
 
-@keyframes wobble2 {
-  0% {
-    -webkit-transform: translateX(0%) skewY(0deg);
-}
- 30% {
-    -webkit-transform:  skewY(0deg) translateY(0%) ;
-}
-67% {
-    -webkit-transform: skewY(-1deg)  translateY(-1%) ;
-}
-100% {
-    -webkit-transform: translateX(0%) skewY(0deg);
-}
-}
 
-.wobble2 {
-  -webkit-animation-name: wobble2;
-  animation-name: wobble2;
-}
 
 .glass-antiqua {
   font-family: "Glass Antiqua", cursive;
@@ -145,8 +100,8 @@ svg {
 .spinner {
   display: grid;
   place-items: center;
-  width: 100px;
-  height: 100px;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   background: conic-gradient(
     from 180deg at 50% 50%,

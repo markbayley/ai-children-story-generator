@@ -36,6 +36,7 @@ export default function StoryPage() {
 
   const [page, setPage] = useState(0);
   const audioRef = useRef(null);
+  
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -62,14 +63,12 @@ export default function StoryPage() {
     // fetchAllUsers();
   }, [userId]); // Fetch books on component mount or when userId changes
 
-  useEffect(() => {
-    if (audio) {
-      audioRef.current.play();
-    }
-  }, [audio]);
+  // useEffect(() => {
+  //   if (audio || selectedBook?.audioURL) {
+  //     audioRef.current.play();
+  //   }
+  // }, [audio, selectedBook]);
 
-
-  
 
  
 
@@ -168,41 +167,41 @@ async function fetchImagesTwice(story) {
 
 }
 
+  const extractTitleFromStory = (storyText) => {
+    const titleEndIndex = storyText.indexOf("Once upon a time");
+    if (titleEndIndex === -1) {
+      // Handle the case where the phrase is not found
+      return "Untitled Story";
+    }
+    // Extract the first three words as the title
+    let title = storyText
+      .substring(0, titleEndIndex)
+      .trim()
+      .split(" ")
+      //.slice(0, 6)
+      .join(" ");
+
+     if (title == "") {
+     return prompt;
+     } else {
+      return title;
+     }
+  };
+
   // const extractTitleFromStory = (storyText) => {
   //   const titleEndIndex = storyText.indexOf("Once upon a time");
   //   if (titleEndIndex === -1) {
   //     // Handle the case where the phrase is not found
-  //     return "Untitled Story";
+  //     return "Untitled_" + new Date().getTime();
   //   }
   //   // Extract the first three words as the title
-  //   let title = storyText
+  //   return storyText
   //     .substring(0, titleEndIndex)
   //     .trim()
   //     .split(" ")
   //     .slice(0, 4)
   //     .join(" ");
-
-  //    if (title == "") {
-  //    return prompt;
-  //    } else {
-  //     return title;
-  //    }
   // };
-
-  const extractTitleFromStory = (storyText) => {
-    const titleEndIndex = storyText.indexOf("Once upon a time");
-    if (titleEndIndex === -1) {
-      // Handle the case where the phrase is not found
-      return "Untitled_" + new Date().getTime();
-    }
-    // Extract the first three words as the title
-    return storyText
-      .substring(0, titleEndIndex)
-      .trim()
-      .split(" ")
-      .slice(0, 4)
-      .join(" ");
-  };
 
   ///////////////// SAVE BOOK //////////////////
 
@@ -222,6 +221,7 @@ async function fetchImagesTwice(story) {
   // Function to upload images
   const uploadImages = async (imagesUnsaved, userId) => {
     const storage = getStorage();
+    setMessage({ text: "Creating Book Id...", type: "save" });
     const bookId = generateBookId();
     let imageUrls = [];
 
@@ -231,7 +231,7 @@ async function fetchImagesTwice(story) {
         storage,
         `images/${userId}/${bookId}/${uniqueImageId}`
       );
-      setMessage({ text: "Saving Images...", type: "save" });
+      setMessage({ text: "Saving Book...", type: "save" });
       await uploadBytes(imageRef, image); // Ensure the image is awaited
       const url = await getDownloadURL(imageRef);
       imageUrls.push(url);
@@ -242,6 +242,7 @@ async function fetchImagesTwice(story) {
 
   // Function to upload audio
 const uploadAudio = async (audioBlob, userId, bookId) => {
+  setMessage({ text: "Saving Audio...", type: "save" });
   const storage = getStorage();
   const audioRef = ref(storage, `audio/${userId}/${bookId}/storyAudio.mp3`);
   await uploadBytes(audioRef, audioBlob);
@@ -273,7 +274,7 @@ const uploadAudio = async (audioBlob, userId, bookId) => {
     // Convert the blob URL to a blob if necessary or directly upload if it's already a Blob
     const audioBlob = await fetch(audio).then(r => r.blob());
     const audioUrl = await uploadAudio(audioBlob, userId, bookId);
-
+    setMessage({ text: "Finishing Up...", type: "save" });
       // Now use bookId and imageUrls to save the book's data to Firestore
       await saveBookToFirestore(userId, storyUnsaved, imageUrls, audioUrl, bookId);
       // After saving the book, refetch the books list
@@ -526,6 +527,7 @@ const fetchBookToShare = async (bookId, userId) => {
     if (book) {
       setSelectedBook(book);
     }
+    setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
     setPage(0);
@@ -536,6 +538,7 @@ const fetchBookToShare = async (bookId, userId) => {
     if (book) {
       setSelectedBook(book);
     }
+    setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
     setPage(0);
@@ -562,7 +565,22 @@ const fetchBookToShare = async (bookId, userId) => {
   };
 
   console.log("audio", audio)
-console.log("themePage.js", theme)
+  console.log("selectedBook", selectedBook)
+// console.log("themePage.js", theme)
+
+useEffect(() => {
+  // Ensure the ref is attached and the source is available
+  if (audioRef.current && (selectedBook?.audioUrl || audio)) {
+    audioRef.current.src = selectedBook.audioUrl;
+    audioRef.current.load(); // Load the new source
+    audioRef.current.play().catch(error => console.error("Audio playback failed:", error));
+  }
+}, [selectedBook?.audioUrl, audio, audioRef]);
+
+
+
+
+console.log(audioRef.current); // Debugging line
 
   return (
     <>

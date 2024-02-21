@@ -91,9 +91,9 @@ export const StoryDisplay = ({
 
     if (currentPage == 0) {
       return (
-        <div className="flex flex-col justify-center items-center h-full">
+        <div className="flex flex-col justify-center items-center h-full px-6 pb-20">
           <h5 className={"text-2xl font-bold font-antiqua"}> The story of</h5>~
-          <h1 className="text-3xl xl:text-4xl 2xl:text-5xl font-bold capitalize font-antiqua pt-2">
+          <h1 className="text-3xl xl:text-4xl 2xl:text-5xl font-bold capitalize font-antiqua pt-2 text-center">
             {storySelected
               ? extractTitleFromStory(storySelected)
               : storyUnsaved
@@ -102,7 +102,7 @@ export const StoryDisplay = ({
                 // ? extractTitleFromStory(story)
                 "Once Upon A Time..."}
             <p
-              className={"text-right text-xl font-bold font-antiqua lowercase"}
+              className={"text-center xl:text-right text-xl font-bold font-antiqua lowercase"}
             >
               {" "}
               as told by{" "}
@@ -194,6 +194,7 @@ export const StoryDisplay = ({
                 audio={audio}
                 audioRef={audioRef}
                 page={page}
+                handleLikeBook={handleLikeBook}
               />
             </div>
           </div>

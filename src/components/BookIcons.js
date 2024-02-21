@@ -19,13 +19,13 @@ export const BookIcons = ({
   audioRef
 }) => {
   return (
-    <div className="z-10 right-6 lg:right-12 lg:pb-5 absolute flex flex-col justify-start md:justify-end items-center h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
+    <div className="z-10 right-6 lg:right-12 lg:pb-5 absolute flex flex-col justify-start md:justify-end items-center h-[32vh] md:h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
       {selectedBook?.id == undefined && (
         <div
           onClick={handleSaveBook}
           className={
-            !dismiss
-              ? "group relative text-white max-w-xs md:border-2 md:border-rose-500 text-sm md:text-rose-500 md:hover:bg-rose-500 md:hover:text-white rounded shadow-lg cursor-pointer md:bg-sky-950"
+            !dismiss && unsaved
+              ? "group relative text-white max-w-xs md:border-2 bg-rose-500 md:border-rose-500 text-sm md:text-rose-500 md:hover:bg-rose-500 md:hover:text-white rounded shadow-lg cursor-pointer md:bg-sky-950"
               : dismiss && unsaved
               ? "animate-pulse group relative text-white rounded hover:cursor-pointer border-2 border-rose-500 bg-rose-500"
               : "group relative text-white rounded hover:cursor-pointer border-2 border-rose-500 bg-rose-500"
@@ -41,7 +41,7 @@ export const BookIcons = ({
       <div
         onClick={() => setPage(5)}
         className={
-          page != 5
+          page != 6
             ? "group relative text-white md:text-amber-500 md:border-2 rounded md:border-amber-500 hover:cursor-pointer md:hover:bg-amber-500 bg-amber-500 md:hover:text-white md:bg-sky-950"
             : "group relative text-white rounded hover:cursor-pointer border-2 border-amber-500 bg-amber-500"
         }
@@ -127,7 +127,7 @@ export const BookIcons = ({
           }
         >
 
-{
+{/* {
           <div className="mr-2 hidden shadow-lg rounded-full border-2 border-stone-700 opacity-80">
             <audio
               ref={audioRef}
@@ -137,7 +137,7 @@ export const BookIcons = ({
               style={{ height: "40px", width:"75px", border: "2px" }}
             />
           </div>
-        }
+        } */}
 
 
 

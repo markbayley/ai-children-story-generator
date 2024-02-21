@@ -219,7 +219,7 @@ export const StoryForm = ({
             }}
             className="w-full  p-2   rounded outline-none text-black placeholder-gray-500 bg-white text-[16px]"
           />
-          <div className="flex w-full justify-between items-center ">
+          <div className="flex w-full justify-between items-center mb-2">
             <ThemeDropdown />
 
             <label
@@ -241,7 +241,7 @@ export const StoryForm = ({
           </div>
         </div>
 
-        <div className="flex text-[15px]">
+        <div className="flex items-center text-[15px]">
           {loading ? (
             <button
               type="submit"
@@ -256,7 +256,7 @@ export const StoryForm = ({
             <button
               type="submit"
               className={
-                "w-full text-white px-4 py-2 mx-4 my-2 font-sans rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center  border-stone-700"
+                "w-full text-white px-4 py-2 mx-4 h-10 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center  border-stone-700"
               }
             >
               Create
@@ -267,7 +267,7 @@ export const StoryForm = ({
             <button
               onClick={handleOpen}
               className={
-                "w-full text-white px-4 py-2 m-4 font-inter rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center  border-stone-700"
+                "w-full text-white px-4 py-2 m-4 h-10 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center  border-stone-700"
               }
             >
               View
