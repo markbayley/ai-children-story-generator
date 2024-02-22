@@ -25,6 +25,9 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config";
 import { FooterNav } from "./components/FooterNav";
+import React from 'react';
+
+
 
 export default function StoryPage() {
   const [userId, setUserId] = useState();
@@ -37,6 +40,8 @@ export default function StoryPage() {
 
   const [page, setPage] = useState(0);
   const audioRef = useRef(null);
+  const [audioPages, setAudioPages] = useState(0)
+  const [audioDuration, setAudioDuration] = useState(0)
   
 
   const [loading, setLoading] = useState(false);
@@ -45,6 +50,10 @@ export default function StoryPage() {
   const [dismiss, setDismiss] = useState(false);
   const [unsaved, setUnsaved] = useState(false);
   const [shared, setShared] = useState(false);
+
+  //Book Icons
+  const [deleting, setDeleting] =useState(false)
+  const [playing, setPlaying] =useState(false)
 
   const [myBooks, setMyBooks] = useState([]);
   const [allBooks, setAllBooks] = useState([]);
@@ -71,7 +80,9 @@ export default function StoryPage() {
   // }, [audio, selectedBook]);
 
 
- 
+  
+
+
 
   ////////////// CREATE BOOK ///////////////////
 
@@ -118,7 +129,7 @@ export default function StoryPage() {
   const allImages = await fetchImagesTwice(storyData.story);
   setImagesUnsaved(allImages);
   
-      setMessage({ text: "Images Finished!", type: "create" });
+      setMessage({ text: "Generating Audio", type: "create" });
 
       // Uncomment if you want to fetch audio
       // const audioUrl = await fetchAudio(storyData.story);
@@ -143,6 +154,8 @@ export default function StoryPage() {
       setMessage({ text: "Save Story", type: "save" });
       setLoading(false);
       setUnsaved(true);
+      
+      setUserPrompt("")
     } catch (error) {
       console.error("Error:", error);
       setMessage({ text: "No Credits!", type: "error" });
@@ -157,7 +170,7 @@ async function fetchImagesTwice(story) {
   const fetchPromise1 = fetchImages(story);
   const fetchPromise2 = fetchImages(story);
   const fetchPromise3 = fetchImages(story);
-
+  setMessage({ text: "Retrieving Images...", type: "create" });
   // Wait for both promises to resolve
   const results = await Promise.all([fetchPromise1, fetchPromise2, fetchPromise3]);
 
@@ -218,9 +231,10 @@ async function fetchImagesTwice(story) {
   const generateBookId = () => {
     return `book_${new Date().getTime()}`;
   };
-
+ 
   // Function to upload images
   const uploadImages = async (imagesUnsaved, userId) => {
+    setMessage({ text: "Uploading Images...", type: "create" });
     const storage = getStorage();
     setMessage({ text: "Creating Book Id...", type: "save" });
     const bookId = generateBookId();
@@ -243,7 +257,7 @@ async function fetchImagesTwice(story) {
 
   // Function to upload audio
 const uploadAudio = async (audioBlob, userId, bookId) => {
-  setMessage({ text: "Saving Audio...", type: "save" });
+  setMessage({ text: "Uploading Audio...", type: "save" });
   const storage = getStorage();
   const audioRef = ref(storage, `audio/${userId}/${bookId}/storyAudio.mp3`);
   await uploadBytes(audioRef, audioBlob);
@@ -260,7 +274,7 @@ const uploadAudio = async (audioBlob, userId, bookId) => {
     // if (myBooks.id)
     setProcessing(true);
     setDismiss(true);
-    setMessage({ text: "Saving Book...", type: "save" });
+    setMessage({ text: "Saving Images...", type: "save" });
     try {
       const validImages = imagesUnsaved.filter((image) => image != null); // Filter out undefined or null images
       const convertedImages = validImages.map((base64Image) =>
@@ -271,6 +285,7 @@ const uploadAudio = async (audioBlob, userId, bookId) => {
 
        // New: Upload the audio and get its URL
     // const audioUrl = await uploadAudio(blob, userId, bookId);
+    setMessage({ text: "Saving Audio...", type: "save" });
       // Assuming 'audio' state holds the blob URL of the audio
     // Convert the blob URL to a blob if necessary or directly upload if it's already a Blob
     const audioBlob = await fetch(audio).then(r => r.blob());
@@ -280,13 +295,17 @@ const uploadAudio = async (audioBlob, userId, bookId) => {
       await saveBookToFirestore(userId, storyUnsaved, imageUrls, audioUrl, bookId);
       // After saving the book, refetch the books list
       fetchUserBooks();
+      const book = myBooks.find((b) => b.id === bookId);
+      if (book) {
+        setSelectedBook(book);
+      }
+      setMessage({ text: "Book Saved!", type: "create" });
+      setUnsaved(false);
     } catch (error) {
       setMessage({ text: "Error Saving!", type: "save" });
       setProcessing(false);
     }
     setProcessing(false);
-    setMessage({ text: "Book Saved!", type: "create" });
-    setUnsaved(false);
   };
 
   const saveBookToFirestore = async (userId, storyUnsaved, imageUrls, audioUrl) => {
@@ -308,6 +327,7 @@ const uploadAudio = async (audioBlob, userId, bookId) => {
       createdAt: new Date(),
     };
     //console.log("Saving book with image URLs:", imageUrls);
+    setMessage({ text: "Storing Book...", type: "save" });
     await addDoc(collection(db, "books"), book);
   };
 
@@ -318,7 +338,7 @@ const uploadAudio = async (audioBlob, userId, bookId) => {
       );
       return null;
     }
-
+    setMessage({ text: "Converting Images...", type: "save" });
     const byteString = atob(base64);
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
@@ -332,12 +352,13 @@ const uploadAudio = async (audioBlob, userId, bookId) => {
 
   const fetchUserBooks = async () => {
     if (userId) {
+      //setMessage({ text: "Fetching Books...", type: "save" });
       const fetchedBooks = await getBooksForUser(userId);
       setMyBooks(fetchedBooks);
       //setMessage({text: "My Books Fetched!", type: "success"});
     }
   };
-
+ 
   const getBooksForUser = async (userId) => {
     const db = getFirestore();
     const q = query(collection(db, "books"), where("userId", "==", userId));
@@ -497,7 +518,7 @@ const fetchBookToShare = async (bookId, userId) => {
 
   const handleDeleteBook = async (bookId) => {
     setMessage({ text: "Deleting Book...", type: "delete" });
-    setDismiss(true);
+    setDeleting(true);
     try {
       await deleteBookFromFirestore(bookId);
 
@@ -506,6 +527,7 @@ const fetchBookToShare = async (bookId, userId) => {
       setMyBooks(updatedBooks);
     } catch (error) {
       setMessage({ text: "Delete Failed!", type: "delete" });
+      setDeleting(false)
       // Optionally handle the error, e.g., show an error message to the user
     }
     setMessage({ text: "Book Deleted", type: "delete" });
@@ -529,7 +551,11 @@ const fetchBookToShare = async (bookId, userId) => {
     const book = myBooks.find((b) => b.id === bookId);
     if (book) {
       setSelectedBook(book);
+      // if (audioRef && audioRef?.current != null) {
+      //   setPlaying(true)
+      // }
     }
+    setPlaying(true)
     //setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
@@ -540,7 +566,11 @@ const fetchBookToShare = async (bookId, userId) => {
     const book = allBooks.find((b) => b.id === bookId);
     if (book) {
       setSelectedBook(book);
+      // if (audioRef && audioRef?.current != null) {
+      //   setPlaying(true)
+      // }
     }
+    setPlaying(true)
     //setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
@@ -570,7 +600,7 @@ const fetchBookToShare = async (bookId, userId) => {
   console.log("audio", audio)
   console.log("selectedBook", selectedBook)
 // console.log("themePage.js", theme)
-
+console.log("myBooks", myBooks)
 useEffect(() => {
   // Ensure the ref is attached and the source is available
   if (audioRef?.current && (selectedBook?.audioUrl || audio)) {
@@ -586,11 +616,12 @@ useEffect(() => {
 
 
 
+
 console.log(audioRef.current); // Debugging line
 
   return (
-    <>
-      <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed min-h-screen overflow-hidden no-scroll ">
+      <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col min-h-screen overflow-hidden no-scroll ">
+        <main className="flex-grow">
         <StatusBar
           message={message}
           resetStory={resetStory}
@@ -607,8 +638,12 @@ console.log(audioRef.current); // Debugging line
           loading={loading}
           time={time}
           setTime={setTime}
+          audioRef={audioRef}
+          audioPages={audioPages}
+          playing={playing}
          
         />
+
 
         <div className="mx-0 md:mx-[10%] no-scroll pt-16 ">
           {!open ? (
@@ -624,6 +659,8 @@ console.log(audioRef.current); // Debugging line
                 theme={theme}
                 setTheme={setTheme}
               />
+
+              
 
               <StorySelector
                 myBooks={myBooks}
@@ -642,6 +679,8 @@ console.log(audioRef.current); // Debugging line
                 selectedBook={selectedBook}
                 user={user}
                 loading={loading}
+                playing={playing}
+                setPlaying={setPlaying}
               />
           
            
@@ -677,9 +716,19 @@ console.log(audioRef.current); // Debugging line
               setShow={setShow}
               userPrompt={userPrompt}
               theme={theme}
+              deleting={deleting}
+              playing={playing}
+              setPlaying={setPlaying}
+              setAudioPages={setAudioPages}
+              audioPages={audioPages}
+              audioDuration={audioDuration}
+              setAudioDuration={setAudioDuration}
+            
             />
           )}
         </div>
+        </main>
+        <footer>
         { !open &&
         <FooterNav
                 message={message}
@@ -690,8 +739,7 @@ console.log(audioRef.current); // Debugging line
                 setMessage={setMessage}
               />
         }
-    
+    </footer>
       </div>
-    </>
   );
 }

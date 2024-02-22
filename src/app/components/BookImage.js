@@ -42,6 +42,8 @@ export const BookImage = ({
         {<div className="spinner w-full h-full absolute"></div>}
         {imageSrc && !imageLoadError ? (
           <Image
+          priority={true}
+          loading="eager"
             alt="page-image"
             style={{ borderRadius: "5px 5px 5px 5px", opacity: "0.9" }}
             width={650}
@@ -77,10 +79,9 @@ export const BookImage = ({
         {page == 6 ? (
           <div className="relative flex items-center justify-center font-antiqua glass-antiqua">
             <Image
-              priority
               src={tree}
               alt="Follow us on Twitter"
-              className="font-antiqua glass-antiqua"
+              className="font-antiqua glass-antiqua opacity-70"
               style={{
                 fontFamily: "Glass Antiqua",
                 fontWeight: "400",

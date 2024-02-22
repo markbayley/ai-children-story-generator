@@ -42,32 +42,31 @@ export const StoryForm = ({
   ];
 
   const randomPlaces = [
-    "clouds",
     "forest",
     "village",
-    "pond",
     "woods",
+    "kingdom",
+    "adventure",
+    "pond",
     "castle",
     "oak tree",
     "spell",
     "wish",
     "dream",
     "picnic",
-    "adventure",
     "journey",
     "quest",
     "battle",
     "school",
     "land",
     "world",
-    "villain",
-    "kingdom",
   ];
 
   const randomAdjectives = [
     "enchanted",
     "amazing",
     "grumpy",
+    "secret",
     "forgetful",
     "eerie",
     "lost",
@@ -76,14 +75,10 @@ export const StoryForm = ({
     "fascinating",
     "curious",
     "peculiar",
-    "funny",
     "hilarious",
     "astounding",
-    "spooky",
-    "weird",
     "charming",
     "magic",
-    "secret",
     "bumbling",
   ];
 

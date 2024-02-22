@@ -18,7 +18,7 @@ export async function POST(req) {
         Give the story a three word title related to the ${prompt}.
         Do not write the word "Title". For example: "The Enchanted Forest" not "Title: The Enchanted Forest"
         After the title, always begin the story with "Once upon a time ".
-        Finish the end of the story with "~The End~"`,
+        Finish the end of the story with "The End"`,
       },
       {
         role: "user",

@@ -99,13 +99,13 @@ svg {
 .spinner {
   display: grid;
   place-items: center;
-  width: 3rem;
-  height: 3rem;
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
   background: conic-gradient(
     from 180deg at 50% 50%,
     rgba(82, 0, 255, 0) 0deg,
-    #5200ff 360deg
+    #14b8a6 360deg
   );
   animation: spin 2s linear;
   opacity:0;

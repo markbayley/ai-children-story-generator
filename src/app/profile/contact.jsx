@@ -9,6 +9,7 @@ const Contact = ({ setMessage }) => {
   const [content, setContent] = useState("");
 
   const handleSubmit = async (e) => {
+    setMessage({text: "Sending Email!", type: "info"});
     e.preventDefault(); // Prevent the default form submission behavior
     const db = getFirestore();
     // Ensure all fields are filled
@@ -32,7 +33,7 @@ const Contact = ({ setMessage }) => {
       setContent("");
 
       // Optionally set a success message
-      setMessage("Your message has been sent successfully!");
+      setMessage({text: "Message Sent!", type: "info"});
       console.log("Document written with ID: ", docRef.id);
     } catch (error) {
       console.error("Error adding document: ", error);

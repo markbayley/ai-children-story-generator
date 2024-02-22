@@ -38,6 +38,7 @@ const Settings = ({ setMessage }) => {
   };
 
   const handleUpdateProfile = async () => {
+    setMessage({text: "Updating Profile!", type: "info"});
     if (imageFile) {
       const uploadedPhotoURL = await uploadImage();
       if (uploadedPhotoURL) {

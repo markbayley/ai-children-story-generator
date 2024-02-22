@@ -28,6 +28,9 @@ export const StatusBar = ({
   selectedBook,
   userId,
   loading,
+  audioRef,
+  audioPages,
+  playing,
 }) => {
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);
@@ -78,15 +81,17 @@ export const StatusBar = ({
 
   /////
 
+  console.log("audioRef", audioRef)
+
   return (
     <div className=" cursor-pointer text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
       {/* Share Icons */}
-      <div className="w-1/3 group relative">
+      <div className="w-1/6 md:w-1/3 group relative border">
         <div>
           {show ? (
             <div>
               <MinusIcon
-                className="h-12 w-12 border-2 rounded-full p-3 fade-in"
+                className="max-w-xs h-12 w-12 border-2 rounded-full p-3 fade-in"
                 onClick={() => setShow(false)}
               />
               <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
@@ -99,7 +104,7 @@ export const StatusBar = ({
                 Open
               </span>
               <ShareIcon
-                className="h-12 w-12 border-2 rounded-full p-3 fade-in  shadow-md  hover:shadow-lg hover:shadow-indigo-500/50 shadow-indigo-500/30 "
+                className="max-w-xs h-12 w-12 border-2 rounded-full p-3 fade-in  shadow-md  hover:shadow-lg hover:shadow-indigo-500/50 shadow-indigo-500/30 "
                 onClick={() => setShow(true)}
               />
             </div>
@@ -170,7 +175,7 @@ export const StatusBar = ({
       )}
 
       {/* Message Feature */}
-      <div className="flex w-1/3 justify-center">
+      <div className="flex  justify-start border">
         {message && message.text != "" && (
           <div
             onClick={() => setMessage({ text: "", type: "" })}
@@ -180,12 +185,29 @@ export const StatusBar = ({
           >
             <InformationCircleIcon className="h-6 w-6 mx-2" /> {message.text}
             <XMarkIcon className="h-4 w-4 absolute top-1 right-2  " />
+            {/* {"Reading Page:" + Math.round(audioRef?.current?.currentTime/audioRef?.current?.duration*audioPages)} */}
+          </div>
+        )}
+
+        {audioRef && audioRef.current != null  && (
+          <div
+            onClick={() => setMessage({ text: "", type: "" })}
+            className={`border-2 border-blue-500 pr-7 flex relative items-center text-sm md:text-[16px] cursor-pointer text-blue-500 hover:text-gray-500 hover:border-gray-500 rounded-full rounded-bl-lg  bg-gray-800 shadow-lg `}
+          >
+            <InformationCircleIcon className="h-6 w-6 mx-2" />{" "}
+            {"Playing Page xyxd" +
+              Math.round(
+                (audioRef?.current?.currentTime / audioRef?.current?.duration) *
+                  audioPages
+              )}
+            <XMarkIcon className="h-4 w-4 absolute top-1 right-2  " />
+            {/* {"Reading Page:" + Math.round(audioRef?.current?.currentTime/audioRef?.current?.duration*audioPages)} */}
           </div>
         )}
       </div>
 
       {/* Account Status */}
-      <div className="flex justify-end w-1/3">
+      <div className="flex justify-end w-1/6 sm:w-1/3">
         {user ? (
           <Profile
             user={user}

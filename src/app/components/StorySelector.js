@@ -20,7 +20,9 @@ export const StorySelector = ({
   setCurrentSliceIndex,
   selectedBook,
   user,
-  loading
+  loading,
+  playing,
+  setPlaying
 }) => {
   const PreviewContent = ({ book }) => {
     const [imageLoadError, setImageLoadError] = useState(false);
@@ -32,6 +34,14 @@ export const StorySelector = ({
     useEffect(() => {
       setImageLoadError(false);
     }, [user]);
+
+    const formatTitle = () => {
+       let title = extractTitleFromStory(book?.story)
+       if ( title.length > 25) {
+        return title.substr(0, 25)+"..."
+       }
+       return title
+    }
 
     return (
    
@@ -86,9 +96,9 @@ export const StorySelector = ({
         </div>
 
         {/* Title */}
-        <div className="absolute bottom-0 left-0 h-1/6 z-10 text-lg capitalize md:text-sm ">
-          <h5 className="pr-2 p-1 flex h-full w-full items-center justify-center rounded-r-full text-white  font-light bg-gradient-to-r from-sky-950 to-[#3c3232] rounded border-b-2 border-gray-900  drop-shadow-2xl">
-            {extractTitleFromStory(book?.story) || "Untitled"}
+        <div  className="absolute whitespace-nowrap bottom-0 left-0 h-1/6 z-10 max-w-fit capitalize overflow-x-hidden">
+          <h5  className="pr-2 p-1 flex h-full w-full items-center justify-center text-xs rounded-r-full text-white font-light bg-gradient-to-r from-sky-950 to-[#3c3232] rounded border-b-2 border-gray-900 drop-shadow-2xl">
+            { formatTitle(book?.story) || "Untitled"}
           </h5>
         </div>
         {/* Image */}
@@ -160,7 +170,7 @@ export const StorySelector = ({
 
   return (
     <>
-      <div className=" text-2xl px-4 py-16 fade-in">
+      <div className=" text-2xl px-4 py-7 fade-in">
         {/* All Stories Tab */}
         <div className="font-sans text-sm w-full rounded-t-lg flex justify-end pr-8 gap-2 ">
           <button
@@ -201,8 +211,8 @@ export const StorySelector = ({
                   key={book.id}
                   className={
                     selectedBook?.id != book?.id
-                      ? "relative flex items-end justify-center cursor-pointer fade-in border-2 border-[#15161b] hover:border-2 transition ease-in-out hover:border-amber-500 duration-200 rounded-tr-xl"
-                      : "relative flex items-end justify-center cursor-pointer fade-in border-2 border-amber-500 hover:border-2 transition ease-in-out hover:border-amber-500 duration-200 rounded-tr-xl "
+                      ? "relative flex items-end justify-center cursor-pointer fade-in border-2 border-gray-900 shadow-md transition ease-in-out hover:shadow-amber-500 duration-200 rounded-tr-xl "
+                      : "relative flex items-end justify-center cursor-pointer fade-in border-2 border-gray-900 shadow-md shadow-amber-500 transition ease-in-out hover:shadow-amber-500 duration-200 rounded-tr-xl"
                   }
                 >
                   <PreviewContent book={book} />
@@ -213,7 +223,7 @@ export const StorySelector = ({
           
             <div className=" w-full relative bg-sky-950 rounded-md opacity-95 p-2 border-2 border-teal-500">
               {/* Map All Stories */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm min-h-[190px]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 text-sm min-h-[180px]">
                 <button
                   onClick={handleSlider("left")}
                   className="h-full w-12 absolute -left-20 hover:text-gray-500 text-amber-500"

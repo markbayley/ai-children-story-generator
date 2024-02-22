@@ -47,8 +47,9 @@ export const FooterNav = ({
   };
 
   return (
-    <div className=" bottom-0 px-4  py-4 flex justify-between  text-xs text-white w-full z-20 lg:px-[12%] bg-sky-950 ">
-      <div className="flex flex-col justify-between leading-8 cursor-pointer">
+    <div className="bottom-0  px-4  py-3 flex justify-between  text-xs text-white w-full z-20 lg:px-[12%] bg-sky-950 opacity-90 ">
+     
+      <div className="flex flex-col lg:flex-row lg:w-1/3 xl:justify-around items-start leading-8 cursor-pointer">
         <div className="flex items-center  hover:text-gray-300">
           <EnvelopeIcon className="h-5 w-5 mr-2" /> Contact
         </div>
@@ -60,26 +61,26 @@ export const FooterNav = ({
         </div>
       </div>
 
-      <div className="hidden lg:flex flex-col justify-start leading-8 cursor-pointer">
+      <div className="flex flex-col lg:flex-row xl:w-1/4  xl:justify-around justify-start leading-8 cursor-pointer">
         <div className="hover:text-gray-300">Privacy</div>
         <div className="hover:text-gray-300">About Us</div>
         <div className="hover:text-gray-300">Terms & Conditions</div>
       </div>
 
-      <div className="flex flex-col justify-between">
-        <div className="flex  leading-8 justify-between items-start w-full p-1 lg:w-28  cursor-pointer">
-          <div className="flex items-center  hover:text-gray-300">
+      <div className="flex flex-col lg:flex-row lg:w-1/5  justify-around">
+        {/* <div className="flex  leading-8 justify-between items-start w-full p-1 lg:w-28  cursor-pointer"> */}
+          <div className="flex items-center  hover:text-gray-300 cursor-pointer">
             <FaFacebook className="h-5 w-5" />
           </div>
-          <div className="flex items-center  hover:text-gray-300">
+          <div className="flex items-center  hover:text-gray-300 cursor-pointer">
             <FaInstagram className="h-5 w-5" />
           </div>
-          <div className="flex items-center  hover:text-gray-300">
+          <div className="flex items-center  hover:text-gray-300 cursor-pointer">
             <FaTwitter className="h-5 w-5" />
           </div>
-        </div>
+        {/* </div> */}
 
-        <div className="w-full p-1 mb-1 ">InblockDesign &#xa9;2024</div>
+        {/* <div className="w-full p-1 mb-1 ">InblockDesign &#xa9;2024</div> */}
       </div>
     </div>
   );

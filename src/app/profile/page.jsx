@@ -15,6 +15,7 @@ import { Fragment, useState, useEffect } from "react";
 import Settings from "./settings";
 import Image from "next/image";
 import Contact from "./contact";
+import { CgProfile } from "react-icons/cg";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -42,7 +43,7 @@ const Profile = ({ user, setMessage }) => {
     <>
       <Menu as="div" className="relative inline-block text-left">
         {/* <div className="hover:text-gray-300 bg-sky-950  text-white"> */}
-          <Menu.Button className="hover:bg-sky-900 bg-sky-950 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
+          <Menu.Button className="max-w-xs hover:bg-sky-900 bg-sky-950 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
             {user && user?.photoURL && !imageLoadError ? (
               // <div className="relative aspect-square rounded-full w-8 mx-[2px]">
               <Image
@@ -55,14 +56,14 @@ const Profile = ({ user, setMessage }) => {
                 height={100}
                 alt="profile-image"
                 onError={handleImageError}
-                className="rounded-full h-8 w-8 object-cover"
+                className="max-w-xs rounded-full h-8 w-8 object-cover"
               />
               // </div>
             ) : (
-            <UserCircleIcon className="h-8 w-8" />
+            <UserCircleIcon className="max-w-xs h-8 w-8" />
             )}
             <>
-            {user?.displayName ? user?.displayName : "Profile"}
+            <span className="hidden sm:flex">{user?.displayName ? user?.displayName : "Profile"}</span>
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
             </>
           </Menu.Button>

@@ -13,56 +13,100 @@ const BookControls = ({
   audio,
   audioRef,
   handleLikeBook,
+  setPlaying,
+  setAudioDuration,
+  audioDuration,
+  setMessage,
+  audioPages
 }) => {
   console.log("audioBC", selectedBook, "audio", audio, "audioRef", audioRef);
 
- 
   const handlePage = (direction) => {
     let max = 6;
     let min = 0;
-    const audio = audioRef?.current;
-    
+    // const audio = audioRef?.current;
+
     if (direction === "down" && page > min) {
       setPage(page - 1);
-      audio.currentTime = page * 35;
+      //audio.currentTime = page * 35;
     } else if (direction === "up" && page < max) {
       setPage(page + 1);
-      if (page == 0){
-        return
-      } else {
-        audio.currentTime = page * 35;
-      }
+      // if (page == 0) {
+      //   return;
+      // } else {
+      //   audio.currentTime = page * 35;
+      // }
+    }
+  };
+
+  // const getAudioPage = () => {
+  //   console.log("audioPage",audioDuration/audioRef.currentTime)
+  // }
+
+  const onLoadedMetadata = () => {
+    if (audioRef.current) {
+      setAudioDuration(audioRef.current.duration);
+      // getAudioPage()
+      //setMessage({ text: audioRef?.current?.currentTime/audioDuration*audioPages, type: "create" });
+      console.log("audioDuration", audioDuration)
       
     }
   };
 
-  const onLoadedMetadata = () => {
-    if (audioRef.current) {
-        console.log(audioRef.current.duration);
-    }
-};
+  console.log("audioPage",  audioRef?.current?.currentTime/audioDuration*audioPages)
+  console.log("audioTime",  audioRef?.current?.currentTime/audioDuration*audioPages)
+  // const [isPaused, setIsPaused] = useState(false);
+
+  // const handlePause = () => {
+  //   const synth = window.speechSynthesis;
+
+  //   synth.pause();
+
+  //   setIsPaused(true);
+  // };
+
 
   return (
-    <div className="flex-1 flex pt-3 ">
-      <div className="w-full flex items-end justify-end">
-        
-
-
-        <div className="w-full">
-     
+    <div className="flex-1 flex mt-4">
+      <div className="w-full flex items-end justify-between">
+        <div onClick={() =>setPlaying(!playing)} className="w-2/3 flex justify-start items-end  mt-1 shadow-md rounded-full "> 
+          {(selectedBook?.audioUrl || audio) &&
           <audio
             ref={audioRef}
             controls
             src={selectedBook?.audioUrl || audio}
             className="w-full"
-            style={{ height: "45px", border: "2px" }}
+            style={{ height: "40px", border: "2px" }}
             onLoadedMetadata={onLoadedMetadata}
+            
           />
+}
         </div>
 
+        <div className="w-1/2 flex justify-end items-end gap-2">
+          <button onClick={() => handlePage("down")} className="">
+            <ChevronLeftIcon className="cursor-pointer h-10 w-10 p-1 border-2 rounded  border-stone-700 hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tl-full rounded-bl-full" />
+          </button>
+          <button
+            type="submit"
+            className="flex items-center justify-center font-bold transition ease-in-out cursor-pointer h-10 w-10 p-1 border-2 rounded border-stone-800 shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30"
+          >
+            {page}
+          </button>
+         
+          <button onClick={() => handlePage("up")} type="submit">
+            <ChevronRightIcon className="transition ease-in-out cursor-pointer h-10 w-10 p-1 border-2 rounded border-stone-700  hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tr-full rounded-br-full" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-        <div className="w-2/3 md:w-1/2 text-right flex items-center justify-end">
-          {/* {selectedBook?.userId !== userId &&
+export default BookControls;
+
+{
+  /* {selectedBook?.userId !== userId &&
             selectedBook?.userId != undefined && (
               <button
                 onClick={() => handleLikeBook(selectedBook?.id, userId)}
@@ -81,31 +125,5 @@ const BookControls = ({
                   {selectedBook?.likes || 0}
                 </span>
               </button>
-            )} */}
-          <button
-            onClick={() => handlePage("down")}
-            className="transition ease-in-out px-3 py-2 text-stone-950 bg-transparent rounded-tl-full rounded-bl-full hover:bg-orange-400 shadow-lg border-2 border-stone-500"
-          >
-            <ChevronLeftIcon className="h-6 w-6" />
-          </button>
-
-          <button
-            type="submit"
-            className="transition ease-in-out px-4 py-2 mx-1  text-stone-950 bg-transparent font-sans font-semibold rounded hover:bg-orange-400 shadow-lg border-2 border-stone-500"
-          >
-            {page}
-          </button>
-          <button
-            onClick={() => handlePage("up")}
-            type="submit"
-            className="transition ease-in-out px-3 py-2  text-stone-950 bg-transparent rounded-tr-full rounded-br-full hover:bg-orange-400 shadow-lg border-2 border-stone-500"
-          >
-            <ChevronRightIcon className="h-6 w-6" />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default BookControls;
+            )} */
+}
