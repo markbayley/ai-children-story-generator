@@ -38,7 +38,7 @@ export const BookImage = ({
         : getDefaultImage(page);
 
     return (
-      <div className="flex justify-center items-center relative fade-in ">
+      <div className="flex justify-center items-center relative fade-in border-2 border-stone-700 rounded-md">
         {<div className="spinner w-full h-full absolute"></div>}
         {imageSrc && !imageLoadError ? (
           <Image
@@ -46,8 +46,8 @@ export const BookImage = ({
           loading="eager"
             alt="page-image"
             style={{ borderRadius: "5px 5px 5px 5px", opacity: "0.9" }}
-            width={650}
-            height={650}
+            width={950}
+            height={950}
             src={imageSrc}
             onError={handleImageError}
           />
@@ -75,7 +75,7 @@ export const BookImage = ({
        flex-1 "
     >
       <div></div>
-      <div className="m-4 xl:m-12 sm:rounded-tl-xl sm:rounded-bl-xl">
+      <div className="m-4 xl:m-12 3xl:m-20 sm:rounded-tl-xl sm:rounded-bl-xl">
         {page == 6 ? (
           <div className="relative flex items-center justify-center font-antiqua glass-antiqua">
             <Image

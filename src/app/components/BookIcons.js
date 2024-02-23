@@ -33,7 +33,7 @@ export const BookIcons = ({
   console.log("playing", playing)
 
   return (
-    <div className="z-10 right-6 lg:right-12 lg:pb-5 absolute flex flex-col justify-start md:justify-end items-center h-[32vh] md:h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
+    <div className="z-10 right-6 lg:right-12 3xl:right-24 lg:pb-5 absolute flex flex-col justify-start md:justify-end items-center h-[32vh] md:h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
       {selectedBook?.id == undefined && (
         <div
           onClick={handleSaveBook}
@@ -45,7 +45,7 @@ export const BookIcons = ({
               : "group relative text-white rounded hover:cursor-pointer border-2 border-rose-500 bg-rose-500"
           }
         >
-          <ArrowUpTrayIcon className="h-9 w-9 p-1" />
+          <ArrowUpTrayIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
             {unsaved ? "Save" : dismiss && unsaved ? "Saving..." : "Saved"}
           </span>
@@ -61,7 +61,7 @@ export const BookIcons = ({
               : "group relative bg-rose-500 border-2 border-rose-500 text-white rounded cursor-pointer"
           }
         >
-          <TrashIcon className="h-9 w-9 p-1" />
+          <TrashIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
             {!deleting ? "Delete" : "Deleting"}
           </span>
@@ -77,15 +77,15 @@ export const BookIcons = ({
               : "group relative text-white md:text-teal-500 border-2 rounded md:border-teal-500 hover:cursor-pointer  md:hover:bg-teal-500 bg-teal-500 md:hover:text-white md:bg-sky-950"
           }
         >
-          <HandThumbUpIcon className="h-9 w-9  p-1" />
+          <HandThumbUpIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
             {selectedBook?.likedBy?.includes(userId) ? "Liked" : "Like"}
           </span>
           <span
             className={
               selectedBook?.likedBy?.includes(userId)
-                ? "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-teal-500 border-2 rounded-bl-xl text-white rounded-full "
-                : "absolute -top-3 -right-6 px-2 font-sans  text-sm  border-2 border-teal-500 rounded-bl-xl text-teal-500 rounded-full md:bg-sky-950"
+                ? "absolute -top-3 -right-6 px-2 font-sans  text-sm 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-teal-500 border-2 rounded-bl-xl text-white rounded-full "
+                : "absolute -top-3 -right-6 px-2 font-sans  text-sm 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 border-2 border-teal-500 rounded-bl-xl text-teal-500 rounded-full md:bg-sky-950"
             }
           >
             {selectedBook?.likes || 0}
@@ -104,15 +104,15 @@ export const BookIcons = ({
             : "group relative text-white md:text-indigo-500 md:border-2 rounded md:border-indigo-500 hover:cursor-pointer md:hover:bg-indigo-500 bg-indigo-500 md:hover:text-white md:bg-sky-950"
         }
       >
-        <ShareIcon className="h-9 w-9 p-1" />
+        <ShareIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
         <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
           {selectedBook?.sharedBy?.includes(userId) ? "Shared" : "Share"}
         </span>
         <span
           className={
             selectedBook?.sharedBy?.includes(userId)
-              ? "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-indigo-500 border-2  rounded-bl-xl text-white rounded-full"
-              : "absolute -top-3 -right-6 px-2 font-sans  text-sm bg-sky-950  border-2 border-indigo-500 rounded-bl-xl text-indigo-500 rounded-full"
+              ? "absolute -top-3 -right-6 px-2 font-sans  text-sm 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-indigo-500 border-2  rounded-bl-xl text-white rounded-full"
+              : "absolute -top-3 -right-6 px-2 font-sans  text-sm 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-sky-950  border-2 border-indigo-500 rounded-bl-xl text-indigo-500 rounded-full"
           }
         >
           {selectedBook?.shares || 0}
@@ -127,7 +127,7 @@ export const BookIcons = ({
             : "group relative text-white rounded hover:cursor-pointer border-2 border-amber-500 bg-amber-500"
         }
       >
-        <EyeIcon className="h-9 w-9 p-1" />
+        <EyeIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
         <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
           {page != 5 ? "Reading" : "Reads"}
         </span>
@@ -158,9 +158,9 @@ export const BookIcons = ({
         } */}
 
           {!playing ? (
-            <SpeakerXMarkIcon className="h-9 w-9 p-1" />
+            <SpeakerXMarkIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
           ) : (
-            <SpeakerWaveIcon className="h-9 w-9 p-1" />
+            <SpeakerWaveIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
           )}
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
             {!playing ? "Play" : "Mute"}

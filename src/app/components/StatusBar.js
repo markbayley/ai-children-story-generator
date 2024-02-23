@@ -31,6 +31,7 @@ export const StatusBar = ({
   audioRef,
   audioPages,
   playing,
+  open,
 }) => {
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);
@@ -40,13 +41,13 @@ export const StatusBar = ({
       case "save":
         return "text-rose-500";
       case "like":
-        return "text-teal-500";
+        return "text-amber-500";
       case "delete":
         return "text-rose-500";
       case "error":
         return "text-rose-500";
       case "info":
-        return "text-teal-500";
+        return "text-amber-500";
       case "share":
         return "text-indigo-500";
       case "create":
@@ -81,17 +82,17 @@ export const StatusBar = ({
 
   /////
 
-  console.log("audioRef", audioRef)
+  console.log("audioRef", audioRef);
 
   return (
-    <div className=" cursor-pointer text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
+    <div className=" cursor-pointer text-white p-2 flex justify-between text-sm 3xl:p-6 fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
       {/* Share Icons */}
-      <div className="w-1/6 md:w-1/3 group relative border">
+      <div className="w-1/6 md:w-1/3 group flex items-center justify-start relative ">
         <div>
           {show ? (
             <div>
               <MinusIcon
-                className="max-w-xs h-12 w-12 border-2 rounded-full p-3 fade-in"
+                className="max-w-xs h-12 w-12 3xl:h-16 3xl:w-16 p-3 ring-1 ring-inset ring-gray-300 rounded-full fade-in bg-sky-950 hover:bg-sky-900"
                 onClick={() => setShow(false)}
               />
               <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
@@ -104,7 +105,7 @@ export const StatusBar = ({
                 Open
               </span>
               <ShareIcon
-                className="max-w-xs h-12 w-12 border-2 rounded-full p-3 fade-in  shadow-md  hover:shadow-lg hover:shadow-indigo-500/50 shadow-indigo-500/30 "
+                className="h-12 w-12 3xl:h-16 3xl:w-16 p-3 ring-1 ring-inset ring-gray-300 rounded-full fade-in shadow-md hover:shadow-lg hover:bg-sky-900 hover:shadow-indigo-500/50 shadow-indigo-500/30 bg-sky-950"
                 onClick={() => setShow(true)}
               />
             </div>
@@ -113,7 +114,7 @@ export const StatusBar = ({
       </div>
 
       {show && (
-        <div className="backdrop-blur-md bg-sky-950/30 md:bg-transparent l p-2 lg:p-1 fade-in z-10 left-1 lg:left-2 top-16 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-8 w-auto mt-2  ">
+        <div className="backdrop-blur-md bg-sky-950/30 md:bg-transparent  p-2 lg:p-1 fade-in z-10 left-1 lg:left-2 3xl:left-6 top-16 3xl:top-28 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-8 3xl:gap-12 w-auto mt-2  ">
           <a
             onClick={() => handleShareBook(selectedBook?.id, userId)}
             className={
@@ -122,7 +123,7 @@ export const StatusBar = ({
                 : "group max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             }
           >
-            <FaInstagram className="h-9 w-9 p-2" />
+            <FaInstagram className="h-9 w-9 p-1 3xl:h-12 3xl:w-12" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Instagram
             </span>
@@ -134,7 +135,7 @@ export const StatusBar = ({
             className="group max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-            <FaFacebook className="h-9 w-9 p-2" />
+            <FaFacebook className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Facebook
             </span>
@@ -146,7 +147,7 @@ export const StatusBar = ({
             className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-            <FaTwitter className="h-9 w-9 p-2" />
+            <FaTwitter className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Twitter
             </span>
@@ -156,7 +157,7 @@ export const StatusBar = ({
             className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-            <ShareIcon className="h-9 w-9 p-2" />
+            <ShareIcon className="h-9 w-9 p-1 3xl:h-12 3xl:w-12" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Share
             </span>
@@ -166,7 +167,7 @@ export const StatusBar = ({
             className="group  max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-            <ArrowPathIcon className="h-9 w-9 p-2" />
+            <ArrowPathIcon className="h-9 w-9 p-1 3xl:h-12 3xl:w-12" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Reset
             </span>
@@ -175,39 +176,49 @@ export const StatusBar = ({
       )}
 
       {/* Message Feature */}
-      <div className="flex  justify-start border">
-        {message && message.text != "" && (
-          <div
-            onClick={() => setMessage({ text: "", type: "" })}
-            className={` pr-7 flex relative items-center text-sm md:text-[16px] cursor-pointer  hover:text-gray-500 hover:border-gray-500 ${messageColor(
-              message.type
-            )} rounded-full rounded-bl-lg  bg-gray-800 shadow-lg `}
-          >
-            <InformationCircleIcon className="h-6 w-6 mx-2" /> {message.text}
-            <XMarkIcon className="h-4 w-4 absolute top-1 right-2  " />
-            {/* {"Reading Page:" + Math.round(audioRef?.current?.currentTime/audioRef?.current?.duration*audioPages)} */}
-          </div>
-        )}
+      <div className="flex justify-center md:w-1/3 ">
 
-        {audioRef && audioRef.current != null  && (
+
+        {message && message.text != "" ? (
           <div
             onClick={() => setMessage({ text: "", type: "" })}
-            className={`border-2 border-blue-500 pr-7 flex relative items-center text-sm md:text-[16px] cursor-pointer text-blue-500 hover:text-gray-500 hover:border-gray-500 rounded-full rounded-bl-lg  bg-gray-800 shadow-lg `}
+            className={` pr-8 flex relative items-center text-sm md:text-[16px]  cursor-pointer ${messageColor(
+              message.type
+            )} rounded-full rounded-bl-lg hover:text-inherit hover:bg-sky-900  bg-sky-950 shadow-lg `}
           >
-            <InformationCircleIcon className="h-6 w-6 mx-2" />{" "}
-            {"Playing Page xyxd" +
-              Math.round(
-                (audioRef?.current?.currentTime / audioRef?.current?.duration) *
-                  audioPages
-              )}
-            <XMarkIcon className="h-4 w-4 absolute top-1 right-2  " />
-            {/* {"Reading Page:" + Math.round(audioRef?.current?.currentTime/audioRef?.current?.duration*audioPages)} */}
+            <InformationCircleIcon className="h-6 w-6 mx-2 3xl:h-9 3xl:w-9" />{" "}
+            <span className="text-sm font-semibold 3xl:text-xl 3xl:p-4">
+              {message.text}
+            </span>
+            <XMarkIcon className="h-4 w-4 absolute top-1 right-2  3xl:h-6 3xl:w-6 mr-1" />
           </div>
-        )}
+        ) : "" }
+
+        {audioRef && audioRef.current != null && open && (
+          <div
+            onClick={() => setMessage({ text: "", type: "" })}
+            className={` pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer text-blue-500  hover:bg-sky-900 rounded-full rounded-bl-lg  bg-sky-950 shadow-lg `}
+          >
+            <InformationCircleIcon className="h-6 w-6 mx-2  3xl:h-9 3xl:w-9" />{" "}
+            <span className="text-sm font-semibold 3xl:text-xl 3xl:py-4 text-left">
+              {selectedBook?.audioUrl == undefined ? "No Audio" : playing 
+                ? "Playing Page " +
+                  Math.round(
+                    (audioRef?.current?.currentTime /
+                      audioRef?.current?.duration) *
+                      audioPages
+                  )
+                 : "Audio Paused"}
+            </span>
+            <XMarkIcon className="h-4 w-4 absolute top-1 right-2 3xl:h-6 3xl:w-6 mr-1" />
+          </div>
+        ) }
+
+
       </div>
 
       {/* Account Status */}
-      <div className="flex justify-end w-1/6 sm:w-1/3">
+      <div className="md:w-1/3 md:flex md:justify-end">
         {user ? (
           <Profile
             user={user}

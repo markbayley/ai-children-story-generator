@@ -8,10 +8,12 @@ module.exports = {
 
   theme: {
     extend: {
-      fontFamily: {
-       
+      fontFamily: { 
         antiqua: ["var(--font-antiqua)"],
-    
+      },
+      screens: {
+        '3xl': '2560px',
+        // => @media (min-width: 1280px) { ... }
       },
     },
   },

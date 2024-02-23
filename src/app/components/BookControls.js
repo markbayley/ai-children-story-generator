@@ -67,7 +67,7 @@ const BookControls = ({
 
 
   return (
-    <div className="flex-1 flex mt-4">
+    <div className="flex-1 flex mt-4 items-center pb-5 3xl:p-8 3xl:mb-2 ">
       <div className="w-full flex items-end justify-between">
         <div onClick={() =>setPlaying(!playing)} className="w-2/3 flex justify-start items-end  mt-1 shadow-md rounded-full "> 
           {(selectedBook?.audioUrl || audio) &&
@@ -75,27 +75,27 @@ const BookControls = ({
             ref={audioRef}
             controls
             src={selectedBook?.audioUrl || audio}
-            className="w-full"
-            style={{ height: "40px", border: "2px" }}
+            className="w-full h-10 3xl:h-16 p-1"
+            //style={{ height: "40px", border: "2px" }}
             onLoadedMetadata={onLoadedMetadata}
             
           />
 }
         </div>
 
-        <div className="w-1/2 flex justify-end items-end gap-2">
+        <div className="w-1/2 flex justify-end gap-2 ">
           <button onClick={() => handlePage("down")} className="">
-            <ChevronLeftIcon className="cursor-pointer h-10 w-10 p-1 border-2 rounded  border-stone-700 hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tl-full rounded-bl-full" />
+            <ChevronLeftIcon className="cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded  border-stone-700 hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tl-full rounded-bl-full" />
           </button>
           <button
             type="submit"
-            className="flex items-center justify-center font-bold transition ease-in-out cursor-pointer h-10 w-10 p-1 border-2 rounded border-stone-800 shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30"
+            className="flex items-center justify-center font-bold transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14  3xl:text-2xl p-1 border-2 rounded border-stone-800 shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30"
           >
             {page}
           </button>
          
           <button onClick={() => handlePage("up")} type="submit">
-            <ChevronRightIcon className="transition ease-in-out cursor-pointer h-10 w-10 p-1 border-2 rounded border-stone-700  hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tr-full rounded-br-full" />
+            <ChevronRightIcon className="transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded border-stone-700  hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tr-full rounded-br-full" />
           </button>
         </div>
       </div>

@@ -43,7 +43,7 @@ const Profile = ({ user, setMessage }) => {
     <>
       <Menu as="div" className="relative inline-block text-left">
         {/* <div className="hover:text-gray-300 bg-sky-950  text-white"> */}
-          <Menu.Button className="max-w-xs hover:bg-sky-900 bg-sky-950 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
+          <Menu.Button className="3xl:text-xl 3xl:py-4 max-w-xs hover:bg-sky-900 bg-sky-950 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
             {user && user?.photoURL && !imageLoadError ? (
               // <div className="relative aspect-square rounded-full w-8 mx-[2px]">
               <Image
@@ -79,7 +79,7 @@ const Profile = ({ user, setMessage }) => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 z-10 mt-2 w-80 md:w-96 origin-top-right rounded-lg bg-sky-950 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute right-0 z-10 mt-3 md:w-96 origin-top-right rounded-lg bg-sky-950 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="py-1">
               <Menu.Item>
                 <div className="flex justify-between w-full">
@@ -103,9 +103,9 @@ const Profile = ({ user, setMessage }) => {
                       sessionStorage.removeItem("user");
                       setMessage({text: "Signed Out", type: "create"});
                     }}
-                    className="flex items-center text-white px-4 py-2 m-4 rounded-md bg-indigo-600 hover:bg-indigo-500  justify-center border-b-2 border-stone-700"
+                    className="flex items-center whitespace-nowrap text-white px-4 py-2 m-4 rounded-md bg-indigo-600 hover:bg-indigo-500  justify-center border-b-2 border-stone-700"
                   >
-                    <UserMinusIcon className="h-6 w-6 mr-2 " /> Sign Out
+                   Sign Out
                   </button>
                 </div>
               </Menu.Item>

@@ -63,7 +63,7 @@ export default function StoryPage() {
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
 
   const [show, setShow] = useState(false);
-  const [theme, setTheme] = useState("Spooky");
+  const [theme, setTheme] = useState("");
   const [time, setTime] = useState(5);
   
 
@@ -92,11 +92,11 @@ export default function StoryPage() {
      console.log("themeHS", theme)
 
     if (!userPrompt) {
-      setMessage({ text: "Enter Prompt", type: "info" });
+      setMessage({ text: "Enter Prompt", type: "create" });
       return;
     }
     if (userPrompt.length < 10) {
-      setMessage({ text: "Longer Prompt", type: "info" });
+      setMessage({ text: "Longer Prompt", type: "create" });
       return;
     }
     resetStory();
@@ -556,6 +556,7 @@ const fetchBookToShare = async (bookId, userId) => {
       // }
     }
     setPlaying(true)
+    audioRef?.current?.play() 
     //setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
@@ -571,6 +572,7 @@ const fetchBookToShare = async (bookId, userId) => {
       // }
     }
     setPlaying(true)
+    audioRef?.current?.play() 
     //setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
@@ -601,6 +603,9 @@ const fetchBookToShare = async (bookId, userId) => {
   console.log("selectedBook", selectedBook)
 // console.log("themePage.js", theme)
 console.log("myBooks", myBooks)
+
+
+
 useEffect(() => {
   // Ensure the ref is attached and the source is available
   if (audioRef?.current && (selectedBook?.audioUrl || audio)) {
@@ -611,7 +616,7 @@ useEffect(() => {
     // }
     
   }
-}, [selectedBook?.audioUrl, audio, audioRef]);
+}, [open]);
 
 
 
@@ -641,6 +646,7 @@ console.log(audioRef.current); // Debugging line
           audioRef={audioRef}
           audioPages={audioPages}
           playing={playing}
+          open={open}
          
         />
 
@@ -658,6 +664,7 @@ console.log(audioRef.current); // Debugging line
                 storyUnsaved={storyUnsaved}
                 theme={theme}
                 setTheme={setTheme}
+             
               />
 
               
@@ -723,6 +730,7 @@ console.log(audioRef.current); // Debugging line
               audioPages={audioPages}
               audioDuration={audioDuration}
               setAudioDuration={setAudioDuration}
+             
             
             />
           )}
@@ -737,6 +745,8 @@ console.log(audioRef.current); // Debugging line
                 setUserId={setUserId}
                 setMyStoriesSelected={setMyStoriesSelected}
                 setMessage={setMessage}
+                show={show}
+                setShow={setShow}
               />
         }
     </footer>

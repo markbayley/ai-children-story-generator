@@ -74,7 +74,7 @@ const Settings = ({ setMessage }) => {
   }
 
   return (
-    <div className="bg-sky-950 px-4 md:px-10 pt-2 pb-6 rounded-lg shadow-xl w-80 md:w-96 ">
+    <div className="bg-sky-950 px-4 md:px-10 pt-2 pb-6 rounded-lg shadow-xl  md:w-96 ">
       <h6 className="text-white text-[16px] mb-5">Profile Details</h6>
       <input
        id="displayName"

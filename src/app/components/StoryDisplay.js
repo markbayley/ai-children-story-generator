@@ -84,8 +84,8 @@ export const StoryDisplay = ({
 
     if (currentPage == lastPage) {
       return (
-        <div className="h-full flex items-center justify-center text-center mx-6 px-6 pb-20">
-          <div className="text-2xl 2xl:text-3xl font-antiqua">
+        <div className="h-full flex items-center justify-center text-center mx-6 px-6 pb-20 ">
+          <div className="text-2xl 2xl:text-3xl  font-antiqua">
             {selectedBook?.creatorPhotoURL && (
               <div className="w-full flex justify-center">
                 <img
@@ -93,10 +93,13 @@ export const StoryDisplay = ({
                   alt="profile-mini"
                   className="h-24 w-24 object-cover border-4 border-stone-700 m-[2px] rounded-full"
                 />
+                  
               </div>
             )}
             ~
-            <p className={"text-2xl  font-antiqua"}>
+            <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
+            
+
               {" "}
               This{" "}
               <span className="lowercase">
@@ -108,7 +111,7 @@ export const StoryDisplay = ({
                 "a mystery author"}
               .
             </p>
-            <p className={"text-2xl font-antiqua"}>
+            <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
               If you enjoyed reading their story please give it a like now!{" "}
             </p>
           </div>
@@ -119,8 +122,8 @@ export const StoryDisplay = ({
     if (currentPage == 0) {
       return (
         <div className="flex flex-col justify-center items-center h-full px-6 pb-20">
-          <h5 className={"text-2xl font-bold font-antiqua"}> The story of</h5>~
-          <h1 className="text-3xl xl:text-4xl 2xl:text-5xl font-bold capitalize font-antiqua pt-2 text-center">
+          <h5 className={"text-2xl 3xl:text-4xl font-bold font-antiqua"}> The story of</h5>~
+          <h1 className="text-3xl xl:text-4xl 2xl:text-5xl 3xl:text-7xl font-bold capitalize font-antiqua pt-2 text-center">
             {storySelected
               ? extractTitleFromStory(storySelected)
               : storyUnsaved
@@ -130,7 +133,7 @@ export const StoryDisplay = ({
                 "Once Upon A Time..."}
             <p
               className={
-                "text-center xl:text-right text-xl font-bold font-antiqua lowercase"
+                "text-center xl:text-right text-xl 3xl:text-3xl font-bold font-antiqua lowercase"
               }
             >
               {" "}
@@ -138,7 +141,7 @@ export const StoryDisplay = ({
               <span className="capitalize">
                 {selectedBook?.creatorName ||
                   selectedBook?.displayName ||
-                  "a mystery author"}
+                 <span className="lowercase"> a mysterious author</span>}
               </span>
               .
             </p>
@@ -221,7 +224,7 @@ export const StoryDisplay = ({
         setPlaying={setPlaying}
       />
 
-      <div className="fade-in">
+      <div className="fade-in 3xl:pt-12">
         <div className=" border-r sm:border-l-1 sm:rounded-xl bg-orange-200 xl:bg-gradient-to-r from-orange-200 from-20% via-stone-700 via-50% to-orange-200 to-80% ...">
           <div className="sm:border-r-2 sm:border-l-1 sm:rounded-xl sm:border-stone-800 mx-auto xl:flex border xl:h-[87vh] 3xl:h-[80vh]">
             <BookImage
@@ -241,14 +244,15 @@ export const StoryDisplay = ({
                   onClick={() => {
                     setOpen(false);
                     setMessage("");
+                    setPlaying(false)
                   }}
-                  className="absolute -top-6 xl:-right-8 w-12 hover:text-orange-500 text-center z-10"
+                  className="absolute -top-8 xl:-right-8 w-12 hover:text-orange-500 text-center z-10"
                 >
-                  <XMarkIcon className="h-6 w-12" />
+                  <XMarkIcon className="h-6 w-12 3xl:h-9 3xl:w-12" />
                 </button>
               </div>
 
-              <div className="h-full text-stone-900  text-2xl xl:text-xl 2xl:text-2xl w-full no-scrollbar overflow-y-auto">
+              <div className="h-full text-stone-900  text-2xl xl:text-xl 2xl:text-2xl 3xl:text-4xl  3xl:p-10 w-full no-scrollbar overflow-y-auto">
                 {!storySelected && !storyUnsaved && !loading ? (
                   <div className="flex justify-center items-center h-full italic text-[20px] text-center font-antiqua">
                     Please click on a story or create a new story to start

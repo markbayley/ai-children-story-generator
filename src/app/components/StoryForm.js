@@ -167,33 +167,56 @@ export const StoryForm = ({
   }
 
   return (
-    <div className="flex justify-start w-full sm:w-[60vw] lg:w-[36vw] px-4 ">
+    <div className="flex justify-start w-full sm:w-[60vw] lg:w-[35vw] 3xl:w-[24vw] 3xl:text-2xl px-4 pt-4 3xl:pt-40">
       <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl w-full">
         <div className="text-orange-300 ">
-          <h1 className="font-bold font-antiqua text-5xl ">Storytime AI</h1>
+          <h1 className="font-bold font-antiqua text-5xl 2xl:text-6xl 3xl:text-8xl">Storytime AI</h1>
         </div>
-        <h3 className="py-2 text-md font-light">
-          Create stories with AI. What do you want to read about?
-          <a
+        <h3 className="py-2 text-md font-normal ">
+          Create stories with AI. Write your own prompt or generate one below.
+           What do you want to read about today? Bring your imagination to life!
+          {/* <a
             onClick={() => setUserPrompt("A lonely princess and a frog prince")}
           >
             {" "}
-            A lonely princess and a wise frog prince?{" "}
+            A lonely princess and a frog prince?{" "}
           </a>
           <a onClick={() => setUserPrompt("A castle in the clouds")}>
             {" "}
-            A castle in the clouds? Bring your imagination to life!
-          </a>
+            A castle in the clouds? 
+          </a> */}
         </h3>
         <div className="flex items-center justify-center">
           <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}
           <SparklesIcon className="h-6 w-6 mx-4 text-orange-300" />{" "}
           <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
-        <div className="rounded-xl">
-          <label htmlFor="prompt" className="block text-orange-300 text-sm py-2">
+
+        <div className="flex w-full pt-2 justify-between items-center pb-2 text-sm font-semibold ">
+    
+          <label htmlFor="prompt" className="block text-orange-300 text-sm font-semibold py-2 3xl:text-2xl">
             {"Create a story about..."}
           </label>
+
+          <label
+              onClick={() =>
+                setUserPrompt(
+                  getRandomIdea(randomNouns, randomAdjectives, randomPlaces)
+                )
+              }
+              htmlFor="prompt"
+              className="group   text-orange-300 bg-transparent cursor-pointer "
+            >
+              <p className="flex items-center text-sm font-semibold hover:text-amber-500 3xl:text-2xl">
+                Generate idea?{" "}
+                <span className="flex items-center justify-center bg-sky-900 h-8 w-8 ml-1 font-bold border rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
+                  <LightBulbIcon className="h-5 w-5" />
+                </span>
+              </p>
+            </label>
+          
+            </div>
+
           <input
             id="prompt"
             type="text"
@@ -203,37 +226,22 @@ export const StoryForm = ({
             onChange={(e) => {
               setUserPrompt(e.target.value), setMessage("");
             }}
-            className="w-full p-2 rounded outline-none text-black placeholder-gray-500 bg-white text-[16px]"
+            className="w-full p-2 rounded outline-none text-black placeholder-gray-500 bg-white text-[16px] 3xl:text-xl 3xl:py-4"
           />
-          <div className="flex w-full justify-between items-center pb-2">
-            <ThemeDropdown />
+        
+            {/* <ThemeDropdown /> */}
 
-            <label
-              onClick={() =>
-                setUserPrompt(
-                  getRandomIdea(randomNouns, randomAdjectives, randomPlaces)
-                )
-              }
-              htmlFor="prompt"
-              className="group text-md pt-2 text-orange-300 bg-transparent cursor-pointer"
-            >
-              <p className="flex items-center text-sm hover:text-amber-500">
-                Generate idea?{" "}
-                <span className="flex items-center justify-center bg-sky-900 h-8 w-8 ml-1 font-bold border rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
-                  <LightBulbIcon className="h-5 w-5" />
-                </span>
-              </p>
-            </label>
-          </div>
-        </div>
+        
+        
+      
 
-        <div className="flex items-center text-[15px] gap-4">
+        <div className="flex items-center text-[15px] gap-4 pt-4 3xl:text-xl ">
           <button
             type="submit"
             className={
               loading
-                ? "w-full text-white py-2 rounded-md bg-indigo-400 hover:bg-indigo-500 flex justify-center border-stone-700"
-                : "w-full text-white py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center border-stone-700"
+                ? "w-full text-white py-2 rounded-md bg-indigo-400 hover:bg-indigo-500 flex justify-center border-stone-700 3xl:py-4"
+                : "w-full text-white py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center border-stone-700 3xl:py-4"
             }
           >
             Create
@@ -244,7 +252,7 @@ export const StoryForm = ({
             <button
               onClick={handleOpen}
               className={
-                "w-full text-white py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center border-stone-700"
+                "w-full text-white py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center border-stone-700 3xl:py-4"
               }
             >
               View
