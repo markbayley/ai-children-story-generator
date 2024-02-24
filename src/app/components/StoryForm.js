@@ -188,7 +188,7 @@ export const StoryForm = ({
         </h3>
         <div className="flex items-center justify-center">
           <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}
-          <SparklesIcon className="h-6 w-6 mx-4 text-orange-300" />{" "}
+          <SparklesIcon className="h-10 w-10 mx-4 text-orange-300" />{" "}
           <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
 

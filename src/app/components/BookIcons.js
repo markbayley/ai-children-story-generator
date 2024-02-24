@@ -7,12 +7,14 @@ import {
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
 } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
+import IconModal from "./IconModal";
 
 export const BookIcons = ({
   handleDeleteBook,
   handleSaveBook,
   handleLikeBook,
+  handleShareBook,
   dismiss,
   unsaved,
   selectedBook,
@@ -28,9 +30,20 @@ export const BookIcons = ({
   deleting,
   playing,
   setPlaying,
+  audioPages
 }) => {
 
   console.log("playing", playing)
+
+  let [isOpen, setIsOpen] = useState(false)
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  function openModal() {
+    setIsOpen(true)
+  }
 
   return (
     <div className="z-10 right-6 lg:right-12 3xl:right-24 lg:pb-5 absolute flex flex-col justify-start md:justify-end items-center h-[32vh] md:h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
@@ -54,14 +67,26 @@ export const BookIcons = ({
 
       {userId == selectedBook?.userId && (
         <div
-          onClick={() => handleDeleteBook(selectedBook?.id)}
+        onClick={openModal}
+         
           className={
             !deleting
               ? "group relative bg-sky-950 border-2 border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white rounded cursor-pointer"
               : "group relative bg-rose-500 border-2 border-rose-500 text-white rounded cursor-pointer"
           }
         >
-          <TrashIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
+         <IconModal isOpen={isOpen} closeModal={closeModal} handleDeleteBook={handleDeleteBook}/>
+
+        {/* <button
+          type="button"
+          onClick={openModal}
+          className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
+        >
+          Open 
+        </button> */}
+     
+          
+            <TrashIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
             {!deleting ? "Delete" : "Deleting"}
           </span>
@@ -95,8 +120,9 @@ export const BookIcons = ({
 
       <div
         onClick={() => {
-          setMessage({ text: "Sharing Links Open", type: "share" });
-          setShow(!show);
+          handleShareBook(selectedBook?.id, userId);
+          setMessage({ text: "Sharing Links", type: "share" });
+          setShow(true);
         }}
         className={
           selectedBook?.sharedBy?.includes(userId)
@@ -120,16 +146,17 @@ export const BookIcons = ({
       </div>
 
       <div
-        onClick={() => setPage(5)}
-        className={
-          page != 6
+        onClick={() => {setPage(audioPages+1);
+          setMessage({ text: "Read 3 times", type: "info" });}}
+        className={ 
+          page != audioPages+1
             ? "group relative text-white md:text-amber-500 md:border-2 rounded md:border-amber-500 hover:cursor-pointer md:hover:bg-amber-500 bg-amber-500 md:hover:text-white md:bg-sky-950"
             : "group relative text-white rounded hover:cursor-pointer border-2 border-amber-500 bg-amber-500"
         }
       >
         <EyeIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
         <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
-          {page != 5 ? "Reading" : "Reads"}
+          {page != audioPages+1 ? "Reading" : "Reads"}
         </span>
       </div>
 
@@ -158,15 +185,17 @@ export const BookIcons = ({
         } */}
 
           {!playing ? (
-            <SpeakerXMarkIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
+            <SpeakerXMarkIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" onClick={()=>setMessage({ text: "", type: "" })}/>
           ) : (
-            <SpeakerWaveIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
+            <SpeakerWaveIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" onClick={()=>setMessage({ text: "", type: "" })}/>
           )}
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
             {!playing ? "Play" : "Mute"}
           </span>
         </div>
       )}
+
+     
     </div>
   );
 };

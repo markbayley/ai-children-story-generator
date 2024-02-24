@@ -5,7 +5,9 @@ import {
   ChevronRightIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
+import { Tab } from "@headlessui/react";
 import { useState, useEffect } from "react";
+
 
 export const StorySelector = ({
   myBooks,
@@ -133,32 +135,31 @@ export const StorySelector = ({
 
     return (
       <div className="md:flex md:justify-center ">
-      <div className="flex items-center justify-center space-x-4  ">
-        {Array.from({ length: totalPages }).map((_, index) => (
-          <div
-            key={index}
-            className={`h-1 w-8 mt-4 mb-2 rounded-sm  ${
-              currentPage === index ? "bg-amber-500" : "bg-gray-500"
-            }`}
-          ></div>
-        ))}
-        
+        <div className="flex items-center justify-center space-x-4  ">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <div
+              key={index}
+              className={`h-1 w-8 mt-4 mb-2 rounded-sm  ${
+                currentPage === index ? "bg-amber-500" : "bg-gray-500"
+              }`}
+            ></div>
+          ))}
+        </div>
+        <div className="-z-50 flex justify-between items-end md:absolute md:w-screen md:bottom-[45%] xl:bottom-24 md:px-[9%]">
+          <button
+            onClick={handleSlider("left")}
+            className="h-full w-1/2 py-1 md:w-12 hover:text-gray-500 text-amber-500  bg-sky-950 rounded-full"
+          >
+            <ChevronLeftIcon className="h-10 w-10" />
+          </button>
+          <button
+            onClick={handleSlider("right")}
+            className="h-full w-1/2 py-1 md:w-12 flex justify-end hover:text-gray-500 text-amber-500  bg-sky-950 rounded-full"
+          >
+            <ChevronRightIcon className="h-10 w-10" />
+          </button>
+        </div>
       </div>
-         <div className="-z-50 flex justify-between items-end md:absolute md:w-screen md:bottom-[45%] xl:bottom-24 md:px-[9%]">
-         <button
-           onClick={handleSlider("left")}
-           className="h-full w-1/2 py-1 md:w-12 hover:text-gray-500 text-amber-500  bg-sky-950 rounded-full"
-         >
-           <ChevronLeftIcon className="h-10 w-10" />
-         </button>
-         <button
-           onClick={handleSlider("right")}
-           className="h-full w-1/2 py-1 md:w-12 flex justify-end hover:text-gray-500 text-amber-500  bg-sky-950 rounded-full"
-         >
-           <ChevronRightIcon className="h-10 w-10" />
-         </button>
-       </div>
-       </div>
     );
   };
 
@@ -179,6 +180,9 @@ export const StorySelector = ({
     });
   };
 
+ 
+
+
   return (
     <>
       <div className=" text-2xl px-4 pt-8 pb-16 lg:pb-2 fade-in">
@@ -187,7 +191,17 @@ export const StorySelector = ({
           <button
             className={
               !myStoriesSelected
-                ? "text-white bg-sky-950 rounded-t-xl p-4"
+                ? "text-white bg-sky-950 rounded-t-xl p-4 w-28"
+                : "text-gray-500 hover:text-teal-500 bg-sky-950 rounded-t-lg p-4"
+            }
+            onClick={() => setMostRecent(true)}
+          >
+            Most Recent
+          </button>
+          <button
+            className={
+              !myStoriesSelected
+                ? "text-white bg-sky-950 rounded-t-xl p-4 w-28"
                 : "text-gray-500 hover:text-teal-500 bg-sky-950 rounded-t-lg p-4"
             }
             onClick={() => setMyStoriesSelected(false)}
@@ -199,7 +213,7 @@ export const StorySelector = ({
           <button
             className={
               myStoriesSelected
-                ? "text-white bg-sky-950 rounded-t-xl p-4"
+                ? "text-white bg-sky-950 rounded-t-xl p-4 w-28"
                 : "text-gray-500 hover:text-amber-500 bg-sky-950 rounded-t-lg p-4"
             }
             onClick={
@@ -251,15 +265,12 @@ export const StorySelector = ({
                       <PreviewContent book={book} />
                     </div>
                   ))}
-
-             
               </div>
               <PaginationBars
                 totalPages={totalPages}
                 currentSliceIndex={currentSliceIndex}
                 booksPerPage={booksPerPage}
               />
-              
             </div>
           )}
         </div>

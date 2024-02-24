@@ -28,6 +28,7 @@ export const StoryDisplay = ({
   handleSaveBook,
   dismiss,
   handleLikeBook,
+  handleShareBook,
   selectedBook,
   userId,
   setMessage,
@@ -71,7 +72,7 @@ export const StoryDisplay = ({
   //console.log(paragraphLengths)
 
     const lastPage = Math.round(paragraphs.length/3)+1
-    console.log("lastPage", lastPage)
+    //console.log("lastPage", lastPage)
     setAudioPages(lastPage-1)
 
     // Calculate the number of paragraphs per page 
@@ -111,8 +112,13 @@ export const StoryDisplay = ({
                 "a mystery author"}
               .
             </p>
+            <br />
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
               If you enjoyed reading their story please give it a like now!{" "}
+            </p>
+            <br />
+            <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
+             This story has been read 3 times today.{" "}
             </p>
           </div>
         </div>
@@ -222,6 +228,8 @@ export const StoryDisplay = ({
         deleting={deleting}
         playing={playing}
         setPlaying={setPlaying}
+        audioPages={audioPages}
+        handleShareBook={handleShareBook}
       />
 
       <div className="fade-in 3xl:pt-12">
