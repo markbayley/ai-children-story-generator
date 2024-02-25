@@ -30,19 +30,16 @@ export const BookIcons = ({
   deleting,
   playing,
   setPlaying,
-  audioPages
+  audioPages,
 }) => {
-
-  console.log("playing", playing)
-
-  let [isOpen, setIsOpen] = useState(false)
+  // Delete Modal
+  let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
-
   function openModal() {
-    setIsOpen(true)
+    setIsOpen(true);
   }
 
   return (
@@ -67,26 +64,28 @@ export const BookIcons = ({
 
       {userId == selectedBook?.userId && (
         <div
-        onClick={openModal}
-         
+          onClick={openModal}
           className={
             !deleting
               ? "group relative bg-sky-950 border-2 border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white rounded cursor-pointer"
               : "group relative bg-rose-500 border-2 border-rose-500 text-white rounded cursor-pointer"
           }
         >
-         <IconModal isOpen={isOpen} closeModal={closeModal} handleDeleteBook={handleDeleteBook}/>
+          <IconModal
+            isOpen={isOpen}
+            closeModal={closeModal}
+            handleDeleteBook={handleDeleteBook}
+          />
 
-        {/* <button
+          {/* <button
           type="button"
           onClick={openModal}
           className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
         >
           Open 
         </button> */}
-     
-          
-            <TrashIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
+
+          <TrashIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
             {!deleting ? "Delete" : "Deleting"}
           </span>
@@ -146,17 +145,19 @@ export const BookIcons = ({
       </div>
 
       <div
-        onClick={() => {setPage(audioPages+1);
-          setMessage({ text: "Read 3 times", type: "info" });}}
-        className={ 
-          page != audioPages+1
+        onClick={() => {
+          setPage(audioPages + 1);
+          setMessage({ text: "Read 3 times", type: "info" });
+        }}
+        className={
+          page != audioPages + 1
             ? "group relative text-white md:text-amber-500 md:border-2 rounded md:border-amber-500 hover:cursor-pointer md:hover:bg-amber-500 bg-amber-500 md:hover:text-white md:bg-sky-950"
             : "group relative text-white rounded hover:cursor-pointer border-2 border-amber-500 bg-amber-500"
         }
       >
         <EyeIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
         <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
-          {page != audioPages+1 ? "Reading" : "Reads"}
+          {page != audioPages + 1 ? "Reading" : "Reads"}
         </span>
       </div>
 
@@ -184,18 +185,22 @@ export const BookIcons = ({
           </div>
         } */}
 
-          {!playing ? (
-            <SpeakerXMarkIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" onClick={()=>setMessage({ text: "", type: "" })}/>
+          {playing ? (
+            <SpeakerWaveIcon
+              className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2"
+              onClick={() => setMessage({ text: "", type: "" })}
+            />
           ) : (
-            <SpeakerWaveIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" onClick={()=>setMessage({ text: "", type: "" })}/>
+            <SpeakerXMarkIcon
+              className="h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2"
+              onClick={() => setMessage({ text: "", type: "" })}
+            />
           )}
           <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
-            {!playing ? "Play" : "Mute"}
+            {playing ? "Mute" : "Play"}
           </span>
         </div>
       )}
-
-     
     </div>
   );
 };

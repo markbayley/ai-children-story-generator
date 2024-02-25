@@ -167,7 +167,7 @@ export const StoryForm = ({
   }
 
   return (
-    <div className="flex justify-start w-full sm:w-[60vw] lg:w-[35vw] 3xl:w-[24vw] 3xl:text-2xl px-4 pt-4 3xl:pt-40">
+    <div className="flex justify-start w-full sm:w-[60vw] lg:w-[35vw] 3xl:w-[24vw] 3xl:text-2xl px-4 3xl:pt-40">
       <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl w-full">
         <div className="text-orange-300 ">
           <h1 className="font-bold font-antiqua text-5xl 2xl:text-6xl 3xl:text-8xl">Storytime AI</h1>
@@ -241,7 +241,7 @@ export const StoryForm = ({
             className={
               loading
                 ? "w-full text-white py-2 rounded-md bg-indigo-400 hover:bg-indigo-500 flex justify-center border-stone-700 3xl:py-4"
-                : "w-full text-white py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center border-stone-700 3xl:py-4"
+                : "w-full text-white py-2 rounded-md bg-amber-500 hover:bg-amber-400 flex justify-center border-stone-700 3xl:py-4"
             }
           >
             Create

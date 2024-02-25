@@ -17,9 +17,10 @@ const BookControls = ({
   setAudioDuration,
   audioDuration,
   setMessage,
-  audioPages
+  audioPages,
+  onLoadedMetadata
 }) => {
-  console.log("audioBC", selectedBook, "audio", audio, "audioRef", audioRef);
+ 
 
   const handlePage = (direction) => {
     let max = 6;
@@ -39,43 +40,28 @@ const BookControls = ({
     }
   };
 
-  // const getAudioPage = () => {
-  //   console.log("audioPage",audioDuration/audioRef.currentTime)
-  // }
-
-  const onLoadedMetadata = () => {
-    if (audioRef.current) {
-      setAudioDuration(audioRef.current.duration);
-      // getAudioPage()
-      //setMessage({ text: audioRef?.current?.currentTime/audioDuration*audioPages, type: "create" });
-      console.log("audioDuration", audioDuration)
-      
-    }
-  };
-
-  console.log("audioPage",  audioRef?.current?.currentTime/audioDuration*audioPages)
-  console.log("audioTime",  audioRef?.current?.currentTime/audioDuration*audioPages)
-  // const [isPaused, setIsPaused] = useState(false);
-
-  // const handlePause = () => {
-  //   const synth = window.speechSynthesis;
-
-  //   synth.pause();
-
-  //   setIsPaused(true);
-  // };
 
 
+  // const audioPage = audioRef?.current?.currentTime/audioDuration*audioPages
+  // const audioTime =  audioRef?.current?.currentTime/audioDuration*audioPages
+  // const audioPage =  Math.round(
+  //   (audioRef?.current?.currentTime /
+  //     audioRef?.current?.duration) *
+  //     audioPages
+  // )
+ 
   return (
-    <div className="flex-1 flex mt-4 items-center pb-5 3xl:p-8 3xl:mb-2 ">
+    <div className="flex-1 flex items-center 3xl:p-8 3xl:mb-2 ">
       <div className="w-full flex items-end justify-between">
-        <div onClick={() =>setPlaying(!playing)} className="w-2/3 flex justify-start items-end  mt-1 shadow-md rounded-full "> 
+        <div onClick={() =>setPlaying(!playing)} className="w-2/3 flex justify-start items-end  mt-2  rounded-full "> 
           {(selectedBook?.audioUrl || audio) &&
           <audio
+        
             ref={audioRef}
             controls
+            controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
             src={selectedBook?.audioUrl || audio}
-            className="w-full h-10 3xl:h-16 p-1"
+            className="w-full h-10 3xl:h-16"
             //style={{ height: "40px", border: "2px" }}
             onLoadedMetadata={onLoadedMetadata}
             
@@ -91,7 +77,7 @@ const BookControls = ({
             type="submit"
             className="flex items-center justify-center font-bold transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14  3xl:text-2xl p-1 border-2 rounded border-stone-800 shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30"
           >
-            {page}
+            {page && page || 0 }
           </button>
          
           <button onClick={() => handlePage("up")} type="submit">

@@ -1,6 +1,6 @@
 
 // Define the fetchStory function
-export const fetchStory = async (prompt) => {
+export const fetchStory = async (prompt, hero) => {
   console.log("prompt-internal", prompt)
  
     try {
@@ -8,7 +8,7 @@ export const fetchStory = async (prompt) => {
       const response = await fetch('/api/openai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt }), // Send the prompt as JSON
+        body: JSON.stringify({ prompt, hero }), // Send the prompt as JSON
       });
       console.log("response", response)
       // Check if the request was successful

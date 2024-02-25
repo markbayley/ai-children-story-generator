@@ -26,50 +26,55 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config";
 import { FooterNav } from "./components/FooterNav";
 import React from "react";
-import StoryTabs from "./components/StoryTabs"
+import StoryTabs from "./components/StoryTabs";
 
 export default function StoryPage() {
+  // Book Auth
   const [userId, setUserId] = useState();
 
+  // Book Creation
+  const [theme, setTheme] = useState("");
   const [userPrompt, setUserPrompt] = useState("");
   const [storyUnsaved, setStoryUnsaved] = useState("");
   const [imagesUnsaved, setImagesUnsaved] = useState([]);
-  const [audio, setAudio] = useState("");
-  const [message, setMessage] = useState({ text: `Welcome`, type: "like" });
 
+  // Book Audio
   const [page, setPage] = useState(0);
+  const [audioUrl, setAudioUrl] = useState("");
   const audioRef = useRef(null);
   const [audioPages, setAudioPages] = useState(0);
+  const [audioPage, setAudioPage] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
+  const [audio, setAudio] = useState();
+  const [playing, setPlaying] = useState(false);
+  const [lastPage, setLastPage] = useState(0);
 
+  // Book States
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [dismiss, setDismiss] = useState(false);
   const [unsaved, setUnsaved] = useState(false);
   const [shared, setShared] = useState(false);
-
-  //Book Icons
   const [deleting, setDeleting] = useState(false);
-  const [playing, setPlaying] = useState(false);
+  const [show, setShow] = useState(false);
+  const [time, setTime] = useState(5);
+  const [message, setMessage] = useState({ text: `Welcome`, type: "share" });
 
+  // Book Collections
   const [myBooks, setMyBooks] = useState([]);
   const [allBooks, setAllBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
-
   const [myStoriesSelected, setMyStoriesSelected] = useState(false);
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
 
-  const [show, setShow] = useState(false);
-  const [theme, setTheme] = useState("");
-  const [time, setTime] = useState(5);
-
+  // Fetch books when userId changes
   useEffect(() => {
     fetchUserBooks();
     fetchAllBooks();
-  }, [userId]); // Fetch books on component mount or when userId changes
+  }, [userId]);
 
-  //  CREATING A BOOK
+  //  CREATING A BOOK //
   const handleSubmit = async (event) => {
     event.preventDefault();
     // If insufficient prompt
@@ -92,7 +97,8 @@ export default function StoryPage() {
 
       setLoading(true);
       // Fetching story text
-      const storyData = await fetchStory(inputPrompt);
+      const hero = user?.displayName || " chosen randomly.";
+      const storyData = await fetchStory(inputPrompt, hero);
       setMessage({ text: "Story Created!", type: "create" });
       setStoryUnsaved(storyData.story);
 
@@ -119,14 +125,14 @@ export default function StoryPage() {
       const arrayBuffer = await audioResponse.arrayBuffer();
       const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
       const blobUrl = URL.createObjectURL(blob);
-      setAudio(blobUrl);
+      setAudioUrl(blobUrl);
 
       setMessage({ text: "Save Story", type: "save" });
       setLoading(false);
       setUnsaved(true);
       setUserPrompt("");
-      audioRef?.current.play()
-     
+      audioRef?.current.play();
+
       // Catch errors
     } catch (error) {
       console.error("Error:", error);
@@ -179,7 +185,7 @@ export default function StoryPage() {
     }
   };
 
-  // SAVING A BOOK
+  // SAVING A BOOK //
   const [user] = useAuthState(auth);
   // Get urrent user
   useEffect(() => {
@@ -221,7 +227,10 @@ export default function StoryPage() {
   const uploadAudio = async (audioBlob, userId, bookId) => {
     setMessage({ text: "Uploading Audio...", type: "save" });
     const storage = getStorage();
-    const audioRef = ref(storage, `audio/${userId}/${bookId}/storyAudio.mp3`);
+    const audioRef = ref(
+      storage,
+      `audioUrl/${userId}/${bookId}/storyAudio.mp3`
+    );
     await uploadBytes(audioRef, audioBlob);
     const url = await getDownloadURL(audioRef);
     return url;
@@ -331,9 +340,9 @@ export default function StoryPage() {
     return new Blob([ab], { type: mimeType });
   };
 
-  // RETRIEVING BOOKS
-  // Get current user's books
+  // RETRIEVING BOOKS //
   const fetchUserBooks = async () => {
+    // Get current user's books
     if (userId) {
       //setMessage({ text: "Fetching Books...", type: "save" });
       const fetchedBooks = await getBooksForUser(userId);
@@ -378,10 +387,8 @@ export default function StoryPage() {
     return allBooks;
   };
 
-
-// SHARING A BOOK //
+  // SHARING A BOOK //
   const handleShareBook = async (bookId, userId) => {
-
     try {
       await fetchBookToShare(bookId, userId); // Now passing userId
 
@@ -541,7 +548,7 @@ export default function StoryPage() {
   const resetStory = () => {
     setStoryUnsaved("");
     setImagesUnsaved([]);
-    setAudio("");
+    setAudioUrl("");
     setUserPrompt("");
     setMessage("");
     setOpen(false);
@@ -552,14 +559,10 @@ export default function StoryPage() {
     setDismiss(false);
   };
 
-  console.log("audio", audio);
-  console.log("selectedBook", selectedBook);
-  // console.log("themePage.js", theme)
-  console.log("myBooks", myBooks);
-
+  // Load & Play audio
   useEffect(() => {
     // Ensure the ref is attached and the source is available
-    if (audioRef?.current && (selectedBook?.audioUrl || audio)) {
+    if (audioRef?.current && (selectedBook?.audioUrl || audioUrl)) {
       audioRef.current.src = selectedBook?.audioUrl;
       audioRef.current.load(); // Load the new source
       // if ( page == 1) {
@@ -570,7 +573,64 @@ export default function StoryPage() {
     }
   }, [open]);
 
-  console.log(audioRef.current); // Debugging line
+  //   const audioPage =  Math.round(
+  //   (audioRef?.current?.currentTime /
+  //     audioRef?.current?.duration) *
+  //     audioPages
+  // )
+
+  // cP = round   0-?  /  160  * 4   21 round = 40 turns page
+
+  // Update the page and audio mesage
+  useEffect(() => {
+    setAudio(audioRef.current);
+    const audio = audioRef.current
+    if (!audio) return;
+  
+    // Calculate the adjustment factor based on the total duration and desired pages
+    const adj = ((audio.duration) / audioPages) * 0.5; // Adjust this factor as needed
+  
+    console.log("audio.duration", audio.duration);  // Log total duration
+    console.log("audioPages", audioPages);  // Log total number of pages
+    console.log("audio.currentTime", audio.currentTime);  // Log current time
+    console.log("adj", adj);  // Log the adjustment factor
+  
+    const handleTimeUpdate = () => {
+      // Adjust the current time by adding the adj factor before calculating the current page
+      const adjustedCurrentTime = audio.currentTime + adj;
+  
+      // Ensure that adjustedCurrentTime does not exceed the total duration
+      const safeAdjustedCurrentTime = Math.min(adjustedCurrentTime, audio.duration);
+  
+      const currentPage = Math.floor(
+        (safeAdjustedCurrentTime / audio.duration) * audioPages
+      );
+  
+      setAudioPage(currentPage);
+  
+      if (audio.currentTime >= audio.duration - adj) {
+        setPage(currentPage + 1);
+        setPlaying(false);
+      } else {
+        setPage(currentPage);
+      }
+    };
+  
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+  
+    // Clean up the event listener when the component unmounts
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+    };
+  }, [audioPages, audioPage, setPage, setAudioPage, setPlaying]);
+  
+
+  console.log("audioRef", audioRef);
+  console.log("audioRef.current", audioRef.current);
+  console.log("audio", audio);
+  console.log("selectedBook", selectedBook);
+  console.log("audioPage", audioPage);
+  console.log("audioPages", audioPages);
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col min-h-screen overflow-hidden no-scroll">
@@ -591,10 +651,12 @@ export default function StoryPage() {
           loading={loading}
           time={time}
           setTime={setTime}
-          audioRef={audioRef}
+          audio={audio}
           audioPages={audioPages}
+          audioPage={audioPage}
           playing={playing}
           open={open}
+          page={page}
         />
 
         <div className="mx-0 md:mx-[10%] no-scroll pt-16">
@@ -668,10 +730,13 @@ export default function StoryPage() {
               playing={playing}
               setPlaying={setPlaying}
               setAudioPages={setAudioPages}
+              setAudioPage={setAudioPage}
               audioPages={audioPages}
               audioDuration={audioDuration}
               setAudioDuration={setAudioDuration}
               handleShareBook={handleShareBook}
+              lastPage={lastPage}
+              setLastPage={setLastPage}
             />
           )}
         </div>
