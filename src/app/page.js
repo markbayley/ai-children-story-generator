@@ -26,7 +26,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config";
 import { FooterNav } from "./components/FooterNav";
 import React from "react";
-import StoryTabs from "./components/StoryTabs";
 
 export default function StoryPage() {
   // Book Auth
@@ -48,6 +47,36 @@ export default function StoryPage() {
   const [audio, setAudio] = useState();
   const [playing, setPlaying] = useState(false);
   const [lastPage, setLastPage] = useState(0);
+
+  const resetStory = () => {
+    setTheme("");
+    setUserPrompt("");
+    setStoryUnsaved("");
+    setImagesUnsaved([]);
+
+    setPage(0);
+    setAudioUrl("");
+    //AudioRef
+    setAudioPages(0);
+    setAudioPage(0);
+    setAudioDuration(0);
+    setAudio(0);
+    setPlaying(false);
+    setLastPage(0);
+
+    setMessage({ text: "", type: "" });
+    setOpen(false);
+    setLoading(false);
+    setProcessing(false);
+    setDismiss(false);
+    setUnsaved(false);
+    setShared(false);
+    setDeleting(false);
+    setShow(false);
+    setTime(false);
+
+    setSelectedBook(null);
+  };
 
   // Book States
   const [loading, setLoading] = useState(false);
@@ -545,92 +574,101 @@ export default function StoryPage() {
     setDismiss(false);
   };
 
-  const resetStory = () => {
-    setStoryUnsaved("");
-    setImagesUnsaved([]);
-    setAudioUrl("");
-    setUserPrompt("");
-    setMessage("");
-    setOpen(false);
-    setLoading(false);
-    setProcessing(false);
-    setPage(0);
-    setSelectedBook(null);
-    setDismiss(false);
-  };
-
   // Load & Play audio
   useEffect(() => {
-    // Ensure the ref is attached and the source is available
-    if (audioRef?.current && (selectedBook?.audioUrl || audioUrl)) {
-      audioRef.current.src = selectedBook?.audioUrl;
-      audioRef.current.load(); // Load the new source
-      // if ( page == 1) {
-      audioRef.current
+    setAudio(audioRef.current);
+    const audio = audioRef.current;
+    if (!audio) return;
+
+ 
+    const playAudio = () => {
+      audio
         .play()
         .catch((error) => console.error("Audio playback failed:", error));
-      // }
+    };
+
+    if (open && (selectedBook?.audioUrl || audioUrl)) {
+      audio.src = selectedBook?.audioUrl;
+      audio.load();
+
+      audio.removeEventListener("loadeddata", playAudio);
+
+      audio.addEventListener("loadeddata", playAudio);
     }
+
+    return () => {
+      audio.removeEventListener("loadeddata", playAudio);
+    };
   }, [open]);
 
-  //   const audioPage =  Math.round(
-  //   (audioRef?.current?.currentTime /
-  //     audioRef?.current?.duration) *
-  //     audioPages
-  // )
+  // // Update the page and audio mesage
+  // useEffect(() => {
+  //   //setAudio(audioRef.current);
+  //   const audio = audioRef.current;
+  //   if (!audio) return;
 
-  // cP = round   0-?  /  160  * 4   21 round = 40 turns page
+  //   const adj = (audio.duration / audioPages);
 
-  // Update the page and audio mesage
-  useEffect(() => {
-    setAudio(audioRef.current);
-    const audio = audioRef.current
-    if (!audio) return;
-  
-    // Calculate the adjustment factor based on the total duration and desired pages
-    const adj = ((audio.duration) / audioPages) * 0.5; // Adjust this factor as needed
-  
-    console.log("audio.duration", audio.duration);  // Log total duration
-    console.log("audioPages", audioPages);  // Log total number of pages
-    console.log("audio.currentTime", audio.currentTime);  // Log current time
-    console.log("adj", adj);  // Log the adjustment factor
-  
-    const handleTimeUpdate = () => {
-      // Adjust the current time by adding the adj factor before calculating the current page
-      const adjustedCurrentTime = audio.currentTime + adj;
-  
-      // Ensure that adjustedCurrentTime does not exceed the total duration
-      const safeAdjustedCurrentTime = Math.min(adjustedCurrentTime, audio.duration);
-  
-      const currentPage = Math.floor(
-        (safeAdjustedCurrentTime / audio.duration) * audioPages
-      );
-  
-      setAudioPage(currentPage);
-  
-      if (audio.currentTime >= audio.duration - adj) {
-        setPage(currentPage + 1);
-        setPlaying(false);
-      } else {
-        setPage(currentPage);
-      }
-    };
-  
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-  
-    // Clean up the event listener when the component unmounts
-    return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-    };
-  }, [audioPages, audioPage, setPage, setAudioPage, setPlaying]);
-  
+  //   console.log("audioRefUE", audioRef);
+  //   console.log("audioUE", audio);
 
-  console.log("audioRef", audioRef);
-  console.log("audioRef.current", audioRef.current);
-  console.log("audio", audio);
-  console.log("selectedBook", selectedBook);
-  console.log("audioPage", audioPage);
-  console.log("audioPages", audioPages);
+  //   console.log("audio.CURRENT-TIME", audio.currentTime);
+  //   console.log("audio.durationUE", audio.duration);
+  //   console.log("audioDurationUE", audioDuration);
+  //   console.log("adjUE", adj);
+
+  //   console.log("audioPagesUE", audioPages);
+  //   console.log("audioPageUE", audioPage);
+  //   console.log("lastPageUE", lastPage);
+  //   console.log("pageUE", page);
+  
+  //   console.log("playingUE", playing);
+  //   console.log("openUE", open);
+
+  //   const handleTimeUpdate = () => {
+  //     const adjustedCurrentTime = audio.currentTime + adj;
+  //     //console.log("define adjustedCurrentTime", adjustedCurrentTime);
+
+  //     const safeAdjustedCurrentTime = Math.min(
+  //       adjustedCurrentTime,
+  //       audio.duration
+  //     );
+  //     //console.log("define safeAdjustedCurrentTime", safeAdjustedCurrentTime);
+
+  //     const currentPage = Math.floor(
+  //       (safeAdjustedCurrentTime / audio.duration) * audioPages
+  //     );
+  //     //console.log("define currentPage", currentPage);
+
+  //     setAudioPage(currentPage);
+  //     console.log(
+  //       "set audio page to 'currentPage",
+  //       audioPage,
+  //       "=>",
+  //       currentPage
+  //     );
+  //     if (audio.currentTime >= audio.duration + adj) {
+  //       setPage(lastPage);
+  //       console.log("set page to 'lastPage", page, "=>", lastPage);
+  //       setPlaying(false);
+  //     }
+
+  //     const threshold = 0.5;
+  //     const nearestMultipleOfAdj = Math.round(audio.currentTime / adj) * adj;
+  //     const difference = Math.abs(audio.currentTime - nearestMultipleOfAdj);
+
+  //     if (difference <= threshold) {
+  //       setPage(currentPage);
+  //       console.log("set page to 'current page", page, "=>", currentPage);
+  //     }
+  //   };
+
+  //   audio.addEventListener("timeupdate", handleTimeUpdate);
+
+  //   return () => {
+  //     audio.removeEventListener("timeupdate", handleTimeUpdate);
+  //   };
+  // }, [audioPages, audioPage]);
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col min-h-screen overflow-hidden no-scroll">
@@ -737,6 +775,9 @@ export default function StoryPage() {
               handleShareBook={handleShareBook}
               lastPage={lastPage}
               setLastPage={setLastPage}
+              resetStory={resetStory}
+              setAudioUrl={setAudioUrl}
+              setAudio={setAudio}
             />
           )}
         </div>
