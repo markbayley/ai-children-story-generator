@@ -1,19 +1,13 @@
-"use client";
+import React, { useEffect, useState } from "react";
+import { BookIcons } from "./BookIcons";
+import { BookImage } from "./BookImage";
+import BookControls from "./BookControls";
 import {
   PauseIcon,
   PlayIcon,
   StopIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { BookIcons } from "./BookIcons";
-import { BookImage } from "./BookImage";
-import BookControls from "./BookControls";
-
-import { useTts } from "tts-react";
-//import { TTSHookProps } from "tts-react";
-import React, { useEffect, useState } from "react";
-
-import TextToSpeech from "./TextToSpeech";
 
 export const StoryDisplay = ({
   storySelected,
@@ -52,51 +46,114 @@ export const StoryDisplay = ({
   setAudioDuration,
   onLoadedMetadata,
   setLastPage,
-  lastPage
+  lastPage,
+  setAudio,
 }) => {
+  const storyText = storySelected || !storyUnsaved;
 
-  const storyText = storySelected || !storyUnsaved
+  const paragraphsPerPage = 3;
 
-  // State to hold the last page number
-
-const paragraphsPerPage = 3;
-
-useEffect(() => {
-  if (!storyText) {
-    setLastPage(0);
-    return;
-  }
-
-  const paragraphs = prepareText(storyText);
-  const newLastPage = Math.ceil(paragraphs.length / paragraphsPerPage);
-  
-  setLastPage(newLastPage);
-  setAudioPages(newLastPage - 1); // Assuming you still want to set audioPages here
-
-}, [storyText, paragraphsPerPage, audio]); // Ensure paragraphsPerPage is stable or inc
-  
-
-  const prepareText = (storyText) => {
-    // Remove the title (assuming it's the first three words followed by two newlines)
-    const titleEndIndex = storyText.indexOf("Once upon a time");
-    const withoutTitle = storyText.substring(titleEndIndex);
-
-    // Split into paragraphs
+  // Function to prepare the text by splitting it into paragraphs
+  const prepareText = (text) => {
+    const titleEndIndex = text.indexOf("Once upon a time");
+    const withoutTitle = text.substring(titleEndIndex);
     return withoutTitle.split("\n\n");
   };
 
-  const getStoryText = (storyText, currentPage) => {
-    if (!storyText) return null;
-   
-    const paragraphs = prepareText(storyText);
-    const startIndex = (currentPage - 1) * paragraphsPerPage;
-    const endIndex = startIndex + paragraphsPerPage;
-    const currentPageParagraphs = paragraphs.slice(startIndex, endIndex);
+  // Function to calculate the number of words in a given array of paragraphs
+  const countWords = (currentPageParagraphs) => {
+    return currentPageParagraphs.reduce((totalWords, paragraph) => {
+      const words = paragraph.split(" ");
+      return totalWords + words.length;
+    }, 0);
+  };
 
-    if (currentPage == lastPage) {
+  // Initialize audioPages and lastPage based on storyText
+  useEffect(() => {
+    if (!storyText) {
+      setAudioPages(0);
+      setLastPage(0);
+      return;
+    }
+    const paragraphs = prepareText(storyText);
+    const lastAudioPage = Math.ceil(paragraphs.length / paragraphsPerPage);
+    setAudioPages(lastAudioPage);
+    console.log("audioPages", audioPages);
+    setLastPage(lastAudioPage + 1);
+    console.log("lastPage", lastPage);
+  }, [storyText]);
+
+  // Handle audio play and page turn logic
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    let lastTimeChecked = 0;
+
+    const handleTimeUpdate = () => {
+      if (audio.currentTime - lastTimeChecked < 1) {
+        // Skip if less than 1 second has passed since last check
+        return;
+      }
+      lastTimeChecked = audio.currentTime;
+
+      const paragraphs = prepareText(storyText);
+      const startIndex = (page - 1) * paragraphsPerPage;
+      const endIndex = Math.min(
+        startIndex + paragraphsPerPage,
+        paragraphs.length
+      );
+      const currentPageParagraphs = paragraphs.slice(startIndex, endIndex);
+
+      const totalWords = countWords(paragraphs);
+      const currentPageWords = countWords(currentPageParagraphs);
+      const estimatedPageDuration =
+        audio.duration * (currentPageWords / totalWords);
+
+      console.log(
+        `Total time: ${audio.duration}, 
+         Current time: ${audio.currentTime},
+         Estimated duration page ${page}: ${estimatedPageDuration},
+         audioPages: ${audioPages}
+         lastPage: ${lastPage}
+         currentPageWords" ${currentPageWords}
+         totalWords: ${totalWords}
+         startIndex: ${startIndex}
+         endIndex: ${endIndex}
+         currentPageParagraphs: ${currentPageParagraphs}
+         page: ${page}`
+      );
+      // Logic to determine if it's time to turn the page
+      if (
+        (audio.currentTime >= estimatedPageDuration * page) &
+        (page < lastPage)
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+
+    // Clean up
+    return () => audio.removeEventListener("timeupdate", handleTimeUpdate);
+  }, [storyText, page, lastPage, audioRef]);
+
+  const getStoryText = (storyText, page) => {
+    if (!storyText) return null;
+
+    const paragraphs = prepareText(storyText);
+    // console.log("paragraphs", paragraphs)
+    const startIndex = (page - 1) * paragraphsPerPage;
+    // console.log("startIndex", startIndex)
+    const endIndex = startIndex + paragraphsPerPage;
+    // console.log("endIndex", endIndex)
+    const currentPageParagraphs = paragraphs.slice(startIndex, endIndex);
+    // console.log("currentPageParagraphs", currentPageParagraphs)
+
+    if (page == lastPage) {
       return (
-        <div className="h-full flex items-center justify-center text-center mx-6 px-6 pb-20 ">
-          <div className="text-2xl 2xl:text-3xl  font-antiqua">
+        <div className="h-full flex items-center justify-center text-center mx-0 md:mx-6 px-6 pb-20 ">
+          <div className="text-2xl 3xl:text-4xl  font-antiqua">
             {selectedBook?.creatorPhotoURL && (
               <div className="w-full flex justify-center">
                 <img
@@ -116,23 +173,25 @@ useEffect(() => {
               tale was created by&nbsp;
               {selectedBook?.creatorName ||
                 selectedBook?.displayName ||
-                "a mystery author"}
+                "a mysterious author"}
               .
             </p>
             <br />
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
-              If you enjoyed reading their story please give it a like now!{" "}
+              If you enjoyed reading their story, please let them know by giving
+              it a like!{" "}
             </p>
             <br />
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
-              This story has been read 3 times today.{" "}
+              The story has been read 3 times today.{" "}
             </p>
+            ~
           </div>
         </div>
       );
     }
 
-    if (currentPage == 0) {
+    if (page == 0) {
       return (
         <div className="flex flex-col justify-center items-center h-full px-6 pb-20">
           <h5 className={"text-2xl 3xl:text-4xl font-bold font-antiqua"}>
@@ -145,12 +204,10 @@ useEffect(() => {
               ? extractTitleFromStory(storySelected)
               : storyUnsaved
               ? extractTitleFromStory(storyUnsaved)
-              : // : story
-                // ? extractTitleFromStory(story)
-                "Once Upon A Time..."}
+              : "Once Upon A Time..."}
             <p
               className={
-                "text-center xl:text-right text-xl 3xl:text-3xl font-bold font-antiqua lowercase"
+                "text-center xl:text-right text-xl  3xl:text-3xl font-bold font-antiqua lowercase"
               }
             >
               {" "}
@@ -169,7 +226,7 @@ useEffect(() => {
 
     // Render each paragraph separately
     return (
-      <div className="font-antiqua">
+      <div className="font-antiqua fade-in">
         {currentPageParagraphs.map((paragraph, index) => (
           <p key={index} style={{ textAlign: "justify", marginBottom: "1em" }}>
             {paragraph}
@@ -178,40 +235,6 @@ useEffect(() => {
       </div>
     );
   };
-
-  // const Speak = ({ children, highlight = false }) => {
-  //   const { ttsChildren, state, play, stop, pause } = useTts({
-  //     children,
-  //     markTextAsSpoken: highlight,
-  //     markBackgroundColor: "rgb(254,215,170,0)",
-  //     markColor: "orange",
-  //     size: "large",
-  //     //autoPlay: true
-  //   });
-
-  //   return (
-  //     <div>
-  //       {ttsChildren}
-  //       <div className="flex gap-2 fixed z-20">
-  //         <button disabled={state.isPlaying} onClick={play}>
-  //           {" "}
-  //           <PlayIcon className="cursor-pointer h-12 w-12 border-2 rounded p-3 border-stone-800 shadow-md hover:shadow-lg hover:shadow-indigo-500/50 shadow-indigo-500/30" />
-  //         </button>
-  //         <button disabled={!state.isPlaying} onClick={pause}>
-  //           {" "}
-  //           <PauseIcon className="cursor-pointer h-12 w-12 border-2 rounded p-3 border-stone-800 shadow-md hover:shadow-lg hover:shadow-indigo-500/50 shadow-indigo-500/30" />
-  //         </button>
-  //         <button onClick={stop}>
-  //           {" "}
-  //           <StopIcon className="cursor-pointer h-12 w-12 border-2 rounded p-3 border-stone-800 shadow-md hover:shadow-lg hover:shadow-indigo-500/50 shadow-indigo-500/30 " />
-  //         </button>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
-  // const text = getStoryText(storySelected || storyUnsaved, page);
-  // console.log("text", text.props.children[0].props.children);
 
   return (
     <>
@@ -249,7 +272,6 @@ useEffect(() => {
             />
             {/* Text Section */}
             <div
-              //overflow-y-hidden
               className="flex flex-col w-full xl:w-1/2 p-4 xl:px-10 xl:pt-11 xl:pb-4 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-15%  to-orange-200 to-100% ...
                 sm:rounded xl:rounded-xl xl:border xl:rounded-tr-lg xl:rounded-br-lg xl:border-l-4 xl:border-stone-700  text-stone-900"
             >
@@ -259,7 +281,9 @@ useEffect(() => {
                     setOpen(false);
                     setMessage("");
                     setPlaying(false);
-                    //setAudioPage(0);
+                    setAudio();
+                    setAudioPage(0);
+                    setPage(0);
                   }}
                   className="xl:absolute xl:-top-8 xl:-right-8  hover:text-orange-500 text-center z-10"
                 >
@@ -274,14 +298,9 @@ useEffect(() => {
                     reading here.
                   </div>
                 ) : (
-                  // <Speak highlight>
-
-                  //   <>{getStoryText(storySelected || storyUnsaved, page) }</>
-                  // </Speak>
                   getStoryText(storySelected || storyUnsaved, page)
                 )}
               </div>
-              {/* <TextToSpeech text={text.props.children[0].props.children} /> */}
               <BookControls
                 selectedBook={selectedBook}
                 userId={userId}

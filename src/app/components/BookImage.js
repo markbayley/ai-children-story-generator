@@ -72,16 +72,16 @@ export const BookImage = ({
     <div
       className="w-full h-full
        xl:w-1/2
-       flex-1 "
+       flex-1 justify-center"
     >
-      <div></div>
+  
       <div className="m-4 xl:m-12 3xl:m-20 sm:rounded-tl-xl sm:rounded-bl-xl">
         {page == 6 ? (
-          <div className="relative flex items-center justify-center font-antiqua glass-antiqua">
+          <div className="relative flex  justify-center font-antiqua glass-antiqua">
             <Image
               src={tree}
               alt="Follow us on Twitter"
-              className="font-antiqua glass-antiqua opacity-70"
+              className="font-antiqua glass-antiqua opacity-70 w-96"
               style={{
                 fontFamily: "Glass Antiqua",
                 fontWeight: "400",

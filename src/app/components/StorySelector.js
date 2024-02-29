@@ -128,14 +128,15 @@ export const StorySelector = ({
   const booksPerPage = 6;
 
   const totalPages = Math.ceil(allBooks.length / booksPerPage);
+  const myPages = Math.ceil([...allBooks].filter((book) => book?.userId == userId).length / booksPerPage);
 
-  const PaginationBars = ({ totalPages, currentSliceIndex, booksPerPage }) => {
+  const PaginationBars = ({ totalPages, myPages, tabSelected, currentSliceIndex, booksPerPage }) => {
     const currentPage = Math.ceil(currentSliceIndex / booksPerPage);
 
     return (
       <div className="md:flex md:justify-center ">
         <div className="flex items-center justify-center space-x-4  ">
-          {Array.from({ length: totalPages }).map((_, index) => (
+          {Array.from({ length: tabSelected == "My Stories" ? myPages : totalPages }).map((_, index) => (
             <div
               key={index}
               className={`h-1 w-8 mt-4 mb-2 rounded-sm  ${
@@ -185,6 +186,7 @@ export const StorySelector = ({
 
   // Function to sort books based on the selected tab
   const getSortedBooks = () => {
+   
     switch (tabSelected) {
       case "Recent":
         return [...allBooks].sort((a, b) => b.createdAt - a.createdAt);
@@ -209,6 +211,7 @@ export const StorySelector = ({
             }
             onClick={() => {
               setTabSelected("Recent");
+              setCurrentSliceIndex(0)
             
             }}
           >
@@ -222,6 +225,7 @@ export const StorySelector = ({
             }
             onClick={() => {
               setTabSelected("Popular");
+              setCurrentSliceIndex(0)
            
             }}
           >
@@ -236,6 +240,7 @@ export const StorySelector = ({
             }
             onClick={() => {
               setTabSelected("My Stories");
+              setCurrentSliceIndex(0)
               // setSortOrder(allBooks.userId);
             }}
           >
@@ -264,6 +269,7 @@ export const StorySelector = ({
                 ))}
             </div>
             <PaginationBars
+            myPages={myPages}
               totalPages={totalPages}
               currentSliceIndex={currentSliceIndex}
               booksPerPage={booksPerPage}

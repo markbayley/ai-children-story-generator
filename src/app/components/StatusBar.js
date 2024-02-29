@@ -201,7 +201,7 @@ export const StatusBar = ({
             onClick={() => setMessage({ text: "", type: "" })}
             className={` pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer ${messageColor(
               message.type
-            )} rounded-full rounded-bl-lg shadow-lg `}
+            )} rounded-full rounded-tr-lg shadow-lg `}
           >
             <InformationCircleIcon className="h-6 w-6 mx-2 3xl:h-9 3xl:w-9" />{" "}
             <span className="text-sm font-semibold 3xl:text-xl 3xl:p-4">
@@ -215,18 +215,15 @@ export const StatusBar = ({
             className={` pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer bg-sky-950 text-white hover:bg-sky-900 rounded-full rounded-bl-lg shadow-lg `}
           >
             <InformationCircleIcon className="h-6 w-6 mx-2  3xl:h-9 3xl:w-9" />{" "}
-            <span className="text-sm font-semibold 3xl:text-xl 3xl:py-4 text-left ">
-              {/* //selectedBook?.audioUrl == undefined ? "No Audio" : */}
+               {/* //selectedBook?.audioUrl == undefined ? "No Audio" : */}
+            {/* <span className="text-sm font-semibold 3xl:text-xl 3xl:py-4 text-left ">
+           
               { playing 
                 ? "Playing Page " + audioPage
-                  // Math.round(
-                  //   (audioRef?.current?.currentTime /
-                  //     audioRef?.current?.duration) *
-                  //     audioPages
-                  // )
+              
                   : page == audioPages+1 ? "Story Finished!"
                  : "Audio Paused"}
-            </span>
+            </span> */}
             <XMarkIcon className="h-4 w-4 absolute top-1 right-2 3xl:h-6 3xl:w-6 mr-1" />
           </div>
         ) : ( "" )}

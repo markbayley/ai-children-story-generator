@@ -49,6 +49,9 @@ export default function StoryPage() {
   const [lastPage, setLastPage] = useState(0);
 
   const resetStory = () => {
+    setShow(false);
+    setOpen(false);
+
     setTheme("");
     setUserPrompt("");
     setStoryUnsaved("");
@@ -65,14 +68,14 @@ export default function StoryPage() {
     setLastPage(0);
 
     setMessage({ text: "", type: "" });
-    setOpen(false);
+
     setLoading(false);
     setProcessing(false);
     setDismiss(false);
     setUnsaved(false);
     setShared(false);
     setDeleting(false);
-    setShow(false);
+
     setTime(false);
 
     setSelectedBook(null);
@@ -549,7 +552,7 @@ export default function StoryPage() {
     //setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
-    setPage(0);
+    //setPage(0);
   };
 
   const handlePreviewAll = (bookId) => {
@@ -565,7 +568,7 @@ export default function StoryPage() {
     //setAudio(selectedBook?.audioUrl)
     setMessage("");
     setOpen(true);
-    setPage(0);
+    //setPage(0);
   };
 
   const handleOpen = () => {
@@ -576,11 +579,13 @@ export default function StoryPage() {
 
   // Load & Play audio
   useEffect(() => {
-    setAudio(audioRef.current);
     const audio = audioRef.current;
+    console.log("AUDIO", audioRef?.current);
+    setAudio(audio);
+    console.log("audioSet", audio);
+
     if (!audio) return;
 
- 
     const playAudio = () => {
       audio
         .play()
@@ -599,76 +604,8 @@ export default function StoryPage() {
     return () => {
       audio.removeEventListener("loadeddata", playAudio);
     };
-  }, [open]);
+  }, [open, audio]);
 
-  // // Update the page and audio mesage
-  // useEffect(() => {
-  //   //setAudio(audioRef.current);
-  //   const audio = audioRef.current;
-  //   if (!audio) return;
-
-  //   const adj = (audio.duration / audioPages);
-
-  //   console.log("audioRefUE", audioRef);
-  //   console.log("audioUE", audio);
-
-  //   console.log("audio.CURRENT-TIME", audio.currentTime);
-  //   console.log("audio.durationUE", audio.duration);
-  //   console.log("audioDurationUE", audioDuration);
-  //   console.log("adjUE", adj);
-
-  //   console.log("audioPagesUE", audioPages);
-  //   console.log("audioPageUE", audioPage);
-  //   console.log("lastPageUE", lastPage);
-  //   console.log("pageUE", page);
-  
-  //   console.log("playingUE", playing);
-  //   console.log("openUE", open);
-
-  //   const handleTimeUpdate = () => {
-  //     const adjustedCurrentTime = audio.currentTime + adj;
-  //     //console.log("define adjustedCurrentTime", adjustedCurrentTime);
-
-  //     const safeAdjustedCurrentTime = Math.min(
-  //       adjustedCurrentTime,
-  //       audio.duration
-  //     );
-  //     //console.log("define safeAdjustedCurrentTime", safeAdjustedCurrentTime);
-
-  //     const currentPage = Math.floor(
-  //       (safeAdjustedCurrentTime / audio.duration) * audioPages
-  //     );
-  //     //console.log("define currentPage", currentPage);
-
-  //     setAudioPage(currentPage);
-  //     console.log(
-  //       "set audio page to 'currentPage",
-  //       audioPage,
-  //       "=>",
-  //       currentPage
-  //     );
-  //     if (audio.currentTime >= audio.duration + adj) {
-  //       setPage(lastPage);
-  //       console.log("set page to 'lastPage", page, "=>", lastPage);
-  //       setPlaying(false);
-  //     }
-
-  //     const threshold = 0.5;
-  //     const nearestMultipleOfAdj = Math.round(audio.currentTime / adj) * adj;
-  //     const difference = Math.abs(audio.currentTime - nearestMultipleOfAdj);
-
-  //     if (difference <= threshold) {
-  //       setPage(currentPage);
-  //       console.log("set page to 'current page", page, "=>", currentPage);
-  //     }
-  //   };
-
-  //   audio.addEventListener("timeupdate", handleTimeUpdate);
-
-  //   return () => {
-  //     audio.removeEventListener("timeupdate", handleTimeUpdate);
-  //   };
-  // }, [audioPages, audioPage]);
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col min-h-screen overflow-hidden no-scroll">

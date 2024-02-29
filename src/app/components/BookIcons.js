@@ -43,7 +43,7 @@ export const BookIcons = ({
   }
 
   return (
-    <div className="z-10 right-6 lg:right-12 3xl:right-24 lg:pb-5 absolute flex flex-col justify-start md:justify-end items-center h-[32vh] md:h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
+    <div className="max-x-sm right-6 lg:right-12 3xl:right-24 lg:pb-5 absolute flex flex-col justify-start md:justify-end items-center h-[32vh] md:h-[60vh] gap-8 w-10 mt-5 xl:mt-0 text-sm">
       {selectedBook?.id == undefined && (
         <div
           onClick={handleSaveBook}
@@ -146,7 +146,7 @@ export const BookIcons = ({
 
       <div
         onClick={() => {
-          setPage(audioPages + 1);
+          //setPage(audioPages + 1);
           setMessage({ text: "Read 3 times", type: "info" });
         }}
         className={

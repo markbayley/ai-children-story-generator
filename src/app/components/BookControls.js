@@ -69,19 +69,19 @@ const BookControls = ({
 }
         </div>
 
-        <div className="w-1/2 flex justify-end gap-2 ">
+        <div className=" flex justify-end gap-2 ">
           <button onClick={() => handlePage("down")} className="">
-            <ChevronLeftIcon className="cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded  border-stone-700 hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tl-full rounded-bl-full" />
+            <ChevronLeftIcon className="cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded  border-stone-700 hover:bg-stone-500 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tl-full rounded-bl-full" />
           </button>
           <button
             type="submit"
-            className="flex items-center justify-center font-bold transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14  3xl:text-2xl p-1 border-2 rounded border-stone-800 shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30"
+            className="hidden sm:flex items-center justify-center font-bold transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14  3xl:text-2xl p-1 border-2 rounded border-stone-800 shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30"
           >
             {page && page || 0 }
           </button>
          
           <button onClick={() => handlePage("up")} type="submit">
-            <ChevronRightIcon className="transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded border-stone-700  hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tr-full rounded-br-full" />
+            <ChevronRightIcon className="transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded border-stone-700  hover:bg-stone-500 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tr-full rounded-br-full" />
           </button>
         </div>
       </div>
