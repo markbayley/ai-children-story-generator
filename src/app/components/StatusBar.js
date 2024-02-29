@@ -11,7 +11,7 @@ import {
   ShareIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { FaInstagram, FaFacebook, FaTwitter } from "react-icons/fa";
+import { FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaReddit, FaYoutube, FaFacebookMessenger, FaSnapchat, FaLine, FaLinkedin } from "react-icons/fa";
 // import { InstagramEmbed } from 'react-social-media-embed';
 import SharingLinks from "./SharingLinks"
 
@@ -54,7 +54,7 @@ export const StatusBar = ({
       case "share":
         return "bg-indigo-500 hover:bg-indigo-400";
       case "create":
-        return "bg-amber-500 hover:bg-amber-400";
+        return "fade-in bg-amber-500 hover:bg-amber-400";
       // default:
       //   return "text-amber-500"; // Default color
     }
@@ -136,7 +136,7 @@ export const StatusBar = ({
                 : "group max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             }
           >
-            <FaInstagram className="h-9 w-9 p-1 3xl:h-12 3xl:w-12" />
+            <FaInstagram className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Instagram
             </span>
@@ -173,21 +173,71 @@ export const StatusBar = ({
             className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-            <ShareIcon className="h-9 w-9 p-1 3xl:h-12 3xl:w-12" />
+            <FaYoutube className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
-              Share
+              YouTube
             </span>
           </div>
+
           <div
+            className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+            role="alert"
+          >
+            <FaFacebookMessenger className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
+              Messenger
+            </span>
+          </div>
+
+          <div
+            className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+            role="alert"
+          >
+            <FaPinterest className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
+              Pinterest
+            </span>
+          </div>
+
+          <div
+            className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+            role="alert"
+          >
+            <FaReddit className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
+              Reddit
+            </span>
+          </div>
+
+          <div
+            className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+            role="alert"
+          >
+            <FaSnapchat className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
+              SnapChat
+            </span>
+          </div>
+
+          <div
+            className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+            role="alert"
+          >
+            <FaLinkedin className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
+              Linkedin
+            </span>
+          </div>
+          {/* <div
             onClick={resetStory}
             className="group  max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
-            <ArrowPathIcon className="h-9 w-9 p-1 3xl:h-12 3xl:w-12" />
+            <ArrowPathIcon className="h-9 w-9 p-2 3xl:h-12 3xl:w-12" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Reset
             </span>
-          </div>
+          </div> */}
         
         </div>
       )}
@@ -212,18 +262,18 @@ export const StatusBar = ({
         ) :  (audio && audio != null && open) ? (
           <div
            // onClick={() => setMessage({ text: "", type: "" })}
-            className={` pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer bg-sky-950 text-white hover:bg-sky-900 rounded-full rounded-bl-lg shadow-lg `}
+            className={`fade-in pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer bg-gradient-to-r from-sky-950 to-blue-600 text-white hover:bg-sky-900 rounded-full rounded-tl-lg shadow-lg `}
           >
             <InformationCircleIcon className="h-6 w-6 mx-2  3xl:h-9 3xl:w-9" />{" "}
                {/* //selectedBook?.audioUrl == undefined ? "No Audio" : */}
-            {/* <span className="text-sm font-semibold 3xl:text-xl 3xl:py-4 text-left ">
+            <span className="text-sm font-semibold 3xl:text-xl 3xl:py-4 text-left ">
            
               { playing 
-                ? "Playing Page " + audioPage
+                ? "Playing Page " + (audioPage)
               
-                  : page == audioPages+1 ? "Story Finished!"
+                  : page == (audioPages + 1) ? "Story Finished!"
                  : "Audio Paused"}
-            </span> */}
+            </span>
             <XMarkIcon className="h-4 w-4 absolute top-1 right-2 3xl:h-6 3xl:w-6 mr-1" />
           </div>
         ) : ( "" )}

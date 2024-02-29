@@ -95,8 +95,8 @@ export const StorySelector = ({
         </div>
 
         {/* Title */}
-        <div className="absolute whitespace-nowrap bottom-0 left-0 h-1/6 z-10 max-w-fit capitalize overflow-x-hidden">
-          <h5 className="pr-2 p-1 flex h-full w-full items-center justify-center text-xs font-normal rounded-r-full text-white  bg-gradient-to-r from-sky-950 to-[#3c3232] rounded border-b-2 border-gray-900 drop-shadow-2xl">
+        <div className="absolute whitespace-nowrap bottom-1 left-0 h-1/6 z-10 max-w-fit capitalize overflow-x-hidden">
+          <h5 className="pr-2 p-1 flex h-full w-full text-sm items-center justify-center font-normal rounded-r-full bg-slate-700 border-amber-500 text-amber-500 rounded border-2 border-l-0">
             {formatTitle(book?.story) || "Untitled"}
           </h5>
         </div>
@@ -145,7 +145,7 @@ export const StorySelector = ({
             ></div>
           ))}
         </div>
-        <div className="-z-50 flex justify-between items-end md:absolute md:w-screen md:bottom-[45%] xl:bottom-24 md:px-[9%]">
+        <div className="-z-50 flex justify-between items-end md:absolute md:w-screen md:bottom-[45%] xl:bottom-24 md:px-[7%] xl:px-[9%]">
           <button
             onClick={handleSlider("left")}
             className="h-full w-1/2 py-1 md:w-12 hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
@@ -260,8 +260,8 @@ export const StorySelector = ({
                     key={book.id}
                     className={
                       selectedBook?.id != book?.id
-                        ? "relative flex items-end justify-center cursor-pointer fade-in shadow-md transition ease-in-out hover:shadow-teal-500 duration-200 rounded-tr-xl "
-                        : "relative flex items-end justify-center cursor-pointer fade-in shadow-md shadow-teal-500 transition ease-in-out hover:shadow-teal-500 duration-200 rounded-tr-xl"
+                        ? "relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-amber-500 duration-200 rounded-tr-xl "
+                        : "relative flex items-end justify-center cursor-pointer fade-in ring-4 ring-amber-500 transition ease-in-out hover:ring-amber-500 duration-200 rounded-tr-xl"
                     }
                   >
                     <PreviewContent book={book} />

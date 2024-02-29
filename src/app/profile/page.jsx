@@ -43,7 +43,7 @@ const Profile = ({ user, setMessage }) => {
     <>
       <Menu as="div" className="relative inline-block text-left">
         {/* <div className="hover:text-gray-300 bg-sky-950  text-white"> */}
-          <Menu.Button className="3xl:text-xl 3xl:py-4 max-w-xs hover:bg-sky-900 bg-sky-950 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
+          <Menu.Button className="3xl:text-xl 3xl:py-4 max-w-xs hover:bg-gradient-to-r from-sky-950 to-sky-700 bg-gradient-to-l from-sky-950 to-sky-800 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
             {user && user?.photoURL && !imageLoadError ? (
               // <div className="relative aspect-square rounded-full w-8 mx-[2px]">
               <Image
@@ -63,7 +63,7 @@ const Profile = ({ user, setMessage }) => {
             <UserCircleIcon className="max-w-xs h-8 w-8" />
             )}
             <>
-            <span className="hidden sm:flex">{user?.displayName ? user?.displayName : "Profile"}</span>
+            <span className="hidden xl:flex">{user?.displayName ? user?.displayName : "Profile"}</span>
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
             </>
           </Menu.Button>

@@ -240,8 +240,8 @@ export const StoryForm = ({
             type="submit"
             className={
               loading
-                ? "w-full text-white py-2 rounded-md bg-indigo-400 hover:bg-indigo-500 flex justify-center border-stone-700 3xl:py-4"
-                : "w-full text-white py-2 rounded-md bg-amber-500 hover:bg-amber-400 flex justify-center border-stone-700 3xl:py-4"
+                ? "font-semibold w-full text-white py-2 rounded-md bg-indigo-400 hover:bg-indigo-500 flex justify-center border-stone-700 3xl:py-4"
+                : "font-semibold w-full text-white py-2 rounded-md bg-amber-500 hover:bg-amber-400 flex justify-center border-stone-700 3xl:py-4"
             }
           >
             Create
@@ -252,7 +252,7 @@ export const StoryForm = ({
             <button
               onClick={handleOpen}
               className={
-                "w-full text-white py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center border-stone-700 3xl:py-4"
+                "font-semibold w-full text-white py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 flex justify-center border-stone-700 3xl:py-4"
               }
             >
               View

@@ -40,6 +40,7 @@ export const StoryDisplay = ({
   playing,
   setPlaying,
   audioPages,
+  audioPage,
   setAudioPages,
   setAudioPage,
   audioDuration,
@@ -48,6 +49,7 @@ export const StoryDisplay = ({
   setLastPage,
   lastPage,
   setAudio,
+  
 }) => {
   const storyText = storySelected || !storyUnsaved;
 
@@ -62,6 +64,7 @@ export const StoryDisplay = ({
 
   // Function to calculate the number of words in a given array of paragraphs
   const countWords = (currentPageParagraphs) => {
+    // console.log("CPP", currentPageParagraphs)
     return currentPageParagraphs.reduce((totalWords, paragraph) => {
       const words = paragraph.split(" ");
       return totalWords + words.length;
@@ -72,16 +75,25 @@ export const StoryDisplay = ({
   useEffect(() => {
     if (!storyText) {
       setAudioPages(0);
-      setLastPage(0);
+      //setLastPage(0);
       return;
     }
     const paragraphs = prepareText(storyText);
+    // console.log("paragraphs", paragraphs, "paragraphs.length", paragraphs.length);
     const lastAudioPage = Math.ceil(paragraphs.length / paragraphsPerPage);
+    console.log(
+      "lastAudioPage",
+      lastAudioPage,
+      "Math paralength/paraperpage",
+      Math.ceil(paragraphs.length / paragraphsPerPage)
+    );
     setAudioPages(lastAudioPage);
-    console.log("audioPages", audioPages);
+    console.log("AUDIOPAGES", audioPages);
     setLastPage(lastAudioPage + 1);
     console.log("lastPage", lastPage);
   }, [storyText]);
+
+
 
   // Handle audio play and page turn logic
   useEffect(() => {
@@ -91,7 +103,7 @@ export const StoryDisplay = ({
     let lastTimeChecked = 0;
 
     const handleTimeUpdate = () => {
-      if (audio.currentTime - lastTimeChecked < 1) {
+      if (audio.currentTime - lastTimeChecked < 5) {
         // Skip if less than 1 second has passed since last check
         return;
       }
@@ -110,6 +122,11 @@ export const StoryDisplay = ({
       const estimatedPageDuration =
         audio.duration * (currentPageWords / totalWords);
 
+      setAudioDuration(audioDuration + estimatedPageDuration)
+      console.log("audioDURATION", audioDuration)
+      // setAudioDuration(timeLeft)
+      // console.log("audioDuration", audioDuration)
+
       console.log(
         `Total time: ${audio.duration}, 
          Current time: ${audio.currentTime},
@@ -120,23 +137,45 @@ export const StoryDisplay = ({
          totalWords: ${totalWords}
          startIndex: ${startIndex}
          endIndex: ${endIndex}
-         currentPageParagraphs: ${currentPageParagraphs}
          page: ${page}`
       );
       // Logic to determine if it's time to turn the page
-      if (
-        (audio.currentTime >= estimatedPageDuration * page) &
-        (page < lastPage)
+      if (audio.currentTime >= audio.duration -2.5 ) {
+        setPage(lastPage);
+        setAudioPage(lastPage);
+        console.log("SPECIAL FINAL TURN")
+      }
+      // if (
+      //   page == lastPage-1) {
+      //   setPage((prevPage) => prevPage);
+      //   setAudioPage((prevPage) => prevPage);
+      //   console.log("pagePAUSE");
+      // }
+      else if (
+        audio.currentTime >= estimatedPageDuration * page &&
+        page < lastPage - 1
       ) {
         setPage((prevPage) => prevPage + 1);
-      }
+        setAudioPage((prevPage) => prevPage + 1);
+        console.log(
+          "CALCULATION",
+          audio.currentTime,
+          ">=",
+          estimatedPageDuration * page,
+          "AND",
+          page,
+          ",",
+          lastPage
+        );
+        console.log("pageTURN");
+      } 
     };
 
     audio.addEventListener("timeupdate", handleTimeUpdate);
 
     // Clean up
     return () => audio.removeEventListener("timeupdate", handleTimeUpdate);
-  }, [storyText, page, lastPage, audioRef]);
+  }, [storyText, page, lastPage, audioRef, playing]);
 
   const getStoryText = (storyText, page) => {
     if (!storyText) return null;
@@ -238,7 +277,19 @@ export const StoryDisplay = ({
 
   return (
     <>
-      <BookIcons
+  
+
+      <div className="fade-in 3xl:pt-12">
+        <div className=" border-r sm:border-l-1 sm:rounded-xl bg-orange-200 xl:bg-gradient-to-r from-orange-200 from-20% via-stone-700 via-50% to-orange-200 to-80% ...">
+          <div className="sm:border-r-2 sm:border-l-1 sm:rounded-xl sm:border-stone-800 mx-auto xl:flex border xl:h-[87vh] 3xl:h-[80vh]">
+            <BookImage
+              imagesSelected={imagesSelected}
+              page={page}
+              imagesUnsaved={imagesUnsaved}
+              selectedBook={selectedBook}
+            />
+
+<BookIcons
         handleDeleteBook={handleDeleteBook}
         handleSaveBook={handleSaveBook}
         handleLikeBook={handleLikeBook}
@@ -259,17 +310,9 @@ export const StoryDisplay = ({
         setPlaying={setPlaying}
         audioPages={audioPages}
         handleShareBook={handleShareBook}
+        audioPage={audioPage}
+        lastPage={lastPage}
       />
-
-      <div className="fade-in 3xl:pt-12">
-        <div className=" border-r sm:border-l-1 sm:rounded-xl bg-orange-200 xl:bg-gradient-to-r from-orange-200 from-20% via-stone-700 via-50% to-orange-200 to-80% ...">
-          <div className="sm:border-r-2 sm:border-l-1 sm:rounded-xl sm:border-stone-800 mx-auto xl:flex border xl:h-[87vh] 3xl:h-[80vh]">
-            <BookImage
-              imagesSelected={imagesSelected}
-              page={page}
-              imagesUnsaved={imagesUnsaved}
-              selectedBook={selectedBook}
-            />
             {/* Text Section */}
             <div
               className="flex flex-col w-full xl:w-1/2 p-4 xl:px-10 xl:pt-11 xl:pb-4 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-15%  to-orange-200 to-100% ...
@@ -281,7 +324,7 @@ export const StoryDisplay = ({
                     setOpen(false);
                     setMessage("");
                     setPlaying(false);
-                    setAudio();
+                    //setAudio("");
                     setAudioPage(0);
                     setPage(0);
                   }}
@@ -315,6 +358,7 @@ export const StoryDisplay = ({
                 setMessage={setMessage}
                 audioPages={audioPages}
                 onLoadedMetadata={onLoadedMetadata}
+                setAudioPage={setAudioPage}
               />
             </div>
           </div>

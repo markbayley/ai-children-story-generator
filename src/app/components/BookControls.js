@@ -18,7 +18,8 @@ const BookControls = ({
   audioDuration,
   setMessage,
   audioPages,
-  onLoadedMetadata
+  onLoadedMetadata,
+
 }) => {
  
 
@@ -54,13 +55,13 @@ const BookControls = ({
     <div className="flex-1 flex items-center 3xl:p-8 3xl:mb-2 ">
       <div className="w-full flex items-end justify-between">
         <div onClick={() =>setPlaying(!playing)} className="w-2/3 flex justify-start items-end  mt-2  rounded-full "> 
-          {(selectedBook?.audioUrl || audio) &&
+          {(selectedBook?.audioUrl || audioRef.current) &&
           <audio
         
             ref={audioRef}
             controls
             controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
-            src={selectedBook?.audioUrl || audio}
+            src={selectedBook?.audioUrl || audioRef.current}
             className="w-full h-10 3xl:h-16"
             //style={{ height: "40px", border: "2px" }}
             onLoadedMetadata={onLoadedMetadata}
@@ -68,19 +69,30 @@ const BookControls = ({
           />
 }
         </div>
+          {/* Audio Section */}
+          {/* {audio && (
+                <div className="mb-4">
+                  <audio
+                    ref={audioRef}
+                    controls
+                    src={`${audio}`}
+                    className="w-full"
+                  />
+                </div>
+              )} */}
 
         <div className=" flex justify-end gap-2 ">
-          <button onClick={() => handlePage("down")} className="">
+          <button onClick={() => { handlePage("down"); setPlaying(false); audio?.pause()}} >
             <ChevronLeftIcon className="cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded  border-stone-700 hover:bg-stone-500 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tl-full rounded-bl-full" />
           </button>
           <button
             type="submit"
             className="hidden sm:flex items-center justify-center font-bold transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14  3xl:text-2xl p-1 border-2 rounded border-stone-800 shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30"
           >
-            {page && page || 0 }
+            {page}
           </button>
          
-          <button onClick={() => handlePage("up")} type="submit">
+          <button onClick={() => { handlePage("up"); setPlaying(false); audio?.pause()}} >
             <ChevronRightIcon className="transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded border-stone-700  hover:bg-stone-500 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tr-full rounded-br-full" />
           </button>
         </div>

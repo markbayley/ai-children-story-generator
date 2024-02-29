@@ -44,9 +44,9 @@ export default function StoryPage() {
   const [audioPages, setAudioPages] = useState(0);
   const [audioPage, setAudioPage] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
-  const [audio, setAudio] = useState();
+  const [audio, setAudio] = useState("");
   const [playing, setPlaying] = useState(false);
-  const [lastPage, setLastPage] = useState(0);
+  const [lastPage, setLastPage] = useState(5);
 
   const resetStory = () => {
     setShow(false);
@@ -58,12 +58,12 @@ export default function StoryPage() {
     setImagesUnsaved([]);
 
     setPage(0);
-    setAudioUrl("");
+    //setAudioUrl("");
     //AudioRef
     setAudioPages(0);
     setAudioPage(0);
     setAudioDuration(0);
-    setAudio(0);
+    //setAudio(0);
     setPlaying(false);
     setLastPage(0);
 
@@ -105,6 +105,13 @@ export default function StoryPage() {
     fetchUserBooks();
     fetchAllBooks();
   }, [userId]);
+
+
+  // useEffect(() => {
+  //   if (audio && audioRef.current) {
+  //     audioRef.current.play();
+  //   }
+  // }, [audio]);
 
   //  CREATING A BOOK //
   const handleSubmit = async (event) => {
@@ -157,13 +164,19 @@ export default function StoryPage() {
       const arrayBuffer = await audioResponse.arrayBuffer();
       const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
       const blobUrl = URL.createObjectURL(blob);
-      setAudioUrl(blobUrl);
+      //setAudioUrl(blobUrl);
+      setAudio(blobUrl);
+
+      
+
+
+      console.log("audioURL", audioUrl, "=?blobUrl", blobUrl)
 
       setMessage({ text: "Save Story", type: "save" });
       setLoading(false);
       setUnsaved(true);
       setUserPrompt("");
-      audioRef?.current.play();
+      //audioRef?.current.play();
 
       // Catch errors
     } catch (error) {
@@ -261,7 +274,7 @@ export default function StoryPage() {
     const storage = getStorage();
     const audioRef = ref(
       storage,
-      `audioUrl/${userId}/${bookId}/storyAudio.mp3`
+      `audio/${userId}/${bookId}/storyAudio.mp3`
     );
     await uploadBytes(audioRef, audioBlob);
     const url = await getDownloadURL(audioRef);
@@ -581,30 +594,30 @@ export default function StoryPage() {
   useEffect(() => {
     const audio = audioRef.current;
     console.log("AUDIO", audioRef?.current);
-    setAudio(audio);
-    console.log("audioSet", audio);
-
+  
     if (!audio) return;
-
+  
     const playAudio = () => {
       audio
         .play()
         .catch((error) => console.error("Audio playback failed:", error));
     };
-
-    if (open && (selectedBook?.audioUrl || audioUrl)) {
-      audio.src = selectedBook?.audioUrl;
+  
+    if (open && (selectedBook?.audioUrl || audioRef.current)) {
+      audio.src = selectedBook?.audioUrl || audioRef.current;  // Use audioRef.current instead of audio
       audio.load();
-
+  
       audio.removeEventListener("loadeddata", playAudio);
-
+  
       audio.addEventListener("loadeddata", playAudio);
     }
-
+  
     return () => {
       audio.removeEventListener("loadeddata", playAudio);
     };
-  }, [open, audio]);
+  }, [open, audioRef]);
+
+  console.log("selectedBook", selectedBook)
 
 
   return (
@@ -715,6 +728,8 @@ export default function StoryPage() {
               resetStory={resetStory}
               setAudioUrl={setAudioUrl}
               setAudio={setAudio}
+              audioPage={audioPage}
+              //onLoadedMetadata={onLoadedMetadata}
             />
           )}
         </div>
