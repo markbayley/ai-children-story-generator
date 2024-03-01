@@ -51,7 +51,7 @@ export const StoryDisplay = ({
   setAudio,
   
 }) => {
-  const storyText = storySelected || !storyUnsaved;
+  const storyText = storySelected || storyUnsaved;
 
   const paragraphsPerPage = 3;
 
@@ -73,11 +73,13 @@ export const StoryDisplay = ({
 
   // Initialize audioPages and lastPage based on storyText
   useEffect(() => {
+    console.log("storyText", storyText)
     if (!storyText) {
       setAudioPages(0);
       //setLastPage(0);
       return;
     }
+    
     const paragraphs = prepareText(storyText);
     // console.log("paragraphs", paragraphs, "paragraphs.length", paragraphs.length);
     const lastAudioPage = Math.ceil(paragraphs.length / paragraphsPerPage);
@@ -91,7 +93,7 @@ export const StoryDisplay = ({
     console.log("AUDIOPAGES", audioPages);
     setLastPage(lastAudioPage + 1);
     console.log("lastPage", lastPage);
-  }, [storyText]);
+  }, [storyText, playing, audioPage]);
 
 
 
@@ -359,6 +361,7 @@ export const StoryDisplay = ({
                 audioPages={audioPages}
                 onLoadedMetadata={onLoadedMetadata}
                 setAudioPage={setAudioPage}
+                playing={playing}
               />
             </div>
           </div>

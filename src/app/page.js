@@ -39,7 +39,7 @@ export default function StoryPage() {
 
   // Book Audio
   const [page, setPage] = useState(0);
-  const [audioUrl, setAudioUrl] = useState("");
+  //const [audioUrl, setAudioUrl] = useState("");
   const audioRef = useRef(null);
   const [audioPages, setAudioPages] = useState(0);
   const [audioPage, setAudioPage] = useState(0);
@@ -107,11 +107,6 @@ export default function StoryPage() {
   }, [userId]);
 
 
-  // useEffect(() => {
-  //   if (audio && audioRef.current) {
-  //     audioRef.current.play();
-  //   }
-  // }, [audio]);
 
   //  CREATING A BOOK //
   const handleSubmit = async (event) => {
@@ -129,11 +124,9 @@ export default function StoryPage() {
     //setTheme("Spooky")
     // const theme = "Spooky"
     const inputPrompt = userPrompt + ", " + theme + " story theme";
-    console.log("inputPrompt", inputPrompt);
     setUserPrompt(inputPrompt);
     try {
       setMessage({ text: "Writing Story...", type: "create" });
-
       setLoading(true);
       // Fetching story text
       const hero = user?.displayName || " chosen randomly.";
@@ -145,15 +138,14 @@ export default function StoryPage() {
       const storyTitle = extractTitleFromStory(storyData.story);
       console.log("storyTitle", storyTitle);
       setOpen(true);
-
-      setMessage({ text: "Creating Images...", type: "create" });
+      setUnsaved(true);
 
       // Fetching images
+      setMessage({ text: "Creating Images...", type: "create" });
       const allImages = await fetchImagesTwice(storyData.story);
       setImagesUnsaved(allImages);
 
       setMessage({ text: "Generating Audio", type: "create" });
-
       // Fetching audio
       const audioResponse = await fetch("/api/elevenlabs", {
         method: "POST",
@@ -164,20 +156,28 @@ export default function StoryPage() {
       const arrayBuffer = await audioResponse.arrayBuffer();
       const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
       const blobUrl = URL.createObjectURL(blob);
+
+ setAudio(blobUrl);
+ console.log("blobUrlHS", blobUrl );
+ console.log("audioHS", audio );
+//  if (audioRef.current) {
+//   console.log("audioRefHS", audioRef.current );
+//   audioRef.current.src = blobUrl;
+//   console.log("audioRefHS", audioRef.current.src );
+//   audioRef.current.load();
+//   audioRef.current.play();
+// }
+
+   
       //setAudioUrl(blobUrl);
-      setAudio(blobUrl);
-
       
-
-
-      console.log("audioURL", audioUrl, "=?blobUrl", blobUrl)
-
+     // audioRef?.current?.play();
+     
+     
       setMessage({ text: "Save Story", type: "save" });
-      setLoading(false);
-      setUnsaved(true);
+     
       setUserPrompt("");
-      //audioRef?.current.play();
-
+      setLoading(false);
       // Catch errors
     } catch (error) {
       console.error("Error:", error);
@@ -272,10 +272,7 @@ export default function StoryPage() {
   const uploadAudio = async (audioBlob, userId, bookId) => {
     setMessage({ text: "Uploading Audio...", type: "save" });
     const storage = getStorage();
-    const audioRef = ref(
-      storage,
-      `audio/${userId}/${bookId}/storyAudio.mp3`
-    );
+    const audioRef = ref(storage, `audio/${userId}/${bookId}/storyAudio.mp3`);
     await uploadBytes(audioRef, audioBlob);
     const url = await getDownloadURL(audioRef);
     return url;
@@ -590,35 +587,41 @@ export default function StoryPage() {
     setDismiss(false);
   };
 
+    // useEffect(() => {
+  //   if (audio && audioRef.current) {
+  //     audioRef.current.play();
+  //   }
+  // }, [audio]);
+
   // Load & Play audio
   useEffect(() => {
-    const audio = audioRef.current;
-    console.log("AUDIO", audioRef?.current);
-  
-    if (!audio) return;
-  
+    const audioCurrent = audioRef.current;
+    console.log("audioRef.currentUESP", audioRef?.current);
+    console.log("audioCurrentUESP", audioCurrent);
+
+    if (!audioCurrent) return;
+
     const playAudio = () => {
-      audio
+      audioCurrent
         .play()
         .catch((error) => console.error("Audio playback failed:", error));
     };
-  
-    if (open && (selectedBook?.audioUrl || audioRef.current)) {
-      audio.src = selectedBook?.audioUrl || audioRef.current;  // Use audioRef.current instead of audio
-      audio.load();
-  
-      audio.removeEventListener("loadeddata", playAudio);
-  
-      audio.addEventListener("loadeddata", playAudio);
+
+    if (open && (selectedBook?.audioUrl || audio)) {
+      audioCurrent.src = selectedBook?.audioUrl || audio; // Use audioRef.current instead of audio
+      audioCurrent.load();
+
+      audioCurrent.removeEventListener("loadeddata", playAudio);
+
+      audioCurrent.addEventListener("loadeddata", playAudio);
     }
-  
+
     return () => {
-      audio.removeEventListener("loadeddata", playAudio);
+      audioCurrent.removeEventListener("loadeddata", playAudio);
     };
-  }, [open, audioRef]);
+  }, [open, audio, loading]);
 
-  console.log("selectedBook", selectedBook)
-
+  console.log("selectedBookSP", selectedBook);
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col min-h-screen overflow-hidden no-scroll">
@@ -691,7 +694,7 @@ export default function StoryPage() {
               imagesSelected={selectedBook?.imageUrls}
               page={page}
               setPage={setPage}
-              audio={audio}
+              audio={audio} 
               audioRef={audioRef}
               setOpen={setOpen}
               handleSaveBook={handleSaveBook}
@@ -726,7 +729,7 @@ export default function StoryPage() {
               lastPage={lastPage}
               setLastPage={setLastPage}
               resetStory={resetStory}
-              setAudioUrl={setAudioUrl}
+              //setAudioUrl={setAudioUrl}
               setAudio={setAudio}
               audioPage={audioPage}
               //onLoadedMetadata={onLoadedMetadata}

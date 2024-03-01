@@ -39,7 +39,7 @@ export const StorySelector = ({
     const formatTitle = () => {
       let title = extractTitleFromStory(book?.story);
       if (title.length > 25) {
-        return title.substr(0, 25) + "...";
+        return title.substr(0, 20) + "...";
       }
       return title;
     };
@@ -182,7 +182,7 @@ export const StorySelector = ({
 
   const [tabSelected, setTabSelected] = useState("Recent");
   //const [sortOrder, setSortOrder] = useState(allBooks.createdAt);
-  console.log("tabSelected", tabSelected);
+  //console.log("tabSelected", tabSelected);
 
   // Function to sort books based on the selected tab
   const getSortedBooks = () => {
