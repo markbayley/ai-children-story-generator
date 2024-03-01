@@ -78,6 +78,7 @@ export const BookIcons = ({
             isOpen={isOpen}
             closeModal={closeModal}
             handleDeleteBook={handleDeleteBook}
+            selectedBook={selectedBook}
           />
 
           {/* <button

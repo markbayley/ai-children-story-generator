@@ -97,7 +97,7 @@ playing
             {page}
           </button>
          
-          <button onClick={() => { handlePage("up"); setPlaying(false); audio?.current?.pause()}} >
+          <button onClick={() => { handlePage("up"); setPlaying(false); audioRef?.current?.pause()}} >
             <ChevronRightIcon className="transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded border-stone-700  hover:bg-stone-500 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tr-full rounded-br-full" />
           </button>
         </div>

@@ -26,6 +26,7 @@ export const StoryDisplay = ({
   selectedBook,
   userId,
   setMessage,
+  unsavedTitle,
   extractTitleFromStory,
   loading,
   handleDeleteBook,
@@ -52,6 +53,8 @@ export const StoryDisplay = ({
   
 }) => {
   const storyText = storySelected || storyUnsaved;
+  const selectedTitle = extractTitleFromStory(storyText) 
+  console.log("selectedTitle", selectedTitle, "UnsavedTitle", unsavedTitle)
 
   const paragraphsPerPage = 3;
 
@@ -93,23 +96,23 @@ export const StoryDisplay = ({
     console.log("AUDIOPAGES", audioPages);
     setLastPage(lastAudioPage + 1);
     console.log("lastPage", lastPage);
-  }, [storyText, playing, audioPage]);
+  }, [storyText]);
 
 
 
   // Handle audio play and page turn logic
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const audioCurrent = audioRef.current;
+    if (!audioCurrent) return;
 
     let lastTimeChecked = 0;
 
     const handleTimeUpdate = () => {
-      if (audio.currentTime - lastTimeChecked < 5) {
+      if (audioCurrent.currentTime - lastTimeChecked < 5) {
         // Skip if less than 1 second has passed since last check
         return;
       }
-      lastTimeChecked = audio.currentTime;
+      lastTimeChecked = audioCurrent.currentTime;
 
       const paragraphs = prepareText(storyText);
       const startIndex = (page - 1) * paragraphsPerPage;
@@ -122,16 +125,14 @@ export const StoryDisplay = ({
       const totalWords = countWords(paragraphs);
       const currentPageWords = countWords(currentPageParagraphs);
       const estimatedPageDuration =
-        audio.duration * (currentPageWords / totalWords);
+        audioCurrent.duration * (currentPageWords / totalWords);
 
       setAudioDuration(audioDuration + estimatedPageDuration)
       console.log("audioDURATION", audioDuration)
-      // setAudioDuration(timeLeft)
-      // console.log("audioDuration", audioDuration)
 
       console.log(
-        `Total time: ${audio.duration}, 
-         Current time: ${audio.currentTime},
+        `Total time: ${audioCurrent.duration}, 
+         Current time: ${audioCurrent.currentTime},
          Estimated duration page ${page}: ${estimatedPageDuration},
          audioPages: ${audioPages}
          lastPage: ${lastPage}
@@ -142,7 +143,7 @@ export const StoryDisplay = ({
          page: ${page}`
       );
       // Logic to determine if it's time to turn the page
-      if (audio.currentTime >= audio.duration -2.5 ) {
+      if (audioCurrent.currentTime >= audioCurrent.duration -3.5 ) {
         setPage(lastPage);
         setAudioPage(lastPage);
         console.log("SPECIAL FINAL TURN")
@@ -154,14 +155,14 @@ export const StoryDisplay = ({
       //   console.log("pagePAUSE");
       // }
       else if (
-        audio.currentTime >= estimatedPageDuration * page &&
+        audioCurrent.currentTime >= estimatedPageDuration * page &&
         page < lastPage - 1
       ) {
         setPage((prevPage) => prevPage + 1);
         setAudioPage((prevPage) => prevPage + 1);
         console.log(
           "CALCULATION",
-          audio.currentTime,
+          audioCurrent.currentTime,
           ">=",
           estimatedPageDuration * page,
           "AND",
@@ -173,10 +174,10 @@ export const StoryDisplay = ({
       } 
     };
 
-    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audioCurrent.addEventListener("timeupdate", handleTimeUpdate);
 
     // Clean up
-    return () => audio.removeEventListener("timeupdate", handleTimeUpdate);
+    return () => audioCurrent.removeEventListener("timeupdate", handleTimeUpdate);
   }, [storyText, page, lastPage, audioRef, playing]);
 
   const getStoryText = (storyText, page) => {
@@ -207,11 +208,11 @@ export const StoryDisplay = ({
             ~
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
               {" "}
-              This{" "}
+              We hope you enjoy this story<br />{" "}
               <span className="lowercase">
                 {imagesUnsaved ? theme : selectedBook?.theme}
               </span>{" "}
-              tale was created by&nbsp;
+              created by&nbsp;
               {selectedBook?.creatorName ||
                 selectedBook?.displayName ||
                 "a mysterious author"}
@@ -219,12 +220,12 @@ export const StoryDisplay = ({
             </p>
             <br />
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
-              If you enjoyed reading their story, please let them know by giving
-              it a like!{" "}
+              If you enjoy reading their story,<br /> why not give it a like!
+            
             </p>
             <br />
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
-              The story has been read 3 times today.{" "}
+           {!loading ?  "The story has been viewed n times today." : "The story is loading... please wait." }
             </p>
             ~
           </div>
@@ -233,6 +234,7 @@ export const StoryDisplay = ({
     }
 
     if (page == 0) {
+     
       return (
         <div className="flex flex-col justify-center items-center h-full px-6 pb-20">
           <h5 className={"text-2xl 3xl:text-4xl font-bold font-antiqua"}>
@@ -241,10 +243,10 @@ export const StoryDisplay = ({
           </h5>
           ~
           <h1 className="text-3xl xl:text-4xl 2xl:text-5xl 3xl:text-7xl font-bold capitalize font-antiqua pt-2 text-center">
-            {storySelected
-              ? extractTitleFromStory(storySelected)
+            {storySelected 
+              ? selectedBook?.title || selectedTitle
               : storyUnsaved
-              ? extractTitleFromStory(storyUnsaved)
+              ? unsavedTitle
               : "Once Upon A Time..."}
             <p
               className={

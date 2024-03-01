@@ -42,19 +42,19 @@ export const StatusBar = ({
   const messageColor = (type) => {
     switch (type) {
       case "save":
-        return "bg-rose-500 hover:bg-rose-400";
+        return "fade-in bg-gradient-to-r from-rose-500/10 to-rose-500";
       case "like":
-        return "bg-teal-500 hover:bg-teal-400";
+        return "fade-in bg-gradient-to-r from-teal-500/10 to-teal-500";
       case "delete":
-        return "bg-rose-500 hover:bg-rose-400";
+        return "fade-in bg-gradient-to-r from-rose-500/10 to-rose-500";
       case "error":
-        return "bg-rose-500 hover:bg-rose-400";
+        return "fade-in bg-gradient-to-r from-rose-500/10 to-rose-500";
       case "info":
-        return "bg-amber-500 hover:bg-amber-400";
+        return "fade-in bg-gradient-to-r from-amber-500/10 via-amber-500/75 to-amber-500";
       case "share":
-        return "bg-indigo-500 hover:bg-indigo-400";
+        return "fade-in bg-gradient-to-r from-indigo-500/10 to-indigo-500";
       case "create":
-        return "fade-in bg-amber-500 hover:bg-amber-400";
+        return "fade-in bg-gradient-to-r from-blue-500/10 to-blue-600";
       // default:
       //   return "text-amber-500"; // Default color
     }
@@ -251,7 +251,7 @@ export const StatusBar = ({
             onClick={() => setMessage({ text: "", type: "" })}
             className={` pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer ${messageColor(
               message.type
-            )} rounded-full rounded-tr-lg shadow-lg `}
+            )} rounded-full rounded-tl-lg shadow-lg `}
           >
             <InformationCircleIcon className="h-6 w-6 mx-2 3xl:h-9 3xl:w-9" />{" "}
             <span className="text-sm font-semibold 3xl:text-xl 3xl:p-4">
@@ -259,7 +259,7 @@ export const StatusBar = ({
             </span>
             <XMarkIcon className="h-4 w-4 absolute top-1 right-2  3xl:h-6 3xl:w-6 mr-1" />
           </div>
-        ) :  (audio && audio != null && open) ? (
+        ) :  (selectedBook?.audioUrl || audio && open) ? (
           <div
            // onClick={() => setMessage({ text: "", type: "" })}
             className={`fade-in pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer bg-gradient-to-r from-sky-950 to-blue-600 text-white hover:bg-sky-900 rounded-full rounded-tl-lg shadow-lg `}

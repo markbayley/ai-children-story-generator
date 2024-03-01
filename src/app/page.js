@@ -32,6 +32,7 @@ export default function StoryPage() {
   const [userId, setUserId] = useState();
 
   // Book Creation
+  const [unsavedTitle, setUnsavedTitle] = useState("");
   const [theme, setTheme] = useState("");
   const [userPrompt, setUserPrompt] = useState("");
   const [storyUnsaved, setStoryUnsaved] = useState("");
@@ -39,7 +40,6 @@ export default function StoryPage() {
 
   // Book Audio
   const [page, setPage] = useState(0);
-  //const [audioUrl, setAudioUrl] = useState("");
   const audioRef = useRef(null);
   const [audioPages, setAudioPages] = useState(0);
   const [audioPage, setAudioPage] = useState(0);
@@ -47,39 +47,6 @@ export default function StoryPage() {
   const [audio, setAudio] = useState("");
   const [playing, setPlaying] = useState(false);
   const [lastPage, setLastPage] = useState(5);
-
-  const resetStory = () => {
-    setShow(false);
-    setOpen(false);
-
-    setTheme("");
-    setUserPrompt("");
-    setStoryUnsaved("");
-    setImagesUnsaved([]);
-
-    setPage(0);
-    //setAudioUrl("");
-    //AudioRef
-    setAudioPages(0);
-    setAudioPage(0);
-    setAudioDuration(0);
-    //setAudio(0);
-    setPlaying(false);
-    setLastPage(0);
-
-    setMessage({ text: "", type: "" });
-
-    setLoading(false);
-    setProcessing(false);
-    setDismiss(false);
-    setUnsaved(false);
-    setShared(false);
-    setDeleting(false);
-
-    setTime(false);
-
-    setSelectedBook(null);
-  };
 
   // Book States
   const [loading, setLoading] = useState(false);
@@ -106,7 +73,33 @@ export default function StoryPage() {
     fetchAllBooks();
   }, [userId]);
 
+  const resetStory = () => {
+    setShow(false);
+    setOpen(false);
+    setUnsavedTitle("");
+    setTheme("");
+    setUserPrompt("");
+    setStoryUnsaved("");
+    setImagesUnsaved([]);
 
+    setPage(0);
+    setAudioPages(0);
+    setAudioPage(0);
+    setAudioDuration(0);
+    setPlaying(false);
+    setLastPage(0);
+
+    setMessage({ text: "", type: "" });
+    setLoading(false);
+    setProcessing(false);
+    setDismiss(false);
+    setUnsaved(false);
+    setShared(false);
+    setDeleting(false);
+
+    setTime(false);
+    setSelectedBook(null);
+  };
 
   //  CREATING A BOOK //
   const handleSubmit = async (event) => {
@@ -137,6 +130,7 @@ export default function StoryPage() {
       // Extracting Title
       const storyTitle = extractTitleFromStory(storyData.story);
       console.log("storyTitle", storyTitle);
+      setUnsavedTitle(storyTitle);
       setOpen(true);
       setUnsaved(true);
 
@@ -156,26 +150,11 @@ export default function StoryPage() {
       const arrayBuffer = await audioResponse.arrayBuffer();
       const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
       const blobUrl = URL.createObjectURL(blob);
+      setAudio(blobUrl);
+      console.log("blobUrlHS", blobUrl);
+      console.log("audioHS", audio);
 
- setAudio(blobUrl);
- console.log("blobUrlHS", blobUrl );
- console.log("audioHS", audio );
-//  if (audioRef.current) {
-//   console.log("audioRefHS", audioRef.current );
-//   audioRef.current.src = blobUrl;
-//   console.log("audioRefHS", audioRef.current.src );
-//   audioRef.current.load();
-//   audioRef.current.play();
-// }
-
-   
-      //setAudioUrl(blobUrl);
-      
-     // audioRef?.current?.play();
-     
-     
       setMessage({ text: "Save Story", type: "save" });
-     
       setUserPrompt("");
       setLoading(false);
       // Catch errors
@@ -337,6 +316,7 @@ export default function StoryPage() {
     const db = getFirestore();
     const creatorName = user.displayName;
     const creatorPhotoURL = user.photoURL;
+    const title = unsavedTitle
     const story = storyUnsaved;
     const likedBy = [];
     const likes = 0;
@@ -353,6 +333,7 @@ export default function StoryPage() {
       views,
       viewedBy,
       story,
+      title,
       audioUrl,
       imageUrls,
       creatorName,
@@ -587,13 +568,6 @@ export default function StoryPage() {
     setDismiss(false);
   };
 
-    // useEffect(() => {
-  //   if (audio && audioRef.current) {
-  //     audioRef.current.play();
-  //   }
-  // }, [audio]);
-
-  // Load & Play audio
   useEffect(() => {
     const audioCurrent = audioRef.current;
     console.log("audioRef.currentUESP", audioRef?.current);
@@ -602,13 +576,14 @@ export default function StoryPage() {
     if (!audioCurrent) return;
 
     const playAudio = () => {
+      setPlaying(true);
       audioCurrent
         .play()
         .catch((error) => console.error("Audio playback failed:", error));
     };
 
     if (open && (selectedBook?.audioUrl || audio)) {
-      audioCurrent.src = selectedBook?.audioUrl || audio; // Use audioRef.current instead of audio
+      audioCurrent.src = selectedBook?.audioUrl || audio;
       audioCurrent.load();
 
       audioCurrent.removeEventListener("loadeddata", playAudio);
@@ -694,7 +669,7 @@ export default function StoryPage() {
               imagesSelected={selectedBook?.imageUrls}
               page={page}
               setPage={setPage}
-              audio={audio} 
+              audio={audio}
               audioRef={audioRef}
               setOpen={setOpen}
               handleSaveBook={handleSaveBook}
@@ -706,6 +681,7 @@ export default function StoryPage() {
               selectedBook={selectedBook}
               userId={userId}
               setMessage={setMessage}
+              unsavedTitle={unsavedTitle}
               extractTitleFromStory={extractTitleFromStory}
               loading={loading}
               handleDeleteBook={handleDeleteBook}
@@ -729,10 +705,8 @@ export default function StoryPage() {
               lastPage={lastPage}
               setLastPage={setLastPage}
               resetStory={resetStory}
-              //setAudioUrl={setAudioUrl}
               setAudio={setAudio}
               audioPage={audioPage}
-              //onLoadedMetadata={onLoadedMetadata}
             />
           )}
         </div>

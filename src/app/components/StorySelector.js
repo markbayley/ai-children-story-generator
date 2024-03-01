@@ -28,6 +28,8 @@ export const StorySelector = ({
   const PreviewContent = ({ book }) => {
     const [imageLoadError, setImageLoadError] = useState(false);
 
+    
+
     const handleImageError = () => {
       setImageLoadError(true);
     };
@@ -37,11 +39,15 @@ export const StorySelector = ({
     }, [user]);
 
     const formatTitle = () => {
-      let title = extractTitleFromStory(book?.story);
-      if (title.length > 25) {
-        return title.substr(0, 20) + "...";
+      const previewTitle = extractTitleFromStory(book?.story);
+      
+      if (previewTitle.length > 25) {
+        return previewTitle.substr(0, 20) + "...";
       }
-      return title;
+      if (previewTitle.length == 0) {
+        return "Untitled";
+      }
+      return previewTitle;
     };
 
     return (
@@ -97,7 +103,7 @@ export const StorySelector = ({
         {/* Title */}
         <div className="absolute whitespace-nowrap bottom-1 left-0 h-1/6 z-10 max-w-fit capitalize overflow-x-hidden">
           <h5 className="pr-2 p-1 flex h-full w-full text-sm items-center justify-center font-normal rounded-r-full bg-slate-700 border-amber-500 text-amber-500 rounded border-2 border-l-0">
-            {formatTitle(book?.story) || "Untitled"}
+            { formatTitle() || "Untitled"}
           </h5>
         </div>
         {/* Image */}
@@ -135,28 +141,28 @@ export const StorySelector = ({
 
     return (
       <div className="md:flex md:justify-center ">
-        <div className="flex items-center justify-center space-x-4  ">
+        <div className="flex items-center justify-center space-x-2  ">
           {Array.from({ length: tabSelected == "My Stories" ? myPages : totalPages }).map((_, index) => (
             <div
               key={index}
-              className={`h-1 w-8 mt-4 mb-2 rounded-sm  ${
+              className={`h-1 w-4 mt-4 mb-2 rounded-sm  ${
                 currentPage === index ? "bg-amber-500" : "bg-gray-500"
               }`}
             ></div>
           ))}
         </div>
-        <div className="-z-50 flex justify-between items-end md:absolute md:w-screen md:bottom-[45%] xl:bottom-24 md:px-[7%] xl:px-[9%]">
+        <div className="-z-50 flex gap-44 justify-between items-end md:absolute md:w-screen md:bottom-[45%] xl:bottom-24 md:px-[7%] 3xl:bottom-36 3xl:px-[9%]">
           <button
             onClick={handleSlider("left")}
-            className="h-full w-1/2 py-1 md:w-12 hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+            className="h-full w-1/2 py-1 md:w-12 3xl:w-16 hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
           >
-            <ChevronLeftIcon className="h-10 w-10" />
+            <ChevronLeftIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
           </button>
           <button
             onClick={handleSlider("right")}
-            className="h-full w-1/2 py-1 md:w-12 flex justify-end hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+            className="h-full w-1/2 py-1 md:w-12 3xl:w-16 flex justify-end hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
           >
-            <ChevronRightIcon className="h-10 w-10" />
+            <ChevronRightIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
           </button>
         </div>
       </div>
@@ -249,7 +255,7 @@ export const StorySelector = ({
         </div>
 
         <div className="">
-          <div className="w-full relative bg-sky-950 rounded-xl md:px-6 md:pt-6 p-2">
+          <div className="w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-6 md:pt-6 p-2">
             {/* Map All Stories */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 text-sm min-h-[180px]">
               {getSortedBooks()
