@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" rel="preload" as="style">
-      <body  className={`${antiqua.variable} font-sans`} >{children}</body>
+      <body  className={`${antiqua.variable} fade-in`} >{children}</body>
     </html>
   )
 }

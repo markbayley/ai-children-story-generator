@@ -1,6 +1,5 @@
 "use client";
-import "./globals.css";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { fetchStory } from "./api/openai/fetchStory";
 import { fetchImages } from "./api/stability/fetchImages";
 import { StatusBar } from "./components/StatusBar";
@@ -25,7 +24,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config";
 import { FooterNav } from "./components/FooterNav";
-import React from "react";
+
 
 export default function StoryPage() {
   // Book Auth
@@ -291,7 +290,7 @@ export default function StoryPage() {
         bookId
       );
       // After saving the book, refetch the books list
-      fetchUserBooks();
+      fetchAllBooks();
       const book = myBooks.find((b) => b.id === bookId);
 
       if (book) {
@@ -392,9 +391,15 @@ export default function StoryPage() {
   // Get all the books
   const fetchAllBooks = async () => {
     setLoading(true);
+    try {
     const fetchedBooks = await getAllBooks(userId);
     setAllBooks(fetchedBooks);
     setLoading(false);
+    }
+    catch (error) {
+      setMessage({ text: "Quota Exceeded", type: "error" });
+      setLoading(false);
+    }
     //setMessage({text: "All Books Fetched", type: "success"});
   };
 
@@ -407,17 +412,17 @@ export default function StoryPage() {
     querySnapshot.forEach((doc) => {
       allBooks.push({ id: doc.id, ...doc.data() });
     });
-    return allBooks;
+    return allBooks.slice(0,20);
   };
+
 
   // SHARING A BOOK //
   const handleShareBook = async (bookId, userId) => {
     try {
-      await fetchBookToShare(bookId, userId); // Now passing userId
+      await fetchBookToShare(bookId, userId); 
 
-      // UI logic as previously described
     } catch (error) {
-      setMessage(setMessage({ text: "Shared Already!", type: "like" }));
+      setMessage({ text: "Shared Already!", type: "like" });
       console.error("Error sharing book: ", error);
     }
     fetchAllBooks();
@@ -453,12 +458,54 @@ export default function StoryPage() {
     }
   };
 
+    // VIEWs OF BOOK //
+    const handleViewBook = async (bookId, userId) => {
+      try {
+        await fetchBookByViews(bookId, userId); 
+        // UI logic as previously described
+      } catch (error) {
+        setMessage({ text: "Viewed Already!", type: "view" });
+        console.error("Error viewing book: ", error);
+      }
+      fetchAllBooks();
+    };
+
+    const fetchBookByViews = async (bookId, userId) => {
+      const db = getFirestore();
+      const bookRef = doc(db, "books", bookId);
+  
+      const docSnap = await getDoc(bookRef);
+      if (docSnap.exists()) {
+        const bookData = docSnap.data();
+  
+        // Check if the user has already liked the book
+        if (bookData.viewedBy && !bookData.viewedBy.includes(userId)) {
+          // Update the document to add the user to the likedBy array and increment likes
+          setSelectedBook({
+            ...selectedBook,
+            views: (selectedBook.views || 0) + 1,
+            viewedBy: [...(selectedBook.viewedBy || []), userId], // Also optimistically update the likedBy array
+          });
+          await updateDoc(bookRef, {
+            viewedBy: arrayUnion(userId),
+            views: increment(1),
+          });
+          setMessage({ text: "Book Viewed!", type: "view" });
+        } else {
+          setMessage({ text: "Already Viewed!", type: "view" });
+          // Optionally handle this case in the UI, e.g., by showing a message
+        }
+      } else {
+        console.log("No such document!");
+      }
+    };
+
   // LIKING A BOOK //
   const handleLikeBook = async (bookId, userId) => {
-    if (userId === selectedBook?.userId) {
-      setMessage({ text: "Its Your Book!", type: "like" });
-      return;
-    }
+    // if (userId === selectedBook?.userId) {
+    //   setMessage({ text: "Its Your Book!", type: "like" });
+    //   return;
+    // }
 
     try {
       await fetchBookById(bookId, userId); // Now passing userId
@@ -570,8 +617,8 @@ export default function StoryPage() {
 
   useEffect(() => {
     const audioCurrent = audioRef.current;
-    console.log("audioRef.currentUESP", audioRef?.current);
-    console.log("audioCurrentUESP", audioCurrent);
+    //console.log("audioRef.currentUESP", audioRef?.current);
+    //console.log("audioCurrentUESP", audioCurrent);
 
     if (!audioCurrent) return;
 
@@ -596,7 +643,7 @@ export default function StoryPage() {
     };
   }, [open, audio, loading]);
 
-  console.log("selectedBookSP", selectedBook);
+ // console.log("selectedBookSP", selectedBook);
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col min-h-screen overflow-hidden no-scroll">
@@ -707,6 +754,7 @@ export default function StoryPage() {
               resetStory={resetStory}
               setAudio={setAudio}
               audioPage={audioPage}
+              handleViewBook={handleViewBook}
             />
           )}
         </div>

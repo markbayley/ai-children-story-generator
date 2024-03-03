@@ -13,17 +13,19 @@ export const BookImage = ({
   page,
   imagesUnsaved,
   selectedBook,
+  lastPage
 }) => {
   // Helper function to get default image based on page
   const getDefaultImage = (page) => {
     const defaultImages = [
-      forest,
-      fair,
-      mushrooms,
-      fairys,
-      flowers,
-      pic7,
-      pic7,
+      // forest,
+      // fair,
+      // mushrooms,
+      // fairys,
+      // flowers,
+      // pic7,
+      // pic7,
+      tree
     ];
     return defaultImages[page] || defaultImages[0];
   };
@@ -40,10 +42,10 @@ export const BookImage = ({
     return (
       <div className="flex justify-center items-center relative fade-in border-2 border-stone-700 rounded-md">
         {<div className="spinner w-full h-full absolute"></div>}
-        {imageSrc && !imageLoadError ? (
+        {imageSrc && !imageLoadError && (
           <Image
-          priority={true}
-          loading="eager"
+          // priority={true}
+          // loading="eager"
             alt="page-image"
             style={{ borderRadius: "5px 5px 5px 5px", opacity: "0.9" }}
             width={950}
@@ -51,8 +53,8 @@ export const BookImage = ({
             src={imageSrc}
             onError={handleImageError}
           />
-        ) : (
-          <div className="spinner w-full h-full absolute"></div>
+        // ) : (
+        //   <div className="spinner w-full h-full absolute"></div>
         )}
       </div>
     );
@@ -75,12 +77,12 @@ export const BookImage = ({
        flex-1 justify-center"
     >
   
-      <div className="m-4 xl:m-12 3xl:m-20 sm:rounded-tl-xl sm:rounded-bl-xl">
-        {page == 6 ? (
+      <div className="m-2 md:m-4 xl:m-12 3xl:m-20 sm:rounded-tl-xl sm:rounded-bl-xl">
+        {page > lastPage ? (
           <div className="relative flex  justify-center font-antiqua glass-antiqua">
             <Image
               src={tree}
-              alt="Follow us on Twitter"
+              alt="last-page"
               className="font-antiqua glass-antiqua opacity-70 w-96"
               style={{
                 fontFamily: "Glass Antiqua",

@@ -1,90 +1,33 @@
-
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Glass+Antiqua&display=swap");
 
-/* General Styles */
-@import url('https://fonts.googleapis.com/css2?family=Glass+Antiqua&display=swap');
-
-body, html {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .app {
-    display: flex;
-    overflow-x: auto;
-  }
-
-  
-  .screen {
-    min-width: 100vw;
-    overflow: hidden;
-    position: relative;
-    color: white;
-  }
-  
-  /* Header Styles */
-  header {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  /* Main Content Styles */
-  /* main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    background-size: cover;
-  } */
-  
-  /* Notification, Task List, and Create Styles */
-  .notification, .task-list, .create {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 15px;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    /* Further styling will be needed */
-  }
-
-  audio::-webkit-media-controls-play-button,
-     audio::-webkit-media-controls-panel {
-     background-color: #eac89e;
- 
-     }
-   
-
-    
-
-.glass-antiqua {
-  font-family: "Glass Antiqua", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-#text {
-  font-family: "Glass Antiqua", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-/* body {
-  background-color: #000;
-  width: 100%;
-  height: 100vh;
+body,
+html {
   margin: 0;
-  display: grid;
-  place-items: center;
-} */
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-panel {
+  background-color: #eac89e;
+}
 
 .svgLogo {
   width: 30vmin;
@@ -106,8 +49,7 @@ body, html {
     orange 360deg
   );
   animation: spin 2s linear;
-  opacity:0;
- 
+  opacity: 0;
 }
 .spinner::before {
   content: "";
@@ -123,39 +65,16 @@ body, html {
   }
   to {
     transform: rotate(1turn);
-    opacity:0;
+    opacity: 0;
   }
 }
 
-/* h6 {
-  color:   rgba(255,255,255,.3);
-  text-shadow: 0px 1px 0px #273130, 0px -1px 0px rgba(0,0,0,.7);
-} */
-
-/* .no-scrollbar::-webkit-scrollbar { 
-  display: none; 
-}  */
-
-html {
-  overflow: scroll;
-  overflow-x: hidden;
-}
-::-webkit-scrollbar {
-  width: 0;  /* Remove scrollbar space */
-  background: transparent;  /* Optional: just make scrollbar invisible */
-}
-/* Optional: show position indicator in red */
-::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
-}
-
 @keyframes fade-in {
-     from {
-        opacity: 0;
-     }
-     to {
-        opacity: 1;  
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -165,48 +84,16 @@ html {
   animation-fill-mode: forwards;
 }
 
-
 @keyframes fade-out {
   from {
-     opacity: 1;
+    opacity: 1;
   }
   to {
-     opacity: 0;  
-}
+    opacity: 0;
+  }
 }
 
 .fade-out {
-animation: fade-out ease 5.5s;
-animation-iteration-count: 1;
-
+  animation: fade-out ease 5.5s;
+  animation-iteration-count: 1;
 }
-
-
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 169, 154, 231;
-  --background-end-rgb: 76, 76, 142;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-
-
-

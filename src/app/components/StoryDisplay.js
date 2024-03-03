@@ -50,11 +50,11 @@ export const StoryDisplay = ({
   setLastPage,
   lastPage,
   setAudio,
-  
+  handleViewBook,
 }) => {
   const storyText = storySelected || storyUnsaved;
-  const selectedTitle = extractTitleFromStory(storyText) 
-  console.log("selectedTitle", selectedTitle, "UnsavedTitle", unsavedTitle)
+  const selectedTitle = extractTitleFromStory(storyText);
+  //console.log("selectedTitle", selectedTitle, "UnsavedTitle", unsavedTitle);
 
   const paragraphsPerPage = 3;
 
@@ -76,13 +76,12 @@ export const StoryDisplay = ({
 
   // Initialize audioPages and lastPage based on storyText
   useEffect(() => {
-    console.log("storyText", storyText)
     if (!storyText) {
       setAudioPages(0);
-      //setLastPage(0);
+
       return;
     }
-    
+
     const paragraphs = prepareText(storyText);
     // console.log("paragraphs", paragraphs, "paragraphs.length", paragraphs.length);
     const lastAudioPage = Math.ceil(paragraphs.length / paragraphsPerPage);
@@ -98,8 +97,6 @@ export const StoryDisplay = ({
     console.log("lastPage", lastPage);
   }, [storyText]);
 
-
-
   // Handle audio play and page turn logic
   useEffect(() => {
     const audioCurrent = audioRef.current;
@@ -108,11 +105,15 @@ export const StoryDisplay = ({
     let lastTimeChecked = 0;
 
     const handleTimeUpdate = () => {
-      if (audioCurrent.currentTime - lastTimeChecked < 5) {
+      if (audioCurrent.currentTime - lastTimeChecked < 1) {
         // Skip if less than 1 second has passed since last check
         return;
       }
       lastTimeChecked = audioCurrent.currentTime;
+
+      // if ( page == lastPage) {
+      //   return
+      // }
 
       const paragraphs = prepareText(storyText);
       const startIndex = (page - 1) * paragraphsPerPage;
@@ -127,34 +128,46 @@ export const StoryDisplay = ({
       const estimatedPageDuration =
         audioCurrent.duration * (currentPageWords / totalWords);
 
-      setAudioDuration(audioDuration + estimatedPageDuration)
-      console.log("audioDURATION", audioDuration)
-
       console.log(
         `Total time: ${audioCurrent.duration}, 
-         Current time: ${audioCurrent.currentTime},
-         Estimated duration page ${page}: ${estimatedPageDuration},
-         audioPages: ${audioPages}
-         lastPage: ${lastPage}
-         currentPageWords" ${currentPageWords}
-         totalWords: ${totalWords}
-         startIndex: ${startIndex}
-         endIndex: ${endIndex}
-         page: ${page}`
+       Current time: ${audioCurrent.currentTime},
+       Estimated duration page ${page}: ${estimatedPageDuration},
+       audioPages: ${audioPages}
+       lastPage: ${lastPage}
+       currentPageWords" ${currentPageWords}
+       totalWords: ${totalWords}
+       startIndex: ${startIndex}
+       endIndex: ${endIndex}
+       page: ${page}`
       );
+      console.log(
+        "CALCULATION",
+        audioCurrent.currentTime,
+        ">=",
+        estimatedPageDuration * page,
+        "AND",
+        page,
+        ",",
+        lastPage,
+        "OR >=",
+        audioCurrent.duration
+      );
+
+      // if (page >= lastPage) {
+      //   return
+      // }
       // Logic to determine if it's time to turn the page
-      if (audioCurrent.currentTime >= audioCurrent.duration -3.5 ) {
+
+      if (
+        audioCurrent.currentTime >= audioCurrent.duration - 2 &&
+        page < lastPage
+      ) {
+        console.log("TO LAST PAGE");
         setPage(lastPage);
         setAudioPage(lastPage);
-        console.log("SPECIAL FINAL TURN")
-      }
-      // if (
-      //   page == lastPage-1) {
-      //   setPage((prevPage) => prevPage);
-      //   setAudioPage((prevPage) => prevPage);
-      //   console.log("pagePAUSE");
-      // }
-      else if (
+        setPlaying(false);
+        // return
+      } else if (
         audioCurrent.currentTime >= estimatedPageDuration * page &&
         page < lastPage - 1
       ) {
@@ -171,14 +184,15 @@ export const StoryDisplay = ({
           lastPage
         );
         console.log("pageTURN");
-      } 
+      }
     };
 
     audioCurrent.addEventListener("timeupdate", handleTimeUpdate);
 
     // Clean up
-    return () => audioCurrent.removeEventListener("timeupdate", handleTimeUpdate);
-  }, [storyText, page, lastPage, audioRef, playing]);
+    return () =>
+      audioCurrent.removeEventListener("timeupdate", handleTimeUpdate);
+  }, [storyText, page, audioRef]);
 
   const getStoryText = (storyText, page) => {
     if (!storyText) return null;
@@ -193,8 +207,9 @@ export const StoryDisplay = ({
     // console.log("currentPageParagraphs", currentPageParagraphs)
 
     if (page == lastPage) {
+      //handleViewBook(selectedBook?.id, userId);
       return (
-        <div className="h-full flex items-center justify-center text-center mx-0 md:mx-6 px-6 pb-20 ">
+        <div className="h-full flex items-center justify-center text-center p-8 ">
           <div className="text-2xl 3xl:text-4xl  font-antiqua">
             {selectedBook?.creatorPhotoURL && (
               <div className="w-full flex justify-center">
@@ -208,11 +223,12 @@ export const StoryDisplay = ({
             ~
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
               {" "}
-              We hope you enjoy this story<br />{" "}
+              We hope you enjoyed this story{" "}
               <span className="lowercase">
                 {imagesUnsaved ? theme : selectedBook?.theme}
               </span>{" "}
               created by&nbsp;
+              <br />
               {selectedBook?.creatorName ||
                 selectedBook?.displayName ||
                 "a mysterious author"}
@@ -220,12 +236,13 @@ export const StoryDisplay = ({
             </p>
             <br />
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
-              If you enjoy reading their story,<br /> why not give it a like!
-            
+              If you did, why not give it a like!
             </p>
             <br />
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
-           {!loading ?  "The story has been viewed n times today." : "The story is loading... please wait." }
+              {!loading
+                ? `The story has been viewed ${selectedBook.views} times today.`
+                : "The story is loading... please wait."}
             </p>
             ~
           </div>
@@ -234,16 +251,15 @@ export const StoryDisplay = ({
     }
 
     if (page == 0) {
-     
       return (
-        <div className="flex flex-col justify-center items-center h-full px-6 pb-20">
+        <div className="flex flex-col justify-center items-center h-full pt-28 pb-32 px-4">
           <h5 className={"text-2xl 3xl:text-4xl font-bold font-antiqua"}>
             {" "}
             The story of
           </h5>
           ~
-          <h1 className="text-3xl xl:text-4xl 2xl:text-5xl 3xl:text-7xl font-bold capitalize font-antiqua pt-2 text-center">
-            {storySelected 
+          <h1 className="text-4xl 2xl:text-5xl 3xl:text-7xl font-bold capitalize font-antiqua pt-2 text-center">
+            {storySelected
               ? selectedBook?.title || selectedTitle
               : storyUnsaved
               ? unsavedTitle
@@ -281,8 +297,6 @@ export const StoryDisplay = ({
 
   return (
     <>
-  
-
       <div className="fade-in 3xl:pt-12">
         <div className=" border-r sm:border-l-1 sm:rounded-xl bg-orange-200 xl:bg-gradient-to-r from-orange-200 from-20% via-stone-700 via-50% to-orange-200 to-80% ...">
           <div className="sm:border-r-2 sm:border-l-1 sm:rounded-xl sm:border-stone-800 mx-auto xl:flex border xl:h-[87vh] 3xl:h-[80vh]">
@@ -291,39 +305,41 @@ export const StoryDisplay = ({
               page={page}
               imagesUnsaved={imagesUnsaved}
               selectedBook={selectedBook}
+              lastPage={lastPage}
             />
 
-<BookIcons
-        handleDeleteBook={handleDeleteBook}
-        handleSaveBook={handleSaveBook}
-        handleLikeBook={handleLikeBook}
-        dismiss={dismiss}
-        unsaved={unsaved}
-        selectedBook={selectedBook}
-        page={page}
-        setPage={setPage}
-        setMessage={setMessage}
-        setShow={setShow}
-        userId={userId}
-        show={show}
-        audio={audio}
-        audioRef={audioRef}
-        processing={processing}
-        deleting={deleting}
-        playing={playing}
-        setPlaying={setPlaying}
-        audioPages={audioPages}
-        handleShareBook={handleShareBook}
-        audioPage={audioPage}
-        lastPage={lastPage}
-      />
+            <BookIcons
+              handleDeleteBook={handleDeleteBook}
+              handleSaveBook={handleSaveBook}
+              handleLikeBook={handleLikeBook}
+              dismiss={dismiss}
+              unsaved={unsaved}
+              selectedBook={selectedBook}
+              page={page}
+              setPage={setPage}
+              setMessage={setMessage}
+              setShow={setShow}
+              userId={userId}
+              show={show}
+              audio={audio}
+              audioRef={audioRef}
+              processing={processing}
+              deleting={deleting}
+              playing={playing}
+              setPlaying={setPlaying}
+              audioPages={audioPages}
+              handleShareBook={handleShareBook}
+              audioPage={audioPage}
+              lastPage={lastPage}
+              handleViewBook={handleViewBook}
+            />
             {/* Text Section */}
             <div
-              className="flex flex-col w-full xl:w-1/2 p-4 xl:px-10 xl:pt-11 xl:pb-4 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-15%  to-orange-200 to-100% ...
+              className="flex flex-col w-full xl:w-1/2 p-2 md:p-4 xl:px-10 xl:pt-11 xl:pb-4 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-15%  to-orange-200 to-100% ...
                 sm:rounded xl:rounded-xl xl:border xl:rounded-tr-lg xl:rounded-br-lg xl:border-l-4 xl:border-stone-700  text-stone-900"
             >
-              <div className="relative flex justify-end items-start text-stone-900">
-                <button
+              <div className="relative flex justify-end items-start text-stone-900 mt-2 md:mt-0">
+                <div
                   onClick={() => {
                     setOpen(false);
                     setMessage("");
@@ -332,10 +348,10 @@ export const StoryDisplay = ({
                     setAudioPage(0);
                     setPage(0);
                   }}
-                  className="xl:absolute xl:-top-8 xl:-right-8  hover:text-orange-500 text-center z-10"
+                  className="cursor-pointer absolute bottom-8 xl:-top-10 xl:-right-9 border-2 xl:border-none border-stone-700  text-center z-10 text-stone-700 hover:text-white xl:hover:text-stone-500 hover:bg-stone-700 xl:hover:bg-transparent rounded"
                 >
-                  <XMarkIcon className="h-6 w-6 3xl:h-9 3xl:w-12 mb-2" />
-                </button>
+                  <XMarkIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14" />
+                </div>
               </div>
 
               <div className="h-full text-stone-900  text-2xl xl:text-xl 2xl:text-2xl 3xl:text-4xl  3xl:p-10 w-full no-scrollbar overflow-y-auto">

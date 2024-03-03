@@ -32,24 +32,7 @@ export const FooterNav = ({
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);
 
-  const messageColor = (type) => {
-    switch (type) {
-      case "save":
-        return "text-rose-500";
-      case "like":
-        return "text-teal-500";
-      case "delete":
-        return "text-rose-600";
-      case "error":
-        return "text-red-600";
-      case "info":
-        return "text-indigo-500";
-      case "create":
-        return "text-amber-500";
-      default:
-        return "text-amber-500";
-    }
-  };
+
 
   return (
     <> 
@@ -92,7 +75,7 @@ export const FooterNav = ({
     </div> */}
 
 {/* Mobile footer */}
-    <div className="px-6 3xl:py-4 md:px-[10%]  bottom-0 2xl:py-1 flex justify-between  text-xs 3xl:text-lg text-gray-300 w-full z-20 lg:px-[12%] 2xl:p-[24%] bg-sky-950 xl:bg-transparent">
+    <div className="px-6 3xl:py-4 md:px-[10%]  bottom-0 2xl:py-1 flex justify-between  text-xs 3xl:text-lg text-gray-300 w-full z-20 lg:px-[12%] 2xl:p-[24%] bg-sky-950 lg:bg-transparent">
      
       <div className="flex flex-col lg:flex-row lg:w-1/3 lg:justify-around items-start leading-8">
         <div className="flex items-center  hover:text-gray-400 cursor-pointer">

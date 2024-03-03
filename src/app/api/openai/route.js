@@ -9,7 +9,7 @@ export async function POST(req) {
   if (!prompt) return NextResponse.json({ message: "Prompt not found." });
  
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo-16k",
+    model: "gpt-3.5-turbo-0613",
     messages: [
       {
         role: "system",

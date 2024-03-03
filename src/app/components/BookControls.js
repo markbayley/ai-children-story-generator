@@ -41,11 +41,11 @@ playing
     }
   };
 
-  console.log("audioRefBC", audioRef);
-  console.log("audioRef.currentBC", audioRef?.current);
-  console.log("selectedBook.audioUrlBC", selectedBook?.audioUrl);
-  console.log("playingBC", playing);
-  console.log("audioBC", audio);
+  // console.log("audioRefBC", audioRef);
+  // console.log("audioRef.currentBC", audioRef?.current);
+  // console.log("selectedBook.audioUrlBC", selectedBook?.audioUrl);
+  // console.log("playingBC", playing);
+  // console.log("audioBC", audio);
 
   // const audioPage = audioRef?.current?.currentTime/audioDuration*audioPages
   // const audioTime =  audioRef?.current?.currentTime/audioDuration*audioPages
@@ -88,7 +88,7 @@ playing
 
         <div className=" flex justify-end gap-2 ">
           <button onClick={() => { handlePage("down"); setPlaying(false); audioRef?.current?.pause()}} >
-            <ChevronLeftIcon className="cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded  border-stone-700 hover:bg-stone-500 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tl-full rounded-bl-full" />
+            <ChevronLeftIcon className="cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded  border-stone-700 hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tl-full rounded-bl-full" />
           </button>
           <button
             type="submit"
@@ -98,7 +98,7 @@ playing
           </button>
          
           <button onClick={() => { handlePage("up"); setPlaying(false); audioRef?.current?.pause()}} >
-            <ChevronRightIcon className="transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded border-stone-700  hover:bg-stone-500 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tr-full rounded-br-full" />
+            <ChevronRightIcon className="transition ease-in-out cursor-pointer h-9 w-9 3xl:h-14 3xl:w-14 p-1 border-2 rounded border-stone-700  hover:bg-stone-700 hover:text-white shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-tr-full rounded-br-full" />
           </button>
         </div>
       </div>
