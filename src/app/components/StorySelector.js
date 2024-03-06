@@ -151,7 +151,7 @@ export const StorySelector = ({
             ></div>
           ))}
         </div>
-        <div className="-z-50 flex gap-44 justify-between items-end md:absolute md:w-screen md:bottom-[45%] xl:bottom-24 md:px-[7%] 3xl:bottom-36 3xl:px-[9%]">
+        {/* <div className="-z-50 flex gap-44 justify-between items-end md:absolute md:w-screen md:bottom-[45%] xl:bottom-20 md:px-[7%] 3xl:bottom-36 3xl:px-[9%]">
           <button
             onClick={handleSlider("left")}
             className="h-full w-1/2 py-1 md:w-12 3xl:w-16 hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
@@ -164,7 +164,7 @@ export const StorySelector = ({
           >
             <ChevronRightIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
           </button>
-        </div>
+        </div> */}
       </div>
     );
   };
@@ -207,7 +207,7 @@ export const StorySelector = ({
 
   return (
     <>
-      <div className=" text-2xl px-4 pt-8 pb-16 lg:pb-2 fade-in">
+      <div className=" text-2xl px-4 pt-4 pb-4 lg:pb-2 fade-in">
         <div className="font-sans text-sm font-semibold w-full rounded-t-lg flex justify-end sm:pr-6 gap-1 ">
           <button
             className={
@@ -257,7 +257,7 @@ export const StorySelector = ({
         <div className="">
           <div className="w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-6 md:pt-6 p-2">
             {/* Map All Stories */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 text-sm min-h-[180px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 text-sm min-h-[180px] 3xl:min-h-[360px]">
               {getSortedBooks()
                 .slice(currentSliceIndex, currentSliceIndex + booksPerPage)
                 .map((book) => (
@@ -273,14 +273,32 @@ export const StorySelector = ({
                     <PreviewContent book={book} />
                   </div>
                 ))}
+      
             </div>
+       
+       
             <PaginationBars
             myPages={myPages}
               totalPages={totalPages}
               currentSliceIndex={currentSliceIndex}
               booksPerPage={booksPerPage}
             />
+            <div className="flex justify-between">
+                       <button
+            onClick={handleSlider("left")}
+            className="md:absolute -left-16 bottom-24 3xl:bottom-36 3xl:-left-24 w-12 py-1 3xl:w-16 flex justify-start hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+          >
+            <ChevronLeftIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
+          </button>
+                <button
+            onClick={handleSlider("right")}
+            className="md:absolute -right-16 bottom-24 3xl:bottom-36 3xl:-right-24 w-12 py-1  3xl:w-16 flex justify-end hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+          >
+            <ChevronRightIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
+          </button>
           </div>
+          </div>
+      
         </div>
       </div>
     </>

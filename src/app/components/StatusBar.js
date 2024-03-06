@@ -37,7 +37,7 @@ export const StatusBar = ({
   audioPage,
   playing,
   open,
-  page
+  page,
 }) => {
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);

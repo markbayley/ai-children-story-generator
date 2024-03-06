@@ -1,5 +1,6 @@
 import { TrashIcon } from "@heroicons/react/20/solid";
 import {
+  ArrowPathIcon,
   ArrowUpTrayIcon,
   EyeIcon,
   HandThumbUpIcon,
@@ -35,7 +36,7 @@ export const BookIcons = ({
   audioPage,
   lastPage,
   setAudioPage,
-  handleViewBook
+  handleViewBook,
 }) => {
   // Delete Modal
   let [isOpen, setIsOpen] = useState(false);
@@ -111,19 +112,17 @@ export const BookIcons = ({
           <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-1 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
             {selectedBook?.likedBy?.includes(userId) ? "Liked" : "Like"}
           </span>
-          {  selectedBook?.likedBy?.includes(userId) &&
-          <span
-            className={"absolute -top-3 -right-3 px-1  border-2  text-xs 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-teal-500  text-white rounded-full "
-                
-            }
-          >
-            {selectedBook?.likes || 0}
-          </span>
-}
+          {selectedBook?.likes > 0 && (
+            <span
+              className={
+                "absolute -top-3 -right-3 px-1  border-2  text-xs 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-teal-500  text-white rounded-full "
+              }
+            >
+              {selectedBook?.likes || 0}
+            </span>
+          )}
         </div>
       )}
-
-
 
       <div
         onClick={() => {
@@ -141,7 +140,7 @@ export const BookIcons = ({
         <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-1 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
           {selectedBook?.sharedBy?.includes(userId) ? "Shared" : "Share"}
         </span>
-        {selectedBook?.sharedBy?.includes(userId) && (
+        {selectedBook?.shares > 0 && (
           <span
             className={
               "absolute -top-3 -right-3 px-1  border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-indigo-500  text-white rounded-full"
@@ -152,12 +151,14 @@ export const BookIcons = ({
         )}
       </div>
 
-
       <div
         onClick={() => {
           //handleViewBook(selectedBook?.id, userId)
           //setPage(audioPages + 1);
-          setMessage({ text: `Read  ${selectedBook.views}  times`, type: "view" });
+          setMessage({
+            text: `Read  ${selectedBook.views}  times`,
+            type: "view",
+          });
         }}
         className={
           selectedBook?.views == 0
@@ -170,14 +171,14 @@ export const BookIcons = ({
           {page != audioPages + 1 ? "Views" : "Viewed"}
         </span>
         {/* {selectedBook?.viewedBy?.includes(userId) && ( */}
-          <span
-            className={
-              "absolute -top-3 -right-3 px-1  border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-amber-500  text-white rounded-full"
-            }
-          >
-            {selectedBook?.views || 0}
-          </span>
-         {/* )} */}
+        <span
+          className={
+            "absolute -top-3 -right-3 px-1  border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-amber-500  text-white rounded-full"
+          }
+        >
+          {selectedBook?.views || 0}
+        </span>
+        {/* )} */}
       </div>
 
       {(selectedBook?.audioUrl || audio) && (
@@ -195,12 +196,27 @@ export const BookIcons = ({
           {playing ? (
             <SpeakerWaveIcon
               className="max-w-xs h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2"
-              onClick={() => { setMessage({ text: "", type: "" }); setPage(audioPage)}}
+              onClick={() => {
+                setMessage({ text: "", type: "" });
+                setPage(audioPage);
+              }}
+            />
+          ) : page == lastPage ? (
+            <ArrowPathIcon
+              className="max-w-xs h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2"
+              onClick={() => {
+                setMessage({ text: "", type: "" });
+                setPage(0);
+                setAudioPage(0)
+              }}
             />
           ) : (
             <SpeakerXMarkIcon
               className="max-w-xs h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2"
-              onClick={() => { setMessage({ text: "", type: "" }); setPage(audioPage)}}
+              onClick={() => {
+                setMessage({ text: "", type: "" });
+                setPage(audioPage);
+              }}
             />
           )}
           <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-0 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">

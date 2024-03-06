@@ -52,6 +52,7 @@ export const StoryDisplay = ({
   setAudio,
   handleViewBook,
 }) => {
+  
   const storyText = storySelected || storyUnsaved;
   const selectedTitle = extractTitleFromStory(storyText);
   //console.log("selectedTitle", selectedTitle, "UnsavedTitle", unsavedTitle);
@@ -78,7 +79,6 @@ export const StoryDisplay = ({
   useEffect(() => {
     if (!storyText) {
       setAudioPages(0);
-
       return;
     }
 
@@ -110,10 +110,6 @@ export const StoryDisplay = ({
         return;
       }
       lastTimeChecked = audioCurrent.currentTime;
-
-      // if ( page == lastPage) {
-      //   return
-      // }
 
       const paragraphs = prepareText(storyText);
       const startIndex = (page - 1) * paragraphsPerPage;
@@ -153,14 +149,9 @@ export const StoryDisplay = ({
         audioCurrent.duration
       );
 
-      // if (page >= lastPage) {
-      //   return
-      // }
-      // Logic to determine if it's time to turn the page
-
       if (
         audioCurrent.currentTime >= audioCurrent.duration - 2 &&
-        page < lastPage
+        page == audioPages
       ) {
         console.log("TO LAST PAGE");
         setPage(lastPage);
@@ -169,7 +160,7 @@ export const StoryDisplay = ({
         // return
       } else if (
         audioCurrent.currentTime >= estimatedPageDuration * page &&
-        page < lastPage - 1
+        page < audioPages
       ) {
         setPage((prevPage) => prevPage + 1);
         setAudioPage((prevPage) => prevPage + 1);
@@ -332,6 +323,7 @@ export const StoryDisplay = ({
               audioPage={audioPage}
               lastPage={lastPage}
               handleViewBook={handleViewBook}
+              setAudioPage={setAudioPage}
             />
             {/* Text Section */}
             <div

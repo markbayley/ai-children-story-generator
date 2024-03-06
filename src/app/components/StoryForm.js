@@ -169,7 +169,7 @@ export const StoryForm = ({
   }
 
   return (
-    <div className="flex justify-start w-full lg:w-[33vw] 3xl:w-[28vw] 3xl:text-2xl px-4 3xl:pt-40">
+    <div className="flex justify-start w-full lg:w-[33vw] xl:w-[28vw] 3xl:text-2xl px-4 3xl:pt-40">
       <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl w-full">
         <div className="text-orange-300 ">
           <h1 className="font-bold font-antiqua text-5xl 2xl:text-6xl 3xl:text-8xl">
@@ -178,7 +178,7 @@ export const StoryForm = ({
         </div>
         <h3 className="py-2 text-md font-normal text-white">
         Create stories with AI and bring your imagination to life! 
-          Write your own prompt or generate one below to get started.
+          Write your own prompt or generate one to get started.
           
    
         </h3>
