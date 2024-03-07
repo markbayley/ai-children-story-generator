@@ -3,6 +3,8 @@ import pic7 from "/public/pic7.jpg";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
+  HandThumbUpIcon,
+  SpeakerWaveIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { Tab } from "@headlessui/react";
@@ -24,11 +26,11 @@ export const StorySelector = ({
   loading,
   playing,
   setPlaying,
+  tabSelected,
+  setTabSelected
 }) => {
   const PreviewContent = ({ book }) => {
     const [imageLoadError, setImageLoadError] = useState(false);
-
-    
 
     const handleImageError = () => {
       setImageLoadError(true);
@@ -40,7 +42,7 @@ export const StorySelector = ({
 
     const formatTitle = () => {
       const previewTitle = extractTitleFromStory(book?.story);
-      
+
       if (previewTitle.length > 25) {
         return previewTitle.substr(0, 20) + "...";
       }
@@ -61,11 +63,11 @@ export const StorySelector = ({
           } border-2 rounded-tl-lg rounded-full`}
         >
           <div className="px-1 flex h-full items-center justify-center">
-            <span className="text-lg md:text-sm">
-              {book?.creatorName || book?.displayName}
+            <span className="text-lg md:text-sm 3xl:text-lg">
+              {book?.creatorName || book?.displayName || "Anonymous"}
             </span>
             {book?.creatorPhotoURL && !imageLoadError ? (
-              <div className="relative aspect-square rounded-full w-11 md:w-6 mx-[2px]">
+              <div className="relative aspect-square rounded-full w-11 md:w-6 ml-1">
                 <Image
                   src={book?.creatorPhotoURL}
                   alt="profile-mini"
@@ -74,47 +76,85 @@ export const StorySelector = ({
                   (max-width: 1200px) 50vw,
                   33vw"
                   cover="true"
-                  className="rounded-full object-cover border-2 "
+                  className={ userId != book.userId ? "rounded-full object-cover border-amber-500 border-2" : "rounded-full object-cover border-white border-2" }
                   onError={handleImageError}
                 />
               </div>
             ) : (
-              <UserCircleIcon className="w-12 aspect-square md:w-7" />
+              <UserCircleIcon className="w-12 aspect-square md:w-7 -mr-1" />
             )}
           </div>
         </div>
 
-        {/* Likes Icon */}
-        <div
-          className={`z-10 right-1 top-1 absolute w-1/6 h-1/6 text-2xl md:text-sm flex justify-center items-center group rounded-full rounded-br ${
-            book?.likedBy?.includes(userId)
-              ? "bg-teal-500 border-teal-500 text-white"
-              : "bg-slate-700 text-teal-500 border-teal-500"
-          } border-2`}
-        >
-          <div className="rounded-full text-center shadow-xl">
-            <span className="scale-0 group-hover:scale-100 transition-all absolute right-8 bg-slate-700 px-2 rounded text-white">
-              {book?.likedBy?.includes(userId) ? "liked" : "likes"}
-            </span>
-            {book.likes}
-          </div>
+        <div className="absolute flex flex-col w-full h-full items-end gap-1 p-1">
+               {/* Audio Icon */}
+               {book?.audioUrl && (
+            <div className="z-10  w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-blue-500 border-blue-500 text-white border-2">
+              <div className="rounded-full text-center shadow-xl">
+                <span className="scale-0 group-hover:scale-100 transition-all absolute right-9 bg-slate-700 px-1 rounded text-white">
+                  {book?.audioUrl ? "audio" : ""}
+                </span>
+                <SpeakerWaveIcon className="h-4 w-4" />
+              </div>
+            </div>
+          )}
+          {/* Likes Icon */}
+          {book?.likes > 0 && (
+            <div className="z-10  w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full rounded-br bg-teal-500 border-teal-500 text-white border-2">
+           
+              <div className="rounded-full text-center shadow-xl">
+           
+                <span className="scale-0 group-hover:scale-100 transition-all absolute right-9 bg-slate-700 px-1 rounded text-white">
+                  {book?.likedBy?.includes(userId) ? "liked" : "likes"}
+                </span>
+                {book.likes || 0}
+              </div>
+            </div>
+          )}
+
+          {/* Shares Icon */}
+          {book?.shares > 0 && (
+            <div className="z-10  w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-indigo-500 border-indigo-500 text-white border-2">
+              <div className="rounded-full text-center shadow-xl">
+                <span className="scale-0 group-hover:scale-100 transition-all absolute right-9 bg-slate-700 px-1 rounded text-white">
+                  {book?.sharedBy?.includes(userId) ? "shared" : "shares"}
+                </span>
+                {book.shares || 0}
+              </div>
+            </div>
+          )}
+
+          {/* Views Icon */}
+          {book?.views > 0 && (
+            <div
+              className="z-10  w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-amber-500 border-amber-500 text-white border-2">
+              <div className="rounded-full text-center shadow-xl">
+                <span className="scale-0 group-hover:scale-100 transition-all absolute right-9 bg-slate-700 px-1 rounded text-white">
+                  {book?.viewedBy?.includes(userId) ? "viewed" : "views"}
+                </span>
+                {book.views || 0}
+              </div>
+            </div>
+          )}
+
+     
         </div>
 
         {/* Title */}
         <div className="absolute whitespace-nowrap bottom-1 left-0 h-1/6 z-10 max-w-fit capitalize overflow-x-hidden">
-          <h5 className="pr-2 p-1 flex h-full w-full text-sm items-center justify-center font-normal rounded-r-full bg-slate-700 border-amber-500 text-amber-500 rounded border-2 border-l-0">
-            { formatTitle() || "Untitled"}
+          <h5 className="pr-2 p-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-center justify-center font-normal rounded-r-full bg-slate-700 border-amber-500 text-amber-500 rounded border-2 border-l-0">
+            {formatTitle() || "Untitled"}
           </h5>
         </div>
         {/* Image */}
         <div className="relative w-full h-full aspect-square flex items-center justify-center">
-          {book.imageUrls && book.imageUrls.length > 0 && !imageLoadError && (
+          {book?.imageUrls && book.imageUrls.length > 0 && !imageLoadError && (
             <>
               {/* {<div className="spinner w-10 h-10 absolute z-20"></div>} */}
               <Image
                 src={book.imageUrls[0] || pic7}
                 //src={pic7}
-                 fill
+                fill
                 sizes="(max-width: 768px) 100vw,
                 (max-width: 1200px) 50vw,
                 33vw"
@@ -133,16 +173,24 @@ export const StorySelector = ({
 
   const booksPerPage = 6;
 
-  const totalPages = Math.ceil(allBooks.length / booksPerPage);
-  const myPages = Math.ceil([...allBooks].filter((book) => book?.userId == userId).length / booksPerPage);
-
-  const PaginationBars = ({ totalPages, myPages, tabSelected, currentSliceIndex, booksPerPage }) => {
+  const totalPages = Math.ceil(allBooks?.length / booksPerPage);
+  const myPages = Math.ceil(myBooks?.length / booksPerPage);
+console.log("myPages", myPages)
+  const PaginationBars = ({
+    totalPages,
+    myPages,
+    tabSelected,
+    currentSliceIndex,
+    booksPerPage,
+  }) => {
     const currentPage = Math.ceil(currentSliceIndex / booksPerPage);
 
     return (
       <div className="md:flex md:justify-center ">
         <div className="flex items-center justify-center space-x-2  ">
-          {Array.from({ length: tabSelected == "My Stories" ? myPages : totalPages }).map((_, index) => (
+          {Array.from({
+            length: tabSelected == "My Stories" ? myPages : totalPages,
+          }).map((_, index) => (
             <div
               key={index}
               className={`h-1 w-4 mt-4 mb-2 rounded-sm  ${
@@ -176,7 +224,7 @@ export const StorySelector = ({
         // Move to the next set of books if not at the end
         newIndex = Math.min(
           prevIndex + booksPerPage,
-          allBooks.length - booksPerPage
+          allBooks?.length - booksPerPage
         );
       } else if (direction === "left") {
         // Move to the previous set of books if not at the start
@@ -186,20 +234,16 @@ export const StorySelector = ({
     });
   };
 
-  const [tabSelected, setTabSelected] = useState("Recent");
-  //const [sortOrder, setSortOrder] = useState(allBooks.createdAt);
-  //console.log("tabSelected", tabSelected);
 
   // Function to sort books based on the selected tab
   const getSortedBooks = () => {
-   
     switch (tabSelected) {
       case "Recent":
         return [...allBooks].sort((a, b) => b.createdAt - a.createdAt);
       case "Popular":
-        return [...allBooks].sort((a, b) => b.likes - a.likes);
+        return [...allBooks].sort((a, b) => ((b.likes + b.shares + b.views) - (a.likes + a.shares + a.views)));
       case "My Stories":
-        return [...allBooks].filter((book) => book?.userId == userId); // Assuming myBooks is already fetched and doesn't need sorting
+        return [...allBooks].filter((book) => book?.userId == userId); 
       default:
         return allBooks;
     }
@@ -217,8 +261,7 @@ export const StorySelector = ({
             }
             onClick={() => {
               setTabSelected("Recent");
-              setCurrentSliceIndex(0)
-            
+              setCurrentSliceIndex(0);
             }}
           >
             Recent
@@ -226,13 +269,12 @@ export const StorySelector = ({
           <button
             className={
               tabSelected == "Popular"
-              ? "text-white p-3 rounded-t-md w-28 bg-sky-900"
-              : "text-gray-500 p-3 hover:text-white rounded-t-md w-28 bg-sky-950"
+                ? "text-white p-3 rounded-t-md w-28 bg-sky-900"
+                : "text-gray-500 p-3 hover:text-white rounded-t-md w-28 bg-sky-950"
             }
             onClick={() => {
               setTabSelected("Popular");
-              setCurrentSliceIndex(0)
-           
+              setCurrentSliceIndex(0);
             }}
           >
             Popular
@@ -241,12 +283,12 @@ export const StorySelector = ({
           <button
             className={
               tabSelected == "My Stories"
-              ? "text-white p-3 rounded-t-md w-28 bg-sky-900"
-              : "text-gray-500 p-3 hover:text-white rounded-t-md w-28 bg-sky-950"
+                ? "text-white p-3 rounded-t-md w-28 bg-sky-900"
+                : "text-gray-500 p-3 hover:text-white rounded-t-md w-28 bg-sky-950"
             }
             onClick={() => {
               setTabSelected("My Stories");
-              setCurrentSliceIndex(0)
+              setCurrentSliceIndex(0);
               // setSortOrder(allBooks.userId);
             }}
           >
@@ -255,9 +297,9 @@ export const StorySelector = ({
         </div>
 
         <div className="">
-          <div className="w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-6 md:pt-6 p-2">
+          <div className="w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 3xl:px-4 3xl:pt-4 p-2 min-h-[250px] 3xl:min-h-[300px]">
             {/* Map All Stories */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 text-sm min-h-[180px] 3xl:min-h-[360px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 3xl:gap-4 text-sm ">
               {getSortedBooks()
                 .slice(currentSliceIndex, currentSliceIndex + booksPerPage)
                 .map((book) => (
@@ -266,39 +308,36 @@ export const StorySelector = ({
                     key={book.id}
                     className={
                       selectedBook?.id != book?.id
-                        ? "relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-amber-500 duration-200 rounded-tr-xl "
-                        : "relative flex items-end justify-center cursor-pointer fade-in ring-4 ring-amber-500 transition ease-in-out hover:ring-amber-500 duration-200 rounded-tr-xl"
+                        ? "relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-xl "
+                        : "relative flex items-end justify-center cursor-pointer fade-in ring-2 ring-indigo-500 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-xl"
                     }
                   >
                     <PreviewContent book={book} />
                   </div>
                 ))}
-      
             </div>
-       
-       
+
             <PaginationBars
-            myPages={myPages}
+              myPages={myPages}
               totalPages={totalPages}
               currentSliceIndex={currentSliceIndex}
               booksPerPage={booksPerPage}
             />
             <div className="flex justify-between">
-                       <button
-            onClick={handleSlider("left")}
-            className="md:absolute -left-16 bottom-24 3xl:bottom-36 3xl:-left-24 w-12 py-1 3xl:w-16 flex justify-start hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
-          >
-            <ChevronLeftIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
-          </button>
-                <button
-            onClick={handleSlider("right")}
-            className="md:absolute -right-16 bottom-24 3xl:bottom-36 3xl:-right-24 w-12 py-1  3xl:w-16 flex justify-end hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
-          >
-            <ChevronRightIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
-          </button>
+              <button
+                onClick={handleSlider("left")}
+                className="lg:absolute md:-left-16 md:bottom-48 lg:bottom-64 xl:bottom-24 3xl:bottom-36 3xl:-left-24 w-12 py-1 3xl:w-16 flex justify-start hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+              >
+                <ChevronLeftIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
+              </button>
+              <button
+                onClick={handleSlider("right")}
+                className="lg:absolute md:-right-16 md:bottom-48 lg:bottom-64 xl:bottom-24 3xl:bottom-36 3xl:-right-24 w-12 py-1 3xl:w-16 flex justify-end hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+              >
+                <ChevronRightIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
+              </button>
+            </div>
           </div>
-          </div>
-      
         </div>
       </div>
     </>

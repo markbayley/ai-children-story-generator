@@ -169,7 +169,7 @@ export const StoryForm = ({
   }
 
   return (
-    <div className="flex justify-start w-full lg:w-[33vw] xl:w-[28vw] 3xl:text-2xl px-4 3xl:pt-40">
+    <div className="flex justify-start w-full lg:w-[33vw] xl:w-[28vw] 3xl:text-2xl px-4">
       <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl w-full">
         <div className="text-orange-300 ">
           <h1 className="font-bold font-antiqua text-5xl 2xl:text-6xl 3xl:text-8xl">
@@ -208,7 +208,7 @@ export const StoryForm = ({
           >
             <p className="flex items-center text-sm font-semibold hover:text-orange-200 3xl:text-2xl">
               Generate idea?{" "}
-              <span className="flex items-center justify-center bg-sky-900 h-8 w-8 ml-1 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
+              <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-1 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
                 <LightBulbIcon className="h-5 w-5" />
               </span>
             </p>

@@ -20,12 +20,12 @@ export const BookImage = ({
     const defaultImages = [
       // forest,
       // fair,
-      // mushrooms,
+       mushrooms,
       // fairys,
       // flowers,
       // pic7,
       // pic7,
-      tree
+      //tree
     ];
     return defaultImages[page] || defaultImages[0];
   };
@@ -40,18 +40,20 @@ export const BookImage = ({
         : getDefaultImage(page);
 
     return (
-      <div className="flex justify-center items-center relative fade-in border-2 border-stone-700 rounded-md">
-        {<div className="spinner w-full h-full absolute"></div>}
+      <div className="flex justify-center items-center relative fade-in border-2 border-stone-700 rounded-md font-antiqua">
+        {<div className="spinner w-full h-full absolute font-antiqua"></div>}
         {imageSrc && !imageLoadError && (
           <Image
           // priority={true}
           // loading="eager"
             alt="page-image"
-            style={{ borderRadius: "5px 5px 5px 5px", opacity: "0.9" }}
+            style={{ borderRadius: "5px 5px 5px 5px", fontFamily: "Glass Antiqua" }}
             width={950}
             height={950}
             src={imageSrc}
             onError={handleImageError}
+            className="font-antiqua"
+           
           />
         // ) : (
         //   <div className="spinner w-full h-full absolute"></div>
@@ -79,16 +81,11 @@ export const BookImage = ({
   
       <div className="m-2 md:m-4 xl:m-12 3xl:m-20 sm:rounded-tl-xl sm:rounded-bl-xl">
         {page > lastPage ? (
-          <div className="relative flex  justify-center font-antiqua glass-antiqua">
+          <div className="relative flex justify-center">
             <Image
               src={tree}
               alt="last-page"
-              className="font-antiqua glass-antiqua opacity-70 w-96"
-              style={{
-                fontFamily: "Glass Antiqua",
-                fontWeight: "400",
-                fontStyle: "normal",
-              }}
+              className=""
             />
           </div>
         ) : (

@@ -71,7 +71,7 @@ export const StoryDisplay = ({
     // console.log("CPP", currentPageParagraphs)
     return currentPageParagraphs.reduce((totalWords, paragraph) => {
       const words = paragraph.split(" ");
-      return totalWords + words.length;
+      return totalWords + words?.length;
     }, 0);
   };
 
@@ -84,7 +84,7 @@ export const StoryDisplay = ({
 
     const paragraphs = prepareText(storyText);
     // console.log("paragraphs", paragraphs, "paragraphs.length", paragraphs.length);
-    const lastAudioPage = Math.ceil(paragraphs.length / paragraphsPerPage);
+    const lastAudioPage = Math.ceil(paragraphs?.length / paragraphsPerPage);
     console.log(
       "lastAudioPage",
       lastAudioPage,
@@ -99,34 +99,34 @@ export const StoryDisplay = ({
 
   // Handle audio play and page turn logic
   useEffect(() => {
-    const audioCurrent = audioRef.current;
+    const audioCurrent = audioRef?.current;
     if (!audioCurrent) return;
 
     let lastTimeChecked = 0;
 
     const handleTimeUpdate = () => {
-      if (audioCurrent.currentTime - lastTimeChecked < 1) {
+      if (audioCurrent?.currentTime - lastTimeChecked < 1) {
         // Skip if less than 1 second has passed since last check
         return;
       }
-      lastTimeChecked = audioCurrent.currentTime;
+      lastTimeChecked = audioCurrent?.currentTime;
 
       const paragraphs = prepareText(storyText);
       const startIndex = (page - 1) * paragraphsPerPage;
       const endIndex = Math.min(
         startIndex + paragraphsPerPage,
-        paragraphs.length
+        paragraphs?.length
       );
       const currentPageParagraphs = paragraphs.slice(startIndex, endIndex);
 
       const totalWords = countWords(paragraphs);
       const currentPageWords = countWords(currentPageParagraphs);
       const estimatedPageDuration =
-        audioCurrent.duration * (currentPageWords / totalWords);
+        audioCurrent?.duration * (currentPageWords / totalWords);
 
       console.log(
-        `Total time: ${audioCurrent.duration}, 
-       Current time: ${audioCurrent.currentTime},
+        `Total time: ${audioCurrent?.duration}, 
+       Current time: ${audioCurrent?.currentTime},
        Estimated duration page ${page}: ${estimatedPageDuration},
        audioPages: ${audioPages}
        lastPage: ${lastPage}
@@ -138,7 +138,7 @@ export const StoryDisplay = ({
       );
       console.log(
         "CALCULATION",
-        audioCurrent.currentTime,
+        audioCurrent?.currentTime,
         ">=",
         estimatedPageDuration * page,
         "AND",
@@ -146,7 +146,7 @@ export const StoryDisplay = ({
         ",",
         lastPage,
         "OR >=",
-        audioCurrent.duration
+        audioCurrent?.duration
       );
 
       if (
@@ -157,6 +157,7 @@ export const StoryDisplay = ({
         setPage(lastPage);
         setAudioPage(lastPage);
         setPlaying(false);
+        handleViewBook(selectedBook.id, userId)
         // return
       } else if (
         audioCurrent.currentTime >= estimatedPageDuration * page &&
@@ -177,6 +178,11 @@ export const StoryDisplay = ({
         console.log("pageTURN");
       }
     };
+
+    if ( playing && page == 0 && audioCurrent.currentTime > 5) {
+      setPage(1)
+      setAudioPage(1)
+    }
 
     audioCurrent.addEventListener("timeupdate", handleTimeUpdate);
 
@@ -207,7 +213,7 @@ export const StoryDisplay = ({
                 <img
                   src={selectedBook?.creatorPhotoURL}
                   alt="profile-mini"
-                  className="h-24 w-24 object-cover border-4 border-stone-700 m-[2px] rounded-full"
+                  className="h-24 w-24 object-cover border-2 border-stone-600 m-[2px] rounded-full"
                 />
               </div>
             )}
@@ -232,7 +238,7 @@ export const StoryDisplay = ({
             <br />
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
               {!loading
-                ? `The story has been viewed ${selectedBook.views} times today.`
+                ? `The story has been viewed ${selectedBook?.views} times today.`
                 : "The story is loading... please wait."}
             </p>
             ~
@@ -290,7 +296,7 @@ export const StoryDisplay = ({
     <>
       <div className="fade-in 3xl:pt-12">
         <div className=" border-r sm:border-l-1 sm:rounded-xl bg-orange-200 xl:bg-gradient-to-r from-orange-200 from-20% via-stone-700 via-50% to-orange-200 to-80% ...">
-          <div className="sm:border-r-2 sm:border-l-1 sm:rounded-xl sm:border-stone-800 mx-auto xl:flex border xl:h-[87vh] 3xl:h-[80vh]">
+          <div className="sm:border-r-2 sm:border-l-1 sm:rounded-xl sm:border-stone-800 mx-auto xl:flex border xl:h-[87vh]">
             <BookImage
               imagesSelected={imagesSelected}
               page={page}
@@ -327,7 +333,7 @@ export const StoryDisplay = ({
             />
             {/* Text Section */}
             <div
-              className="flex flex-col w-full xl:w-1/2 p-2 md:p-4 xl:px-10 xl:pt-11 xl:pb-4 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-15%  to-orange-200 to-100% ...
+              className="flex flex-col w-full xl:w-1/2 p-2 md:p-4 xl:px-10 xl:pt-11 xl:pb-4 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-15%  to-orange-200 to-100%
                 sm:rounded xl:rounded-xl xl:border xl:rounded-tr-lg xl:rounded-br-lg xl:border-l-4 xl:border-stone-700  text-stone-900"
             >
               <div className="relative flex justify-end items-start text-stone-900 mt-2 md:mt-0">
@@ -346,7 +352,7 @@ export const StoryDisplay = ({
                 </div>
               </div>
 
-              <div className="h-full text-stone-900  text-2xl xl:text-xl 2xl:text-2xl 3xl:text-4xl  3xl:p-10 w-full no-scrollbar overflow-y-auto">
+              <div className="h-full text-stone-900 text-xl 3xl:text-4xl 3xl:p-10 w-full no-scrollbar overflow-y-auto">
                 {!storySelected && !storyUnsaved && !loading ? (
                   <div className="flex justify-center items-center h-full italic text-[20px] text-center font-antiqua">
                     Please click on a story or create a new story to start

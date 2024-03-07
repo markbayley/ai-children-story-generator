@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
-export default function IconModal({isOpen, closeModal, handleDeleteBook, selectedBook}) {
+export default function IconModal({isOpen, setIsOpen, closeModal, handleDeleteBook, selectedBook, setPlaying}) {
 
   return (
     <>
@@ -50,7 +50,7 @@ export default function IconModal({isOpen, closeModal, handleDeleteBook, selecte
                       onClick={() => { 
                         handleDeleteBook(selectedBook.id); 
                         closeModal();
-                        setOpen(false);
+                        setIsOpen(false);
                         //setMessage("");
                         setPlaying(false);
                         //setAudio("");

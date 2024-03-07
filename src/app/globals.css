@@ -46,7 +46,7 @@ audio::-webkit-media-controls-panel {
   background: conic-gradient(
     from 180deg at 50% 50%,
     rgba(82, 0, 255, 0) 0deg,
-    orange 360deg
+    teal 360deg
   );
   animation: spin 2s linear;
   opacity: 0;
@@ -97,3 +97,8 @@ audio::-webkit-media-controls-panel {
   animation: fade-out ease 5.5s;
   animation-iteration-count: 1;
 }
+
+
+/* @media (min-width: 1280px){
+  .storytext { font-size: calc(0.5rem + 1vw) }
+} */

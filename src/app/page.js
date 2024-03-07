@@ -25,10 +25,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config";
 import { FooterNav } from "./components/FooterNav";
 
-
 export default function StoryPage() {
-  // Book Auth
-  const [userId, setUserId] = useState();
+  const [user] = useAuthState(auth);
+  // Get urrent user
+  useEffect(() => {
+    if (user) {
+      setUserId(user.uid);
+    }
+  }, [user]);
 
   // Book Creation
   const [unsavedTitle, setUnsavedTitle] = useState("");
@@ -65,12 +69,16 @@ export default function StoryPage() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [myStoriesSelected, setMyStoriesSelected] = useState(false);
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
+  const [tabSelected, setTabSelected] = useState("Recent");
+
+  // Book Auth
+  const [userId, setUserId] = useState();
+  console.log("userId", userId);
 
   // Fetch books when userId changes
   useEffect(() => {
-    fetchUserBooks();
     fetchAllBooks();
-  }, [userId]);
+  }, [userId, !open]);
 
   const resetStory = () => {
     setShow(false);
@@ -209,14 +217,6 @@ export default function StoryPage() {
   };
 
   // SAVING A BOOK //
-  const [user] = useAuthState(auth);
-  // Get urrent user
-  useEffect(() => {
-    if (user) {
-      setUserId(user.uid);
-    }
-  }, [user]);
-
   // Generate a unique book ID
   const generateBookId = () => {
     return `book_${new Date().getTime()}`;
@@ -290,10 +290,12 @@ export default function StoryPage() {
         bookId
       );
       // After saving the book, refetch the books list
-      fetchAllBooks();
-      const book = myBooks.find((b) => b.id === bookId);
+      await fetchAllBooks();
+      setPlaying(false);
 
+      const book = myBooks.find((b) => b.id === bookId);
       if (book) {
+        console.log("book to select");
         setSelectedBook(book);
       }
       setMessage({ text: "Book Saved!", type: "create" });
@@ -315,7 +317,7 @@ export default function StoryPage() {
     const db = getFirestore();
     const creatorName = user.displayName;
     const creatorPhotoURL = user.photoURL;
-    const title = unsavedTitle
+    const title = unsavedTitle;
     const story = storyUnsaved;
     const likedBy = [];
     const likes = 0;
@@ -363,40 +365,16 @@ export default function StoryPage() {
   };
 
   // RETRIEVING BOOKS //
-  const fetchUserBooks = async () => {
-    // Get current user's books
-    if (userId) {
-      //setMessage({ text: "Fetching Books...", type: "save" });
-      const fetchedBooks = await getBooksForUser(userId);
-      setMyBooks(fetchedBooks);
-    }
-  };
-
-  // Called in function above
-  const getBooksForUser = async (userId) => {
-    const db = getFirestore();
-    const q = query(collection(db, "books"), where("userId", "==", userId));
-    const querySnapshot = await getDocs(q);
-    let myBooks = [];
-    querySnapshot.forEach((doc) => {
-      myBooks.push({
-        id: doc.id,
-        ...doc.data(),
-        creatorPhotoURL: user.photoURL,
-      });
-    });
-    return myBooks;
-  };
-
   // Get all the books
   const fetchAllBooks = async () => {
     setLoading(true);
     try {
-    const fetchedBooks = await getAllBooks(userId);
-    setAllBooks(fetchedBooks);
-    setLoading(false);
-    }
-    catch (error) {
+      const fetchedBooks = await getAllBooks(userId);
+      setAllBooks(fetchedBooks);
+      const userBooks = fetchedBooks.filter((book) => book?.userId == userId);
+      setMyBooks(userBooks);
+      setLoading(false);
+    } catch (error) {
       setMessage({ text: "Quota Exceeded", type: "error" });
       setLoading(false);
     }
@@ -412,20 +390,18 @@ export default function StoryPage() {
     querySnapshot.forEach((doc) => {
       allBooks.push({ id: doc.id, ...doc.data() });
     });
-    return allBooks.slice(0,20);
+    return allBooks;
   };
-
 
   // SHARING A BOOK //
   const handleShareBook = async (bookId, userId) => {
     try {
-      await fetchBookToShare(bookId, userId); 
-
+      await fetchBookToShare(bookId, userId);
     } catch (error) {
       setMessage({ text: "Shared Already!", type: "like" });
       console.error("Error sharing book: ", error);
     }
-    fetchAllBooks();
+    //fetchAllBooks();
   };
 
   const fetchBookToShare = async (bookId, userId) => {
@@ -458,47 +434,47 @@ export default function StoryPage() {
     }
   };
 
-    // VIEWs OF BOOK //
-    const handleViewBook = async (bookId, userId) => {
-      try {
-        await fetchBookByViews(bookId, userId); 
-        // UI logic as previously described
-      } catch (error) {
-        setMessage({ text: "Viewed Already!", type: "view" });
-        console.error("Error viewing book: ", error);
-      }
-      fetchAllBooks();
-    };
+  // VIEWs OF BOOK //
+  const handleViewBook = async (bookId, userId) => {
+    try {
+      await fetchBookByViews(bookId, userId);
+      // UI logic as previously described
+    } catch (error) {
+      setMessage({ text: "Viewed Already!", type: "view" });
+      console.error("Error viewing book: ", error);
+    }
+    //fetchAllBooks();
+  };
 
-    const fetchBookByViews = async (bookId, userId) => {
-      const db = getFirestore();
-      const bookRef = doc(db, "books", bookId);
-  
-      const docSnap = await getDoc(bookRef);
-      if (docSnap.exists()) {
-        const bookData = docSnap.data();
-  
-        // Check if the user has already liked the book
-        if (bookData.viewedBy && !bookData.viewedBy.includes(userId)) {
-          // Update the document to add the user to the likedBy array and increment likes
-          setSelectedBook({
-            ...selectedBook,
-            views: (selectedBook.views || 0) + 1,
-            viewedBy: [...(selectedBook.viewedBy || []), userId], // Also optimistically update the likedBy array
-          });
-          await updateDoc(bookRef, {
-            viewedBy: arrayUnion(userId),
-            views: increment(1),
-          });
-          setMessage({ text: "Book Viewed!", type: "view" });
-        } else {
-          setMessage({ text: "Already Viewed!", type: "view" });
-          // Optionally handle this case in the UI, e.g., by showing a message
-        }
+  const fetchBookByViews = async (bookId, userId) => {
+    const db = getFirestore();
+    const bookRef = doc(db, "books", bookId);
+
+    const docSnap = await getDoc(bookRef);
+    if (docSnap.exists()) {
+      const bookData = docSnap.data();
+
+      // Check if the user has already liked the book
+      if (bookData.viewedBy && !bookData.viewedBy.includes(userId)) {
+        // Update the document to add the user to the likedBy array and increment likes
+        setSelectedBook({
+          ...selectedBook,
+          views: (selectedBook.views || 0) + 1,
+          viewedBy: [...(selectedBook.viewedBy || []), userId], // Also optimistically update the likedBy array
+        });
+        await updateDoc(bookRef, {
+          viewedBy: arrayUnion(userId),
+          views: increment(1),
+        });
+        setMessage({ text: "Book Viewed!", type: "view" });
       } else {
-        console.log("No such document!");
+        setMessage({ text: "Already Viewed!", type: "view" });
+        // Optionally handle this case in the UI, e.g., by showing a message
       }
-    };
+    } else {
+      console.log("No such document!");
+    }
+  };
 
   // LIKING A BOOK //
   const handleLikeBook = async (bookId, userId) => {
@@ -516,7 +492,7 @@ export default function StoryPage() {
       setMessage({ text: "Liked Already!", type: "like" });
       console.error("Error liking book: ", error);
     }
-    fetchAllBooks();
+    //fetchAllBooks();
   };
 
   const fetchBookById = async (bookId, userId) => {
@@ -615,6 +591,69 @@ export default function StoryPage() {
     setDismiss(false);
   };
 
+  // FETCH PROFILES //
+
+  // Function to fetch user data from Firestore
+  // const fetchUserData = async () => {
+  //   const db = getFirestore();
+  //   const usersCollection = collection(db, "users");
+  //   const querySnapshot = await getDocs(usersCollection);
+  //  console.log("userCollection", usersCollection)
+  //   // Array to store user data
+  //   const userData = [];
+
+  //   // Iterate through each user document
+  //   querySnapshot.forEach((doc) => {
+  //     const user = doc.data();
+  //     // Add user data to the array
+  //     userData.push({
+  //       userId: doc.id,
+  //       displayName: user.displayName,
+  //       // Add other user properties as needed
+  //     });
+  //   });
+  // console.log("userData", userData)
+  //   return userData;
+  // };
+
+  // // Function to fetch profile image URLs from Firebase Storage
+  // const fetchProfileImageUrls = async (userData) => {
+  //   const storage = getStorage();
+  //   const profileImageUrls = [];
+
+  //   // Iterate through each user and fetch their profile image URL
+  //   userData.forEach(async (user) => {
+  //     try {
+  //       const imageUrl = await getDownloadURL(ref(storage, `profileImages/${auth.currentUser.uid}/profile7.jpg`));
+  //       profileImageUrls.push({ userId: user.userId, imageUrl });
+  //     } catch (error) {
+  //       // Handle errors (e.g., user profile image not found)
+  //       console.error("Error fetching profile image:", error);
+  //     }
+  //   });
+  // console.log("profileImageUrls", profileImageUrls)
+  //   return profileImageUrls;
+  // };
+
+  // // Function to fetch user data along with profile image URLs
+  // const fetchUserDataWithProfileImages = async () => {
+  //   const userData = await fetchUserData(); // Fetch user data
+  //   const profileImageUrls = await fetchProfileImageUrls(userData); // Pass userData to fetchProfileImageUrls
+
+  //   // Combine user data with profile image URLs
+  //   const userDataWithProfileImages = userData.map((user) => {
+  //     const profileImageUrl = profileImageUrls.find((item) => item.userId === user.userId)?.imageUrl;
+  //     return { ...user, profileImageUrl };
+  //   });
+  // console.log("userDataWithProfileImages", userDataWithProfileImages)
+  //   return userDataWithProfileImages;
+  // };
+
+  // // Usage
+  // fetchUserDataWithProfileImages().then((userDataWithProfileImages) => {
+  //   console.log("fetchUser", userDataWithProfileImages);
+  // });
+
   useEffect(() => {
     const audioCurrent = audioRef.current;
     //console.log("audioRef.currentUESP", audioRef?.current);
@@ -643,7 +682,8 @@ export default function StoryPage() {
     };
   }, [open, audio, loading]);
 
- // console.log("selectedBookSP", selectedBook);
+  console.log("selectedBookSP", selectedBook);
+  console.log("allBookSP", allBooks);
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col min-h-screen overflow-hidden no-scroll">
@@ -672,7 +712,7 @@ export default function StoryPage() {
           page={page}
         />
 
-        <div className="mx-0 md:mx-[10%] no-scroll pt-16">
+        <div className="mx-0 md:mx-[8%] no-scroll pt-16">
           {!open ? (
             <>
               <StoryForm
@@ -706,6 +746,8 @@ export default function StoryPage() {
                 loading={loading}
                 playing={playing}
                 setPlaying={setPlaying}
+                tabSelected={tabSelected}
+                setTabSelected={setTabSelected}
               />
             </>
           ) : (

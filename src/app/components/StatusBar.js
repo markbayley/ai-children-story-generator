@@ -46,18 +46,18 @@ export const StatusBar = ({
     switch (type) {
       case "save":
         return "fade-in bg-gradient-to-r from-rose-500/10 to-rose-500";
-      case "like":
-        return "fade-in bg-gradient-to-r from-teal-500/10 to-teal-500";
       case "delete":
         return "fade-in bg-gradient-to-r from-rose-500/10 to-rose-500";
       case "error":
         return "fade-in bg-gradient-to-r from-rose-500/10 to-rose-500";
+      case "like":
+        return "fade-in bg-gradient-to-r from-teal-500/10 to-teal-500";
       case "view":
         return "fade-in bg-gradient-to-r from-amber-500/10 via-amber-500/75 to-amber-500";
       case "share":
         return "fade-in bg-gradient-to-r from-indigo-500/10 to-indigo-500";
       case "create":
-        return "fade-in bg-gradient-to-r from-blue-500/10 to-blue-600";
+        return "fade-in bg-gradient-to-r from-amber-500/10 via-amber-500/75 to-amber-500";
       default:
          return "text-gray-500"; // Default color
     }

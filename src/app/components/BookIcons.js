@@ -48,6 +48,8 @@ export const BookIcons = ({
     setIsOpen(true);
   }
 
+  console.log("playing", playing, "audioRef.current.paused", audioRef?.current?.paused)
+
   return (
     <div className="max-x-sm xl:right-12 3xl:right-24 xl:absolute flex xl:flex-col justify-start xl:justify-end items-center xl:h-[60vh] gap-4 px-2 md:px-4 sm:gap-6 w-full xl:w-14 pb-4 text-sm">
       {selectedBook?.id == undefined && (
@@ -79,9 +81,11 @@ export const BookIcons = ({
         >
           <IconModal
             isOpen={isOpen}
+            setIsOpen={setIsOpen}
             closeModal={closeModal}
             handleDeleteBook={handleDeleteBook}
             selectedBook={selectedBook}
+            setPlaying={setPlaying}
           />
 
           {/* <button
@@ -124,62 +128,66 @@ export const BookIcons = ({
         </div>
       )}
 
-      <div
-        onClick={() => {
-          handleShareBook(selectedBook?.id, userId);
-          setMessage({ text: "Sharing Links", type: "share" });
-          setShow(true);
-        }}
-        className={
-          selectedBook?.sharedBy?.includes(userId)
-            ? "group relative text-white rounded hover:cursor-pointer border-2 border-indigo-500 bg-indigo-500"
-            : "group relative text-indigo-500 border-2 rounded border-indigo-500 hover:cursor-pointer hover:bg-indigo-500 hover:text-white xl:bg-sky-950"
-        }
-      >
-        <ShareIcon className="max-w-xs h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
-        <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-1 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
-          {selectedBook?.sharedBy?.includes(userId) ? "Shared" : "Share"}
-        </span>
-        {selectedBook?.shares > 0 && (
-          <span
-            className={
-              "absolute -top-3 -right-3 px-1  border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-indigo-500  text-white rounded-full"
-            }
-          >
-            {selectedBook?.shares || 0}
-          </span>
-        )}
-      </div>
-
-      <div
-        onClick={() => {
-          //handleViewBook(selectedBook?.id, userId)
-          //setPage(audioPages + 1);
-          setMessage({
-            text: `Read  ${selectedBook.views}  times`,
-            type: "view",
-          });
-        }}
-        className={
-          selectedBook?.views == 0
-            ? "group relative  text-amber-500 border-2 rounded border-amber-500 hover:cursor-pointer hover:bg-amber-500 hover:text-white xl:bg-sky-950"
-            : "group relative text-white rounded hover:cursor-pointer border-2 border-amber-500 bg-amber-500"
-        }
-      >
-        <EyeIcon className="max-w-xs h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
-        <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-1 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
-          {page != audioPages + 1 ? "Views" : "Viewed"}
-        </span>
-        {/* {selectedBook?.viewedBy?.includes(userId) && ( */}
-        <span
+      {selectedBook?.id != undefined && (
+        <div
+          onClick={() => {
+            handleShareBook(selectedBook?.id, userId);
+            //setMessage({ text: "Sharing Links", type: "share" });
+            //setShow(true);
+          }}
           className={
-            "absolute -top-3 -right-3 px-1  border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-amber-500  text-white rounded-full"
+            selectedBook?.sharedBy?.includes(userId)
+              ? "group relative text-white rounded hover:cursor-pointer border-2 border-indigo-500 bg-indigo-500"
+              : "group relative text-indigo-500 border-2 rounded border-indigo-500 hover:cursor-pointer hover:bg-indigo-500 hover:text-white xl:bg-sky-950"
           }
         >
-          {selectedBook?.views || 0}
-        </span>
-        {/* )} */}
-      </div>
+          <ShareIcon className="max-w-xs h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
+          <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-1 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
+            {selectedBook?.sharedBy?.includes(userId) ? "Shared" : "Share"}
+          </span>
+          {selectedBook?.shares > 0 && (
+            <span
+              className={
+                "absolute -top-3 -right-3 px-1  border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-indigo-500  text-white rounded-full"
+              }
+            >
+              {selectedBook?.shares || 0}
+            </span>
+          )}
+        </div>
+      )}
+
+      {selectedBook?.id != undefined && (
+        <div
+          onClick={() => {
+            //handleViewBook(selectedBook?.id, userId)
+            //setPage(audioPages + 1);
+            setMessage({
+              text: `Read  ${selectedBook.views}  times`,
+              type: "view",
+            });
+          }}
+          className={
+            selectedBook?.views == 0
+              ? "group relative  text-amber-500 border-2 rounded border-amber-500 hover:cursor-pointer hover:bg-amber-500 hover:text-white xl:bg-sky-950"
+              : "group relative text-white rounded hover:cursor-pointer border-2 border-amber-500 bg-amber-500"
+          }
+        >
+          <EyeIcon className="max-w-xs h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2" />
+          <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-1 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
+            {page != audioPages + 1 ? "Views" : "Viewed"}
+          </span>
+          {/* {selectedBook?.viewedBy?.includes(userId) && ( */}
+          <span
+            className={
+              "absolute -top-3 -right-3 px-1  border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-amber-500  text-white rounded-full"
+            }
+          >
+            {selectedBook?.views || 0}
+          </span>
+          {/* )} */}
+        </div>
+      )}
 
       {(selectedBook?.audioUrl || audio) && (
         <div
@@ -193,7 +201,7 @@ export const BookIcons = ({
               : "group relative bg-blue-600 border-2 border-blue-600 text-white rounded cursor-pointer"
           }
         >
-          {playing ? (
+          {playing  ? (
             <SpeakerWaveIcon
               className="max-w-xs h-9 w-9 p-1 3xl:h-14 3xl:w-14 3xl:p-2"
               onClick={() => {
@@ -207,7 +215,7 @@ export const BookIcons = ({
               onClick={() => {
                 setMessage({ text: "", type: "" });
                 setPage(0);
-                setAudioPage(0)
+                setAudioPage(0);
               }}
             />
           ) : (
@@ -218,7 +226,7 @@ export const BookIcons = ({
                 setPage(audioPage);
               }}
             />
-          )}
+         )}
           <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-0 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
             {playing ? "Mute" : "Play"}
           </span>
