@@ -249,7 +249,7 @@ export const StatusBar = ({
         {message && message.text != "" ? (
           <div
             onClick={() => setMessage({ text: "", type: "" })}
-            className={` pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer ${messageColor(
+            className={`fade-in transition-all pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer shadow-md hover:shadow-md hover:shadow-indigo-500/30 ${messageColor(
               message.type
             )} rounded-full rounded-tl-lg shadow-lg `}
           >
@@ -257,7 +257,7 @@ export const StatusBar = ({
             <span className="text-sm font-semibold 3xl:text-xl 3xl:p-4">
               {message.text}
             </span>
-            <Image src={CloseIcon} alt="close-icon" className="h-4 aspect-square absolute top-1 right-2  3xl:h-6 3xl:w-6 mr-1" />
+            <Image src={CloseIcon} alt="close-icon" className="h-4 aspect-square absolute top-1 right-2 3xl:h-6 3xl:w-6 mr-1" />
           </div>
         ) :  ((selectedBook?.audioUrl || audio) && open) ? (
           <div

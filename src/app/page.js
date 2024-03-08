@@ -77,7 +77,7 @@ export default function StoryPage() {
 
   // Fetch books when userId changes
   useEffect(() => {
-    fetchAllBooks();
+    //fetchAllBooks();
   }, [userId, !open]);
 
   const resetStory = () => {
@@ -685,9 +685,129 @@ export default function StoryPage() {
   console.log("selectedBookSP", selectedBook);
   console.log("allBookSP", allBooks);
 
+  function getRandom(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+  const stars = document.querySelectorAll(".star");
+
+  stars.forEach((star, index) => {
+    const top = getRandom(0, 30) + "vh";
+    const left = getRandom(0, 100) + "vw";
+    const delay = getRandom(0, 15) + "s";
+
+    star.style.top = top;
+    star.style.left = left;
+    star.style.animationDelay = delay;
+  });
+
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col min-h-screen overflow-hidden no-scroll">
-      <main className="flex-grow">
+            
+             <div className="absolute w-full  h-[30vh]">
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300">.</span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star ">.</span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star ">.</span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star ">.</span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star ">.</span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star ">.</span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star ">.</span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star "></span>
+            <span className="star text-gray-300"></span>
+            <span className="star "></span>
+            <span className="star "></span>
+          </div>
+     
+     
+     
+      <main className="flex-grow ">
         <StatusBar
           message={message}
           resetStory={resetStory}
@@ -713,6 +833,8 @@ export default function StoryPage() {
         />
 
         <div className="mx-0 md:mx-[8%] no-scroll pt-16">
+  
+
           {!open ? (
             <>
               <StoryForm

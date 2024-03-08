@@ -13,14 +13,16 @@ export const BookImage = ({
   page,
   imagesUnsaved,
   selectedBook,
-  lastPage
+  lastPage,
+  loading,
 }) => {
+  console.log("loading", loading);
   // Helper function to get default image based on page
   const getDefaultImage = (page) => {
     const defaultImages = [
       // forest,
       // fair,
-       mushrooms,
+      mushrooms,
       // fairys,
       // flowers,
       // pic7,
@@ -41,22 +43,24 @@ export const BookImage = ({
 
     return (
       <div className="flex justify-center items-center relative fade-in border-2 border-stone-700 rounded-md font-antiqua">
-        {<div className="spinner w-full h-full absolute font-antiqua"></div>}
-        {imageSrc && !imageLoadError && (
+        {loading ? (
+          <div className="spinner w-full h-full absolute"></div>
+        ) : (
           <Image
-          // priority={true}
-          // loading="eager"
+            // priority={true}
+            // loading="eager"
             alt="page-image"
-            style={{ borderRadius: "5px 5px 5px 5px", fontFamily: "Glass Antiqua" }}
+            style={{
+              borderRadius: "5px 5px 5px 5px",
+              fontFamily: "Glass Antiqua",
+            }}
             width={950}
             height={950}
-            src={imageSrc}
+            // src={imageSrc}
+            src={imageLoadError ? tree : imageSrc}
             onError={handleImageError}
             className="font-antiqua"
-           
           />
-        // ) : (
-        //   <div className="spinner w-full h-full absolute"></div>
         )}
       </div>
     );
@@ -78,15 +82,10 @@ export const BookImage = ({
        xl:w-1/2
        flex-1 justify-center"
     >
-  
       <div className="m-2 md:m-4 xl:m-12 3xl:m-20 sm:rounded-tl-xl sm:rounded-bl-xl">
         {page > lastPage ? (
           <div className="relative flex justify-center">
-            <Image
-              src={tree}
-              alt="last-page"
-              className=""
-            />
+            <Image src={tree} alt="last-page" className="" />
           </div>
         ) : (
           <ImageDisplay

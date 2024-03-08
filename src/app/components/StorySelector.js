@@ -1,5 +1,5 @@
 import Image from "next/image";
-import pic7 from "/public/pic7.jpg";
+import tree from "/public/trace1.svg";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -27,7 +27,7 @@ export const StorySelector = ({
   playing,
   setPlaying,
   tabSelected,
-  setTabSelected
+  setTabSelected,
 }) => {
   const PreviewContent = ({ book }) => {
     const [imageLoadError, setImageLoadError] = useState(false);
@@ -56,7 +56,7 @@ export const StorySelector = ({
       <>
         {/* User Icon */}
         <div
-          className={`z-10   left-1 top-1 absolute h-1/6  ${
+          className={`z-10 left-1 top-1 absolute h-1/6 ${
             userId != book.userId
               ? "bg-slate-700 border-amber-500 text-amber-500"
               : "bg-amber-500 border-white text-white"
@@ -76,7 +76,11 @@ export const StorySelector = ({
                   (max-width: 1200px) 50vw,
                   33vw"
                   cover="true"
-                  className={ userId != book.userId ? "rounded-full object-cover border-amber-500 border-2" : "rounded-full object-cover border-white border-2" }
+                  className={
+                    userId != book.userId
+                      ? "rounded-full object-cover border-amber-500 border-2"
+                      : "rounded-full object-cover border-white border-2"
+                  }
                   onError={handleImageError}
                 />
               </div>
@@ -87,11 +91,11 @@ export const StorySelector = ({
         </div>
 
         <div className="absolute flex flex-col w-full h-full items-end gap-1 p-1">
-               {/* Audio Icon */}
-               {book?.audioUrl && (
-            <div className="z-10  w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-blue-500 border-blue-500 text-white border-2">
+          {/* Audio Icon */}
+          {book?.audioUrl && (
+            <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-blue-500 border-blue-500 text-white border-2">
               <div className="rounded-full text-center shadow-xl">
-                <span className="scale-0 group-hover:scale-100 transition-all absolute right-9 bg-slate-700 px-1 rounded text-white">
+                <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                   {book?.audioUrl ? "audio" : ""}
                 </span>
                 <SpeakerWaveIcon className="h-4 w-4" />
@@ -100,11 +104,9 @@ export const StorySelector = ({
           )}
           {/* Likes Icon */}
           {book?.likes > 0 && (
-            <div className="z-10  w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full rounded-br bg-teal-500 border-teal-500 text-white border-2">
-           
+            <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full rounded-br bg-teal-500 border-teal-500 text-white border-2">
               <div className="rounded-full text-center shadow-xl">
-           
-                <span className="scale-0 group-hover:scale-100 transition-all absolute right-9 bg-slate-700 px-1 rounded text-white">
+                <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                   {book?.likedBy?.includes(userId) ? "liked" : "likes"}
                 </span>
                 {book.likes || 0}
@@ -114,9 +116,9 @@ export const StorySelector = ({
 
           {/* Shares Icon */}
           {book?.shares > 0 && (
-            <div className="z-10  w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-indigo-500 border-indigo-500 text-white border-2">
+            <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-indigo-500 border-indigo-500 text-white border-2">
               <div className="rounded-full text-center shadow-xl">
-                <span className="scale-0 group-hover:scale-100 transition-all absolute right-9 bg-slate-700 px-1 rounded text-white">
+                <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                   {book?.sharedBy?.includes(userId) ? "shared" : "shares"}
                 </span>
                 {book.shares || 0}
@@ -126,18 +128,15 @@ export const StorySelector = ({
 
           {/* Views Icon */}
           {book?.views > 0 && (
-            <div
-              className="z-10  w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-amber-500 border-amber-500 text-white border-2">
+            <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-amber-500 border-amber-500 text-white border-2">
               <div className="rounded-full text-center shadow-xl">
-                <span className="scale-0 group-hover:scale-100 transition-all absolute right-9 bg-slate-700 px-1 rounded text-white">
+                <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                   {book?.viewedBy?.includes(userId) ? "viewed" : "views"}
                 </span>
                 {book.views || 0}
               </div>
             </div>
           )}
-
-     
         </div>
 
         {/* Title */}
@@ -147,24 +146,32 @@ export const StorySelector = ({
           </h5>
         </div>
         {/* Image */}
-        <div className="relative w-full h-full aspect-square flex items-center justify-center">
-          {book?.imageUrls && book.imageUrls.length > 0 && !imageLoadError && (
-            <>
-              {/* {<div className="spinner w-10 h-10 absolute z-20"></div>} */}
-              <Image
-                src={book.imageUrls[0] || pic7}
-                //src={pic7}
-                fill
-                sizes="(max-width: 768px) 100vw,
-                (max-width: 1200px) 50vw,
-                33vw"
-                priority={true}
-                loading="eager"
-                alt="preview"
-                className="rounded-tr-xl"
-                onError={handleImageError}
-              />
-            </>
+        <div
+          className={
+            loading
+              ? "relative w-full h-full aspect-square flex items-center justify-center border-2 rounded border-stone-600 bg-stone-700 rounded-tr-lg"
+              : "relative w-full h-full aspect-square flex items-center justify-center"
+          }
+        >
+          {loading ? (
+            <div className="spinner w-full h-full absolute"></div>
+          ) : (
+            <Image
+              src={
+                imageLoadError
+                  ? tree
+                  : book?.imageUrls && book.imageUrls.length > 0
+                  ? book.imageUrls[0]
+                  : tree
+              }
+              alt="preview-image"
+              layout="fill"
+              objectFit="cover"
+              blur="true"
+              blurDataURL={tree}
+              onError={handleImageError}
+              className="rounded-tr-lg"
+            />
           )}
         </div>
       </>
@@ -175,7 +182,7 @@ export const StorySelector = ({
 
   const totalPages = Math.ceil(allBooks?.length / booksPerPage);
   const myPages = Math.ceil(myBooks?.length / booksPerPage);
-console.log("myPages", myPages)
+  console.log("myPages", myPages);
   const PaginationBars = ({
     totalPages,
     myPages,
@@ -186,15 +193,15 @@ console.log("myPages", myPages)
     const currentPage = Math.ceil(currentSliceIndex / booksPerPage);
 
     return (
-      <div className="md:flex md:justify-center ">
-        <div className="flex items-center justify-center space-x-2  ">
+      <div className="md:flex md:justify-center">
+        <div className="flex items-center justify-center space-x-2">
           {Array.from({
             length: tabSelected == "My Stories" ? myPages : totalPages,
           }).map((_, index) => (
             <div
               key={index}
-              className={`h-1 w-4 mt-4 mb-2 rounded-sm  ${
-                currentPage === index ? "bg-amber-500" : "bg-gray-500"
+              className={`h-1 w-4 mt-3 rounded-sm ${
+                currentPage === index ? "bg-amber-500" : "bg-stone-600"
               }`}
             ></div>
           ))}
@@ -234,16 +241,18 @@ console.log("myPages", myPages)
     });
   };
 
-
   // Function to sort books based on the selected tab
   const getSortedBooks = () => {
     switch (tabSelected) {
       case "Recent":
         return [...allBooks].sort((a, b) => b.createdAt - a.createdAt);
       case "Popular":
-        return [...allBooks].sort((a, b) => ((b.likes + b.shares + b.views) - (a.likes + a.shares + a.views)));
+        return [...allBooks].sort(
+          (a, b) =>
+            b.likes + b.shares + b.views - (a.likes + a.shares + a.views)
+        );
       case "My Stories":
-        return [...allBooks].filter((book) => book?.userId == userId); 
+        return [...allBooks].filter((book) => book?.userId == userId);
       default:
         return allBooks;
     }
@@ -251,8 +260,8 @@ console.log("myPages", myPages)
 
   return (
     <>
-      <div className=" text-2xl px-4 pt-4 pb-4 lg:pb-2 fade-in">
-        <div className="font-sans text-sm font-semibold w-full rounded-t-lg flex justify-end sm:pr-6 gap-1 ">
+      <div className="text-2xl px-4 pt-4 pb-4 lg:pb-2 fade-in">
+        <div className="font-sans text-sm font-semibold w-full rounded-t-lg flex justify-end sm:pr-6 gap-1">
           <button
             className={
               tabSelected == "Recent"
@@ -297,9 +306,9 @@ console.log("myPages", myPages)
         </div>
 
         <div className="">
-          <div className="w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 3xl:px-4 3xl:pt-4 p-2 min-h-[250px] 3xl:min-h-[300px]">
+          <div className="w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 3xl:px-4 3xl:pt-4 p-2 min-h-[28vh]">
             {/* Map All Stories */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 3xl:gap-4 text-sm ">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 3xl:gap-4 text-sm">
               {getSortedBooks()
                 .slice(currentSliceIndex, currentSliceIndex + booksPerPage)
                 .map((book) => (
@@ -308,8 +317,8 @@ console.log("myPages", myPages)
                     key={book.id}
                     className={
                       selectedBook?.id != book?.id
-                        ? "relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-xl "
-                        : "relative flex items-end justify-center cursor-pointer fade-in ring-2 ring-indigo-500 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-xl"
+                        ? "relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-lg"
+                        : "relative flex items-end justify-center cursor-pointer fade-in ring-2 ring-indigo-500 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-lg"
                     }
                   >
                     <PreviewContent book={book} />
@@ -326,13 +335,13 @@ console.log("myPages", myPages)
             <div className="flex justify-between">
               <button
                 onClick={handleSlider("left")}
-                className="lg:absolute md:-left-16 md:bottom-48 lg:bottom-64 xl:bottom-24 3xl:bottom-36 3xl:-left-24 w-12 py-1 3xl:w-16 flex justify-start hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+                className="lg:absolute md:-left-16 md:bottom-48 lg:bottom-64 xl:bottom-24 3xl:bottom-36 3xl:-left-24 w-12 py-1 3xl:w-16 flex justify-start text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
               >
                 <ChevronLeftIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
               </button>
               <button
                 onClick={handleSlider("right")}
-                className="lg:absolute md:-right-16 md:bottom-48 lg:bottom-64 xl:bottom-24 3xl:bottom-36 3xl:-right-24 w-12 py-1 3xl:w-16 flex justify-end hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+                className="lg:absolute md:-right-16 md:bottom-48 lg:bottom-64 xl:bottom-24 3xl:bottom-36 3xl:-right-24 w-12 py-1 3xl:w-16 flex justify-end text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
               >
                 <ChevronRightIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
               </button>

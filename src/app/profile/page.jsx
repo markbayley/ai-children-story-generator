@@ -43,9 +43,9 @@ const Profile = ({ user, setMessage }) => {
     <>
       <Menu as="div" className="relative inline-block text-left">
         {/* <div className="hover:text-gray-300 bg-sky-950  text-white"> */}
-          <Menu.Button className="3xl:text-xl 3xl:py-4 max-w-8 hover:bg-gradient-to-r bg-sky-950  hover:bg-sky-900 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300">
+          <Menu.Button className="fade-in transition-all 3xl:text-xl 3xl:py-4 max-w-8 hover:bg-gradient-to-r bg-sky-950  hover:bg-sky-900 shadow-md hover:shadow-md hover:shadow-indigo-500/50  text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300">
             {user && user?.photoURL && !imageLoadError ? (
-               <div className="relative aspect-square rounded-full w-8 mx-[2px] overflow-hidden">
+               <div className="relative aspect-square rounded-full h-8 w-8 mx-[2px] overflow-hidden">
               <Image
                 src={user?.photoURL}
                 sizes="(max-width: 768px) 5vw,

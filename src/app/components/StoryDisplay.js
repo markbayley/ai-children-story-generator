@@ -8,6 +8,8 @@ import {
   StopIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import tree from "/public/trace1.svg";
 
 export const StoryDisplay = ({
   storySelected,
@@ -206,16 +208,26 @@ export const StoryDisplay = ({
     if (page == lastPage) {
       //handleViewBook(selectedBook?.id, userId);
       return (
-        <div className="h-full flex items-center justify-center text-center p-8 ">
-          <div className="text-2xl 3xl:text-4xl  font-antiqua">
+        <div className="h-full w-full flex items-center justify-center text-center p-8">
+          <div className="text-2xl 3xl:text-4xl font-antiqua">
             {selectedBook?.creatorPhotoURL && (
               <div className="w-full flex justify-center">
-                <img
-                  src={selectedBook?.creatorPhotoURL}
-                  alt="profile-mini"
-                  className="h-24 w-24 object-cover border-2 border-stone-600 m-[2px] rounded-full"
-                />
-              </div>
+               <div className="relative rounded-full w-24 aspect-square border-2 border-stone-500">
+               <Image
+                 src={selectedBook?.creatorPhotoURL}
+                 alt="profile-mini"
+                 fill
+                 sizes="(max-width: 768px) 100vw,
+                 (max-width: 1200px) 50vw,
+                 33vw"
+                // width={30}
+                // height={30}
+                 cover="true"
+                className="rounded-full object-cover"
+                 //onError={handleImageError}
+               />
+             </div>
+             </div>
             )}
             ~
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
@@ -238,7 +250,7 @@ export const StoryDisplay = ({
             <br />
             <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
               {!loading
-                ? `The story has been viewed ${selectedBook?.views} times today.`
+                ? `The story has been viewed ${selectedBook?.views} times.`
                 : "The story is loading... please wait."}
             </p>
             ~
@@ -303,6 +315,7 @@ export const StoryDisplay = ({
               imagesUnsaved={imagesUnsaved}
               selectedBook={selectedBook}
               lastPage={lastPage}
+              loading={loading}
             />
 
             <BookIcons
