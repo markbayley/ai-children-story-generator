@@ -169,10 +169,10 @@ export const StoryForm = ({
   }
 
   return (
-    <div className="flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-4 py-0 md:py-4">
+    <div className="flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-2 py-0 md:py-4">
       <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl w-full">
         <div className="text-orange-300 ">
-          <h1 className="font-bold font-antiqua text-5xl 2xl:text-6xl 2.5xl:text-7xl 3xl:text-8xl">
+          <h1 className="font-bold font-antiqua text-5xl 2.5xl:text-7xl 3xl:text-8xl">
             Storytime AI
           </h1>
         </div>

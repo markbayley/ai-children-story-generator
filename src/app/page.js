@@ -72,41 +72,45 @@ export default function StoryPage() {
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
   const [tabSelected, setTabSelected] = useState("Recent");
 
+  const [fetched, setFetched] = useState(false)
+
   // Book Auth
   const [userId, setUserId] = useState();
   console.log("userId", userId);
 
   // Fetch books when userId changes
   useEffect(() => {
-    //fetchAllBooks();
-  }, [userId, !open]);
+    if (!fetched) {
+    fetchAllBooks();
+    setFetched(true);
+     }
+  }, [userId]);
 
-  const resetStory = () => {
-    setShow(false);
-    setOpen(false);
-    setUnsavedTitle("");
-    setTheme("");
-    setUserPrompt("");
-    setStoryUnsaved("");
-    setImagesUnsaved([]);
-
-    setPage(0);
-    setAudioPages(0);
-    setAudioPage(0);
-    setAudioDuration(0);
-    setPlaying(false);
-    setLastPage(0);
-
-    setMessage({ text: "", type: "" });
-    setLoading(false);
-    setProcessing(false);
-    setDismiss(false);
-    setUnsaved(false);
-    setShared(false);
-    setDeleting(false);
-
-    setTime(false);
-    setSelectedBook(null);
+  // RETRIEVING BOOKS //
+  const fetchAllBooks = async () => {
+    // Called in function below
+    const getAllBooks = async () => {
+      const db = getFirestore();
+      const q = query(collection(db, "books"));
+      const querySnapshot = await getDocs(q);
+      let allBooks = [];
+      querySnapshot.forEach((doc) => {
+        allBooks.push({ id: doc.id, ...doc.data() });
+      });
+      return allBooks;
+    };
+    setLoading(true);
+    try {
+      const fetchedBooks = await getAllBooks(userId);
+      setAllBooks(fetchedBooks);
+      const userBooks = fetchedBooks.filter((book) => book?.userId == userId);
+      setMyBooks(userBooks);
+      setMessage({text: "Books Fetched", type: "success"});
+      setLoading(false);
+    } catch (error) {
+      setMessage({ text: "Quota Exceeded", type: "error" });
+      setLoading(false);
+    }
   };
 
   //  CREATING A BOOK //
@@ -172,7 +176,6 @@ export default function StoryPage() {
       setLoading(false);
     }
   };
-
   async function fetchImagesTwice(story) {
     // Make three concurrent requests to fetch images
     const fetchPromise1 = fetchImages(story);
@@ -195,7 +198,6 @@ export default function StoryPage() {
 
     return allImages;
   }
-
   const extractTitleFromStory = (storyText) => {
     const titleEndIndex = storyText.indexOf("Once upon a time");
     if (titleEndIndex === -1) {
@@ -218,45 +220,6 @@ export default function StoryPage() {
   };
 
   // SAVING A BOOK //
-  // Generate a unique book ID
-  const generateBookId = () => {
-    return `book_${new Date().getTime()}`;
-  };
-
-  // Uploading images
-  const uploadImages = async (imagesUnsaved, userId) => {
-    setMessage({ text: "Uploading Images...", type: "create" });
-    const storage = getStorage();
-    setMessage({ text: "Creating Book Id...", type: "save" });
-    const bookId = generateBookId();
-    let imageUrls = [];
-    // Ensure unique ID for each image
-    for (const image of imagesUnsaved) {
-      const uniqueImageId = `${bookId}_${Date.now()}`;
-      const imageRef = ref(
-        storage,
-        `images/${userId}/${bookId}/${uniqueImageId}`
-      );
-      setMessage({ text: "Saving Book...", type: "save" });
-      // Ensure the image is awaited
-      await uploadBytes(imageRef, image);
-      const url = await getDownloadURL(imageRef);
-      imageUrls.push(url);
-    }
-
-    return { bookId, imageUrls };
-  };
-
-  // Uploading audio
-  const uploadAudio = async (audioBlob, userId, bookId) => {
-    setMessage({ text: "Uploading Audio...", type: "save" });
-    const storage = getStorage();
-    const audioRef = ref(storage, `audio/${userId}/${bookId}/storyAudio.mp3`);
-    await uploadBytes(audioRef, audioBlob);
-    const url = await getDownloadURL(audioRef);
-    return url;
-  };
-
   const handleSaveBook = async () => {
     // Set maximum books that can be saved
     if (myBooks.length >= 12) {
@@ -307,7 +270,6 @@ export default function StoryPage() {
       setProcessing(false);
     }
   };
-
   // Data saved called in the function above
   const saveBookToFirestore = async (
     userId,
@@ -346,7 +308,6 @@ export default function StoryPage() {
     setMessage({ text: "Storing Book...", type: "save" });
     await addDoc(collection(db, "books"), book);
   };
-
   // Convert images called in handleSubmit
   const base64ToBlob = (base64, mimeType = "image/jpeg") => {
     if (!base64) {
@@ -364,199 +325,183 @@ export default function StoryPage() {
     }
     return new Blob([ab], { type: mimeType });
   };
-
-  // RETRIEVING BOOKS //
-  // Get all the books
-  const fetchAllBooks = async () => {
-    setLoading(true);
-    try {
-      const fetchedBooks = await getAllBooks(userId);
-      setAllBooks(fetchedBooks);
-      const userBooks = fetchedBooks.filter((book) => book?.userId == userId);
-      setMyBooks(userBooks);
-      setLoading(false);
-    } catch (error) {
-      setMessage({ text: "Quota Exceeded", type: "error" });
-      setLoading(false);
+  // Generate a unique book ID
+  const generateBookId = () => {
+    return `book_${new Date().getTime()}`;
+  };
+  // Uploading images
+  const uploadImages = async (imagesUnsaved, userId) => {
+    setMessage({ text: "Uploading Images...", type: "create" });
+    const storage = getStorage();
+    setMessage({ text: "Creating Book Id...", type: "save" });
+    const bookId = generateBookId();
+    let imageUrls = [];
+    // Ensure unique ID for each image
+    for (const image of imagesUnsaved) {
+      const uniqueImageId = `${bookId}_${Date.now()}`;
+      const imageRef = ref(
+        storage,
+        `images/${userId}/${bookId}/${uniqueImageId}`
+      );
+      setMessage({ text: "Saving Book...", type: "save" });
+      // Ensure the image is awaited
+      await uploadBytes(imageRef, image);
+      const url = await getDownloadURL(imageRef);
+      imageUrls.push(url);
     }
-    //setMessage({text: "All Books Fetched", type: "success"});
+
+    return { bookId, imageUrls };
+  };
+  // Uploading audio
+  const uploadAudio = async (audioBlob, userId, bookId) => {
+    setMessage({ text: "Uploading Audio...", type: "save" });
+    const storage = getStorage();
+    const audioRef = ref(storage, `audio/${userId}/${bookId}/storyAudio.mp3`);
+    await uploadBytes(audioRef, audioBlob);
+    const url = await getDownloadURL(audioRef);
+    return url;
   };
 
-  // Called in function above
-  const getAllBooks = async () => {
-    const db = getFirestore();
-    const q = query(collection(db, "books"));
-    const querySnapshot = await getDocs(q);
-    let allBooks = [];
-    querySnapshot.forEach((doc) => {
-      allBooks.push({ id: doc.id, ...doc.data() });
-    });
-    return allBooks;
-  };
-
-  // SHARING A BOOK //
-  const handleShareBook = async (bookId, userId) => {
-    try {
-      await fetchBookToShare(bookId, userId);
-    } catch (error) {
-      setMessage({ text: "Shared Already!", type: "like" });
-      console.error("Error sharing book: ", error);
-    }
-    //fetchAllBooks();
-  };
-
-  const fetchBookToShare = async (bookId, userId) => {
-    const db = getFirestore();
-    const bookRef = doc(db, "books", bookId);
-
-    const docSnap = await getDoc(bookRef);
-    if (docSnap.exists()) {
-      const bookData = docSnap.data();
-
-      // Check if the user has already liked the book
-      if (bookData.sharedBy && !bookData.sharedBy.includes(userId)) {
-        // Update the document to add the user to the likedBy array and increment likes
-        setSelectedBook({
-          ...selectedBook,
-          shares: (selectedBook.shares || 0) + 1,
-          sharedBy: [...(selectedBook.sharedBy || []), userId], // Also optimistically update the likedBy array
-        });
-        await updateDoc(bookRef, {
-          sharedBy: arrayUnion(userId),
-          shares: increment(1),
-        });
-        setMessage({ text: "Book Shared!", type: "share" });
-      } else {
-        setMessage({ text: "Already Shared!", type: "share" });
-        // Optionally handle this case in the UI, e.g., by showing a message
-      }
-    } else {
-      console.log("No such document!");
-    }
-  };
-
-  // VIEWs OF BOOK //
-  const handleViewBook = async (bookId, userId) => {
-    try {
-      await fetchBookByViews(bookId, userId);
-      // UI logic as previously described
-    } catch (error) {
-      setMessage({ text: "Viewed Already!", type: "view" });
-      console.error("Error viewing book: ", error);
-    }
-    //fetchAllBooks();
-  };
-
-  const fetchBookByViews = async (bookId, userId) => {
-    const db = getFirestore();
-    const bookRef = doc(db, "books", bookId);
-
-    const docSnap = await getDoc(bookRef);
-    if (docSnap.exists()) {
-      const bookData = docSnap.data();
-
-      // Check if the user has already liked the book
-      if (bookData.viewedBy && !bookData.viewedBy.includes(userId)) {
-        // Update the document to add the user to the likedBy array and increment likes
-        setSelectedBook({
-          ...selectedBook,
-          views: (selectedBook.views || 0) + 1,
-          viewedBy: [...(selectedBook.viewedBy || []), userId], // Also optimistically update the likedBy array
-        });
-        await updateDoc(bookRef, {
-          viewedBy: arrayUnion(userId),
-          views: increment(1),
-        });
-        setMessage({ text: "Book Viewed!", type: "view" });
-      } else {
-        setMessage({ text: "Already Viewed!", type: "view" });
-        // Optionally handle this case in the UI, e.g., by showing a message
-      }
-    } else {
-      console.log("No such document!");
-    }
-  };
-
-  // LIKING A BOOK //
+  // LIKE SHARE VIEW DELETE BOOK //
   const handleLikeBook = async (bookId, userId) => {
-    // if (userId === selectedBook?.userId) {
-    //   setMessage({ text: "Its Your Book!", type: "like" });
-    //   return;
-    // }
-
     try {
-      await fetchBookById(bookId, userId); // Now passing userId
-      // Assuming likes are directly updated in the UI without refetching from Firestore
-
-      // UI logic as previously described
+      await fetchBookById(bookId, userId, "like");
     } catch (error) {
       setMessage({ text: "Liked Already!", type: "like" });
       console.error("Error liking book: ", error);
     }
-    //fetchAllBooks();
+  };
+  const handleShareBook = async (bookId, userId) => {
+    try {
+      await fetchBookById(bookId, userId, "share");
+    } catch (error) {
+      setMessage({ text: "Already Shared!", type: "share" });
+      console.error("Error sharing book: ", error);
+    }
+  };
+  const handleViewBook = async (bookId, userId) => {
+    try {
+      await fetchBookById(bookId, userId, "view");
+    } catch (error) {
+      console.error("Error updating book views: ", error);
+    }
+  };
+  const handleDeleteBook = async (bookId, userId) => {
+    try {
+      await fetchBookById(bookId, userId, "delete");
+    } catch (error) {
+      setMessage({ text: "Already Deleted!", type: "delete" });
+      console.error("Error deleting book: ", error);
+    }
   };
 
-  const fetchBookById = async (bookId, userId) => {
+  const fetchBookById = async (bookId, userId, action) => {
     const db = getFirestore();
     const bookRef = doc(db, "books", bookId);
 
     const docSnap = await getDoc(bookRef);
     if (docSnap.exists()) {
       const bookData = docSnap.data();
+      console.log("bookData:", bookData);
 
-      // Check if the user has already liked the book
-      if (bookData.likedBy && !bookData.likedBy.includes(userId)) {
-        // Update the document to add the user to the likedBy array and increment likes
-        setSelectedBook({
-          ...selectedBook,
-          likes: (selectedBook.likes || 0) + 1,
-          likedBy: [...(selectedBook.likedBy || []), userId], // Also optimistically update the likedBy array
-        });
-        await updateDoc(bookRef, {
-          likedBy: arrayUnion(userId),
-          likes: increment(1),
-        });
-        setMessage({ text: "Book Liked!", type: "like" });
-      } else {
-        setMessage({ text: "Already Liked!", type: "like" });
-        // Optionally handle this case in the UI, e.g., by showing a message
+      // Determine the action and update the corresponding fields
+      let updatedBookData = {};
+      let updateData = {};
+      let messageText = "";
+
+      switch (action) {
+        case "like":
+          if (bookData.likedBy && !bookData.likedBy.includes(userId)) {
+            updatedBookData = {
+              ...bookData,
+              likes: (bookData.likes || 0) + 1,
+              likedBy: [...(bookData.likedBy || []), userId],
+              id: bookId,
+            };
+
+            // Update the document in Firestore
+            updateData = {
+              likedBy: arrayUnion(userId),
+              likes: increment(1),
+            };
+            messageText = "Book Liked!";
+          } else {
+            messageText = "Already Liked!";
+          }
+          break;
+        case "share":
+          if (bookData.sharedBy && !bookData.sharedBy.includes(userId)) {
+            updatedBookData = {
+              ...bookData,
+              shares: (bookData.shares || 0) + 1,
+              sharedBy: [...(bookData.sharedBy || []), userId],
+              id: bookId,
+            };
+            updateData = {
+              sharedBy: arrayUnion(userId),
+              shares: increment(1),
+            };
+            messageText = "Book Shared!";
+          } else {
+            messageText = "Already Shared!";
+          }
+          break;
+        case "view":
+          if (bookData.viewedBy && !bookData.viewedBy.includes(userId)) {
+            updatedBookData = {
+              ...bookData,
+              views: (bookData.views || 0) + 1,
+              viewedBy: [...(bookData.viewedBy || []), userId],
+              id: bookId,
+            };
+            updateData = {
+              viewedBy: arrayUnion(userId),
+              views: increment(1),
+            };
+          }
+          break;
+        case "delete":
+          if (userId == bookData.userId) {
+            console.log("Deleting book with ID:", bookId);
+
+            // Delete the document
+            await deleteDoc(bookRef);
+
+            messageText = "Book Deleted!";
+          } else {
+            messageText = "Delete Failed!";
+          }
+          break;
+        default:
+          break;
       }
-    } else {
-      console.log("No such document!");
+
+      console.log("updatedBookData:", updatedBookData);
+      // Update the selectedBook state
+      setSelectedBook(updatedBookData);
+
+      // Update the allBooks array by filtering out the deleted book
+      if (action == "delete"){
+        const updatedAllBooks = allBooks.filter((book) => book.id !== bookId);
+        setAllBooks(updatedAllBooks);
+      } else {
+        const updatedAllBooks = allBooks.map((book) =>
+        book.id === bookId ? updatedBookData : book
+      );
+      setAllBooks(updatedAllBooks);
+      }
+     
+      // Update the document in Firestore if there are changes
+      if (Object.keys(updatedBookData).length > 0) {
+        await updateDoc(bookRef, updatedBookData);
+        setMessage({ text: messageText, type: action });
+      } else {
+        console.log("No such document!");
+      }
     }
   };
 
-  // DELETING A BOOK //
-  const handleDeleteBook = async (bookId) => {
-    setMessage({ text: "Deleting Book...", type: "delete" });
-    setDeleting(true);
-    try {
-      await deleteBookFromFirestore(bookId);
-
-      // Remove the book from the local state to update the UI
-      const updatedBooks = myBooks.filter((book) => book.id !== bookId);
-      setMyBooks(updatedBooks);
-    } catch (error) {
-      setMessage({ text: "Delete Failed!", type: "delete" });
-      setDeleting(false);
-      // Optionally handle the error, e.g., show an error message to the user
-    }
-    setMessage({ text: "Book Deleted", type: "delete" });
-  };
-
-  const deleteBookFromFirestore = async (bookId) => {
-    const db = getFirestore();
-
-    // Get a reference to the book document
-    const bookRef = doc(db, "books", bookId);
-
-    console.log("Deleting book with ID:", bookId);
-
-    // Delete the document
-    await deleteDoc(bookRef);
-  };
-
-  // VIEWING BOOKS //
+  // SELECTING BOOKS //
   const handlePreviewMine = (bookId) => {
     const book = myBooks.find((b) => b.id === bookId);
     if (book) {
@@ -569,7 +514,6 @@ export default function StoryPage() {
     setOpen(true);
     //setPage(0);
   };
-
   const handlePreviewAll = (bookId) => {
     const book = allBooks.find((b) => b.id === bookId);
     if (book) {
@@ -585,11 +529,37 @@ export default function StoryPage() {
     setOpen(true);
     //setPage(0);
   };
-
   const handleOpen = () => {
     setSelectedBook(storyUnsaved, imagesUnsaved);
     setOpen(true);
     setDismiss(false);
+  };
+  const resetStory = () => {
+    setShow(false);
+    setOpen(false);
+    setUnsavedTitle("");
+    setTheme("");
+    setUserPrompt("");
+    setStoryUnsaved("");
+    setImagesUnsaved([]);
+
+    setPage(0);
+    setAudioPages(0);
+    setAudioPage(0);
+    setAudioDuration(0);
+    setPlaying(false);
+    setLastPage(0);
+
+    setMessage({ text: "", type: "" });
+    setLoading(false);
+    setProcessing(false);
+    setDismiss(false);
+    setUnsaved(false);
+    setShared(false);
+    setDeleting(false);
+
+    setTime(false);
+    setSelectedBook(null);
   };
 
   // FETCH PROFILES //
@@ -686,12 +656,10 @@ export default function StoryPage() {
   console.log("selectedBookSP", selectedBook);
   console.log("allBookSP", allBooks);
 
-  
-
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
-            {/* <Stars /> */}
-     
+      <Stars />
+
       <main className="flex-grow ">
         <StatusBar
           message={message}
@@ -717,11 +685,9 @@ export default function StoryPage() {
           page={page}
         />
 
-        <div className="mx-0 md:mx-[8%] xl:mx-[5%] no-scroll pt-16 2.5xl:pt-10 2.5xl:my-[8%]">
-  
-
+        <div className="mx-0 md:mx-[8%] no-scroll pt-16  ">
           {!open ? (
-            <>
+            <div className="2.5xl:my-[8%]">
               <StoryForm
                 loading={loading}
                 userPrompt={userPrompt}
@@ -756,7 +722,7 @@ export default function StoryPage() {
                 tabSelected={tabSelected}
                 setTabSelected={setTabSelected}
               />
-            </>
+            </div>
           ) : (
             <StoryDisplay
               storyUnsaved={storyUnsaved}
@@ -804,6 +770,7 @@ export default function StoryPage() {
               setAudio={setAudio}
               audioPage={audioPage}
               handleViewBook={handleViewBook}
+              setFetched={setFetched}
             />
           )}
         </div>

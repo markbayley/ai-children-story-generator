@@ -75,7 +75,7 @@ export const FooterNav = ({
     </div> */}
 
 {/* Mobile footer */}
-    <div className="px-6 3xl:py-4 md:px-[10%]  bottom-0 2xl:py-1 flex justify-between  text-xs 3xl:text-lg text-gray-300 w-full z-20 lg:px-[12%] 2xl:p-[24%] bg-sky-950 xl:bg-transparent">
+    <div className="mt-8 xl:mt-0 px-6 3xl:py-4 md:px-[10%]  bottom-0 2xl:py-1 flex justify-between  text-xs 3xl:text-lg text-gray-300 w-full z-20 lg:px-[12%] 2xl:p-[24%] bg-sky-950 xl:bg-transparent">
      
       <div className="flex flex-col lg:flex-row lg:w-1/3 lg:justify-around items-start leading-8">
         <div className="flex items-center  hover:text-gray-400 cursor-pointer">

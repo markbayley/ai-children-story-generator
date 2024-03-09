@@ -16,9 +16,9 @@ const Stars = () => {
         star.style.left = left;
         star.style.animationDelay = delay;
       });
-      
+
   return (
-    <div className="absolute w-full  h-[30vh]">
+    <div className="absolute top-0 w-screen p-4 h-[30vh]">
     <span className="star "></span>
     <span className="star "></span>
     <span className="star text-gray-300">.</span>

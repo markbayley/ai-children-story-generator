@@ -53,6 +53,7 @@ export const StoryDisplay = ({
   lastPage,
   setAudio,
   handleViewBook,
+  setFetched
 }) => {
   
   const storyText = storySelected || storyUnsaved;
@@ -343,6 +344,7 @@ export const StoryDisplay = ({
               lastPage={lastPage}
               handleViewBook={handleViewBook}
               setAudioPage={setAudioPage}
+              setOpen={setOpen}
             />
             {/* Text Section */}
             <div
@@ -355,7 +357,6 @@ export const StoryDisplay = ({
                     setOpen(false);
                     setMessage("");
                     setPlaying(false);
-                    //setAudio("");
                     setAudioPage(0);
                     setPage(0);
                   }}

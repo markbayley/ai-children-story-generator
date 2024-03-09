@@ -37,6 +37,7 @@ export const BookIcons = ({
   lastPage,
   setAudioPage,
   handleViewBook,
+  setOpen,
 }) => {
   // Delete Modal
   let [isOpen, setIsOpen] = useState(false);
@@ -86,6 +87,11 @@ export const BookIcons = ({
             handleDeleteBook={handleDeleteBook}
             selectedBook={selectedBook}
             setPlaying={setPlaying}
+            setAudioPage={setAudioPage}
+            setPage={setPage}
+            userId={userId}
+            setOpen={setOpen}
+            setMessage={setMessage}
           />
 
           {/* <button

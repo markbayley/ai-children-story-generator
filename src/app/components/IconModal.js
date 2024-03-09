@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
-export default function IconModal({isOpen, setIsOpen, closeModal, handleDeleteBook, selectedBook, setPlaying}) {
+export default function IconModal({setMessage, isOpen, setOpen, closeModal, handleDeleteBook, selectedBook, setPlaying, setAudioPage, setPage, userId}) {
 
   return (
     <>
@@ -48,10 +48,10 @@ export default function IconModal({isOpen, setIsOpen, closeModal, handleDeleteBo
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-rose-500 px-4 py-2 text-sm font-medium  hover:bg-rose-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={() => { 
-                        handleDeleteBook(selectedBook.id); 
+                        handleDeleteBook(selectedBook.id, userId); 
                         closeModal();
-                        setIsOpen(false);
-                        //setMessage("");
+                        setOpen(false);
+                        setMessage({text: "Book Deleted!!", type: "delete"});
                         setPlaying(false);
                         //setAudio("");
                         setAudioPage(0);
