@@ -183,6 +183,7 @@ export const StorySelector = ({
   const totalPages = Math.ceil(allBooks?.length / booksPerPage);
   const myPages = Math.ceil(myBooks?.length / booksPerPage);
   console.log("myPages", myPages);
+
   const PaginationBars = ({
     totalPages,
     myPages,
@@ -194,30 +195,30 @@ export const StorySelector = ({
 
     return (
       <div className="md:flex md:justify-center">
-        <div className="flex items-center justify-center space-x-2">
-          {Array.from({
-            length: tabSelected == "My Stories" ? myPages : totalPages,
-          }).map((_, index) => (
-            <div
-              key={index}
-              className={`h-1 w-4 mt-3 rounded-sm ${
-                currentPage === index ? "bg-amber-500" : "bg-stone-600"
-              }`}
-            ></div>
-          ))}
-        </div>
-        {/* <div className="-z-50 flex gap-44 justify-between items-end md:absolute md:w-screen md:bottom-[45%] xl:bottom-20 md:px-[7%] 3xl:bottom-36 3xl:px-[9%]">
+      <div className="flex items-center justify-center space-x-2">
+        {Array.from({
+          length: tabSelected == "My Stories" ? myPages : totalPages,
+        }).map((_, index) => (
+          <div
+            key={index}
+            className={`h-1 w-4 mt-3 rounded-sm ${
+              currentPage === index ? "bg-amber-500" : "bg-stone-600"
+            }`}
+          ></div>
+        ))}
+      </div>
+        {/* <div className="p-2 w-full flex justify-between absolute bottom-20 lg:w-screen lg:px-[5%] items-center lg:items-center">
           <button
             onClick={handleSlider("left")}
-            className="h-full w-1/2 py-1 md:w-12 3xl:w-16 hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+            className="lg:shadow-xl lg:shadow-slate-950 w-12 2.5xl:w-16 3xl:w-20 aspect-square flex justify-start items-center text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
           >
-            <ChevronLeftIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
+            <ChevronLeftIcon className="h-10 w-10 2.5xl:h-14 2.5xl:w-14 3xl:h-16 3xl:w-16" />
           </button>
           <button
             onClick={handleSlider("right")}
-            className="h-full w-1/2 py-1 md:w-12 3xl:w-16 flex justify-end hover:text-white text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+            className="lg:shadow-xl lg:shadow-slate-950 w-12 2.5xl:w-16 3xl:w-20 aspect-square flex justify-end items-center text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
           >
-            <ChevronRightIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
+            <ChevronRightIcon className="h-10 w-10 2.5xl:h-14 2.5xl:w-14 3xl:h-16 3xl:w-16" />
           </button>
         </div> */}
       </div>
@@ -259,9 +260,9 @@ export const StorySelector = ({
   };
 
   return (
-    <>
+    <div className="">
       <div className="text-2xl px-4 pt-4 pb-4 lg:pb-2 fade-in">
-        <div className="font-sans text-sm font-semibold w-full rounded-t-lg flex justify-end sm:pr-6 gap-1">
+        <div className="text-sm font-semibold w-full rounded-t-lg flex justify-end sm:pr-6 gap-1">
           <button
             className={
               tabSelected == "Recent"
@@ -306,9 +307,9 @@ export const StorySelector = ({
         </div>
 
         <div className="">
-          <div className="w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 3xl:px-4 3xl:pt-4 p-2 min-h-[28vh]">
+          <div className="shadow-xs shadow-slate-950 w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 2.5xl:px-4 2.5xl:pt-4 p-2 min-h-[28vh]">
             {/* Map All Stories */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 3xl:gap-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 2.5xl:gap-4 text-sm ">
               {getSortedBooks()
                 .slice(currentSliceIndex, currentSliceIndex + booksPerPage)
                 .map((book) => (
@@ -317,38 +318,64 @@ export const StorySelector = ({
                     key={book.id}
                     className={
                       selectedBook?.id != book?.id
-                        ? "relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-lg"
-                        : "relative flex items-end justify-center cursor-pointer fade-in ring-2 ring-indigo-500 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-lg"
+                        ? "z-50 relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-lg"
+                        : "z-50 relative flex items-end justify-center cursor-pointer fade-in ring-2 ring-indigo-500 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-lg"
                     }
                   >
                     <PreviewContent book={book} />
                   </div>
                 ))}
-            </div>
+         
+               <div className="flex w-full justify-between md:absolute md:h-full md:right-0">
+              <div className="h-full md:absolute md:-left-16 2.5xl:-left-20 3xl:-left-24 flex items-center justify-start pb-4">
+                <button
+                  onClick={handleSlider("left")}
+                  className="lg:shadow-xl lg:shadow-slate-950 w-12 3xl:w-20 aspect-square flex justify-start items-center text-amber-500 bg-sky-900 lg:bg-sky-950 hover:bg-sky-900 rounded-full"
+                >
+                  <ChevronLeftIcon className="h-10 w-10 3xl:h-16 3xl:w-16" />
+                </button>
+              </div>
 
+              <div className="h-full md:absolute md:-right-16 2.5xl:-right-20 3xl:-right-24 flex items-center justify-end  pb-4">
+                <button
+                  onClick={handleSlider("right")}
+                  className="lg:shadow-xl lg:shadow-slate-950 w-12 3xl:w-20 aspect-square flex justify-end items-center text-amber-500 bg-sky-900 lg:bg-sky-950 hover:bg-sky-900 rounded-full"
+                >
+                  <ChevronRightIcon className="h-10 w-10 3xl:h-16 3xl:w-16" />
+                </button>
+              </div>
+              </div>
+            </div>
             <PaginationBars
               myPages={myPages}
               totalPages={totalPages}
               currentSliceIndex={currentSliceIndex}
               booksPerPage={booksPerPage}
             />
-            <div className="flex justify-between">
+          
+
+            {/* <div className="flex justify-between">
+              <div className="h-full lg:absolute md:-left-16 3xl:-left-24 flex items-center justify-center pb-4">
               <button
                 onClick={handleSlider("left")}
-                className="lg:absolute md:-left-16 md:bottom-48 lg:bottom-64 xl:bottom-24 3xl:bottom-36 3xl:-left-24 w-12 py-1 3xl:w-16 flex justify-start text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+                className="shadow-xl shadow-slate-950 w-12 3xl:w-20 aspect-square flex justify-start items-center text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
               >
-                <ChevronLeftIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
+                <ChevronLeftIcon className="h-10 w-10 3xl:h-16 3xl:w-16" />
               </button>
+              </div>
+
+              <div className="h-full lg:absolute md:-right-16 3xl:-right-24 flex items-center justify-center pb-4">
               <button
                 onClick={handleSlider("right")}
-                className="lg:absolute md:-right-16 md:bottom-48 lg:bottom-64 xl:bottom-24 3xl:bottom-36 3xl:-right-24 w-12 py-1 3xl:w-16 flex justify-end text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
+                className="shadow-xl shadow-slate-950 w-12 3xl:w-20 aspect-square flex justify-end items-center text-amber-500 bg-sky-900 lg:bg-sky-950 lg:hover:bg-sky-900 rounded-full"
               >
-                <ChevronRightIcon className="h-10 w-10 3xl:h-14 3xl:w-14" />
+                <ChevronRightIcon className="h-10 w-10 3xl:h-16 3xl:w-16" />
               </button>
             </div>
+          </div> */}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

@@ -97,14 +97,14 @@ export const StatusBar = ({
   // )
 
   return (
-    <div className=" cursor-pointer text-white p-2 flex justify-between text-sm 3xl:p-6 fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
+    <div className=" cursor-pointer text-white p-2 flex justify-between text-sm 2.5xl:p-4 3xl:p-6 fixed top-0 w-full z-20 lg:bg-transparent bg-sky-950">
       {/* Share Icons */}
       <div className="w-1/6 md:w-1/3 group flex items-center justify-start relative ">
        
           {show ? (
             <div>
               <MinusIcon
-                className="max-w-xs h-12 w-12 3xl:h-16 3xl:w-16 p-3 ring-1 ring-inset ring-gray-300 rounded-full fade-in bg-sky-950 hover:bg-sky-900"
+                className="max-w-xs h-12 w-12 3xl:h-16 3xl:w-16 p-3  rounded-full fade-in bg-sky-950 hover:bg-sky-900 lg:shadow-lg lg:shadow-slate-950"
                 onClick={() => setShow(false)}
               />
               <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
@@ -116,7 +116,7 @@ export const StatusBar = ({
               <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
                 Open
               </span>
-            <Image src={share} alt="share-icon" width={12} height={12} className="max-w-xs h-12 w-12 3xl:h-16 3xl:w-16 p-3 ring-1 ring-inset ring-gray-300 rounded-full fade-in shadow-md hover:shadow-lg hover:bg-sky-900 hover:shadow-indigo-500/50 shadow-indigo-500/30 bg-sky-950"/>
+            <Image src={share} alt="share-icon" width={12} height={12} className="max-w-xs h-12 w-12 3xl:h-16 3xl:w-16 p-3 rounded-full fade-in hover:bg-sky-900 lg:shadow-lg lg:shadow-slate-950 bg-sky-950"/>
             </div>
           )}
        
@@ -249,7 +249,7 @@ export const StatusBar = ({
         {message && message.text != "" ? (
           <div
             onClick={() => setMessage({ text: "", type: "" })}
-            className={`fade-in transition-all pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer shadow-md hover:shadow-md hover:shadow-indigo-500/30 ${messageColor(
+            className={`fade-in transition-all pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer  hover:bg-gray-700 ${messageColor(
               message.type
             )} rounded-full rounded-tl-lg shadow-lg `}
           >
@@ -262,7 +262,7 @@ export const StatusBar = ({
         ) :  ((selectedBook?.audioUrl || audio) && open) ? (
           <div
            // onClick={() => setMessage({ text: "", type: "" })}
-            className={`fade-in pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer bg-gradient-to-r from-sky-950 to-blue-600 text-white hover:bg-sky-900 rounded-full rounded-tl-lg shadow-lg `}
+            className={`fade-in pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer bg-gradient-to-r from-sky-950 to-blue-600 text-white hover:bg-sky-900 rounded-full rounded-tl-lg `}
           >
             <Image src={InfoIcon} alt="info-icon" className="h-6 w-6 mx-2 3xl:h-9 3xl:w-9" />{" "}
                {/* //selectedBook?.audioUrl == undefined ? "No Audio" : */}

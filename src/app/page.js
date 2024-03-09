@@ -24,6 +24,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config";
 import { FooterNav } from "./components/FooterNav";
+import Stars from "./components/Stars";
 
 export default function StoryPage() {
   const [user] = useAuthState(auth);
@@ -685,127 +686,11 @@ export default function StoryPage() {
   console.log("selectedBookSP", selectedBook);
   console.log("allBookSP", allBooks);
 
-  function getRandom(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-  const stars = document.querySelectorAll(".star");
-
-  stars.forEach((star, index) => {
-    const top = getRandom(0, 30) + "vh";
-    const left = getRandom(0, 100) + "vw";
-    const delay = getRandom(0, 15) + "s";
-
-    star.style.top = top;
-    star.style.left = left;
-    star.style.animationDelay = delay;
-  });
+  
 
   return (
-    <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col min-h-screen overflow-hidden no-scroll">
-            
-             <div className="absolute w-full  h-[30vh]">
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300">.</span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star ">.</span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star ">.</span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star ">.</span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star ">.</span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star ">.</span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star ">.</span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star "></span>
-            <span className="star text-gray-300"></span>
-            <span className="star "></span>
-            <span className="star "></span>
-          </div>
-     
-     
+    <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
+            {/* <Stars /> */}
      
       <main className="flex-grow ">
         <StatusBar
@@ -832,7 +717,7 @@ export default function StoryPage() {
           page={page}
         />
 
-        <div className="mx-0 md:mx-[8%] no-scroll pt-16">
+        <div className="mx-0 md:mx-[8%] xl:mx-[5%] no-scroll pt-16 2.5xl:pt-10 2.5xl:my-[8%]">
   
 
           {!open ? (

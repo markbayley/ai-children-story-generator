@@ -12,7 +12,7 @@ module.exports = {
         antiqua: ["var(--font-antiqua)"],
       },
       screens: {
-        //'2xl': '1537px',
+        '2.5xl': '1920px',
         '3xl': '2560px',
         // => @media (min-width: 1280px) { ... }
       },
