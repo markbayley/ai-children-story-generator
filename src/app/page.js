@@ -660,7 +660,7 @@ export default function StoryPage() {
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
       <Stars />
 
-      <main className="flex-grow ">
+      <main className="flex-grow z-10">
         <StatusBar
           message={message}
           resetStory={resetStory}

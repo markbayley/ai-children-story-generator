@@ -307,7 +307,7 @@ export const StoryDisplay = ({
 
   return (
     <>
-      <div className="fade-in 3xl:pt-12">
+      <div className="fade-in 2.5xl:pt-4 3xl:pt-12">
         <div className=" border-r sm:border-l-1 sm:rounded-xl bg-orange-200 xl:bg-gradient-to-r from-orange-200 from-20% via-stone-700 via-50% to-orange-200 to-80% ...">
           <div className="sm:border-r-2 sm:border-l-1 sm:rounded-xl sm:border-stone-800 mx-auto xl:flex border xl:h-[87vh]">
             <BookImage
@@ -366,9 +366,9 @@ export const StoryDisplay = ({
                 </div>
               </div>
 
-              <div className="h-full text-stone-900 text-xl 3xl:text-4xl 3xl:p-10 w-full no-scrollbar overflow-y-auto">
+              <div className="h-full text-stone-900 text-xl 2xl:text-2xl 2.5xl:text-4xl 3xl:text-5xl 3xl:p-10 w-full no-scrollbar overflow-y-auto">
                 {!storySelected && !storyUnsaved && !loading ? (
-                  <div className="flex justify-center items-center h-full italic text-[20px] text-center font-antiqua">
+                  <div className="flex justify-center items-center h-full italic text-center font-antiqua">
                     Please click on a story or create a new story to start
                     reading here.
                   </div>
