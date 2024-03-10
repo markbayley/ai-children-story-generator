@@ -24,7 +24,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config";
 import { FooterNav } from "./components/FooterNav";
-import Stars from "./components/Stars";
+import { Stars } from "./components/Stars";
 
 export default function StoryPage() {
   const [user] = useAuthState(auth);

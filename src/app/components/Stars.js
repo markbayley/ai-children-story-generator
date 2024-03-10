@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Stars = () => {
+export const Stars = () => {
 
     function getRandom(min, max) {
         return Math.random() * (max - min) + min;
@@ -134,4 +134,3 @@ const Stars = () => {
   )
 }
 
-export default Stars
