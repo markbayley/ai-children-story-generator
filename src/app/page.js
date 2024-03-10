@@ -153,18 +153,18 @@ export default function StoryPage() {
 
       setMessage({ text: "Generating Audio", type: "create" });
       // Fetching audio
-      const audioResponse = await fetch("/api/elevenlabs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ textInput: storyData.story }),
-      });
-      // Converting audio
-      const arrayBuffer = await audioResponse.arrayBuffer();
-      const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
-      const blobUrl = URL.createObjectURL(blob);
-      setAudio(blobUrl);
-      console.log("blobUrlHS", blobUrl);
-      console.log("audioHS", audio);
+      // const audioResponse = await fetch("/api/elevenlabs", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ textInput: storyData.story }),
+      // });
+      // // Converting audio
+      // const arrayBuffer = await audioResponse.arrayBuffer();
+      // const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+      // const blobUrl = URL.createObjectURL(blob);
+      // setAudio(blobUrl);
+      // console.log("blobUrlHS", blobUrl);
+      // console.log("audioHS", audio);
 
       setMessage({ text: "Save Story", type: "save" });
       setUserPrompt("");
