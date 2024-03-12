@@ -149,7 +149,7 @@ export const StorySelector = ({
         <div
           className={
             loading
-              ? "relative w-full h-full aspect-square flex items-center justify-center border-2 rounded border-stone-600 bg-stone-700 rounded-tr-lg"
+              ? "relative w-full h-full aspect-square flex items-center justify-center border-2 rounded border-stone-600  rounded-tr-lg"
               : "relative w-full h-full aspect-square flex items-center justify-center"
           }
         >

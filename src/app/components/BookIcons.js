@@ -53,7 +53,58 @@ export const BookIcons = ({
 
   return (
     <div className="max-x-sm xl:right-12 3xl:right-24 xl:absolute flex xl:flex-col justify-start xl:justify-end items-center xl:h-[60vh] gap-4 px-2  sm:gap-6 w-full xl:w-14 3xl:w-20 pb-4 pt-2 text-sm">
-      {selectedBook?.id == undefined && (
+     
+     
+{  audioRef?.current?.duration > 0  && (
+        <div
+          onClick={() => {
+            setPlaying(!playing);
+            !playing ? audioRef?.current?.play() : audioRef?.current?.pause();
+          }}
+          className={
+            !playing
+              ? "group relative xl:bg-sky-950 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white rounded cursor-pointer"
+              : "group relative bg-blue-600 border-2 border-blue-600 text-white rounded cursor-pointer"
+          }
+        >
+          {playing  ? (
+            <SpeakerWaveIcon
+              className="max-w-xs h-9 w-9 p-1 2.5xl:h-12 2.5xl:w-12 3xl:h-14 3xl:w-14 3xl:p-2"
+              onClick={() => {
+                setMessage({ text: "", type: "" });
+                setPage(audioPage);
+              }}
+            />
+          ) : page == lastPage ? (
+            <ArrowPathIcon
+              className="max-w-xs h-9 w-9 p-1 2.5xl:h-12 2.5xl:w-12 3xl:h-14 3xl:w-14 3xl:p-2"
+              onClick={() => {
+                setMessage({ text: "", type: "" });
+                setPage(0);
+                setAudioPage(0);
+              }}
+            />
+          ) : (
+            <SpeakerXMarkIcon
+              className="max-w-xs h-9 w-9 p-1 2.5xl:h-12 2.5xl:w-12 3xl:h-14 3xl:w-14 3xl:p-2"
+              onClick={() => {
+                setMessage({ text: "", type: "" });
+                setPage(audioPage);
+              }}
+            />
+         )}
+          <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-0 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
+            {playing ? "Mute" : "Play"}
+          </span>
+        </div>
+      )}
+
+     
+     
+     
+     
+     
+      {unsaved && selectedBook?.id == undefined && (
         <div
           onClick={handleSaveBook}
           className={
@@ -195,49 +246,9 @@ export const BookIcons = ({
         </div>
       )}
 
-      {(selectedBook?.audioUrl || audio) && (
-        <div
-          onClick={() => {
-            setPlaying(!playing);
-            !playing ? audioRef?.current?.play() : audioRef?.current?.pause();
-          }}
-          className={
-            !playing
-              ? "group relative xl:bg-sky-950 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white rounded cursor-pointer"
-              : "group relative bg-blue-600 border-2 border-blue-600 text-white rounded cursor-pointer"
-          }
-        >
-          {playing  ? (
-            <SpeakerWaveIcon
-              className="max-w-xs h-9 w-9 p-1 2.5xl:h-12 2.5xl:w-12 3xl:h-14 3xl:w-14 3xl:p-2"
-              onClick={() => {
-                setMessage({ text: "", type: "" });
-                setPage(audioPage);
-              }}
-            />
-          ) : page == lastPage ? (
-            <ArrowPathIcon
-              className="max-w-xs h-9 w-9 p-1 2.5xl:h-12 2.5xl:w-12 3xl:h-14 3xl:w-14 3xl:p-2"
-              onClick={() => {
-                setMessage({ text: "", type: "" });
-                setPage(0);
-                setAudioPage(0);
-              }}
-            />
-          ) : (
-            <SpeakerXMarkIcon
-              className="max-w-xs h-9 w-9 p-1 2.5xl:h-12 2.5xl:w-12 3xl:h-14 3xl:w-14 3xl:p-2"
-              onClick={() => {
-                setMessage({ text: "", type: "" });
-                setPage(audioPage);
-              }}
-            />
-         )}
-          <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-0 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
-            {playing ? "Mute" : "Play"}
-          </span>
-        </div>
-      )}
+      
+
+
     </div>
   );
 };

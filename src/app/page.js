@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { fetchStory } from "./api/openai/fetchStory";
 import { fetchImages } from "./api/stability/fetchImages";
+import { fetchAudio } from "./api/elevenlabs/fetchAudio";
 import { StatusBar } from "./components/StatusBar";
 import { StoryForm } from "./components/StoryForm";
 import { StoryDisplay } from "./components/StoryDisplay";
@@ -72,7 +73,7 @@ export default function StoryPage() {
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
   const [tabSelected, setTabSelected] = useState("Recent");
 
-  const [fetched, setFetched] = useState(false)
+  const [fetched, setFetched] = useState(false);
 
   // Book Auth
   const [userId, setUserId] = useState();
@@ -81,9 +82,9 @@ export default function StoryPage() {
   // Fetch books when userId changes
   useEffect(() => {
     if (!fetched) {
-    fetchAllBooks();
-    setFetched(true);
-     }
+      fetchAllBooks();
+      setFetched(true);
+    }
   }, [userId]);
 
   // RETRIEVING BOOKS //
@@ -105,7 +106,7 @@ export default function StoryPage() {
       setAllBooks(fetchedBooks);
       const userBooks = fetchedBooks.filter((book) => book?.userId == userId);
       setMyBooks(userBooks);
-      setMessage({text: "Books Fetched", type: "success"});
+      setMessage({ text: "Books Fetched", type: "success" });
       setLoading(false);
     } catch (error) {
       setMessage({ text: "Quota Exceeded", type: "error" });
@@ -144,27 +145,27 @@ export default function StoryPage() {
       console.log("storyTitle", storyTitle);
       setUnsavedTitle(storyTitle);
       setOpen(true);
-      setUnsaved(true);
 
       // Fetching images
       setMessage({ text: "Creating Images...", type: "create" });
       const allImages = await fetchImagesTwice(storyData.story);
       setImagesUnsaved(allImages);
 
-      setMessage({ text: "Generating Audio", type: "create" });
+      setUnsaved(true);
       // Fetching audio
-      const audioResponse = await fetch("/api/elevenlabs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ textInput: storyData.story }),
-      });
+      // const audioResponse = await fetch("/api/elevenlabs", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ textInput: storyData.story }),
+      // });
+
       // // Converting audio
-      const arrayBuffer = await audioResponse.arrayBuffer();
-      const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
-      const blobUrl = URL.createObjectURL(blob);
-      setAudio(blobUrl);
-      console.log("blobUrlHS", blobUrl);
-      console.log("audioHS", audio);
+      //  const arrayBuffer = await audioResponse.arrayBuffer();
+      //  const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+      //  const blobUrl = URL.createObjectURL(blob);
+      //  setAudio(blobUrl);
+      //  console.log("blobUrlHS", blobUrl);
+      //  console.log("audioHS", audio);
 
       setMessage({ text: "Save Story", type: "save" });
       setUserPrompt("");
@@ -198,8 +199,9 @@ export default function StoryPage() {
 
     return allImages;
   }
+
   const extractTitleFromStory = (storyText) => {
-    const titleEndIndex = storyText.indexOf("Once upon a time");
+    const titleEndIndex = storyText?.indexOf("Once upon a time");
     if (titleEndIndex === -1) {
       // Handle the case where the phrase is not found
       return "Untitled Story";
@@ -222,10 +224,10 @@ export default function StoryPage() {
   // SAVING A BOOK //
   const handleSaveBook = async () => {
     // Set maximum books that can be saved
-    if (myBooks.length >= 12) {
-      setMessage({ text: "Maximum Books!", type: "save" });
-      return;
-    }
+    // if (myBooks.length >= 12) {
+    //   setMessage({ text: "Maximum Books!", type: "save" });
+    //   return;
+    // }
     // if (myBooks.id)
     setProcessing(true);
     setDismiss(true);
@@ -362,6 +364,64 @@ export default function StoryPage() {
     return url;
   };
 
+  // Updating and saving audio only
+  const handleAudio = async (story, bookId) => {
+    const db = getFirestore();
+    const bookRef = doc(db, "books", bookId);
+    setProcessing(true);
+    try {
+      const audioData = await fetchAudio(story);
+
+      setAudio(audioData);
+      console.log("blobUrlHA", audioData);
+      console.log("audioHA", audio);
+      setProcessing(false);
+
+      // Upload the audio and get its URL
+      setMessage({ text: "Saving Audio...", type: "save" });
+      // Convert the blob URL to a blob if necessary
+      const audioBlob = await fetch(audio).then((r) => r.blob());
+      const audioUrl = await uploadAudio(audioBlob, userId, selectedBook.id);
+      setMessage({ text: "Finishing Up...", type: "save" });
+
+      // Update the document in Firestore with the new audio URL
+      await updateDoc(bookRef, {
+        audioUrl: audioUrl,
+      });
+
+      setMessage({ text: "Audio Updated!", type: "update" });
+
+      // Update the selectedBook state with the new audio URL
+      setSelectedBook({
+        ...selectedBook,
+        audioUrl: audioUrl,
+        id: bookId,
+      });
+
+      setMessage({ text: "Generated Audio", type: "create" });
+    } catch (error) {
+      console.error("Error:", error);
+      setMessage({ text: "Error Audio!", type: "save" });
+      setProcessing(false);
+    }
+  };
+
+  // Generate audio
+  async function fetchAudio(story) {
+    setMessage({ text: "Generating Audio", type: "create" });
+
+    const audioResponse = await fetch("/api/elevenlabs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ textInput: story }),
+    });
+    // // Converting audio
+    const arrayBuffer = await audioResponse.arrayBuffer();
+    const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+    const blobUrl = URL.createObjectURL(blob);
+    return blobUrl;
+  }
+
   // LIKE SHARE VIEW DELETE BOOK //
   const handleLikeBook = async (bookId, userId) => {
     try {
@@ -458,6 +518,9 @@ export default function StoryPage() {
               viewedBy: arrayUnion(userId),
               views: increment(1),
             };
+            messageText = "Book Viewed!";
+          } else {
+            messageText = "Already Viewed!";
           }
           break;
         case "delete":
@@ -481,16 +544,16 @@ export default function StoryPage() {
       setSelectedBook(updatedBookData);
 
       // Update the allBooks array by filtering out the deleted book
-      if (action == "delete"){
+      if (action == "delete") {
         const updatedAllBooks = allBooks.filter((book) => book.id !== bookId);
         setAllBooks(updatedAllBooks);
       } else {
         const updatedAllBooks = allBooks.map((book) =>
-        book.id === bookId ? updatedBookData : book
-      );
-      setAllBooks(updatedAllBooks);
+          book.id === bookId ? updatedBookData : book
+        );
+        setAllBooks(updatedAllBooks);
       }
-     
+
       // Update the document in Firestore if there are changes
       if (Object.keys(updatedBookData).length > 0) {
         await updateDoc(bookRef, updatedBookData);
@@ -683,6 +746,7 @@ export default function StoryPage() {
           playing={playing}
           open={open}
           page={page}
+          audioRef={audioRef}
         />
 
         <div className="mx-0 md:mx-[8%] no-scroll pt-16  ">
@@ -771,6 +835,7 @@ export default function StoryPage() {
               audioPage={audioPage}
               handleViewBook={handleViewBook}
               setFetched={setFetched}
+              handleAudio={handleAudio}
             />
           )}
         </div>

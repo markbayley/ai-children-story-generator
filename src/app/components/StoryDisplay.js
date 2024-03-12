@@ -53,7 +53,7 @@ export const StoryDisplay = ({
   lastPage,
   setAudio,
   handleViewBook,
-  setFetched
+  handleAudio
 }) => {
   
   const storyText = storySelected || storyUnsaved;
@@ -98,7 +98,7 @@ export const StoryDisplay = ({
     console.log("AUDIOPAGES", audioPages);
     setLastPage(lastAudioPage + 1);
     console.log("lastPage", lastPage);
-  }, [storyText]);
+  }, [storyText, audio]);
 
   // Handle audio play and page turn logic
   useEffect(() => {
@@ -123,6 +123,9 @@ export const StoryDisplay = ({
       const currentPageParagraphs = paragraphs.slice(startIndex, endIndex);
 
       const totalWords = countWords(paragraphs);
+      const averagePageWords = 120;
+      const averagePageDuration =
+        audioCurrent?.duration * (averagePageWords / totalWords);
       const currentPageWords = countWords(currentPageParagraphs);
       const estimatedPageDuration =
         audioCurrent?.duration * (currentPageWords / totalWords);
@@ -160,10 +163,10 @@ export const StoryDisplay = ({
         setPage(lastPage);
         setAudioPage(lastPage);
         setPlaying(false);
-        handleViewBook(selectedBook.id, userId)
+       // handleViewBook(selectedBook.id, userId)
         // return
       } else if (
-        audioCurrent.currentTime >= estimatedPageDuration * page &&
+        audioCurrent.currentTime >= (estimatedPageDuration + (averagePageDuration * (page-1))) &&
         page < audioPages
       ) {
         setPage((prevPage) => prevPage + 1);
@@ -345,10 +348,11 @@ export const StoryDisplay = ({
               handleViewBook={handleViewBook}
               setAudioPage={setAudioPage}
               setOpen={setOpen}
+             
             />
             {/* Text Section */}
             <div
-              className="flex flex-col w-full xl:w-1/2 p-2 md:p-4 xl:px-10 xl:pt-11 xl:pb-4 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-15%  to-orange-200 to-100%
+              className="flex flex-col w-full xl:w-1/2 p-2 md:p-4 xl:px-12 xl:pt-11 xl:pb-4 xl:bg-gradient-to-r from-stone-700 from-0% via-orange-200 via-15%  to-orange-200 to-100%
                 sm:rounded xl:rounded-xl xl:border xl:rounded-tr-lg xl:rounded-br-lg xl:border-l-4 xl:border-stone-700  text-stone-900"
             >
               <div className="relative flex justify-end items-start text-stone-900 mt-2 md:mt-0">
@@ -359,6 +363,7 @@ export const StoryDisplay = ({
                     setPlaying(false);
                     setAudioPage(0);
                     setPage(0);
+                    setAudio("")
                   }}
                   className="cursor-pointer absolute bottom-8 xl:-top-10 xl:-right-9 border-2 xl:border-none border-stone-700  text-center z-10 text-stone-700 hover:text-white xl:hover:text-stone-500 hover:bg-stone-700 xl:hover:bg-transparent rounded"
                 >
@@ -375,6 +380,7 @@ export const StoryDisplay = ({
                 ) : (
                   getStoryText(storySelected || storyUnsaved, page)
                 )}
+                <p className="flex justify-center">~</p>
               </div>
               <BookControls
                 selectedBook={selectedBook}
@@ -392,6 +398,9 @@ export const StoryDisplay = ({
                 onLoadedMetadata={onLoadedMetadata}
                 setAudioPage={setAudioPage}
                 playing={playing}
+                handleAudio={handleAudio}
+                storyText={storyText}
+                processing={processing}
               />
             </div>
           </div>

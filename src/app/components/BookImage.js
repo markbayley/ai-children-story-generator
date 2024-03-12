@@ -42,9 +42,23 @@ export const BookImage = ({
         : getDefaultImage(page);
 
     return (
-      <div className="flex justify-center items-center relative fade-in border-2 border-stone-700 rounded-md font-antiqua">
+      <div className="flex justify-center items-center relative fade-in rounded-md  font-antiqua">
         {loading ? (
+          <>
           <div className="spinner w-full h-full absolute"></div>
+          <Image
+          alt="page-image"
+          style={{
+            borderRadius: "5px 5px 5px 5px",
+            fontFamily: "Glass Antiqua",
+          }}
+          width={950}
+          height={950}
+          src={tree}
+          onError={handleImageError}
+          className="font-antiqua"
+        />
+        </>
         ) : (
           <Image
             // priority={true}
@@ -59,7 +73,7 @@ export const BookImage = ({
             // src={imageSrc}
             src={imageLoadError ? tree : imageSrc}
             onError={handleImageError}
-            className="font-antiqua"
+            className="font-antiqua border-2 border-stone-700 rounded-md "
           />
         )}
       </div>
@@ -83,9 +97,9 @@ export const BookImage = ({
        flex-1 justify-center"
     >
       <div className="m-2 md:m-4 xl:m-12 3xl:m-20 sm:rounded-tl-xl sm:rounded-bl-xl">
-        {page > lastPage ? (
+        {page > 5 ? (
           <div className="relative flex justify-center">
-            <Image src={tree} alt="last-page" className="" />
+            <Image src={tree} alt="last-page" className="border-2 border-amber-700 rounded-md" />
           </div>
         ) : (
           <ImageDisplay
