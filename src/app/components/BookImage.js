@@ -42,7 +42,7 @@ export const BookImage = ({
         : getDefaultImage(page);
 
     return (
-      <div className="flex justify-center items-center relative fade-in rounded-md  font-antiqua">
+      <div className="flex justify-center items-center relative fade-in rounded-md  font-antiqua ">
         {loading ? (
           <>
           <div className="spinner w-full h-full absolute"></div>
@@ -92,14 +92,12 @@ export const BookImage = ({
 
   return (
     <div
-      className="w-full h-full
-       xl:w-1/2
-       flex-1 justify-center"
+      className="w-full h-full xl:w-1/2 flex-1 justify-center"
     >
       <div className="m-2 md:m-4 xl:m-12 3xl:m-20 sm:rounded-tl-xl sm:rounded-bl-xl">
-        {page > 5 ? (
+        {page == lastPage ? (
           <div className="relative flex justify-center">
-            <Image src={tree} alt="last-page" className="border-2 border-amber-700 rounded-md" />
+            <Image src={tree} alt="last-page" className="" />
           </div>
         ) : (
           <ImageDisplay

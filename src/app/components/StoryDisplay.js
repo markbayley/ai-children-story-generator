@@ -60,7 +60,7 @@ export const StoryDisplay = ({
   const selectedTitle = extractTitleFromStory(storyText);
   //console.log("selectedTitle", selectedTitle, "UnsavedTitle", unsavedTitle);
 
-  const paragraphsPerPage = 3;
+  const paragraphsPerPage = 2;
 
   // Function to prepare the text by splitting it into paragraphs
   const prepareText = (text) => {
@@ -123,7 +123,7 @@ export const StoryDisplay = ({
       const currentPageParagraphs = paragraphs.slice(startIndex, endIndex);
 
       const totalWords = countWords(paragraphs);
-      const averagePageWords = 120;
+      const averagePageWords = 80;
       const averagePageDuration =
         audioCurrent?.duration * (averagePageWords / totalWords);
       const currentPageWords = countWords(currentPageParagraphs);
@@ -216,7 +216,7 @@ export const StoryDisplay = ({
           <div className="text-2xl 3xl:text-4xl font-antiqua">
             {selectedBook?.creatorPhotoURL && (
               <div className="w-full flex justify-center">
-               <div className="relative rounded-full w-24 aspect-square border-2 border-stone-500">
+               <div className="relative rounded-full w-24 2.5xl:w-32 3xl:w-40 aspect-square border-2 border-stone-500">
                <Image
                  src={selectedBook?.creatorPhotoURL}
                  alt="profile-mini"
@@ -233,8 +233,11 @@ export const StoryDisplay = ({
              </div>
              </div>
             )}
-            ~
-            <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
+            
+           <div className={"text-xl xl:text-2xl xl:leading-7 2xl:text-3xl 2.5xl:text-4xl 3xl:text-5xl italic font-antiqua"}>
+~
+            <p >
+          
               {" "}
               We hope you enjoyed this story{" "}
               <span className="lowercase">
@@ -248,16 +251,17 @@ export const StoryDisplay = ({
               .
             </p>
             <br />
-            <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
+            <p className={""}>
               If you did, why not give it a like!
             </p>
             <br />
-            <p className={"text-2xl 3xl:text-4xl font-antiqua"}>
+            <p className={""}>
               {!loading
                 ? `The story has been viewed ${selectedBook?.views} times.`
                 : "The story is loading... please wait."}
             </p>
-            ~
+            
+            </div>
           </div>
         </div>
       );
@@ -266,7 +270,7 @@ export const StoryDisplay = ({
     if (page == 0) {
       return (
         <div className="flex flex-col justify-center items-center h-full pt-28 pb-32 px-4">
-          <h5 className={"text-2xl 3xl:text-4xl font-bold font-antiqua"}>
+          <h5 className={"text-xl xl:text-2xl xl:leading-7 2xl:text-3xl 2.5xl:text-4xl 3xl:text-5xl  font-semibold font-antiqua"}>
             {" "}
             The story of
           </h5>
@@ -279,7 +283,7 @@ export const StoryDisplay = ({
               : "Once Upon A Time..."}
             <p
               className={
-                "text-center xl:text-right text-xl  3xl:text-3xl font-bold font-antiqua lowercase"
+                "text-center xl:text-right text-xl xl:text-xl 2xl:text-2xl 2.5xl:text-3xl 3xl:text-4xl font-antiqua lowercase"
               }
             >
               {" "}
@@ -298,11 +302,22 @@ export const StoryDisplay = ({
 
     // Render each paragraph separately
     return (
-      <div className="font-antiqua fade-in">
+      <div className="font-antiqua fade-in ">
         {currentPageParagraphs.map((paragraph, index) => (
-          <p key={index} style={{ textAlign: "justify", marginBottom: "1em" }}>
-            {paragraph}
+          <div className="ml-1 ">
+            { index == 0 ?
+          <p key={index} style={{ textAlign: "justify", marginBottom: "1em" }} className={paragraph == "The End" ? "flex justify-center h-full items-center py-12 text-center " : "first-letter:text-6xl first-letter:2xl:text-[8rem] first-letter:3xl:text-9xl  first-letter:2xl:px-10 first-letter:px-4  first-letter:mr-4 first-letter:py-0 first-letter:ring-2 first-letter:ring-stone-800 first-letter:rounded-sm first-letter:bg-[url('../../public/kells.jpg')] first-letter:bg-cover first-letter:float-left first-letter:mt-2 first-letter:border-double"}>
+            {paragraph} 
+            {/* <p className="text-center">~</p> */}
           </p>
+:
+          <p key={index} style={{ textAlign: "justify", marginBottom: "1em" }} className={paragraph == "The End" ? "flex justify-center h-full items-center py-12 text-center " : "first-letter:text-3xl first-letter:2xl:text-5xl first-letter:3xl:text-6xl   "}>
+            {paragraph} 
+            {/* <p className="text-center">~</p> */}
+          </p>
+  }
+         
+          </div>
         ))}
       </div>
     );
@@ -367,11 +382,11 @@ export const StoryDisplay = ({
                   }}
                   className="cursor-pointer absolute bottom-8 xl:-top-10 xl:-right-9 border-2 xl:border-none border-stone-700  text-center z-10 text-stone-700 hover:text-white xl:hover:text-stone-500 hover:bg-stone-700 xl:hover:bg-transparent rounded"
                 >
-                  <XMarkIcon className="h-9 w-9 p-1 3xl:h-14 3xl:w-14" />
+                  <XMarkIcon className="icon" />
                 </div>
               </div>
 
-              <div className="h-full text-stone-900 text-xl 2xl:text-2xl 2.5xl:text-4xl 3xl:text-5xl 3xl:p-10 w-full no-scrollbar overflow-y-auto">
+              <div className="h-full text-stone-900 text-xl xl:text-2xl xl:leading-7 2xl:text-3xl 2.5xl:text-4xl 3xl:text-5xl 3xl:p-10 w-full no-scrollbar overflow-y-auto">
                 {!storySelected && !storyUnsaved && !loading ? (
                   <div className="flex justify-center items-center h-full italic text-center font-antiqua">
                     Please click on a story or create a new story to start
@@ -380,7 +395,7 @@ export const StoryDisplay = ({
                 ) : (
                   getStoryText(storySelected || storyUnsaved, page)
                 )}
-                <p className="flex justify-center">~</p>
+                {/* <p className="flex justify-center">~</p> */}
               </div>
               <BookControls
                 selectedBook={selectedBook}
