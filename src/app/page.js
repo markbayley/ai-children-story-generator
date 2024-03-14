@@ -724,6 +724,7 @@ export default function StoryPage() {
       {/* <Stars /> */}
 
       <main className="flex-grow z-10">
+        {/* { !open && */}
         <StatusBar
           message={message}
           resetStory={resetStory}
@@ -748,6 +749,7 @@ export default function StoryPage() {
           page={page}
           audioRef={audioRef}
         />
+{/* } */}
 
         <div className="mx-0 md:mx-[8%] no-scroll pt-16  ">
           {!open ? (

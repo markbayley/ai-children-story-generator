@@ -63,7 +63,7 @@ const Profile = ({ user, setMessage }) => {
             <UserCircleIcon className="max-w-xs h-8 w-8" />
             )}
             <>
-            <span className="hidden xl:flex">{user?.displayName ? user?.displayName : "Profile"}</span>
+            {/* <span className="hidden xl:flex">{user?.displayName ? user?.displayName : "Profile"}</span> */}
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
             </>
           </Menu.Button>

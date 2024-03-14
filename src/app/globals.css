@@ -6,7 +6,7 @@
 
 @layer components {
   .icon {
-    @apply max-w-xs  p-1 2xl:p-2 3xl:p-3  h-9 w-9 2xl:h-10 2xl:w-10 2.5xl:h-12 2.5xl:w-12 3xl:h-16 3xl:w-16  text-xl 2.5xl:text-2xl 3xl:text-3xl;
+    @apply max-w-xs p-1 2xl:p-2 3xl:p-3  h-9 w-9 2xl:h-10 2xl:w-10 2.5xl:h-14 2.5xl:w-14 3xl:h-16 3xl:w-16  text-xl 2.5xl:text-2xl 3xl:text-3xl;
   }
   /* .text {
     @apply text-xl 2xl:text-2xl 2.5xl:text-4xl 3xl:text-5xl;
@@ -36,7 +36,17 @@ header {
 
 audio::-webkit-media-controls-play-button,
 audio::-webkit-media-controls-panel {
-  background-color: #eac89e;
+  background-color: #6366F1;
+ 
+ /* height: auto; */
+}
+
+audio {
+  color: #ffffff;
+}
+
+.mejs-controls .mejs-time-rail .mejs-time-total {
+	background: #3c3838 !important;
 }
 
 .svgLogo {
