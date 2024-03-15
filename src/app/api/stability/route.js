@@ -45,7 +45,7 @@ async function getPrompts(story) {
   //console.log("themeGP", theme)
 
   const themeStyle = 
-    "Art by Maurice Brazil Prendergast, Charline von Heyl, Michael Leunig, Edward Okun, Anna Dittmann, Kazumasa Nagai, Desmond Morris. Intricate, beautiful, cute. Watercolor and ink, volumetric lighting."
+   "Art by Maurice Brazil Prendergast, Charline von Heyl, Michael Leunig, Edward Okun, Anna Dittmann, Kazumasa Nagai, Desmond Morris. Intricate, beautiful, cute. Watercolor and ink, volumetric lighting."
  // Avoid including words like "mystical", "shimmering", and "glimmering" in prompts.
   // console.log("styleGP", styles)
 
@@ -67,7 +67,7 @@ async function getPrompts(story) {
 
   const openai = new OpenAI(process.env.OPENAI_API_KEY);
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
+    model: "gpt-3.5-turbo-16k",
     messages: [
       {
         role: "system",

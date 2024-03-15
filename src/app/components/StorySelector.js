@@ -259,7 +259,7 @@ export const StorySelector = ({
         });
 
       case "My Stories":
-        return [...allBooks].filter((book) => book?.userId == userId);
+        return [...allBooks].filter((book) => book?.userId == userId).sort((a, b) => b.createdAt - a.createdAt);
       default:
         return allBooks;
     }
@@ -326,8 +326,8 @@ export const StorySelector = ({
                     key={book.id}
                     className={
                       selectedBook?.id != book?.id
-                        ? "z-50 relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-indigo-500 duration-200 rounded-tr-lg"
-                        : "animate-pulse z-50 relative flex items-end justify-center cursor-pointer ring-2 ring-indigo-500 transition ease-in-out  hover:ring-indigo-500 duration-200 rounded-tr-lg"
+                        ? "z-50 relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-sky-600 duration-200 rounded-tr-lg"
+                        : " z-50 relative flex items-end justify-center cursor-pointer ring-2 ring-sky-600 transition ease-in-out  hover:ring-sky-600 duration-200 rounded-tr-lg"
                     }
                   >
                     <PreviewContent book={book} />

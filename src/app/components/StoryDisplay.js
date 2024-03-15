@@ -52,6 +52,9 @@ export const StoryDisplay = ({
   handleViewBook,
   handleAudio,
 }) => {
+
+  const storyText = storySelected || storyUnsaved;
+
   return (
     <>
       <div className="fade-in 2.5xl:pt-4 3xl:pt-12">
@@ -113,6 +116,8 @@ export const StoryDisplay = ({
               audioPages={audioPages}
               selectedBook={selectedBook}
               setLastPage={setLastPage}
+              unsavedTitle={unsavedTitle}
+              storyText={storyText}
             />
 
             {/* <MessageFeature
@@ -136,12 +141,13 @@ export const StoryDisplay = ({
               page={page}
               processing={processing}
               onLoadedMetadata={onLoadedMetadata}
-
+              unsaved={unsaved}
               setAudioPage={setAudioPage}
               lastPage={lastPage}
               setMessage={setMessage}
               audioPage={audioPage}
               setPage={setPage}
+            
             />
 
             <PageControls
@@ -155,6 +161,9 @@ export const StoryDisplay = ({
               lastPage={lastPage}
               setMessage={setMessage}
               audioPage={audioPage}
+              storyText={storyText}
+              handleAudio={handleAudio}
+              selectedBook={selectedBook}
             />
           </div>
         </div>

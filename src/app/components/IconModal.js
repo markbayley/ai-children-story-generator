@@ -1,8 +1,25 @@
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment, useState } from "react";
 
-export default function IconModal({heading, subheading, button1, button2, setMessage, isOpen, setOpen, closeModal, handleDeleteBook, selectedBook, setPlaying, setAudioPage, setPage, userId}) {
-
+export default function IconModal({
+  heading,
+  subheading,
+  button1,
+  button2,
+  setMessage,
+  isOpen,
+  setOpen,
+  closeModal,
+  handleDeleteBook,
+  selectedBook,
+  setPlaying,
+  setAudioPage,
+  setPage,
+  userId,
+  handleAudio,
+  storyText,
+  id,
+}) {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -35,31 +52,50 @@ export default function IconModal({heading, subheading, button1, button2, setMes
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                     {heading}
+                    {heading}
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      {subheading}
-                    </p>
+                    <p className="text-sm text-gray-500">{subheading}</p>
                   </div>
 
                   <div className="mt-4 flex w-full justify-between">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent text-white bg-rose-500 px-4 py-2 text-sm font-medium  hover:bg-rose-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={() => { 
-                        handleDeleteBook(selectedBook.id, userId); 
-                        closeModal();
-                        setOpen(false);
-                        setMessage({text: "Book Deleted!!", type: "delete"});
-                        setPlaying(false);
-                        //setAudio("");
-                        setAudioPage(0);
-                        setPage(0); 
-                      }}
-                    >
-                     {button1}
-                    </button>
+                    {
+                      (id = "Delete" ? (
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md border border-transparent text-white bg-rose-500 px-4 py-2 text-sm font-medium  hover:bg-rose-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          onClick={() => {
+                            handleDeleteBook(selectedBook.id, userId);
+                            closeModal();
+                            setOpen(false);
+                            setMessage({
+                              text: "Book Deleted!!",
+                              type: "delete",
+                            });
+                            setPlaying(false);
+                            //setAudio("");
+                            setAudioPage(0);
+                            setPage(0);
+                          }}
+                        >
+                          {button1} {id}
+                        </button>
+                      ) : (
+                        (id = "Audio" ? (
+                          <button
+                            type="button"
+                            className="inline-flex justify-center rounded-md border border-transparent text-white bg-rose-500 px-4 py-2 text-sm font-medium  hover:bg-rose-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            onClick={() =>
+                              handleAudio(storyText, selectedBook?.id)
+                            }
+                          >
+                            {button1} {id}
+                          </button>
+                        ) : (
+                          "no id"
+                        ))
+                      ))
+                    }
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent text-white bg-teal-500 px-4 py-2 text-sm font-medium  hover:bg-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -75,5 +111,5 @@ export default function IconModal({heading, subheading, button1, button2, setMes
         </Dialog>
       </Transition>
     </>
-  )
+  );
 }

@@ -22,12 +22,14 @@ export const BookText = ({
   audioPages,
   selectedBook,
   setLastPage,
+  unsavedTitle,
+  storyText
 }) => {
-  const storyText = storySelected || storyUnsaved;
+  //const storyText = storySelected || storyUnsaved;
   const selectedTitle = extractTitleFromStory(storyText);
   //console.log("selectedTitle", selectedTitle, "UnsavedTitle", unsavedTitle);
 
-  const paragraphsPerPage = 2;
+  const paragraphsPerPage = 2.5;
 
   // Function to prepare the text by splitting it into paragraphs
   const prepareText = (text) => {
@@ -245,7 +247,7 @@ export const BookText = ({
 
     if (page == 0) {
       return (
-        <div className="flex flex-col justify-center items-center h-full pt-28 pb-32 px-4">
+        <div className="flex flex-col justify-center items-center h-full pt-28 pb-32 px-20">
           <h5
             className={
               "text-xl xl:text-2xl xl:leading-7 2xl:text-3xl 2.5xl:text-4xl 3xl:text-5xl  font-semibold font-antiqua"
@@ -262,8 +264,9 @@ export const BookText = ({
               ? unsavedTitle
               : "Once Upon A Time..."}
             <p
-              className={
+              className={ selectedBook?.title?.length < 20 ?
                 "text-center xl:text-right text-xl xl:text-xl 2xl:text-2xl 2.5xl:text-3xl 3xl:text-4xl font-antiqua lowercase"
+                :  "text-center text-xl xl:text-xl 2xl:text-2xl 2.5xl:text-3xl 3xl:text-4xl font-antiqua lowercase"
               }
             >
               {" "}
@@ -334,9 +337,9 @@ export const BookText = ({
             setPage(0);
             setAudio("");
           }}
-          className="cursor-pointer absolute bottom-8 xl:-top-10 xl:-right-9    text-center z-10 text-stone-700 hover:text-white xl:hover:text-stone-500  rounded"
+          className="cursor-pointer absolute bottom-4 xl:-top-10 xl:-right-9    text-center z-10 text-stone-700 hover:text-white xl:hover:text-stone-500  rounded"
         >
-          <XMarkIcon className="icon" />
+          <XMarkIcon className="icon " />
         </div>
       </div>
 

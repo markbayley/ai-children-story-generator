@@ -16,7 +16,7 @@ const AudioControls = ({
   page,
   processing,
   onLoadedMetadata,
-
+  unsaved,
   setAudioPage,
   lastPage,
   setMessage,
@@ -56,12 +56,12 @@ const AudioControls = ({
 
         <audio
           ref={audioRef}
-          controls
+         // controls
           controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
           src={audio}
           className={
             audio || (selectedBook?.audioUrl && audioRef?.current?.duration > 0 && playing)
-              ? "w-full h-9 2xl:h-12 2.5xl:h-14 3xl:h-16   bg-blue-500 fade-in shadow-md hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-700/30 rounded-full"
+              ? "w-full h-8   bg-blue-500 fade-in shadow-md hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-700/30 rounded-full"
               : "hidden"
           }
           key={forceRerender} // Add key to force re-render
@@ -97,13 +97,13 @@ const AudioControls = ({
         </button> */}
 
 
-               <button
+               {/* <button
        // onClick={() => handleAudio(storyText, selectedBook?.id)}
           onClick={openModal}
           className={
-            audio || (selectedBook?.audioUrl && audioRef?.current?.duration > 0)
+            audio || (selectedBook?.audioUrl && audioRef?.current?.duration > 0) || unsaved
               ? "hidden"
-              : "z-50 group relative bg-gray-500 border-2 xl:border-4 border-gray-500 hover:bg-gray-400 hover:border-gray-400 text-white rounded-full cursor-pointer"
+              : "z-50 group relative bg-blue-500 border-2 xl:border-4 border-blue-500 hover:bg-blue-400 hover:border-blue-400 text-white rounded-full cursor-pointer"
           }
         >
           <span className="h-full flex items-center px-2">
@@ -111,7 +111,7 @@ const AudioControls = ({
          
             <SpeakerWaveIcon className="icon" />
           </span>{" "}
-        </button>
+        </button> */}
 
         <IconModal
           isOpen={isOpen}

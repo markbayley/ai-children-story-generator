@@ -74,6 +74,7 @@ export default function StoryPage() {
   const [tabSelected, setTabSelected] = useState("Recent");
 
   const [fetched, setFetched] = useState(false);
+  const [bookId, setBookId] = useState("")
 
   // Book Auth
   const [userId, setUserId] = useState();
@@ -103,9 +104,14 @@ export default function StoryPage() {
     setLoading(true);
     try {
       const fetchedBooks = await getAllBooks(userId);
+      console.log("fetchBooksFA", fetchedBooks)
       setAllBooks(fetchedBooks);
+      console.log("allBooksFA", allBooks)
       const userBooks = fetchedBooks.filter((book) => book?.userId == userId);
+      console.log("userBooksFA", userBooks)
       setMyBooks(userBooks);
+      console.log("myBooksFA", myBooks)
+
       setMessage({ text: "Books Fetched", type: "success" });
       setLoading(false);
     } catch (error) {
@@ -133,7 +139,7 @@ export default function StoryPage() {
     setUserPrompt(inputPrompt);
     try {
       setMessage({ text: "Writing Story...", type: "create" });
-      setLoading(true);
+     // setLoading(true);
       // Fetching story text
       const hero = user?.displayName || " chosen randomly.";
       const storyData = await fetchStory(inputPrompt, hero);
@@ -169,12 +175,12 @@ export default function StoryPage() {
 
       setMessage({ text: "Save Story", type: "save" });
       setUserPrompt("");
-      setLoading(false);
+      //setLoading(false);
       // Catch errors
     } catch (error) {
       console.error("Error:", error);
       setMessage({ text: "No Credits!", type: "error" });
-      setLoading(false);
+     // setLoading(false);
     }
   };
   async function fetchImagesTwice(story) {
@@ -256,14 +262,19 @@ export default function StoryPage() {
         bookId
       );
       // After saving the book, refetch the books list
-      await fetchAllBooks();
+      await fetchAllBooks()
+      
+      // .then(() => {
+      //   const book = allBooks.find((b) => b.bookId === bookId);
+      //   if (book) {
+      //     console.log("selecting Book", book);
+      //     setSelectedBook(book);
+      //     console.log("selectedBookUE", selectedBook);
+      //   }
+      // });
+    
+      
       setPlaying(false);
-
-      const book = myBooks.find((b) => b.id === bookId);
-      if (book) {
-        console.log("book to select");
-        setSelectedBook(book);
-      }
       setMessage({ text: "Book Saved!", type: "create" });
       setUnsaved(false);
       setProcessing(false);
@@ -277,7 +288,8 @@ export default function StoryPage() {
     userId,
     storyUnsaved,
     imageUrls,
-    audioUrl
+    audioUrl,
+    bookId
   ) => {
     const db = getFirestore();
     const creatorName = user.displayName;
@@ -292,6 +304,7 @@ export default function StoryPage() {
     const views = 0;
     const book = {
       userId,
+      bookId,
       likes,
       likedBy,
       shares,
@@ -337,6 +350,8 @@ export default function StoryPage() {
     const storage = getStorage();
     setMessage({ text: "Creating Book Id...", type: "save" });
     const bookId = generateBookId();
+  setBookId(bookId)
+  console.log("bookIdUI", bookId)
     let imageUrls = [];
     // Ensure unique ID for each image
     for (const image of imagesUnsaved) {
@@ -718,6 +733,21 @@ export default function StoryPage() {
 
   console.log("selectedBookSP", selectedBook);
   console.log("allBookSP", allBooks);
+  console.log("myBooksSP", myBooks);
+
+
+  useEffect(() => {
+    console.log("bookidUEE", bookId)
+    console.log("allBooksUEE", allBooks)
+    const book = allBooks.find((b) => b.bookId === bookId);
+    if (book) {
+      console.log("selecting Book", book);
+      setSelectedBook(book);
+      console.log("selectedBookUE", selectedBook);
+    }
+  }, [allBooks]);
+
+ 
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
@@ -838,6 +868,8 @@ export default function StoryPage() {
               handleViewBook={handleViewBook}
               setFetched={setFetched}
               handleAudio={handleAudio}
+              setSelectedBook={setSelectedBook}
+             
             />
           )}
         </div>
