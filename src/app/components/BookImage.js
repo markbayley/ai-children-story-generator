@@ -45,20 +45,20 @@ export const BookImage = ({
       <div className="flex justify-center items-center relative fade-in rounded-md  font-antiqua ">
         {loading ? (
           <>
-          <div className="spinner w-full h-full absolute"></div>
-          <Image
-          alt="page-image"
-          style={{
-            borderRadius: "5px 5px 5px 5px",
-            fontFamily: "Glass Antiqua",
-          }}
-          width={950}
-          height={950}
-          src={tree}
-          onError={handleImageError}
-          className="font-antiqua"
-        />
-        </>
+            <div className="spinner w-full h-full absolute"></div>
+            <Image
+              alt="page-image"
+              style={{
+                borderRadius: "5px 5px 5px 5px",
+                fontFamily: "Glass Antiqua",
+              }}
+              width={950}
+              height={950}
+              src={tree}
+              onError={handleImageError}
+              className="font-antiqua"
+            />
+          </>
         ) : (
           <Image
             // priority={true}
@@ -91,9 +91,7 @@ export const BookImage = ({
   }, [selectedBook]);
 
   return (
-    <div
-      className="w-full h-full xl:w-1/2 flex-1 justify-center"
-    >
+    <div className="w-full h-full xl:w-1/2 flex-1 justify-center">
       <div className="m-2 md:m-4 xl:m-12 3xl:m-20 sm:rounded-tl-xl sm:rounded-bl-xl">
         {page == lastPage ? (
           <div className="relative flex justify-center">

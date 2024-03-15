@@ -30,7 +30,8 @@ export const PageControls = ({
     }
   };
   return (
-    <div className="absolute right-0 w-full xl:w-24 2xl:w-32 2.5xl:w-36 3xl:w-48 xl:absolute flex xl:flex-col justify-end xl:justify-center items-center xl:h-[90vh] gap-6 pb-3">
+    <div className="bottom-0 flex justify-between  xl:items-center xl:absolute xl:flex-col xl:justify-center xl:h-[90vh] z-40   xl:bg-transparent xl:right-0 w-full xl:w-24 2xl:w-32 2.5xl:w-36 3xl:w-48  gap-6 p-2 xl:pb-3">
+     
       <button
         onClick={() => handlePage("down")}
         className="border-2 rounded-tl-full rounded-bl-full transition ease-in-out cursor-pointer   border-amber-500 hover:cursor-pointer bg-amber-500 hover:bg-amber-400 text-white "
@@ -40,7 +41,7 @@ export const PageControls = ({
 
       <div
         className={
-          "group relative text-amber-500 border-2 rounded border-amber-500 hover:cursor-pointer bg-amber-500 hover:bg-amber-400 hover:text-white xl:bg-sky-950 "
+          "group relative text-white  xl:text-amber-500 border-2 rounded border-amber-500 hover:cursor-pointer bg-amber-500 hover:bg-amber-400 hover:text-white xl:bg-sky-950 "
         }
       >
         <div className="icon flex items-center justify-center">{page}</div>
@@ -52,7 +53,7 @@ export const PageControls = ({
       >
         <ChevronRightIcon className="icon  shadow-md hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-700/30 rounded-tr-full rounded-br-full" />
       </button>
-
+      
       {audioRef?.current?.duration > 0 && (
         <div
           onClick={() => {

@@ -1,8 +1,6 @@
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
-  HandThumbUpIcon,
-  PlayIcon,
   SpeakerWaveIcon,
 } from "@heroicons/react/24/outline";
 import { BookIcons } from "./BookIcons";
@@ -11,41 +9,17 @@ import { useEffect, useState } from "react";
 
 const BookControls = ({
   selectedBook,
-  userId,
   setPage,
   page,
   audio,
   audioRef,
   setPlaying,
-  setMessage,
   audioPages,
   onLoadedMetadata,
   playing,
   handleAudio,
   storyText,
   processing,
-
-  handleDeleteBook,
-  handleSaveBook,
-  handleLikeBook,
-  dismiss,
-  unsaved,
-
-  setShow,
-
-  show,
-
-  deleting,
-
-  handleShareBook,
-  audioPage,
-  lastPage,
-  handleViewBook,
-  setAudioPage,
-  setOpen,
-
-  message,
-
 }) => {
   const handlePage = (direction) => {
     let max = audioPages + 1;
@@ -84,48 +58,40 @@ const BookControls = ({
   return (
     <div className="flex-1 xl:pt-6 2.5xl:pb-6 3xl:px-8">
       <div className=" w-full flex justify-between">
-     
-          {/* Audio player */}
-       <div className="w-2/3">
-            <div
-              className="z-50 h-6 w-8 absolute left-3 bottom-2 cursor-pointer"
-              onClick={() => {
-                setPlaying(!playing);
-                !playing
-                  ? audioRef?.current?.play()
-                  : audioRef?.current?.pause();
-              }}
-            ></div>
-          
-              <audio
-                ref={audioRef}
-                controls
-                controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
-                src={audio}
-                className={
-                  audio ||
-                  (selectedBook?.audioUrl && audioRef?.current?.duration > 0)
-                    ? "w-full h-9 2xl:h-10 2.5xl:h-14 3xl:h-16 3xl:border-4 3xl:border-[#eac89e]  bg-[#eac89e] fade-in shadow-md hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-700/30 rounded-full"
-                    : "hidden"
-                }
-           
-                key={forceRerender} // Add key to force re-render
-                onLoadedMetadata={onLoadedMetadata}
-                //className=" h-9 2xl:h-10 2.5xl:h-14 3xl:h-16 3xl:border-4 3xl:border-[] shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-full"
-              />
-           
-            {/* )} */}
-            <div
-              className="z-50 h-6 w-8 absolute right-3 bottom-2 cursor-pointer "
-              onClick={() => {
-                setPlaying(!playing);
-                !playing
-                  ? audioRef?.current?.play()
-                  : audioRef?.current?.pause();
-              }}
-            ></div>
-          
+        {/* Audio player */}
+        <div className="w-2/3">
+          <div
+            className="z-50 h-6 w-8 absolute left-3 bottom-2 cursor-pointer"
+            onClick={() => {
+              setPlaying(!playing);
+              !playing ? audioRef?.current?.play() : audioRef?.current?.pause();
+            }}
+          ></div>
 
+          <audio
+            ref={audioRef}
+            controls
+            controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
+            src={audio}
+            className={
+              audio ||
+              (selectedBook?.audioUrl && audioRef?.current?.duration > 0)
+                ? "w-full h-9 2xl:h-10 2.5xl:h-14 3xl:h-16 3xl:border-4 3xl:border-[#eac89e]  bg-[#eac89e] fade-in shadow-md hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-700/30 rounded-full"
+                : "hidden"
+            }
+            key={forceRerender} // Add key to force re-render
+            onLoadedMetadata={onLoadedMetadata}
+            //className=" h-9 2xl:h-10 2.5xl:h-14 3xl:h-16 3xl:border-4 3xl:border-[] shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-full"
+          />
+
+          {/* )} */}
+          <div
+            className="z-50 h-6 w-8 absolute right-3 bottom-2 cursor-pointer "
+            onClick={() => {
+              setPlaying(!playing);
+              !playing ? audioRef?.current?.play() : audioRef?.current?.pause();
+            }}
+          ></div>
 
           {/* Generate audio button */}
           <button
@@ -143,9 +109,7 @@ const BookControls = ({
               <SpeakerWaveIcon className="icon p-2" />
             </span>{" "}
           </button>
-      
-
-          </div>
+        </div>
 
         {/* <MessageFeature
           message={message}
@@ -157,7 +121,6 @@ const BookControls = ({
           audioPages={audioPages}
           page={page}
         /> */}
-
 
         {/* <BookIcons
           handleDeleteBook={handleDeleteBook}
@@ -186,7 +149,7 @@ const BookControls = ({
           setAudioPage={setAudioPage}
           setOpen={setOpen}
         /> */}
-      
+
         {/* Page turning controls */}
         <div className={"fade-in flex justify-end gap-2 w-1/3"}>
           <button onClick={() => handlePage("down")}>

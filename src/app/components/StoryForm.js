@@ -177,10 +177,8 @@ export const StoryForm = ({
           </h1>
         </div>
         <h3 className="py-2 text-md font-normal text-white">
-        Create stories with AI and bring your imagination to life! 
-          Write your own prompt or generate one to get started.
-          
-   
+          Create stories with AI and bring your imagination to life! Write your
+          own prompt or generate one to get started.
         </h3>
         <div className="flex items-center justify-center">
           <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}
@@ -233,7 +231,7 @@ export const StoryForm = ({
           <button
             type="submit"
             className={
-             "font-semibold w-full text-white py-2 rounded-md bg-amber-500 hover:bg-amber-400 flex justify-center border-stone-700 3xl:py-4"
+              "font-semibold w-full text-white py-2 rounded-md bg-amber-500 hover:bg-amber-400 flex justify-center border-stone-700 3xl:py-4"
             }
           >
             Create

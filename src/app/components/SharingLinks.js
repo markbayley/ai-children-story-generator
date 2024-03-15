@@ -1,21 +1,27 @@
-import React from 'react';
-import { FaFacebook, FaFacebookSquare, FaTwitterSquare } from 'react-icons/fa';
-import { FacebookShareButton, TwitterShareButton, PinterestShareButton, FacebookIcon, TwitterIcon, PinterestIcon } from 'react-share';
+import React from "react";
+import { FaFacebook, FaFacebookSquare, FaTwitterSquare } from "react-icons/fa";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  PinterestShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  PinterestIcon,
+} from "react-share";
 
-const url = 'www.inblockdesign.com'
-const quote = 'AiStorytime App'
-const title = 'AiStorytime App'
-const hashtags= ["storybookApp", "readingIsFun"]
+const url = "www.inblockdesign.com";
+const quote = "AiStorytime App";
+const title = "AiStorytime App";
+const hashtags = ["storybookApp", "readingIsFun"];
 
-const SharingLinks = ({media, description }) => {
+const SharingLinks = ({ media, description }) => {
   return (
-    <div className='flex flex-col gap-8 m-0 p-0 w-8'>
+    <div className="flex flex-col gap-8 m-0 p-0 w-8">
       <FacebookShareButton
         url={url}
         quote={quote}
         hashtag="#storybookApp"
         className="bg-sky-950 rounded p-1"
-       
       >
         <FaFacebookSquare size={32} round />
       </FacebookShareButton>

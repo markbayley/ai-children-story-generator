@@ -49,7 +49,7 @@ export const StatusBar = ({
   playing,
   open,
   page,
-  audioRef
+  audioRef,
 }) => {
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);
@@ -246,7 +246,9 @@ export const StatusBar = ({
               className="h-4 aspect-square absolute top-1 right-2 3xl:h-6 3xl:w-6 mr-1"
             />
           </div>
-        ) : (selectedBook?.audioUrl || audio) && audioRef?.current?.duration > 0 && open ? (
+        ) : (selectedBook?.audioUrl || audio) &&
+          audioRef?.current?.duration > 0 &&
+          open ? (
           <div
             // onClick={() => setMessage({ text: "", type: "" })}
             className={`fade-in pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer bg-gradient-to-r from-sky-950 to-blue-600 text-white hover:bg-sky-900 rounded-full rounded-tl-lg `}

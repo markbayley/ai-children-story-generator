@@ -38,8 +38,6 @@ export const BookIcons = ({
   setAudioPage,
   handleViewBook,
   setOpen,
-
- 
 }) => {
   // Delete Modal
   let [isOpen, setIsOpen] = useState(false);
@@ -103,6 +101,10 @@ export const BookIcons = ({
               userId={userId}
               setOpen={setOpen}
               setMessage={setMessage}
+              heading={"Delete This Story?"}
+              subheading={"Once you delete a story it will be lost forever. Purchase credits to unlock the ability to save unlimited stories."}
+              button1={"Got it, delete!"}
+              button2={"Wait! Go back."}
             />
 
             {/* <button
@@ -126,8 +128,8 @@ export const BookIcons = ({
               onClick={() => handleLikeBook(selectedBook?.id, userId)}
               className={
                 selectedBook?.likedBy?.includes(userId)
-                  ? "group relative text-white rounded hover:cursor-pointer border-2 border-teal-500 bg-teal-500 "
-                  : "group relative text-white md:text-teal-500 border-2 rounded md:border-teal-500 hover:cursor-pointer  md:hover:bg-teal-500 bg-teal-500 md:hover:text-white md:bg-sky-950"
+                  ? "group relative text-teal-500 xl:text-white rounded hover:cursor-pointer xl:border-2 border-teal-500 xl:bg-teal-500 "
+                  : "group relative text-teal-500 border-2 rounded md:border-teal-500 hover:cursor-pointer  md:hover:bg-teal-500 bg-teal-500 md:hover:text-white md:bg-sky-950"
               }
             >
               <HandThumbUpIcon className="icon" />
@@ -137,7 +139,7 @@ export const BookIcons = ({
               {selectedBook?.likes > 0 && (
                 <span
                   className={
-                    "absolute -top-3 -right-3 px-1  flex justify-center border-2 text-xs 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-teal-500  text-white rounded-full "
+                    "absolute top-0 xl:-top-3 -right-3 px-1  flex justify-center border-2 text-xs 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-teal-500  text-white rounded-full "
                   }
                 >
                   {selectedBook?.likes || 0}
@@ -155,8 +157,8 @@ export const BookIcons = ({
             }}
             className={
               selectedBook?.sharedBy?.includes(userId)
-                ? "group relative text-white rounded hover:cursor-pointer border-2 border-indigo-500 bg-indigo-500"
-                : "group relative text-indigo-500 border-2 rounded border-indigo-500 hover:cursor-pointer hover:bg-indigo-500 hover:text-white xl:bg-sky-950"
+                ? "group relative text-white rounded hover:cursor-pointer xl:border-2 border-indigo-500 xl:bg-indigo-500"
+                : "group relative text-indigo-500 xl:border-2 rounded border-indigo-500 hover:cursor-pointer xl:hover:bg-indigo-500 hover:text-white xl:bg-sky-950"
             }
           >
             <ShareIcon className="icon" />
@@ -166,7 +168,7 @@ export const BookIcons = ({
             {selectedBook?.shares > 0 && (
               <span
                 className={
-                  "absolute -top-3 -right-3 px-1 border-2 text-xs 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-indigo-500  text-white rounded-full"
+                  "absolute top-0 xl:-top-3 -right-3 px-1 border-2 text-xs 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-indigo-500  text-white rounded-full"
                 }
               >
                 {selectedBook?.shares || 0}
@@ -187,8 +189,8 @@ export const BookIcons = ({
             }}
             className={
               selectedBook?.views == 0
-                ? "group relative  text-rose-500 border-2 rounded border-rose-500 hover:cursor-pointer hover:bg-rose-500 hover:text-white xl:bg-sky-950"
-                : "group relative text-white rounded hover:cursor-pointer border-2 border-rose-500 bg-rose-500"
+                ? "group relative  text-rose-500 xl:border-2 rounded border-rose-500 hover:cursor-pointer xl:hover:bg-rose-500 hover:text-white xl:bg-sky-950"
+                : "group relative text-rose-500 xl:text-white rounded hover:cursor-pointer xl:border-2 border-rose-500 xl:bg-rose-500"
             }
           >
             <EyeIcon className="icon" />
@@ -198,7 +200,7 @@ export const BookIcons = ({
             {/* {selectedBook?.viewedBy?.includes(userId) && ( */}
             <span
               className={
-                "absolute -top-3 -right-3 px-1  border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-rose-500  text-white rounded-full"
+                "absolute top-0 xl:-top-3 -right-3 px-1  border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-rose-500  text-white rounded-full"
               }
             >
               {selectedBook?.views || 0}

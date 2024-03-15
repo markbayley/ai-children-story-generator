@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
-export default function IconModal({setMessage, isOpen, setOpen, closeModal, handleDeleteBook, selectedBook, setPlaying, setAudioPage, setPage, userId}) {
+export default function IconModal({heading, subheading, button1, button2, setMessage, isOpen, setOpen, closeModal, handleDeleteBook, selectedBook, setPlaying, setAudioPage, setPage, userId}) {
 
   return (
     <>
@@ -30,23 +30,23 @@ export default function IconModal({setMessage, isOpen, setOpen, closeModal, hand
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Delete This Story?
+                     {heading}
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Once you delete a story it will be lost forever. Purchase credits to unlock the ability to save unlimited stories.
+                      {subheading}
                     </p>
                   </div>
 
                   <div className="mt-4 flex w-full justify-between">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-rose-500 px-4 py-2 text-sm font-medium  hover:bg-rose-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center rounded-md border border-transparent text-white bg-rose-500 px-4 py-2 text-sm font-medium  hover:bg-rose-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={() => { 
                         handleDeleteBook(selectedBook.id, userId); 
                         closeModal();
@@ -58,14 +58,14 @@ export default function IconModal({setMessage, isOpen, setOpen, closeModal, hand
                         setPage(0); 
                       }}
                     >
-                      Got it, delete!
+                     {button1}
                     </button>
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-sm font-medium  hover:bg-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center rounded-md border border-transparent text-white bg-teal-500 px-4 py-2 text-sm font-medium  hover:bg-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={closeModal}
                     >
-                      Wait! Go back.
+                      {button2}
                     </button>
                   </div>
                 </Dialog.Panel>
