@@ -43,9 +43,9 @@ const Profile = ({ user, setMessage }) => {
     <>
       <Menu as="div" className="relative inline-block text-left">
         {/* <div className="hover:text-gray-300 bg-sky-950  text-white"> */}
-          <Menu.Button className="fade-in transition-all 3xl:text-xl 3xl:py-4 max-w-8 hover:bg-gradient-to-r   hover:bg-sky-900 bg-sky-950 hover:shadow-sm lg:shadow-md lg:shadow-slate-900 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold ">
+          <Menu.Button className="fade-in transition-all px-1 2.5xl:px-2 py-1 2.5xl:py-2 text-sm font-semibold 2.5xl:text-lg  max-w-8 hover:bg-gradient-to-r   hover:bg-sky-900 bg-sky-950 hover:shadow-sm lg:shadow-md lg:shadow-slate-900 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md  ">
             {user && user?.photoURL && !imageLoadError ? (
-               <div className="relative aspect-square rounded-full h-8 w-8 mx-[2px] overflow-hidden">
+               <div className="relative aspect-square rounded-full icon 2xl:mx-1 overflow-hidden">
               <Image
                 src={user?.photoURL}
                 sizes="(max-width: 768px) 5vw,
@@ -56,7 +56,7 @@ const Profile = ({ user, setMessage }) => {
                 //height={100}
                 alt="profile-image"
                 onError={handleImageError}
-                className="max-w-xs rounded-full object-cover"
+                className="max-w-xs rounded-full object-cover border-2 border-sky-950"
               />
               </div>
             ) : (

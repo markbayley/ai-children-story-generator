@@ -74,7 +74,7 @@ export default function StoryPage() {
   const [tabSelected, setTabSelected] = useState("Recent");
 
   const [fetched, setFetched] = useState(false);
-  const [bookId, setBookId] = useState("")
+  const [bookId, setBookId] = useState("");
 
   // Book Auth
   const [userId, setUserId] = useState();
@@ -104,13 +104,13 @@ export default function StoryPage() {
     setLoading(true);
     try {
       const fetchedBooks = await getAllBooks(userId);
-      console.log("fetchBooksFA", fetchedBooks)
+      console.log("fetchBooksFA", fetchedBooks);
       setAllBooks(fetchedBooks);
-      console.log("allBooksFA", allBooks)
+      console.log("allBooksFA", allBooks);
       const userBooks = fetchedBooks.filter((book) => book?.userId == userId);
-      console.log("userBooksFA", userBooks)
+      console.log("userBooksFA", userBooks);
       setMyBooks(userBooks);
-      console.log("myBooksFA", myBooks)
+      console.log("myBooksFA", myBooks);
 
       setMessage({ text: "Books Fetched", type: "success" });
       setLoading(false);
@@ -139,7 +139,7 @@ export default function StoryPage() {
     setUserPrompt(inputPrompt);
     try {
       setMessage({ text: "Writing Story...", type: "create" });
-     // setLoading(true);
+      // setLoading(true);
       // Fetching story text
       const hero = user?.displayName || " chosen randomly.";
       const storyData = await fetchStory(inputPrompt, hero);
@@ -180,7 +180,7 @@ export default function StoryPage() {
     } catch (error) {
       console.error("Error:", error);
       setMessage({ text: "No Credits!", type: "error" });
-     // setLoading(false);
+      // setLoading(false);
     }
   };
   async function fetchImagesTwice(story) {
@@ -205,7 +205,6 @@ export default function StoryPage() {
 
     return allImages;
   }
-
   const extractTitleFromStory = (storyText) => {
     const titleEndIndex = storyText?.indexOf("Once upon a time");
     if (titleEndIndex === -1) {
@@ -262,8 +261,8 @@ export default function StoryPage() {
         bookId
       );
       // After saving the book, refetch the books list
-      await fetchAllBooks()
-      
+      await fetchAllBooks();
+
       // .then(() => {
       //   const book = allBooks.find((b) => b.bookId === bookId);
       //   if (book) {
@@ -272,8 +271,7 @@ export default function StoryPage() {
       //     console.log("selectedBookUE", selectedBook);
       //   }
       // });
-    
-      
+
       setPlaying(false);
       setMessage({ text: "Book Saved!", type: "create" });
       setUnsaved(false);
@@ -350,8 +348,8 @@ export default function StoryPage() {
     const storage = getStorage();
     setMessage({ text: "Creating Book Id...", type: "save" });
     const bookId = generateBookId();
-  setBookId(bookId)
-  console.log("bookIdUI", bookId)
+    setBookId(bookId);
+    console.log("bookIdUI", bookId);
     let imageUrls = [];
     // Ensure unique ID for each image
     for (const image of imagesUnsaved) {
@@ -378,7 +376,6 @@ export default function StoryPage() {
     const url = await getDownloadURL(audioRef);
     return url;
   };
-
   // Updating and saving audio only
   const handleAudio = async (story, bookId) => {
     const db = getFirestore();
@@ -420,7 +417,6 @@ export default function StoryPage() {
       setProcessing(false);
     }
   };
-
   // Generate audio
   async function fetchAudio(story) {
     setMessage({ text: "Generating Audio", type: "create" });
@@ -735,10 +731,9 @@ export default function StoryPage() {
   console.log("allBookSP", allBooks);
   console.log("myBooksSP", myBooks);
 
-
   useEffect(() => {
-    console.log("bookidUEE", bookId)
-    console.log("allBooksUEE", allBooks)
+    console.log("bookidUEE", bookId);
+    console.log("allBooksUEE", allBooks);
     const book = allBooks.find((b) => b.bookId === bookId);
     if (book) {
       console.log("selecting Book", book);
@@ -746,8 +741,6 @@ export default function StoryPage() {
       console.log("selectedBookUE", selectedBook);
     }
   }, [allBooks]);
-
- 
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
@@ -779,9 +772,9 @@ export default function StoryPage() {
           page={page}
           audioRef={audioRef}
         />
-{/* } */}
+        {/* } */}
 
-        <div className="mx-0 md:mx-[8%] no-scroll pt-16  ">
+        <div className="mx-0 md:mx-[8%] no-scroll pt-16 2.5xl:pt-20  ">
           {!open ? (
             <div className="2.5xl:my-[8%]">
               <StoryForm
@@ -869,7 +862,6 @@ export default function StoryPage() {
               setFetched={setFetched}
               handleAudio={handleAudio}
               setSelectedBook={setSelectedBook}
-             
             />
           )}
         </div>

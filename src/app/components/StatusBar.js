@@ -9,6 +9,7 @@ import InfoIcon from "/public/InfoIcon.svg";
 import CloseIcon from "/public/CloseIcon.svg";
 import {
   ArrowPathIcon,
+  Bars3Icon,
   InformationCircleIcon,
   MinusIcon,
   //ShareIcon,
@@ -76,31 +77,32 @@ export const StatusBar = ({
   };
 
   return (
-    <div className=" cursor-pointer text-white p-2 flex justify-between text-sm 2.5xl:p-4 3xl:p-6 fixed top-0 w-full z-20 lg:bg-transparent bg-sky-950">
+    <div className=" cursor-pointer text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 lg:bg-transparent bg-sky-950">
       {/* Share Icons */}
       <div className="w-1/6 md:w-1/3 group flex items-center justify-start relative ">
         {show ? (
-          <div>
+          <div className="fade-in border-4 2.5xl:border-8 hover:border-sky-900 border-sky-950 bg-sky-950 rounded-full hover:bg-sky-900 lg:shadow-lg lg:shadow-slate-950">
             <MinusIcon
-              className="max-w-xs h-12 w-12 3xl:h-16 3xl:w-16 p-3  rounded-full fade-in bg-sky-950 hover:bg-sky-900 lg:shadow-lg lg:shadow-slate-950"
+              className="icon"
               onClick={() => setShow(false)}
             />
-            <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
+            <span className="scale-0 group-hover:scale-100 transition-all rounded text-xs 2.5xl:text-lg absolute top-2 left-14 2.5xl:top-6 2.5xl:left-20 3xl:left-24 bg-sky-950 p-1">
               Close
             </span>
           </div>
         ) : (
-          <div onClick={() => setShow(true)}>
-            <span className="scale-0 group-hover:scale-100 transition-all absolute top-4 left-14">
+          <div onClick={() => setShow(true)} className="fade-in border-4 2.5xl:border-8 hover:border-sky-900 border-sky-950 bg-sky-950 rounded-full hover:bg-sky-900 lg:shadow-lg lg:shadow-slate-950">
+            <span className="scale-0 group-hover:scale-100 transition-all rounded text-xs 2.5xl:text-lg absolute top-2 left-14 2.5xl:top-6 2.5xl:left-20 3xl:left-24 bg-sky-950 p-1">
               Open
             </span>
-            <Image
+            {/* <Image
               src={share}
               alt="share-icon"
               width={12}
               height={12}
-              className="max-w-xs h-12 w-12 3xl:h-16 3xl:w-16 p-3 rounded-full fade-in hover:bg-sky-900 lg:shadow-lg lg:shadow-slate-950 bg-sky-950"
-            />
+              className="icon"
+            /> */}
+            <Bars3Icon className="icon"/>
           </div>
         )}
       </div>
@@ -151,7 +153,7 @@ export const StatusBar = ({
             </span>
           </a>
 
-          <div
+          {/* <div
             className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             role="alert"
           >
@@ -209,7 +211,7 @@ export const StatusBar = ({
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Linkedin
             </span>
-          </div>
+          </div> */}
           {/* <div
             onClick={resetStory}
             className="group  max-w-xs text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
@@ -228,22 +230,22 @@ export const StatusBar = ({
         {message && message.text != "" ? (
           <div
             onClick={() => setMessage({ text: "", type: "" })}
-            className={`fade-in transition-all pr-8 flex relative items-center text-sm md:text-[16px] cursor-pointer  hover:bg-gray-700 ${messageColor(
+            className={`fade-in transition-all pr-8 flex relative items-center cursor-pointer hover:bg-gray-700 ${messageColor(
               message.type
             )} rounded-full rounded-tl-lg shadow-lg `}
           >
             <Image
               src={InfoIcon}
               alt="info-icon"
-              className="h-6 aspect-square mx-2 3xl:h-9 3xl:w-9"
+              className="h-6 aspect-square mx-2 2.5xl:h-9 2.5xl:w-9"
             />{" "}
-            <span className="text-sm font-semibold 3xl:text-xl 3xl:p-4">
+            <span className="text-sm font-semibold 2.5xl:text-lg 2.5xl:pr-2">
               {message.text}
             </span>
             <Image
               src={CloseIcon}
               alt="close-icon"
-              className="h-4 aspect-square absolute top-1 right-2 3xl:h-6 3xl:w-6 mr-1"
+              className="h-4 aspect-square absolute top-1 right-2 2.5xl:h-6 2.5xl:w-6 mr-1"
             />
           </div>
         ) : (selectedBook?.audioUrl || audio) &&

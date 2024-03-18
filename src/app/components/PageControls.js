@@ -58,10 +58,10 @@ export const PageControls = ({
         }}
         className={
           isNaN(audioRef?.current?.duration)
-            ? "group relative border-2 xl:border-4 border-gray-500 hover:border-gray-400 hover:bg-slate-400 bg-slate-500 text-white rounded-full cursor-pointer"
+            ? "group relative border-2 xl:border-4 ml-1 border-rose-600 hover:border-stone-500 hover:bg-stone-500 bg-rose-600 text-white rounded-full cursor-pointer shadow-xl hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-950/30 "
             : !playing
-            ? "group relative border-2 xl:border-4 border-blue-500 hover:border-blue-400 hover:bg-blue-400 bg-blue-500 text-white rounded-full cursor-pointer"
-            : "group relative border-2 xl:border-4 bg-blue-600 border-blue-600 text-white rounded-full cursor-pointer"
+            ? "group relative border-2 xl:border-4 ml-1 border-blue-500 hover:border-blue-400 hover:bg-blue-400 bg-blue-500 text-white rounded-full cursor-pointer"
+            : "group relative border-2 xl:border-4 ml-1 bg-blue-600 border-blue-600 text-white rounded-full cursor-pointer"
         }
       >
         {isNaN(audioRef?.current?.duration) ? (
@@ -95,7 +95,7 @@ export const PageControls = ({
             }}
           />
         )}
-        <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-0 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
+        <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -left-1 xl:top-1 xl:-left-12 2.5xl:-left-16 2.5xl:top-3 bg-sky-950 p-1 rounded">
           {isNaN(audioRef?.current?.duration) ? "Audio" : playing ? "Mute" : "Play"}
         </span>
       </div>
@@ -104,7 +104,7 @@ export const PageControls = ({
      
       <button
         onClick={() => handlePage("down")}
-        className={ page == 0 ? "border-2 rounded-tl-full rounded-bl-full transition ease-in-out cursor-pointer border-gray-500 hover:cursor-pointer bg-slate-500  text-white"
+        className={ page == 0 ? "border-2 rounded-tl-full rounded-bl-full transition ease-in-out cursor-pointer border-stone-600 hover:cursor-pointer bg-stone-600  text-white"
         : "border-2 rounded-tl-full rounded-bl-full transition ease-in-out cursor-pointer   border-amber-500 hover:cursor-pointer bg-amber-500 hover:bg-amber-400 text-white "}
       >
         <ChevronLeftIcon className="icon  shadow-md hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-800/30 rounded-tl-full rounded-bl-full " />
@@ -112,15 +112,18 @@ export const PageControls = ({
 
       <div
         className={
-          "group relative text-white  xl:text-amber-500 border-2 rounded border-amber-500 hover:cursor-pointer bg-amber-500 xl:bg-sky-950 "
+          "group relative text-white  border-2 rounded border-amber-500 hover:cursor-pointer bg-amber-500  "
         }
       >
-        <div className="icon flex items-center justify-center">{page}</div>
+        <div className="icon flex items-center justify-center  ">{page}</div>
+        <span className="text-white scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -left-1 xl:top-1 xl:-left-12 2.5xl:-left-16 2.5xl:top-3 bg-stone-800 p-1 rounded">
+          Page
+        </span>
       </div>
 
       <button
         onClick={() => handlePage("up")}
-        className={ page == lastPage ? "border-2 rounded-tr-full rounded-br-full  transition ease-in-out cursor-pointer rounded  border-gray-500 hover:cursor-pointer bg-slate-500  text-white"
+        className={ page == lastPage ? "border-2 rounded-tr-full rounded-br-full  transition ease-in-out cursor-pointer rounded  border-stone-600 hover:cursor-pointer bg-stone-600  text-white"
        :  "border-2 rounded-tr-full rounded-br-full transition ease-in-out cursor-pointer rounded  border-amber-500 hover:cursor-pointer bg-amber-500 hover:bg-amber-400 text-white" }
       >
         <ChevronRightIcon className="icon  shadow-md hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-700/30 rounded-tr-full rounded-br-full" />

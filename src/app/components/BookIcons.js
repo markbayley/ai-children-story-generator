@@ -129,19 +129,19 @@ export const BookIcons = ({
             <div
               onClick={() => handleLikeBook(selectedBook?.id, userId)}
               className={
-                selectedBook?.likedByBy?.includes(userId)
-                  ? "group relative text-white rounded hover:cursor-pointer xl:border-2 border-teal-500 xl:bg-teal-500"
+                selectedBook?.likedBy?.includes(userId)
+                  ? "group relative text-white rounded hover:cursor-pointer xl:border-2 border-teal-500 bg-teal-500"
                   : "group relative text-teal-500 xl:border-2 rounded border-teal-500 hover:cursor-pointer xl:hover:bg-teal-500 hover:text-white xl:bg-sky-950"
               }
             >
               <HandThumbUpIcon className="icon" />
-              <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-1 xl:top-1 xl:-right-12 bg-sky-950 p-1 rounded">
-                {selectedBook?.likedBy?.includes(userId) ? "Liked" : "Like"}
+              <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-1 xl:-right-10 2.5xl:-right-14 2.5xl:top-3 bg-sky-950 p-1 rounded">
+                {selectedBook?.likedBy?.includes(userId) ? "Liked" : "Likes"}
               </span>
               {selectedBook?.likes > 0 && (
                 <span
                   className={
-                    "absolute top-0 xl:-top-3 -right-3 px-1  flex justify-center border-2 text-xs 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-teal-500  text-white rounded-full "
+                    "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8  h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2  flex justify-center ring-2 ring-white bg-teal-500  text-white rounded-full "
                   }
                 >
                   {selectedBook?.likes || 0}
@@ -159,18 +159,18 @@ export const BookIcons = ({
             }}
             className={
               selectedBook?.sharedBy?.includes(userId)
-                ? "group relative text-white rounded hover:cursor-pointer xl:border-2 border-indigo-500 xl:bg-indigo-500"
+                ? "group relative text-white rounded hover:cursor-pointer xl:border-2 border-indigo-500 bg-indigo-500"
                 : "group relative text-indigo-500 xl:border-2 rounded border-indigo-500 hover:cursor-pointer xl:hover:bg-indigo-500 hover:text-white xl:bg-sky-950"
             }
           >
             <ShareIcon className="icon " />
-            <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-1 xl:top-1 xl:-right-14 bg-sky-950 p-1 rounded">
+            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-1 xl:-right-12 2.5xl:-right-16 2.5xl:top-3 bg-sky-950 p-1 rounded">
               {selectedBook?.sharedBy?.includes(userId) ? "Shared" : "Share"}
             </span>
             {selectedBook?.shares > 0 && (
               <span
                 className={
-                  "absolute top-0 xl:-top-3 -right-3 px-1 border-2 text-xs 3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-indigo-500  text-white rounded-full"
+                  "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8   h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2 flex justify-center ring-2 ring-white bg-indigo-500  text-white rounded-full "
                 }
               >
                 {selectedBook?.shares || 0}
@@ -191,19 +191,19 @@ export const BookIcons = ({
             }}
             className={
               selectedBook?.views == 0
-                ? "group relative  text-lime-500 xl:border-2 rounded border-lime-500 hover:cursor-pointer xl:hover:bg-lime-500 hover:text-white xl:bg-sky-950"
-                : "group relative text-lime-500  rounded hover:cursor-pointer xl:border-2 border-lime-500 xl:hover:bg-lime-500 hover:text-white"
+                ? "group relative  text-fuchsia-500 xl:border-2 rounded border-fuchsia-500 hover:cursor-pointer xl:hover:bg-fuchsia-500 hover:text-white xl:bg-sky-950"
+                : "group relative text-fuchsia-500  rounded hover:cursor-pointer xl:border-2 border-fuchsia-500 xl:hover:bg-fuchsia-500 hover:text-white"
             }
           >
             <EyeIcon className="icon" />
-            <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-1 xl:top-1 xl:-right-14 bg-sky-950 p-1 rounded">
+            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-1 xl:-right-12 2.5xl:-right-16 2.5xl:top-3 bg-sky-950 p-1 rounded">
               {page != audioPages + 1 ? "Views" : "Viewed"}
             </span>
             {/* {selectedBook?.viewedBy?.includes(userId) && ( */}
            { selectedBook?.views > 0 &&
             <span
               className={
-                "absolute top-0 xl:-top-3 -right-3 px-1 border-2  text-xs  3xl:text-lg 3xl:px-3 3xl:-top-5 3xl:-right-8 bg-lime-600  text-white rounded-full"
+                "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8   h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2 flex justify-center ring-2 ring-white bg-fuchsia-500  text-white rounded-full "
               }
             >
               {selectedBook?.views || 0}
