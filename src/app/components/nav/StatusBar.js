@@ -1,17 +1,22 @@
 // "use client";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase/config";
+import { auth } from "../../firebase/config";
 import { useEffect, useState } from "react";
-import Profile from "../profile/page";
-import Authy from "../auth/page";
+import Profile from "./profile/page";
+import Authy from "../../auth/page";
 import Image from "next/image";
 import InfoIcon from "/public/InfoIcon.svg";
 import CloseIcon from "/public/CloseIcon.svg";
 import {
   ArrowPathIcon,
   Bars3Icon,
+  HomeIcon,
   InformationCircleIcon,
+  MagnifyingGlassCircleIcon,
+  MagnifyingGlassIcon,
   MinusIcon,
+  PaintBrushIcon,
+  ShareIcon,
   //ShareIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -51,6 +56,8 @@ export const StatusBar = ({
   open,
   page,
   audioRef,
+  setSearch,
+  search
 }) => {
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);
@@ -102,15 +109,57 @@ export const StatusBar = ({
               height={12}
               className="icon"
             /> */}
-            <Bars3Icon className="icon"/>
+         {search ?  <MagnifyingGlassIcon className="icon" /> :   <HomeIcon className="icon" />}
           </div>
         )}
       </div>
 
       {show && (
-        <div className="backdrop-blur-md bg-sky-950/30 md:bg-transparent  p-2 lg:p-1 fade-in z-10 left-1 lg:left-2 3xl:left-6 top-16 3xl:top-28 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-8 3xl:gap-12 w-auto mt-2  ">
+        <div className="backdrop-blur-md bg-sky-950/30 md:bg-transparent  p-2 lg:p-1 fade-in z-10 left-1 top-16 lg:left-2 2.5xl:top-24  3xl:left-3 3xl:top-28 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-6 3xl:gap-12 w-auto mt-2  ">
           {/* <SharingLinks media={selectedBook?.imageUrls[0]} description={selectedBook?.story[0-100]}/> */}
           <a
+           onClick={() => { setSearch(false); setShow(false); setMessage({ text: "Home Selected", type: "create" }) }}
+            className={ search ? "group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+           : "group  max-w-xs  text-sm bg-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer" }
+          >
+            <HomeIcon className="icon" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 left-12 bg-sky-950 p-1 rounded">
+              Home
+            </span>
+          </a>
+
+
+
+          <a
+           onClick={() => { setSearch(true); setShow(false); setMessage({ text: "Search Selected", type: "share" }) }}
+            className={search ? "group  max-w-xs  text-sm bg-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+            : "group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"}
+         
+          >
+            <MagnifyingGlassIcon className="icon" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 left-12 bg-sky-950 p-1 rounded">
+              Search
+            </span>
+          </a>
+
+
+          <a
+          // onClick={() => setSearch(true)}
+            className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+         
+          >
+            <ShareIcon className="icon" />
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 left-12 bg-sky-950 p-1 rounded">
+              Share
+            </span>
+          </a>
+
+        
+          
+          
+          
+          
+          {/* <a
             href="https://www.instagram.com"
             target="_blank"
             onClick={() => handleShareBook(selectedBook?.id, userId)}
@@ -151,7 +200,7 @@ export const StatusBar = ({
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-2 left-12">
               Twitter
             </span>
-          </a>
+          </a> */}
 
           {/* <div
             className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
@@ -245,7 +294,7 @@ export const StatusBar = ({
             <Image
               src={CloseIcon}
               alt="close-icon"
-              className="h-4 aspect-square absolute top-1 right-2 2.5xl:h-6 2.5xl:w-6 mr-1"
+              className="h-4 w-4 absolute top-1 right-2 2.5xl:h-6 2.5xl:w-6 mr-1"
             />
           </div>
         ) : (selectedBook?.audioUrl || audio) &&

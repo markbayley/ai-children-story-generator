@@ -1,24 +1,18 @@
 import {
+    ArrowPathIcon,
   BookOpenIcon,
-  ChevronDownIcon,
   LightBulbIcon,
   PaintBrushIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
-import { Menu } from "@headlessui/react";
-//import SparklesIcon from "/public/SparklesIcon.svg"
-import Image from "next/image";
 
-export const StoryForm = ({
+const CreateForm = ({
   userPrompt,
   setUserPrompt,
   handleSubmit,
   setMessage,
-  loading,
   handleOpen,
   storyUnsaved,
-  theme,
-  setTheme,
 }) => {
   const randomNouns = [
     "fairy",
@@ -101,73 +95,6 @@ export const StoryForm = ({
     );
   };
 
-  function ThemeDropdown() {
-    return (
-      <div className="text-sm ">
-        <Menu>
-          <Menu.Button
-            className={
-              "flex justify-between mt-2 text-orange-300 hover:text-amber-500  "
-            }
-          >
-            <div className="flex relative"> </div>
-            <ChevronDownIcon className="h-5 w-5 mr-2 text-orange-300" />
-            {theme} Theme
-          </Menu.Button>
-          {/* <span className="text-[10px] text-orange-300 absolute -top-3 ">STYLE</span> */}
-          <Menu.Items
-            className={
-              "flex  text-white justify-between  z-30 ml-5 -mt-6 absolute  bg-sky-950 rounded  leading-loose"
-            }
-          >
-            <div className="flex justify-between ">
-              <Menu.Item>
-                <button
-                  onClick={() => setTheme("Spooky")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Spooky
-                </button>
-              </Menu.Item>
-              <Menu.Item>
-                <button
-                  onClick={() => setTheme("Pretty")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Pretty
-                </button>
-              </Menu.Item>
-              <Menu.Item>
-                <button
-                  onClick={() => setTheme("Funny")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Funny
-                </button>
-              </Menu.Item>
-              <Menu.Item>
-                <button
-                  onClick={() => setTheme("Cute")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Cute
-                </button>
-              </Menu.Item>
-              <Menu.Item>
-                <button
-                  onClick={() => setTheme("Weird")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Weird
-                </button>
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        </Menu>
-      </div>
-    );
-  }
-
   return (
     <div className="flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-2 py-0 md:py-4">
       <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl w-full">
@@ -195,22 +122,41 @@ export const StoryForm = ({
             {"Create a story about..."}
           </label>
 
-          <label
-            onClick={() =>
-              setUserPrompt(
-                getRandomIdea(randomNouns, randomAdjectives, randomPlaces)
-              )
-            }
-            htmlFor="prompt"
-            className="group   text-orange-300 bg-transparent cursor-pointer "
-          >
-            <p className="flex items-center text-sm font-semibold hover:text-orange-200 3xl:text-2xl">
-              Generate idea?{" "}
-              <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-1 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
-                <LightBulbIcon className="h-5 w-5" />
-              </span>
-            </p>
-          </label>
+          {userPrompt ? (
+            <label
+              onClick={() => {
+                setUserPrompt("");
+                setMessage({ text: "Prompt Cleared", type: "like" });
+              }}
+              htmlFor="prompt"
+              className="group   text-orange-300 bg-transparent cursor-pointer "
+            >
+              <p className="flex items-center text-sm font-semibold hover:text-orange-200 3xl:text-2xl">
+                Clear prompt{" "}
+                <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-1 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
+                  <ArrowPathIcon className="h-5 w-5" />
+                </span>
+              </p>
+            </label>
+          ) : (
+            <label
+              onClick={() => {
+                setUserPrompt(
+                  getRandomIdea(randomNouns, randomAdjectives, randomPlaces)
+                );
+                setMessage({ text: "Prompt Created", type: "info" });
+              }}
+              htmlFor="prompt"
+              className="group   text-orange-300 bg-transparent cursor-pointer "
+            >
+              <p className="flex items-center text-sm font-semibold hover:text-orange-200 3xl:text-2xl">
+                Generate idea?{" "}
+                <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-1 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
+                  <LightBulbIcon className="h-5 w-5" />
+                </span>
+              </p>
+            </label>
+          )}
         </div>
 
         <input
@@ -254,3 +200,5 @@ export const StoryForm = ({
     </div>
   );
 };
+
+export default CreateForm;

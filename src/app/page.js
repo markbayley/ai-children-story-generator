@@ -3,10 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { fetchStory } from "./api/openai/fetchStory";
 import { fetchImages } from "./api/stability/fetchImages";
 import { fetchAudio } from "./api/elevenlabs/fetchAudio";
-import { StatusBar } from "./components/StatusBar";
-import { StoryForm } from "./components/StoryForm";
-import { StoryDisplay } from "./components/StoryDisplay";
-import { StorySelector } from "./components/StorySelector";
+import { StatusBar } from "./components/nav/StatusBar";
+import { StoryForm } from "./components/main/StoryForm";
+import { StoryDisplay } from "./components/book/StoryDisplay";
+import { StorySelector } from "./components/main/StorySelector";
 import {
   getFirestore,
   collection,
@@ -20,11 +20,13 @@ import {
   doc,
   arrayUnion,
   getDoc,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config";
-import { FooterNav } from "./components/FooterNav";
+import { FooterNav } from "./components/nav/FooterNav";
 // import { Stars } from "./components/Stars";
 
 export default function StoryPage() {
@@ -64,6 +66,8 @@ export default function StoryPage() {
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(5);
   const [message, setMessage] = useState({ text: `Welcome`, type: "share" });
+  const [search, setSearch] = useState(false);
+  const [showCreators, setShowCreators ] = useState(false)
 
   // Book Collections
   const [myBooks, setMyBooks] = useState([]);
@@ -78,7 +82,7 @@ export default function StoryPage() {
 
   // Book Auth
   const [userId, setUserId] = useState();
-  console.log("userId", userId);
+  // console.log("userId", userId);
 
   // Fetch books when userId changes
   useEffect(() => {
@@ -89,33 +93,66 @@ export default function StoryPage() {
   }, [userId]);
 
   // RETRIEVING BOOKS //
+  // const fetchAllBooks = async () => {
+  //   // Called in function below
+  //   const getAllBooks = async () => {
+  //     const db = getFirestore();
+  //     const q = query(collection(db, "books"));
+  //     const querySnapshot = await getDocs(q);
+  //     let allBooks = [];
+  //     querySnapshot.forEach((doc) => {
+  //       allBooks.push({ id: doc.id, ...doc.data() });
+  //     });
+  //     return allBooks;
+  //   };
+  //   setLoading(true);
+  //   try {
+  //     const fetchedBooks = await getAllBooks(userId);
+  //     console.log("fetchBooksFA", fetchedBooks);
+  //     setAllBooks(fetchedBooks);
+  //     console.log("allBooksFA", allBooks);
+  //     const userBooks = fetchedBooks.filter((book) => book?.userId == userId);
+  //     console.log("userBooksFA", userBooks);
+  //     setMyBooks(userBooks);
+  //     console.log("myBooksFA", myBooks);
+
+  //     setMessage({ text: "Books Fetched", type: "success" });
+  //     setLoading(false);
+  //   } catch (error) {
+  //     setMessage({ text: "Quota Exceeded", type: "error" });
+  //     console.log(error)
+  //     setLoading(false);
+  //   }
+  // };
+
   const fetchAllBooks = async () => {
-    // Called in function below
-    const getAllBooks = async () => {
-      const db = getFirestore();
-      const q = query(collection(db, "books"));
-      const querySnapshot = await getDocs(q);
-      let allBooks = [];
-      querySnapshot.forEach((doc) => {
-        allBooks.push({ id: doc.id, ...doc.data() });
-      });
-      return allBooks;
-    };
     setLoading(true);
     try {
-      const fetchedBooks = await getAllBooks(userId);
+      const db = getFirestore();
+      const q = query(
+        collection(db, "books"),
+        orderBy("createdAt", "desc"), // Order by createdAt field in descending order
+        limit(60) // Limit the results to the last 20 books
+      );
+      const querySnapshot = await getDocs(q);
+
+      let fetchedBooks = [];
+      querySnapshot.forEach((doc) => {
+        fetchedBooks.push({ id: doc.id, ...doc.data() });
+      });
+
       console.log("fetchBooksFA", fetchedBooks);
       setAllBooks(fetchedBooks);
-      console.log("allBooksFA", allBooks);
-      const userBooks = fetchedBooks.filter((book) => book?.userId == userId);
+
+      const userBooks = fetchedBooks.filter((book) => book.userId === userId);
       console.log("userBooksFA", userBooks);
       setMyBooks(userBooks);
-      console.log("myBooksFA", myBooks);
 
       setMessage({ text: "Books Fetched", type: "success" });
       setLoading(false);
     } catch (error) {
       setMessage({ text: "Quota Exceeded", type: "error" });
+      console.log(error);
       setLoading(false);
     }
   };
@@ -465,7 +502,6 @@ export default function StoryPage() {
       console.error("Error deleting book: ", error);
     }
   };
-
   const fetchBookById = async (bookId, userId, action) => {
     const db = getFirestore();
     const bookRef = doc(db, "books", bookId);
@@ -599,8 +635,12 @@ export default function StoryPage() {
     setPlaying(true);
     audioRef?.current?.play();
     //setAudio(selectedBook?.audioUrl)
-    setMessage("");
+    // isNaN(audioRef?.current?.duration)
+    //   ? setMessage({ text: "No Audio", type: "error" })
+    //   : setMessage({ text: "Audio Book", type: "info" });
+
     setOpen(true);
+    setMessage({ text: "Book Opened", type: "create" });
     //setPage(0);
   };
   const handleOpen = () => {
@@ -727,23 +767,90 @@ export default function StoryPage() {
     };
   }, [open, audio, loading]);
 
-  console.log("selectedBookSP", selectedBook);
-  console.log("allBookSP", allBooks);
-  console.log("myBooksSP", myBooks);
-
   useEffect(() => {
-    console.log("bookidUEE", bookId);
-    console.log("allBooksUEE", allBooks);
+    // console.log("bookidUEE", bookId);
+    // console.log("allBooksUEE", allBooks);
     const book = allBooks.find((b) => b.bookId === bookId);
     if (book) {
-      console.log("selecting Book", book);
+      // console.log("selecting Book", book);
       setSelectedBook(book);
-      console.log("selectedBookUE", selectedBook);
+      // console.log("selectedBookUE", selectedBook);
     }
   }, [allBooks]);
 
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    // console.log("queryHS", searchQuery)
+    const searchRes = searchBooks(searchQuery);
+    // Update state or perform other actions with the search results
+    // console.log("searchRes", searchRes)
+    setTabSelected("Search");
+    setMessage({ text: "Searched " + "'" + searchQuery + "'", type: "like" });
+    setSearchResults(searchRes);
+  };
+  const searchBooks = (searchQuery) => {
+    console.log("querySB", searchQuery);
+
+    const filteredBooks = allBooks.filter((book) => {
+      const titleMatches = book?.title
+        ?.toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const creatorNameMatches = book?.creatorName
+        ?.toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      return titleMatches || creatorNameMatches;
+    });
+    return filteredBooks;
+  };
+
+  console.log("searchResultsSP", searchResults);
+  console.log("searchQuery", searchQuery);
+  // console.log("selectedBookSP", selectedBook);
+  // console.log("allBookSP", allBooks);
+  // console.log("myBooksSP", myBooks);
+
+
+
+// Assuming allBooks is an array of objects with creatorName and creatorPhotoURL properties
+
+// Step 1: Create an empty object to store the unique creator names, their corresponding photo URLs, and the count of their books
+const uniqueCreators = {};
+
+// Step 2: Iterate over the allBooks array
+allBooks.forEach(book => {
+    // Check if the creator name and photo URL are both not null
+    if (book.creatorName !== null && book.creatorPhotoURL !== null) {
+        // Check if the creator name already exists in the uniqueCreators object
+        if (!uniqueCreators.hasOwnProperty(book.creatorName)) {
+            // If not, add it to the uniqueCreators object with its corresponding photo URL and initialize the count of books to 1
+            uniqueCreators[book.creatorName] = {
+                name: book.creatorName,
+                photoURL: book.creatorPhotoURL,
+                bookCount: 1
+            };
+        } else {
+            // If the creator already exists, increment the count of books
+            uniqueCreators[book.creatorName].bookCount++;
+        }
+    }
+});
+
+// Step 3: Convert the uniqueCreators object into an array of objects
+const uniqueCreatorsArr = Object.values(uniqueCreators);
+
+// Step 4: Sort the uniqueCreatorsArray based on the book count in descending order
+const uniqueCreatorsArray = uniqueCreatorsArr.sort((a, b) => b.bookCount - a.bookCount).slice(0, 6);
+
+// Step 5: Use uniqueCreatorsArray as needed
+console.log(uniqueCreatorsArray);
+
+
+
   return (
-    <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
+    <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed  z-10 flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
       {/* <Stars /> */}
 
       <main className="flex-grow z-10">
@@ -771,6 +878,9 @@ export default function StoryPage() {
           open={open}
           page={page}
           audioRef={audioRef}
+          setSearchQuery={setSearchQuery}
+          search={search}
+          setSearch={setSearch}
         />
         {/* } */}
 
@@ -787,6 +897,15 @@ export default function StoryPage() {
                 storyUnsaved={storyUnsaved}
                 theme={theme}
                 setTheme={setTheme}
+                search={search}
+                setSearchQuery={setSearchQuery}
+                searchQuery={searchQuery}
+                handleSearch={handleSearch}
+                //setTabSelected={setTabSelected}
+                uniqueCreatorsArray={uniqueCreatorsArray}
+                setShowCreators={setShowCreators}
+                showCreators={showCreators}
+                allBooks={allBooks}
               />
 
               <StorySelector
@@ -810,6 +929,13 @@ export default function StoryPage() {
                 setPlaying={setPlaying}
                 tabSelected={tabSelected}
                 setTabSelected={setTabSelected}
+                searchResults={searchResults}
+                setSearch={setSearch}
+                searchQuery={searchQuery}
+                handleSearch={handleSearch}
+                setSearchQuery={setSearchQuery}
+                search={search}
+                showCreators={showCreators}
               />
             </div>
           ) : (

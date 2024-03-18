@@ -4,7 +4,7 @@ import { BookImage } from "./BookImage";
 import BookControls from "./BookControls";
 import Image from "next/image";
 import tree from "/public/trace1.svg";
-import { MessageFeature } from "./MessageFeature";
+import { MessageFeature } from "../nav/MessageFeature";
 import { PageControls } from "./PageControls";
 import AudioControls from "./AudioControls";
 import { BookText } from "./BookText";

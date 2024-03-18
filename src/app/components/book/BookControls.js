@@ -4,7 +4,7 @@ import {
   SpeakerWaveIcon,
 } from "@heroicons/react/24/outline";
 import { BookIcons } from "./BookIcons";
-import { MessageFeature } from "./MessageFeature";
+import { MessageFeature } from "../nav/MessageFeature";
 import { useEffect, useState } from "react";
 
 const BookControls = ({

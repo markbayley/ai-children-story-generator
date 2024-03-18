@@ -54,7 +54,7 @@ export const MessageFeature = ({
           <Image
             src={CloseIcon}
             alt="close-icon"
-            className="h-4 aspect-square absolute top-1 right-2 3xl:h-6 3xl:w-6 mr-1"
+            className="h-4 w-4 absolute top-1 right-2 3xl:h-6 3xl:w-6 mr-1"
           />
         </div>
       ) : (selectedBook?.audioUrl || audio) &&

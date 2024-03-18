@@ -9,6 +9,8 @@ export const PreviewContent = ({
   user,
   userId,
   loading,
+  handleSearch,
+  setSearchQuery,
 }) => {
   const [imageLoadError, setImageLoadError] = useState(false);
 
@@ -36,8 +38,14 @@ export const PreviewContent = ({
     <>
       {/* User Icon */}
       <div
+        // onClick={(event) => {
+        //   setSearchQuery(book?.creatorName);
+        //   // event.stopPropagation();
+
+        //   handleSearch;
+        // }}
         className={`z-10 left-1 top-1 absolute h-1/6 ${
-          userId != book.userId
+          userId != book?.userId
             ? "bg-slate-700 border-amber-500 text-amber-500"
             : "bg-amber-500 border-white text-white"
         } border-2 rounded-tl-lg rounded-full`}
@@ -57,7 +65,7 @@ export const PreviewContent = ({
                   33vw"
                 cover="true"
                 className={
-                  userId != book.userId
+                  userId != book?.userId
                     ? "rounded-full object-cover border-amber-500 border-2"
                     : "rounded-full object-cover border-white border-2"
                 }
@@ -150,7 +158,7 @@ export const PreviewContent = ({
             blur="true"
             blurDataURL={tree}
             onError={handleImageError}
-            className="rounded-tr-lg"
+            className="rounded-tr-lg w-64"
           />
         )}
       </div>

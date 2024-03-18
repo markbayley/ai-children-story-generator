@@ -1,5 +1,5 @@
 "use client";
-import { auth } from "../firebase/config";
+import { auth } from "../../../firebase/config";
 import { signOut } from "firebase/auth";
 import {
   Cog6ToothIcon,
@@ -43,7 +43,7 @@ const Profile = ({ user, setMessage }) => {
     <>
       <Menu as="div" className="relative inline-block text-left">
         {/* <div className="hover:text-gray-300 bg-sky-950  text-white"> */}
-          <Menu.Button className="fade-in transition-all px-1 2.5xl:px-2 py-1 2.5xl:py-2 text-sm font-semibold 2.5xl:text-lg  max-w-8 hover:bg-gradient-to-r   hover:bg-sky-900 bg-sky-950 hover:shadow-sm lg:shadow-md lg:shadow-slate-900 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md  ">
+          <Menu.Button onClick={() => setMessage({text: 'Your Profile', type: 'info'}) } className="fade-in transition-all px-1 2.5xl:px-2 py-1 2.5xl:py-2 text-sm font-semibold 2.5xl:text-lg  max-w-8 hover:bg-gradient-to-r   hover:bg-sky-900 bg-sky-950 hover:shadow-sm lg:shadow-md lg:shadow-slate-900 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md  ">
             {user && user?.photoURL && !imageLoadError ? (
                <div className="relative aspect-square rounded-full icon 2xl:mx-1 overflow-hidden">
               <Image
