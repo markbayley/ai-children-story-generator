@@ -11,6 +11,7 @@ export const PreviewContent = ({
   loading,
   handleSearch,
   setSearchQuery,
+  searchQuery
 }) => {
   const [imageLoadError, setImageLoadError] = useState(false);
 
@@ -34,6 +35,8 @@ export const PreviewContent = ({
     return previewTitle;
   };
 
+  console.log("searchQueryPC", searchQuery)
+
   return (
     <>
       {/* User Icon */}
@@ -45,9 +48,10 @@ export const PreviewContent = ({
         //   handleSearch;
         // }}
         className={`z-10 left-1 top-1 absolute h-1/6 ${
-          userId != book?.userId
-            ? "bg-slate-700 border-amber-500 text-amber-500"
-            : "bg-amber-500 border-white text-white"
+          // userId != book?.userId
+          searchQuery == book?.creatorName || book?.displayName
+            ? "bg-amber-500 border-white text-white"
+            : "bg-slate-700 border-amber-500 text-amber-500"
         } border-2 rounded-tl-lg rounded-full`}
       >
         <div className="px-1 flex h-full items-center justify-center">
@@ -80,7 +84,7 @@ export const PreviewContent = ({
 
       <div className="absolute flex flex-col w-full h-full items-end gap-1 p-1">
         {/* Audio Icon */}
-        {book?.audioUrl && (
+        {/* {book?.audioUrl && (
           <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-blue-500 border-blue-500 text-white border-2">
             <div className="rounded-full text-center shadow-xl">
               <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
@@ -89,7 +93,7 @@ export const PreviewContent = ({
               <SpeakerWaveIcon className="h-4 w-4" />
             </div>
           </div>
-        )}
+        )} */}
         {/* Likes Icon */}
         {book?.likes > 0 && (
           <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full rounded-br bg-teal-500 border-teal-500 text-white border-2">
@@ -129,7 +133,13 @@ export const PreviewContent = ({
 
       {/* Title */}
       <div className="absolute whitespace-nowrap bottom-1 left-0 h-1/6 z-10 max-w-fit capitalize overflow-x-hidden">
-        <h5 className="pr-2 p-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-center justify-center font-normal rounded-r-full bg-slate-700 border-amber-500 text-amber-500 rounded border-2 border-l-0">
+        <h5 className={ searchQuery != "" && book?.title
+        ?.toLowerCase()
+        .includes(searchQuery.toLowerCase())
+            ? "bg-amber-500 border-white text-white pr-2 p-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-center justify-center font-normal rounded-r-full rounded border-2 border-l-0"
+            : "bg-slate-700 border-amber-500 text-amber-500 pr-2 p-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-center justify-center font-normal rounded-r-full rounded border-2 border-l-0"
+        }
+       >
           {formatTitle() || "Untitled"}
         </h5>
       </div>

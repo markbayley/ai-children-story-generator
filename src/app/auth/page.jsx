@@ -18,9 +18,9 @@ const Authy = ({ userStatus, setUserStatus, setMessage }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       {/* <div className="hover:text-gray-300 bg-sky-950 text-white"> */}
-        <Menu.Button className="hover:text-gray-300 bg-sky-950 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 ">
+        <Menu.Button className="hover:text-gray-300 bg-sky-950 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md px-2 py-2 text-sm font-semibold shadow-sm  ">
           <UserCircleIcon className="h-8 w-8" />
-          Login
+          <span className="hidden md:flex">Login</span>
           <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
         </Menu.Button>
       {/* </div> */}

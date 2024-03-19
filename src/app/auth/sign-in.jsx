@@ -32,7 +32,7 @@ const SignIn = ({ setUserStatus, setMessage }) => {
   };
 
   return (
-    <div className="bg-sky-950 px-4 md:px-10 pt-6 pb-16 rounded-lg shadow-xl w-80 md:w-96">
+    <div className="bg-sky-950 px-4 md:px-10 pt-6 pb-16 rounded-lg shadow-xl w-80 md:w-96 ml-2 sm:ml-1 lg:ml-0">
       <h1 className="text-white text-2xl mb-5">Sign In</h1>
       <input
         type="email"

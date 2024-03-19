@@ -124,6 +124,7 @@ export const StorySelector = ({
     <div className="">
       <div className={"text-2xl px-2 pt-4 pb-4 lg:pb-2 fade-in "}>
         <div className="text-sm 3xl:text-lg font-semibold w-full  rounded-t-lg flex justify-end sm:pr-6 gap-1 3xl:gap-2">
+        {searchQuery &&  <span className="flex items-center text-white bg-blue-500 px-1 rounded h-5 -mt-4 -mr-8 z-10 text-xs">{searchQuery}</span> }
           <button
             className={
               tabSelected == "Search"
@@ -144,8 +145,10 @@ export const StorySelector = ({
               });
             }}
           >
+             
             <MagnifyingGlassIcon className="icon" />
           </button>
+  
           <button
             className={
               tabSelected == "Recent"
@@ -211,7 +214,7 @@ export const StorySelector = ({
               className={` shadow-xs shadow-slate-950 w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 2xl:px-4 2xl:pt-4 p-2 min-h-[28vh] `}
             >
               <div
-                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 2.5xl:grid-cols-6 gap-2 2.5xl:gap-4 text-sm `}
+                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 2.5xl:gap-4 text-sm `}
               >
                 {getSortedBooks()
                   .slice(currentSliceIndex, currentSliceIndex + booksPerPage)
@@ -233,6 +236,7 @@ export const StorySelector = ({
                         loading={loading}
                         handleSearch={handleSearch}
                         setSearchQuery={setSearchQuery}
+                        searchQuery={searchQuery}
                       />
                     </div>
                   ))}
@@ -243,7 +247,7 @@ export const StorySelector = ({
                       onClick={handleSlider("left")}
                       className="lg:shadow-xl lg:shadow-slate-950 w-12 3xl:w-20 aspect-square flex justify-start items-center text-amber-500 bg-sky-900 lg:bg-sky-950 hover:bg-sky-900 rounded-full"
                     >
-                      <ChevronLeftIcon className="h-10 w-10 3xl:h-16 3xl:w-16" />
+                      <ChevronLeftIcon className="h-10 w-10 3xl:h-16 3xl:w-16 p-1" />
                     </button>
                   </div>
 
@@ -252,7 +256,7 @@ export const StorySelector = ({
                       onClick={handleSlider("right")}
                       className="lg:shadow-xl lg:shadow-slate-950 w-12 3xl:w-20 aspect-square flex justify-end items-center text-amber-500 bg-sky-900 lg:bg-sky-950 hover:bg-sky-900 rounded-full"
                     >
-                      <ChevronRightIcon className="h-10 w-10 3xl:h-16 3xl:w-16" />
+                      <ChevronRightIcon className="h-10 w-10 3xl:h-16 3xl:w-16 p-1" />
                     </button>
                   </div>
                 </div>

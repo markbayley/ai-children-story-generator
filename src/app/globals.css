@@ -4,7 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Glass+Antiqua&display=swap");
 @layer components {
   .icon {
-    @apply max-w-xs p-1 2xl:p-2 3xl:p-3 hover:scale-110 h-9 w-9 2xl:h-10 2xl:w-10 2.5xl:h-14 2.5xl:w-14 3xl:h-16 3xl:w-16  text-xl 2.5xl:text-2xl 3xl:text-3xl;
+    @apply max-w-xs p-1 2xl:p-2 3xl:p-3 hover:scale-110 h-9 w-9 2xl:h-10 2xl:w-10 2.5xl:h-10 2.5xl:w-10 3xl:h-16 3xl:w-16  text-xl 2.5xl:text-2xl 3xl:text-3xl;
   }
   /* .text {
     @apply text-xl 2xl:text-2xl 2.5xl:text-4xl 3xl:text-5xl;

@@ -6,6 +6,7 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { Menu } from "@headlessui/react";
 
 export const SearchForm = ({
   setMessage,
@@ -85,11 +86,6 @@ export const SearchForm = ({
       </div>
     );
   }
-
-  // const getBookCount = (creatorName) => {
-  //  let userBooks = allBooks.filter((book) => book?.creatorName == creatorName)
-  //  return userBooks.length
-  // }
    
 
   return (
@@ -105,9 +101,8 @@ export const SearchForm = ({
           </h1>
         </div>
         <h3 className="py-2 text-md font-normal text-white">
-          Search stories by title or by creator name.
-           {/* Enter some text in the
-          input field below to find your favourite stories! */}
+       { showCreators ?  "Filter stories by our top creators from the list below." : "Enter a search prompt in the input field below to find your favourite story titles and start reading!"  }
+           {/*  */}
         </h3>
         <div className="flex items-center justify-center">
           <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}
@@ -121,7 +116,7 @@ export const SearchForm = ({
             htmlFor="prompt"
             className="block text-orange-300 text-sm font-semibold py-2 3xl:text-2xl"
           >
-            {"Find a story about..."}
+            { showCreators ? "Find stories by..." : "Find a story about..."}
           </label>
 
           {searchQuery ? (
@@ -151,7 +146,7 @@ export const SearchForm = ({
               className="group   text-orange-300 bg-transparent cursor-pointer "
             >
               <p className="flex items-center text-sm font-semibold hover:text-orange-200 3xl:text-2xl">
-                {showCreators ? "Hide creators?" : "Top creators?"}
+                {showCreators ? "Hide creators" : "By creator"}
                 <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-1 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
                   <UsersIcon className="h-5 w-5" />
                 </span>
@@ -175,7 +170,7 @@ export const SearchForm = ({
                 key={index}
                 className="relative 2xl:mx-1  hover:text-orange-300 w-full flex flex-col items-center justify-center"
               >
-                <div className="absolute -top-2 left-1 md:left-6 lg:left-3 3xl:left-6 h-5 w-5  flex justify-center items-center group rounded-full  bg-amber-500  text-white ">
+                <div className="absolute bottom-4 left-1 md:left-6 lg:left-3 3xl:left-6 h-5 w-5  flex justify-center items-center group rounded-full  bg-amber-500  text-white ">
                   <div className="rounded-full text-center shadow-xl">
                   {creator?.bookCount}
                   </div>
@@ -218,7 +213,7 @@ export const SearchForm = ({
           <button
             type="submit"
             className={
-              "font-semibold w-full text-white py-2 rounded-md bg-indigo-500 hover:bg-indigo-400 flex justify-center border-stone-700 3xl:py-4"
+              "font-semibold w-full text-white py-2 rounded-md bg-blue-500 hover:bg-blue-400 flex justify-center border-stone-700 3xl:py-4"
             }
           >
             Search

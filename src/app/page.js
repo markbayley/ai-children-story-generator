@@ -124,7 +124,6 @@ export default function StoryPage() {
   //     setLoading(false);
   //   }
   // };
-
   const fetchAllBooks = async () => {
     setLoading(true);
     try {
@@ -788,7 +787,7 @@ export default function StoryPage() {
     // Update state or perform other actions with the search results
     // console.log("searchRes", searchRes)
     setTabSelected("Search");
-    setMessage({ text: "Searched " + "'" + searchQuery + "'", type: "like" });
+    setMessage({ text: "Result " + "'" + searchQuery + "'", type: "like" });
     setSearchResults(searchRes);
   };
   const searchBooks = (searchQuery) => {
@@ -842,7 +841,7 @@ allBooks.forEach(book => {
 const uniqueCreatorsArr = Object.values(uniqueCreators);
 
 // Step 4: Sort the uniqueCreatorsArray based on the book count in descending order
-const uniqueCreatorsArray = uniqueCreatorsArr.sort((a, b) => b.bookCount - a.bookCount).slice(0, 6);
+const uniqueCreatorsArray = uniqueCreatorsArr.sort((a, b) => b.bookCount - a.bookCount).slice(0, 5);
 
 // Step 5: Use uniqueCreatorsArray as needed
 console.log(uniqueCreatorsArray);
