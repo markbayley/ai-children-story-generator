@@ -57,16 +57,16 @@ export const BookText = ({
     const paragraphs = prepareText(storyText);
     // console.log("paragraphs", paragraphs, "paragraphs.length", paragraphs.length);
     const lastAudioPage = Math.ceil(paragraphs?.length / paragraphsPerPage);
-    console.log(
-      "lastAudioPage",
-      lastAudioPage,
-      "Math paralength/paraperpage",
-      Math.ceil(paragraphs.length / paragraphsPerPage)
-    );
+    // console.log(
+    //   "lastAudioPage",
+    //   lastAudioPage,
+    //   "Math paralength/paraperpage",
+    //   Math.ceil(paragraphs.length / paragraphsPerPage)
+    // );
     setAudioPages(lastAudioPage);
-    console.log("AUDIOPAGES", audioPages);
+    //console.log("AUDIOPAGES", audioPages);
     setLastPage(lastAudioPage + 1);
-    console.log("lastPage", lastPage);
+    //console.log("lastPage", lastPage);
   }, [storyText, audio]);
 
   // Handle audio play and page turn logic
@@ -222,7 +222,7 @@ export const BookText = ({
                 {" "}
                 We hope you enjoyed reading{" "}
                 <p>
-                  <em>"{selectedBook?.title}"</em>.
+                  <em>{selectedBook?.title}</em>.
                 </p>{" "}
                 {/* <span className="lowercase">
                     {imagesUnsaved ? theme : selectedBook?.theme}
@@ -287,10 +287,10 @@ export const BookText = ({
     return (
       <div className="font-antiqua fade-in ">
         {currentPageParagraphs.map((paragraph, index) => (
-          <div className="ml-1 ">
+          <div  key={index} className="ml-1 ">
             {index == 0 ? (
               <p
-                key={index}
+               
                 style={{ textAlign: "justify", marginBottom: "1em" }}
                 className={
                   paragraph == "The End"
