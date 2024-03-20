@@ -10,6 +10,7 @@ import CloseIcon from "/public/CloseIcon.svg";
 import {
   ArrowPathIcon,
   Bars3Icon,
+  FunnelIcon,
   HomeIcon,
   InformationCircleIcon,
   MagnifyingGlassCircleIcon,
@@ -58,6 +59,7 @@ export const StatusBar = ({
   audioRef,
   setSearch,
   search,
+  setTabSelected
 }) => {
   const [user] = useAuthState(auth);
   const [userStatus, setUserStatus] = useState(false);
@@ -109,11 +111,13 @@ export const StatusBar = ({
               height={12}
               className="icon"
             /> */}
-            {search ? (
+            {search == 'search' ? 
               <MagnifyingGlassIcon className="icon" />
-            ) : (
+               : search == 'filter' ?
+                <FunnelIcon className="icon" />
+             : 
               <HomeIcon className="icon" />
-            )}
+            }
           </div>
         )}
       </div>
@@ -123,14 +127,15 @@ export const StatusBar = ({
           {/* <SharingLinks media={selectedBook?.imageUrls[0]} description={selectedBook?.story[0-100]}/> */}
           <a
             onClick={() => {
-              setSearch(false);
+              setSearch('off');
+              setTabSelected("Recent");
               setShow(false);
               setMessage({ text: "Home Selected", type: "create" });
             }}
             className={
-              search
-                ? "group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
-                : "group  max-w-xs  text-sm bg-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+              search == 'off'
+                ? "group  max-w-xs  text-sm bg-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+                : "group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             }
           >
             <HomeIcon className="icon p-2 2.5xl:p-3" />
@@ -141,12 +146,13 @@ export const StatusBar = ({
 
           <a
             onClick={() => {
-              setSearch(true);
+              setSearch('search');
+              setTabSelected("Search");
               setShow(false);
               setMessage({ text: "Search Selected", type: "share" });
             }}
             className={
-              search
+              search == 'search'
                 ? "group  max-w-xs  text-sm bg-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
                 : "group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
             }
@@ -158,12 +164,21 @@ export const StatusBar = ({
           </a>
 
           <a
-            // onClick={() => setSearch(true)}
-            className="group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+            onClick={() => {
+              setSearch('filter');
+              setShow(false);
+              setMessage({ text: "Filter Selected", type: "share" });
+            
+            }}
+            className={
+              search == 'filter'
+                ? "group  max-w-xs  text-sm bg-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+                : "group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+            }
           >
-            <ShareIcon className="icon p-2 2.5xl:p-3" />
+            <FunnelIcon className="icon p-2 2.5xl:p-3" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 left-12 bg-sky-950 p-1 rounded">
-              Share
+              Filter
             </span>
           </a>
 

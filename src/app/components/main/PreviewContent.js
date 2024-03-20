@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SpeakerWaveIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { SpeakerWaveIcon, SpeakerXMarkIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import tree from "/public/trace1.svg";
 
@@ -11,7 +11,8 @@ export const PreviewContent = ({
   loading,
   handleSearch,
   setSearchQuery,
-  searchQuery
+  searchQuery,
+  showWithAudio
 }) => {
   const [imageLoadError, setImageLoadError] = useState(false);
 
@@ -84,16 +85,17 @@ export const PreviewContent = ({
 
       <div className="absolute flex flex-col w-full h-full items-end gap-1 p-1">
         {/* Audio Icon */}
-        {/* {book?.audioUrl && (
-          <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-blue-500 border-blue-500 text-white border-2">
+        
+          <div className={ showWithAudio && book?.audioUrl? "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-amber-500 border-white text-white border-2"
+          : "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-slate-700 border-amber-500 text-amber-500 border-2"}>
             <div className="rounded-full text-center shadow-xl">
               <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
-                {book?.audioUrl ? "audio" : ""}
+                {book?.audioUrl ? "audio" : "no audio"}
               </span>
-              <SpeakerWaveIcon className="h-4 w-4" />
+              {book?.audioUrl ?  <SpeakerWaveIcon className="h-4 w-4 font-extrabold" /> : <SpeakerXMarkIcon className="h-4 w-4" /> }
             </div>
           </div>
-        )} */}
+      
         {/* Likes Icon */}
         {book?.likes > 0 && (
           <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full rounded-br bg-teal-500 border-teal-500 text-white border-2">
@@ -132,17 +134,21 @@ export const PreviewContent = ({
       </div>
 
       {/* Title */}
-      <div className="absolute whitespace-nowrap bottom-1 left-0 h-1/6 z-10 max-w-fit capitalize overflow-x-hidden">
+      <>
+      <span className="absolute bottom-2  left-0  px-1 text-xs  z-20  text-white font-semibold">{book?.theme}</span>
+      <div className="absolute whitespace-nowrap bottom-1 left-0 h-[20%] z-10 max-w-fit capitalize overflow-x-hidden">
+       
         <h5 className={ searchQuery != "" && book?.title
         ?.toLowerCase()
         .includes(searchQuery.toLowerCase())
-            ? "bg-amber-500 border-white text-white pr-2 p-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-center justify-center font-normal rounded-r-full rounded border-2 border-l-0"
-            : "bg-slate-700 border-amber-500 text-amber-500 pr-2 p-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-center justify-center font-normal rounded-r-full rounded border-2 border-l-0"
+            ? "bg-amber-500 border-white text-white pr-2 px-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-start justify-center font-normal rounded-r-full rounded border-2 border-l-0"
+            : "bg-slate-700 border-amber-500 text-amber-500 pr-2 px-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-start justify-center font-normal rounded-r-full rounded border-2 border-l-0"
         }
        >
           {formatTitle() || "Untitled"}
         </h5>
       </div>
+      </>
       {/* Image */}
       <div
         className={

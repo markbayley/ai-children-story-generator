@@ -1,6 +1,7 @@
 import {
   ArrowPathIcon,
   ChevronDownIcon,
+  KeyIcon,
   MagnifyingGlassIcon,
   SparklesIcon,
   UsersIcon,
@@ -146,9 +147,9 @@ export const SearchForm = ({
               className="group   text-orange-300 bg-transparent cursor-pointer "
             >
               <p className="flex items-center text-sm font-semibold hover:text-orange-200 3xl:text-2xl">
-                {showCreators ? "Hide creators" : "By creator"}
+                {showCreators ? "Search by keyword" : "Search by creator"}
                 <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-1 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
-                  <UsersIcon className="h-5 w-5" />
+                { showCreators ? <KeyIcon className="h-5 w-5" /> : <UsersIcon className="h-5 w-5" /> }
                 </span>
               </p>
             </label>
@@ -156,7 +157,7 @@ export const SearchForm = ({
         </div>
 
         {showCreators ? (
-          <div className="fade-in  text-white flex w-full justify-between items-end text-center cursor-pointer text-xs  h-16 ">
+          <button   type="submit" className="fade-in  text-white flex w-full justify-between items-end text-center cursor-pointer text-xs  h-16 ">
             {uniqueCreatorsArray.map((creator, index) => (
               <div
                 onClick={() => {
@@ -185,7 +186,7 @@ export const SearchForm = ({
                   height={50}
                   alt="profile-image"
                   //onError={handleImageError}
-                  className={ searchQuery == creator?.name ? "max-w-xs h-8 w-8 xl:h-12 xl:w-12 rounded-full object-cover ring-2 ring-orange-300" : "max-w-xs h-8 w-8 xl:h-12 xl:w-12 rounded-full object-cover hover:border-2 hover:border-orange-300"}
+                  className={ searchQuery == creator?.name ? "max-w-xs h-8 w-8 xl:h-12 xl:w-12 rounded-full object-cover ring-4 ring-orange-300" : "max-w-xs h-8 w-8 xl:h-12 xl:w-12 rounded-full object-cover hover:border-2 hover:border-orange-300"}
                 />
                 <span className={ searchQuery == creator?.name ? "text-orange-300" : " hover:text-orange-300" }>
                   {" "}
@@ -195,7 +196,7 @@ export const SearchForm = ({
                 </span>
               </div>
             ))}
-          </div>
+          </button>
         ) : (
           <input
             id="prompt"

@@ -66,7 +66,7 @@ export default function StoryPage() {
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(5);
   const [message, setMessage] = useState({ text: `Welcome`, type: "share" });
-  const [search, setSearch] = useState(false);
+  const [search, setSearch] = useState('');
   const [showCreators, setShowCreators ] = useState(false)
 
   // Book Collections
@@ -131,7 +131,7 @@ export default function StoryPage() {
       const q = query(
         collection(db, "books"),
         orderBy("createdAt", "desc"), // Order by createdAt field in descending order
-        limit(60) // Limit the results to the last 20 books
+        limit(40) // Limit the results to the last 20 books
       );
       const querySnapshot = await getDocs(q);
 
@@ -777,43 +777,46 @@ export default function StoryPage() {
     }
   }, [allBooks]);
 
+  // SEARCH & FILTER //
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showWithAudio, setShowWithAudio] = useState(false);
+  const [selectedTheme, setSelectedTheme] = useState(null);
+
+  const [selectedCreator, setselectedCreator] = useState(null)
 
   const handleSearch = (event) => {
     event.preventDefault();
-    // console.log("queryHS", searchQuery)
-    const searchRes = searchBooks(searchQuery);
-    // Update state or perform other actions with the search results
-    // console.log("searchRes", searchRes)
-    setTabSelected("Search");
-    setMessage({ text: "Result " + "'" + searchQuery + "'", type: "like" });
-    setSearchResults(searchRes);
+    const filteredBooks = searchBooks(searchQuery);
+    setSearchResults(filteredBooks);
   };
-  const searchBooks = (searchQuery) => {
-    console.log("querySB", searchQuery);
 
-    const filteredBooks = allBooks.filter((book) => {
+  const searchBooks = (query) => {
+    return allBooks.filter((book) => {
       const titleMatches = book?.title
         ?.toLowerCase()
-        .includes(searchQuery.toLowerCase());
+        .includes(query.toLowerCase());
       const creatorNameMatches = book?.creatorName
         ?.toLowerCase()
-        .includes(searchQuery.toLowerCase());
+        .includes(query.toLowerCase());
       return titleMatches || creatorNameMatches;
     });
-    return filteredBooks;
   };
 
-  console.log("searchResultsSP", searchResults);
-  console.log("searchQuery", searchQuery);
-  // console.log("selectedBookSP", selectedBook);
-  // console.log("allBookSP", allBooks);
-  // console.log("myBooksSP", myBooks);
+  const filteredResults = searchResults.filter(book => {
+    // Filter books with audio if showWithAudio is true
+    if (showWithAudio && !book.audioUrl) {
+      return false;
+    }
+    // Filter books with the selected theme
+    if (selectedTheme && book.theme !== selectedTheme) {
+      return false;
+    }
+    return true; // Show books that pass all filters
+  });
 
+ 
 
-
-// Assuming allBooks is an array of objects with creatorName and creatorPhotoURL properties
 
 // Step 1: Create an empty object to store the unique creator names, their corresponding photo URLs, and the count of their books
 const uniqueCreators = {};
@@ -841,7 +844,7 @@ allBooks.forEach(book => {
 const uniqueCreatorsArr = Object.values(uniqueCreators);
 
 // Step 4: Sort the uniqueCreatorsArray based on the book count in descending order
-const uniqueCreatorsArray = uniqueCreatorsArr.sort((a, b) => b.bookCount - a.bookCount).slice(0, 5);
+const uniqueCreatorsArray = uniqueCreatorsArr.sort((a, b) => b.bookCount - a.bookCount).slice(0, 7);
 
 // Step 5: Use uniqueCreatorsArray as needed
 console.log(uniqueCreatorsArray);
@@ -880,6 +883,7 @@ console.log(uniqueCreatorsArray);
           setSearchQuery={setSearchQuery}
           search={search}
           setSearch={setSearch}
+          setTabSelected={setTabSelected}
         />
         {/* } */}
 
@@ -905,6 +909,12 @@ console.log(uniqueCreatorsArray);
                 setShowCreators={setShowCreators}
                 showCreators={showCreators}
                 allBooks={allBooks}
+                // audioQuery={audioQuery}
+                // setAudioQuery={setAudioQuery}
+                showWithAudio={showWithAudio}
+                setShowWithAudio={setShowWithAudio}
+                selectedTheme={selectedTheme}
+                setSelectedTheme={setSelectedTheme}
               />
 
               <StorySelector
@@ -935,6 +945,8 @@ console.log(uniqueCreatorsArray);
                 setSearchQuery={setSearchQuery}
                 search={search}
                 showCreators={showCreators}
+                filteredResults={filteredResults}
+                showWithAudio={showWithAudio}
               />
             </div>
           ) : (

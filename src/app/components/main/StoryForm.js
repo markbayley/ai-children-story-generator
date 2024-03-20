@@ -1,9 +1,8 @@
-import {
-  ChevronDownIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { SearchForm } from "./SearchForm";
 import CreateForm from "./CreateForm";
+import { FilterForm } from "./FilterForm";
 
 export const StoryForm = ({
   userPrompt,
@@ -22,9 +21,14 @@ export const StoryForm = ({
   uniqueCreatorsArray,
   setShowCreators,
   showCreators,
-  allBooks
+  allBooks,
+  // audioQuery,
+  // setAudioQuery
+  showWithAudio,
+  setShowWithAudio,
+  selectedTheme,
+  setSelectedTheme,
 }) => {
-
   function ThemeDropdown() {
     return (
       <div className="text-sm ">
@@ -94,7 +98,7 @@ export const StoryForm = ({
 
   return (
     <>
-      {search ? (
+      {search == "search" ? (
         <SearchForm
           setMessage={setMessage}
           theme={theme}
@@ -106,6 +110,25 @@ export const StoryForm = ({
           setShowCreators={setShowCreators}
           showCreators={showCreators}
           allBooks={allBooks}
+        />
+      ) : search == "filter" ? (
+        <FilterForm
+        setMessage={setMessage}
+        theme={theme}
+        setTheme={setTheme}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        handleSearch={handleSearch}
+        uniqueCreatorsArray={uniqueCreatorsArray}
+        setShowCreators={setShowCreators}
+        showCreators={showCreators}
+        allBooks={allBooks}
+        // audioQuery={audioQuery}
+        // setAudioQuery={setAudioQuery}
+        showWithAudio={showWithAudio}
+        setShowWithAudio={setShowWithAudio}
+        selectedTheme={selectedTheme}
+        setSelectedTheme={setSelectedTheme}
         />
       ) : (
         <CreateForm

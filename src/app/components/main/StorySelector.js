@@ -2,6 +2,7 @@ import { PreviewContent } from "./PreviewContent";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
+  FunnelIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 export const StorySelector = ({
@@ -24,7 +25,9 @@ export const StorySelector = ({
   handleSearch,
   setSearchQuery,
   search, 
-  showCreators
+  showCreators,
+  filteredResults,
+  showWithAudio
 }) => {
   const booksPerPage = 6;
 
@@ -81,6 +84,8 @@ export const StorySelector = ({
     switch (tabSelected) {
       //case "Users"
        // return ...
+       case "Filter":
+        return filteredResults;
       case "Search":
         // setLength(() => searchResults.length)
         return searchResults;
@@ -124,7 +129,31 @@ export const StorySelector = ({
     <div className="">
       <div className={"text-2xl px-2 pt-4 pb-4 lg:pb-2 fade-in "}>
         <div className="text-sm 3xl:text-lg font-semibold w-full  rounded-t-lg flex justify-end sm:pr-6 gap-1 3xl:gap-2">
-        {searchQuery &&  <span className="flex items-center text-white bg-blue-500 px-1 rounded h-5 -mt-4 -mr-8 z-10 text-xs">{searchQuery}</span> }
+
+        {/* {searchQuery &&  <span className="flex items-center text-white bg-blue-500 px-1 rounded h-5 -mt-4 -mr-8 z-10 text-xs">{searchQuery}</span> } */}
+        <button
+            className={
+              tabSelected == "Filter"
+                ? "text-white p-1 rounded-t-md w-14 3xl:w-18 bg-sky-900 flex justify-center"
+                : "text-gray-500 p-1 hover:text-white rounded-t-md w-14 3xl:w-18 bg-sky-950 flex justify-center"
+            }
+            onClick={() => {
+              setTabSelected("Filter");
+              setCurrentSliceIndex(0);
+              setSearch('filter');
+  
+               setMessage({
+                text: `Filter Books`,
+                type: "like",
+              });
+            }}
+          >
+             
+            <FunnelIcon className="icon" />
+          </button>
+      
+      
+      
           <button
             className={
               tabSelected == "Search"
@@ -134,7 +163,7 @@ export const StorySelector = ({
             onClick={() => {
               setTabSelected("Search");
               setCurrentSliceIndex(0);
-              setSearch(true);
+              setSearch('search');
               // setMessage({
               //   text: `${searchResults?.length} Search Results`,
               //   type: "like",
@@ -237,6 +266,7 @@ export const StorySelector = ({
                         handleSearch={handleSearch}
                         setSearchQuery={setSearchQuery}
                         searchQuery={searchQuery}
+                        showWithAudio={showWithAudio}
                       />
                     </div>
                   ))}
