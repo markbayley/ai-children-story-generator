@@ -3,8 +3,6 @@ import {
   ChevronRightIcon,
   SpeakerWaveIcon,
 } from "@heroicons/react/24/outline";
-import { BookIcons } from "./BookIcons";
-import { MessageFeature } from "../nav/MessageFeature";
 import { useEffect, useState } from "react";
 
 const BookControls = ({
@@ -24,18 +22,11 @@ const BookControls = ({
   const handlePage = (direction) => {
     let max = audioPages + 1;
     let min = 0;
-    // const audio = audioRef?.current;
 
     if (direction === "down" && page > min) {
       setPage(page - 1);
-      //audio.currentTime = page * 35;
     } else if (direction === "up" && page < max) {
       setPage(page + 1);
-      // if (page == 0) {
-      //   return;
-      // } else {
-      //   audio.currentTime = page * 35;
-      // }
     }
   };
 
@@ -43,17 +34,9 @@ const BookControls = ({
 
   useEffect(() => {
     if (audio) {
-      // Audio blob is available, update UI to display audio controls
-      // You can also auto-play the audio here if needed
       setForceRerender((prevState) => !prevState); // Trigger re-render
-      //setPlaying(true);
     }
   }, [audio, audioRef]);
-
-  console.log("selectedBook.audioUrl", selectedBook?.audioUrl);
-  console.log("audio", audio);
-  console.log("audioRef", audioRef);
-  // console.log("storyText", storyText)
 
   return (
     <div className="flex-1 xl:pt-6 2.5xl:pb-6 3xl:px-8">
@@ -81,10 +64,8 @@ const BookControls = ({
             }
             key={forceRerender} // Add key to force re-render
             onLoadedMetadata={onLoadedMetadata}
-            //className=" h-9 2xl:h-10 2.5xl:h-14 3xl:h-16 3xl:border-4 3xl:border-[] shadow-md hover:shadow-lg hover:shadow-stone-500/50 shadow-stone-500/30 rounded-full"
           />
 
-          {/* )} */}
           <div
             className="z-50 h-6 w-8 absolute right-3 bottom-2 cursor-pointer "
             onClick={() => {
@@ -110,45 +91,6 @@ const BookControls = ({
             </span>{" "}
           </button>
         </div>
-
-        {/* <MessageFeature
-          message={message}
-          setMessage={setMessage}
-          selectedBook={selectedBook}
-          audioRef={audioRef}
-          playing={playing}
-          audioPage={audioPage}
-          audioPages={audioPages}
-          page={page}
-        /> */}
-
-        {/* <BookIcons
-          handleDeleteBook={handleDeleteBook}
-          handleSaveBook={handleSaveBook}
-          handleLikeBook={handleLikeBook}
-          dismiss={dismiss}
-          unsaved={unsaved}
-          selectedBook={selectedBook}
-          page={page}
-          setPage={setPage}
-          setMessage={setMessage}
-          setShow={setShow}
-          userId={userId}
-          show={show}
-          audio={audio}
-          audioRef={audioRef}
-          processing={processing}
-          deleting={deleting}
-          playing={playing}
-          setPlaying={setPlaying}
-          audioPages={audioPages}
-          handleShareBook={handleShareBook}
-          audioPage={audioPage}
-          lastPage={lastPage}
-          handleViewBook={handleViewBook}
-          setAudioPage={setAudioPage}
-          setOpen={setOpen}
-        /> */}
 
         {/* Page turning controls */}
         <div className={"fade-in flex justify-end gap-2 w-1/3"}>

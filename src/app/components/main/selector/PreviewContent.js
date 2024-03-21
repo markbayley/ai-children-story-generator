@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { SpeakerWaveIcon, SpeakerXMarkIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import {
+  SpeakerWaveIcon,
+  SpeakerXMarkIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
 import Image from "next/image";
 import tree from "/public/trace1.svg";
 
@@ -13,7 +17,8 @@ export const PreviewContent = ({
   setSearchQuery,
   searchQuery,
   showWithAudio,
-  selectedTheme
+  selectedTheme,
+  selectedCreator,
 }) => {
   const [imageLoadError, setImageLoadError] = useState(false);
 
@@ -32,48 +37,39 @@ export const PreviewContent = ({
       return previewTitle.substr(0, 20) + "...";
     }
     if (previewTitle.length == 0) {
-      return "Untitled";
+      return "Untitled Storybook";
     }
     return previewTitle;
   };
 
-  console.log("searchQueryPC", searchQuery)
+  console.log("searchQueryPC", searchQuery);
 
   return (
     <>
       {/* User Icon */}
       <div
-        // onClick={(event) => {
-        //   setSearchQuery(book?.creatorName);
-        //   // event.stopPropagation();
-
-        //   handleSearch;
-        // }}
-        className={`z-10 left-1 top-1 absolute h-1/6 ${
+        className={`z-10 left-2 top-2 absolute h-1/6 w-fit flex items-center justify-center ${
           // userId != book?.userId
-          searchQuery == book?.creatorName || book?.displayName
-            ? "bg-amber-500 border-white text-white"
-            : "bg-slate-700 border-amber-500 text-amber-500"
-        } border-2 rounded-tl-lg rounded-full`}
+          selectedCreator?.includes(book?.creatorName || book?.displayName)
+            ? "bg-amber-500 ring-white text-white"
+            : "bg-slate-700 ring-amber-500 text-amber-500"
+        } ring-2 rounded-tl-lg rounded-full`}
       >
-        <div className="px-1 flex h-full items-center justify-center">
-          <span className="text-lg md:text-sm 3xl:text-lg">
+        <div className="px-1 flex items-start ">
+          <span className="text-lg md:text-md xl:text-sm 3xl:text-lg h-full">
             {book?.creatorName || book?.displayName || "Anonymous"}
           </span>
           {book?.creatorPhotoURL && !imageLoadError ? (
-            <div className="relative aspect-square rounded-full w-11 md:w-6 ml-1">
+            <div className="relative rounded-full w-10 h-10 xl:w-6 xl:h-6 ml-1">
               <Image
                 src={book?.creatorPhotoURL}
                 alt="profile-mini"
                 fill
-                sizes="(max-width: 768px) 100vw,
-                  (max-width: 1200px) 50vw,
-                  33vw"
-                cover="true"
+                sizes="10vw"
                 className={
                   userId != book?.userId
-                    ? "rounded-full object-cover border-amber-500 border-2"
-                    : "rounded-full object-cover border-white border-2"
+                    ? "rounded-full object-cover "
+                    : "rounded-full object-cover ring-white ring-2"
                 }
                 onError={handleImageError}
               />
@@ -86,17 +82,26 @@ export const PreviewContent = ({
 
       <div className="absolute flex flex-col w-full h-full items-end gap-1 p-1">
         {/* Audio Icon */}
-        
-          <div className={ showWithAudio && book?.audioUrl? "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-amber-500 border-white text-white border-2"
-          : "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-slate-700 border-amber-500 text-amber-500 border-2"}>
-            <div className="rounded-full text-center shadow-xl">
-              <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
-                {book?.audioUrl ? "audio" : "no audio"}
-              </span>
-              {book?.audioUrl ?  <SpeakerWaveIcon className="h-4 w-4 font-extrabold" /> : <SpeakerXMarkIcon className="h-4 w-4" /> }
-            </div>
+
+        <div
+          className={
+            showWithAudio && book?.audioUrl
+              ? "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-amber-500 border-white text-white border-2"
+              : "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-slate-700 border-amber-500 text-amber-500 border-2"
+          }
+        >
+          <div className="rounded-full text-center shadow-xl">
+            <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
+              {book?.audioUrl ? "audio" : "no audio"}
+            </span>
+            {book?.audioUrl ? (
+              <SpeakerWaveIcon className="icon p-1 xl:p-3 font-extrabold" />
+            ) : (
+              <SpeakerXMarkIcon className="icon p-1 xl:p-3" />
+            )}
           </div>
-      
+        </div>
+
         {/* Likes Icon */}
         {book?.likes > 0 && (
           <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full rounded-br bg-teal-500 border-teal-500 text-white border-2">
@@ -136,20 +141,30 @@ export const PreviewContent = ({
 
       {/* Title */}
       <>
-      <span className={ selectedTheme == book?.theme ? "absolute bottom-2 left-0 px-1 pr-1 text-xs bg-amber-500 z-20 text-white rounded-r-full font-semibold" : "absolute bottom-2 left-0 px-1 text-xs  z-20 text-white font-semibold"}>{book?.theme}</span>
-      <div className="absolute whitespace-nowrap bottom-1 left-0 h-[20%] z-10 max-w-fit capitalize overflow-x-hidden">
-       
-        <h5 className={ searchQuery != "" && book?.title
-        ?.toLowerCase()
-        .includes(searchQuery.toLowerCase())
-            ? "bg-amber-500 border-white text-white pr-2 px-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-start justify-center font-normal rounded-r-full rounded border-2 border-l-0"
-            : "bg-slate-700 border-amber-500 text-amber-500 pr-2 px-1 flex h-full w-full text-lg md:text-sm 3xl:text-lg items-start justify-center font-normal rounded-r-full rounded border-2 border-l-0"
-        }
-       >
-          {formatTitle() || "Untitled"}
-        </h5>
-      </div>
+        <div className=" absolute whitespace-nowrap bottom-1 left-0 h-1/6 xl:h-1/5 w-fit  z-10  capitalize overflow-x-hidden">
+          <h5
+            className={
+              (selectedTheme != [] && selectedTheme?.includes(book?.theme)) ||
+              book?.title?.toLowerCase().includes(searchQuery?.toLowerCase())
+                ? "bg-amber-500 border-white text-white h-full  text-lg md:text-md xl:text-sm 3xl:text-lg flex flex-col justify-center font-normal rounded-r-full rounded border-2 border-l-0"
+                : "bg-slate-700 border-amber-500 text-amber-500 h-full  text-lg md:text-md xl:text-sm 3xl:text-lg flex flex-col justify-center font-normal rounded-r-full rounded border-2 border-l-0"
+            }
+          >
+            <span
+              className={
+                "mb-1 w-full px-1  text-sm md:text-xs 3xl:text-lg  text-white font-semibold"
+              }
+            >
+              {book?.theme || "No Theme"}
+            </span>
+            <div className=" w-full px-1 pr-3 -mt-2 italic">
+              {" "}
+              {formatTitle()}
+            </div>
+          </h5>
+        </div>
       </>
+
       {/* Image */}
       <div
         className={
@@ -175,7 +190,7 @@ export const PreviewContent = ({
             blur="true"
             blurDataURL={tree}
             onError={handleImageError}
-            className="rounded-tr-lg w-64"
+            className="rounded-tr-lg w-64 bg-stone-500"
           />
         )}
       </div>

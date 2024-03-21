@@ -1,24 +1,17 @@
 import {
   ArrowPathIcon,
-  ChevronDownIcon,
-  KeyIcon,
   MagnifyingGlassIcon,
-  SparklesIcon,
-  UsersIcon,
+  SparklesIcon
 } from "@heroicons/react/24/outline";
-import Image from "next/image";
-import { Menu } from "@headlessui/react";
 
 export const SearchForm = ({
   setMessage,
-  theme,
-  setTheme,
   searchQuery,
   setSearchQuery,
   handleSearch,
-  setShowCreators,
-  showCreators,
-  allBooks,
+  setShowWithAudio,
+  setSelectedTheme,
+  setSearchResults
 }) => {
   return (
     <div
@@ -55,6 +48,7 @@ export const SearchForm = ({
             <label
               onClick={() => {
                 setSearchQuery("");
+                setSearchResults([])
                 setMessage({ text: "Search Cleared", type: "like" });
               }}
               htmlFor="prompt"
@@ -106,7 +100,7 @@ export const SearchForm = ({
             <MagnifyingGlassIcon className="h-6 w-6 mx-2" />
           </button>
         </div>
-        
+
       </form>
     </div>
   );

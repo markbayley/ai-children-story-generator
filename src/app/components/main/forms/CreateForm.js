@@ -1,5 +1,5 @@
 import {
-    ArrowPathIcon,
+  ArrowPathIcon,
   BookOpenIcon,
   LightBulbIcon,
   PaintBrushIcon,
@@ -110,7 +110,6 @@ const CreateForm = ({
         <div className="flex items-center justify-center">
           <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}
           <SparklesIcon className=" w-10 aspect-square mx-2 text-orange-300" />{" "}
-          {/* <Image src={SparklesIcon} alt="sparkles-icon"  /> */}
           <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
 
@@ -170,8 +169,6 @@ const CreateForm = ({
           }}
           className="w-full p-2 rounded outline-none text-black placeholder-gray-500 bg-white text-[16px] 3xl:text-xl 3xl:py-4"
         />
-
-        {/* <ThemeDropdown /> */}
 
         <div className="flex items-center text-[15px] gap-4 pt-4 3xl:text-xl ">
           <button

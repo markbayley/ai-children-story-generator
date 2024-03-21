@@ -3,10 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { fetchStory } from "./api/openai/fetchStory";
 import { fetchImages } from "./api/stability/fetchImages";
 import { fetchAudio } from "./api/elevenlabs/fetchAudio";
-import { StatusBar } from "./components/nav/StatusBar";
-import { StoryForm } from "./components/main/StoryForm";
-import { StoryDisplay } from "./components/book/StoryDisplay";
-import { StorySelector } from "./components/main/StorySelector";
+import { NavIndex } from "./components/nav/NavIndex";
+import { FormIndex } from "./components/main/forms/FormIndex";
+import { BookIndex } from "./components/book/BookIndex";
+import { SelectorIndex } from "./components/main/SelectorIndex";
 import {
   getFirestore,
   collection,
@@ -26,7 +26,7 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config";
-import { FooterNav } from "./components/nav/FooterNav";
+import { FooterNav } from "./components/nav/features/FooterNav";
 // import { Stars } from "./components/Stars";
 
 export default function StoryPage() {
@@ -783,14 +783,13 @@ export default function StoryPage() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showWithAudio, setShowWithAudio] = useState(false);
-  const [selectedTheme, setSelectedTheme] = useState(null);
-
-  //const [selectedCreator, setselectedCreator] = useState(null)
+  const [selectedTheme, setSelectedTheme] = useState([]);
+  const [selectedCreator, setSelectedCreator] = useState([])
 
   const handleSearch = (event) => {
     event.preventDefault();
-    const filteredBooks = searchBooks(searchQuery);
-    setSearchResults(filteredBooks);
+    const searchedBooks = searchBooks(searchQuery);
+    setSearchResults(searchedBooks);
   };
 
   const searchBooks = (query) => {
@@ -798,26 +797,37 @@ export default function StoryPage() {
       const titleMatches = book?.title
         ?.toLowerCase()
         .includes(query.toLowerCase());
-      const creatorNameMatches = book?.creatorName
-        ?.toLowerCase()
-        .includes(query.toLowerCase());
-      return titleMatches || creatorNameMatches;
+
+      return titleMatches ;
     });
   };
 
-  const filteredResults = searchResults.filter(book => {
-    // Filter books with audio if showWithAudio is true
-    if (showWithAudio && !book.audioUrl) {
+  const filterResults = allBooks.filter(book => {
+    // Check if any filters are applied
+    const hasFilters = showWithAudio || (selectedTheme?.length > 0) || (selectedCreator?.length > 0);
+  
+    if (hasFilters) {
+      // Filter books with audio if showWithAudio is true
+      if (showWithAudio && !book?.audioUrl) {
+        return false;
+      }
+      // Filter books by selected themes
+      if (selectedTheme?.length > 0 && !selectedTheme?.includes(book.theme)) {
+        return false;
+      }
+      // Filter books with the selected creator
+      if (selectedCreator?.length > 0 && !selectedCreator?.includes(book.creatorName)) {
+        return false;
+      }
+      return true; // Show books that pass all filters
+    } else {
+      // No filters applied, return no books
       return false;
     }
-    // Filter books with the selected theme
-    if (selectedTheme && book.theme !== selectedTheme) {
-      return false;
-    }
-    return true; // Show books that pass all filters
   });
+  
 
- 
+ console.log("searchResults", searchResults)
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed  z-10 flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
@@ -825,7 +835,7 @@ export default function StoryPage() {
 
       <main className="flex-grow z-10">
         {/* { !open && */}
-        <StatusBar
+        <NavIndex
           message={message}
           resetStory={resetStory}
           setMyBooks={setMyBooks}
@@ -858,7 +868,7 @@ export default function StoryPage() {
         <div className="mx-0 md:mx-[8%] no-scroll pt-16 2.5xl:pt-20  ">
           {!open ? (
             <div className="2.5xl:my-[8%]">
-              <StoryForm
+              <FormIndex
                 loading={loading}
                 userPrompt={userPrompt}
                 setUserPrompt={setUserPrompt}
@@ -881,9 +891,12 @@ export default function StoryPage() {
                 selectedTheme={selectedTheme}
                 setSelectedTheme={setSelectedTheme}
                 setTabSelected={setTabSelected}
+                setSearchResults={setSearchResults}
+                selectedCreator={selectedCreator}
+                setSelectedCreator={setSelectedCreator}
               />
 
-              <StorySelector
+              <SelectorIndex
                 myBooks={myBooks}
                 allBooks={allBooks}
                 extractTitleFromStory={extractTitleFromStory}
@@ -911,13 +924,16 @@ export default function StoryPage() {
                 setSearchQuery={setSearchQuery}
                 search={search}
                 showCreators={showCreators}
-                filteredResults={filteredResults}
+                filterResults={filterResults}
                 showWithAudio={showWithAudio}
                 selectedTheme={selectedTheme}
+                selectedCreator={selectedCreator}
+            
+             
               />
             </div>
           ) : (
-            <StoryDisplay
+            <BookIndex
               storyUnsaved={storyUnsaved}
               imagesUnsaved={imagesUnsaved}
               storySelected={selectedBook?.story}

@@ -5,9 +5,7 @@ import {
   Cog6ToothIcon,
   CurrencyDollarIcon,
   EnvelopeIcon,
-  UserMinusIcon,
   UserCircleIcon,
-  UserIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
@@ -15,7 +13,6 @@ import { Fragment, useState, useEffect } from "react";
 import Settings from "./settings";
 import Image from "next/image";
 import Contact from "./contact";
-import { CgProfile } from "react-icons/cg";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -25,11 +22,10 @@ const Profile = ({ user, setMessage }) => {
   const [settings, setSettings] = useState(false);
   const [contact, setContact] = useState(false);
 
-  // Inside your component
   const [imageLoadError, setImageLoadError] = useState(false);
 
   const handleImageError = () => {
-    setImageLoadError(true); // Set the error state to true
+    setImageLoadError(true); 
   };
 
   useEffect(() => {
@@ -42,7 +38,6 @@ const Profile = ({ user, setMessage }) => {
   return (
     <>
       <Menu as="div" className="relative inline-block text-left z-50">
-        {/* <div className="hover:text-gray-300 bg-sky-950  text-white"> */}
           <Menu.Button onClick={() => setMessage({text: 'Your Profile', type: 'info'}) } className="fade-in transition-all px-1 2.5xl:px-2 py-1 2.5xl:py-2 text-sm font-semibold 2.5xl:text-lg  max-w-8 hover:bg-gradient-to-r   hover:bg-sky-900 bg-sky-950 hover:shadow-sm lg:shadow-md lg:shadow-slate-900 text-white fade-in inline-flex w-full justify-center items-center gap-x-1.5 rounded-md  ">
             {user && user?.photoURL && !imageLoadError ? (
                <div className="relative aspect-square rounded-full icon 2xl:mx-1 overflow-hidden">
@@ -67,7 +62,6 @@ const Profile = ({ user, setMessage }) => {
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
             </>
           </Menu.Button>
-        {/* </div> */}
      
 
         <Transition

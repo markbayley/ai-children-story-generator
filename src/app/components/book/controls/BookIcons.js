@@ -1,16 +1,12 @@
 import { TrashIcon } from "@heroicons/react/20/solid";
 import {
-  ArrowPathIcon,
   ArrowUpTrayIcon,
   EyeIcon,
   HandThumbUpIcon,
-  ShareIcon,
-  SpeakerWaveIcon,
-  SpeakerXMarkIcon,
+  ShareIcon
 } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import IconModal from "./IconModal";
-import { MdOutlineShare } from "react-icons/md";
 
 export const BookIcons = ({
   handleDeleteBook,
@@ -23,20 +19,14 @@ export const BookIcons = ({
   page,
   setPage,
   setMessage,
-  setShow,
   userId,
-  show,
-  audio,
   audioRef,
   processing,
   deleting,
   playing,
   setPlaying,
   audioPages,
-  audioPage,
-  lastPage,
   setAudioPage,
-  handleViewBook,
   setOpen,
 }) => {
   // Delete Modal
@@ -102,19 +92,13 @@ export const BookIcons = ({
               setOpen={setOpen}
               setMessage={setMessage}
               heading={"Delete This Story?"}
-              subheading={"Once you delete a story it will be lost forever. Purchase credits to unlock the ability to save unlimited stories."}
+              subheading={
+                "Once you delete a story it will be lost forever. Purchase credits to unlock the ability to save unlimited stories."
+              }
               button1={"Got it, delete!"}
               button2={"Wait! Go back."}
               id="Delete"
             />
-
-            {/* <button
-          type="button"
-          onClick={openModal}
-          className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
-        >
-          Open 
-        </button> */}
 
             <TrashIcon className="icon" />
             <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-2 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
@@ -123,32 +107,31 @@ export const BookIcons = ({
           </div>
         )}
 
-        {selectedBook?.userId != undefined &&
+        {selectedBook?.userId != undefined && (
           // userId != selectedBook?.userId &&
-           (
-            <div
-              onClick={() => handleLikeBook(selectedBook?.id, userId)}
-              className={
-                selectedBook?.likedBy?.includes(userId)
-                  ? "group relative text-white rounded hover:cursor-pointer xl:border-2 border-teal-500 bg-teal-500"
-                  : "group relative text-teal-500 xl:border-2 rounded border-teal-500 hover:cursor-pointer xl:hover:bg-teal-500 hover:text-white xl:bg-sky-950"
-              }
-            >
-              <HandThumbUpIcon className="icon" />
-              <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-1 xl:-right-10 2.5xl:-right-14 2.5xl:top-3 bg-sky-950 p-1 rounded">
-                {selectedBook?.likedBy?.includes(userId) ? "Liked" : "Likes"}
+          <div
+            onClick={() => handleLikeBook(selectedBook?.id, userId)}
+            className={
+              selectedBook?.likedBy?.includes(userId)
+                ? "group relative text-white rounded hover:cursor-pointer xl:border-2 border-teal-500 bg-teal-500"
+                : "group relative text-teal-500 xl:border-2 rounded border-teal-500 hover:cursor-pointer xl:hover:bg-teal-500 hover:text-white xl:bg-sky-950"
+            }
+          >
+            <HandThumbUpIcon className="icon" />
+            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-1 xl:-right-10 2.5xl:-right-14 2.5xl:top-3 bg-sky-950 p-1 rounded">
+              {selectedBook?.likedBy?.includes(userId) ? "Liked" : "Likes"}
+            </span>
+            {selectedBook?.likes > 0 && (
+              <span
+                className={
+                  "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8  h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2  flex justify-center ring-2 ring-white bg-teal-500  text-white rounded-full "
+                }
+              >
+                {selectedBook?.likes || 0}
               </span>
-              {selectedBook?.likes > 0 && (
-                <span
-                  className={
-                    "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8  h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2  flex justify-center ring-2 ring-white bg-teal-500  text-white rounded-full "
-                  }
-                >
-                  {selectedBook?.likes || 0}
-                </span>
-              )}
-            </div>
-          )}
+            )}
+          </div>
+        )}
 
         {selectedBook?.id != undefined && (
           <div
@@ -200,63 +183,19 @@ export const BookIcons = ({
               {page != audioPages + 1 ? "Views" : "Viewed"}
             </span>
             {/* {selectedBook?.viewedBy?.includes(userId) && ( */}
-           { selectedBook?.views > 0 &&
-            <span
-              className={
-                "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8   h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2 flex justify-center ring-2 ring-white bg-fuchsia-500  text-white rounded-full "
-              }
-            >
-              {selectedBook?.views || 0}
-            </span>
-}
+            {selectedBook?.views > 0 && (
+              <span
+                className={
+                  "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8   h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2 flex justify-center ring-2 ring-white bg-fuchsia-500  text-white rounded-full "
+                }
+              >
+                {selectedBook?.views || 0}
+              </span>
+            )}
             {/* )} */}
           </div>
         )}
       </div>
-
-      {/* {audioRef?.current?.duration > 0 && (
-        <div
-          onClick={() => {
-            setPlaying(!playing);
-            !playing ? audioRef?.current?.play() : audioRef?.current?.pause();
-          }}
-          className={
-            !playing
-              ? "group relative xl:bg-sky-950 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white rounded-full cursor-pointer"
-              : "group relative bg-blue-600 border-2 border-blue-600 text-white rounded-full cursor-pointer"
-          }
-        >
-          {playing ? (
-            <SpeakerWaveIcon
-              className="icon"
-              onClick={() => {
-                setMessage({ text: "", type: "" });
-                setPage(audioPage);
-              }}
-            />
-          ) : page == lastPage ? (
-            <ArrowPathIcon
-              className="icon"
-              onClick={() => {
-                setMessage({ text: "", type: "" });
-                setPage(0);
-                setAudioPage(0);
-              }}
-            />
-          ) : (
-            <SpeakerXMarkIcon
-              className="icon "
-              onClick={() => {
-                setMessage({ text: "", type: "" });
-                setPage(audioPage);
-              }}
-            />
-          )}
-          <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-0 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
-            {playing ? "Mute" : "Play"}
-          </span>
-        </div>
-      )} */}
     </div>
   );
 };

@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { BookIcons } from "./BookIcons";
-import { BookImage } from "./BookImage";
-import BookControls from "./BookControls";
-import Image from "next/image";
-import tree from "/public/trace1.svg";
-import { MessageFeature } from "../nav/MessageFeature";
-import { PageControls } from "./PageControls";
-import AudioControls from "./AudioControls";
-import { BookText } from "./BookText";
+import { BookIcons } from "./controls/BookIcons";
+import { BookImage } from "./display/BookImage";
+import { PageControls } from "./controls/PageControls";
+import AudioControls from "./controls/AudioControls";
+import { BookText } from "./display/BookText";
 
-export const StoryDisplay = ({
+export const BookIndex = ({
   storySelected,
   imagesSelected,
   page,
@@ -26,17 +21,13 @@ export const StoryDisplay = ({
   selectedBook,
   userId,
   setMessage,
-  message,
   unsavedTitle,
   extractTitleFromStory,
   loading,
   handleDeleteBook,
   unsaved,
-  shared,
-  setShared,
   show,
   setShow,
-  theme,
   processing,
   deleting,
   playing,
@@ -52,7 +43,6 @@ export const StoryDisplay = ({
   handleViewBook,
   handleAudio,
 }) => {
-
   const storyText = storySelected || storyUnsaved;
 
   return (
@@ -96,7 +86,7 @@ export const StoryDisplay = ({
               setAudioPage={setAudioPage}
               setOpen={setOpen}
             />
-  
+
             <BookText
               setOpen={setOpen}
               setMessage={setMessage}
@@ -147,7 +137,6 @@ export const StoryDisplay = ({
               setMessage={setMessage}
               audioPage={audioPage}
               setPage={setPage}
-            
             />
 
             <PageControls

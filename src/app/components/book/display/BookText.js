@@ -23,11 +23,9 @@ export const BookText = ({
   selectedBook,
   setLastPage,
   unsavedTitle,
-  storyText
+  storyText,
 }) => {
-  //const storyText = storySelected || storyUnsaved;
   const selectedTitle = extractTitleFromStory(storyText);
-  //console.log("selectedTitle", selectedTitle, "UnsavedTitle", unsavedTitle);
 
   const paragraphsPerPage = 2.5;
 
@@ -40,7 +38,6 @@ export const BookText = ({
 
   // Function to calculate the number of words in a given array of paragraphs
   const countWords = (currentPageParagraphs) => {
-    // console.log("CPP", currentPageParagraphs)
     return currentPageParagraphs.reduce((totalWords, paragraph) => {
       const words = paragraph.split(" ");
       return totalWords + words?.length;
@@ -55,18 +52,12 @@ export const BookText = ({
     }
 
     const paragraphs = prepareText(storyText);
-    // console.log("paragraphs", paragraphs, "paragraphs.length", paragraphs.length);
+
     const lastAudioPage = Math.ceil(paragraphs?.length / paragraphsPerPage);
-    // console.log(
-    //   "lastAudioPage",
-    //   lastAudioPage,
-    //   "Math paralength/paraperpage",
-    //   Math.ceil(paragraphs.length / paragraphsPerPage)
-    // );
+
     setAudioPages(lastAudioPage);
-    //console.log("AUDIOPAGES", audioPages);
+
     setLastPage(lastAudioPage + 1);
-    //console.log("lastPage", lastPage);
   }, [storyText, audio]);
 
   // Handle audio play and page turn logic
@@ -171,16 +162,14 @@ export const BookText = ({
     if (!storyText) return null;
 
     const paragraphs = prepareText(storyText);
-    // console.log("paragraphs", paragraphs)
+
     const startIndex = (page - 1) * paragraphsPerPage;
-    // console.log("startIndex", startIndex)
+
     const endIndex = startIndex + paragraphsPerPage;
-    // console.log("endIndex", endIndex)
+
     const currentPageParagraphs = paragraphs.slice(startIndex, endIndex);
-    // console.log("currentPageParagraphs", currentPageParagraphs)
 
     if (page == lastPage) {
-      //handleViewBook(selectedBook?.id, userId);
       return (
         <div className="h-full w-full flex items-center justify-center text-center p-8">
           <div className="text-2xl 3xl:text-4xl font-antiqua">
@@ -228,8 +217,7 @@ export const BookText = ({
                     {imagesUnsaved ? theme : selectedBook?.theme}
                   </span>{" "} */}
               </p>
-              <p className={""}></p>
-              ~
+              <p className={""}></p>~
               <p
                 className={
                   "text-lg xl:text-xl 2xl:text-2xl 2.5xl:text-3xl 3xl:text-4xl italics font-semibold"
@@ -264,9 +252,10 @@ export const BookText = ({
               ? unsavedTitle
               : "Once Upon A Time..."}
             <p
-              className={ selectedBook?.title?.length < 20 ?
-                "text-center xl:text-right text-xl xl:text-xl 2xl:text-2xl 2.5xl:text-3xl 3xl:text-4xl font-antiqua lowercase"
-                :  "text-center text-xl xl:text-xl 2xl:text-2xl 2.5xl:text-3xl 3xl:text-4xl font-antiqua lowercase"
+              className={
+                selectedBook?.title?.length < 20
+                  ? "text-center xl:text-right text-xl xl:text-xl 2xl:text-2xl 2.5xl:text-3xl 3xl:text-4xl font-antiqua lowercase"
+                  : "text-center text-xl xl:text-xl 2xl:text-2xl 2.5xl:text-3xl 3xl:text-4xl font-antiqua lowercase"
               }
             >
               {" "}
@@ -287,20 +276,17 @@ export const BookText = ({
     return (
       <div className="font-antiqua fade-in ">
         {currentPageParagraphs.map((paragraph, index) => (
-          <div  key={index} className="ml-1 ">
+          <div key={index} className="ml-1 ">
             {index == 0 ? (
               <p
-               
                 style={{ textAlign: "justify", marginBottom: "1em" }}
                 className={
                   paragraph == "The End"
                     ? "flex justify-center h-full items-center py-24 w-full text-center "
                     : "first-letter:text-6xl first-letter:2xl:text-[8rem] first-letter:3xl:text-9xl  first-letter:2xl:px-10 first-letter:px-4  first-letter:mr-4 first-letter:py-0 first-letter:ring-2 first-letter:ring-stone-800 first-letter:rounded-sm  first-letter:bg-cover first-letter:float-left first-letter:mt-2 first-letter:border-double"
-                  //first-letter:bg-[url('../../public/kells.jpg')]
                 }
               >
                 {paragraph}
-                {/* <p className="text-center">~</p> */}
               </p>
             ) : (
               <p
@@ -313,7 +299,6 @@ export const BookText = ({
                 }
               >
                 {paragraph}
-                {/* <p className="text-center">~</p> */}
               </p>
             )}
           </div>
@@ -351,33 +336,7 @@ export const BookText = ({
         ) : (
           getStoryText(storySelected || storyUnsaved, page)
         )}
-        {/* <p className="flex justify-center">~</p> */}
       </div>
-      {/* <BookControls
-      selectedBook={selectedBook}
-      userId={userId}
-      setPage={setPage}
-      audio={audio}
-      audioRef={audioRef}
-      page={page}
-      handleLikeBook={handleLikeBook}
-      setPlaying={setPlaying}
-      setAudioDuration={setAudioDuration}
-      audioDuration={audioDuration}
-      setMessage={setMessage}
-      message={message}
-      audioPages={audioPages}
-      onLoadedMetadata={onLoadedMetadata}
-      setAudioPage={setAudioPage}
-      playing={playing}
-      handleAudio={handleAudio}
-      storyText={storyText}
-      processing={processing}
-      audioPage={audioPage}
-      lastPage={lastPage}
-      handleDeletBook={handleDeleteBook}
-      handleShareBook={handleShareBook}
-    /> */}
     </div>
   );
 };

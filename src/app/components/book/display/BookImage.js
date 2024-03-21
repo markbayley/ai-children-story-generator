@@ -1,10 +1,5 @@
 import Image from "next/image";
 import mushrooms from "/public/mushrooms.jpg";
-import flowers from "/public/flowers.jpg";
-import forest from "/public/forest.jpg";
-import fairys from "/public/fairys.jpg";
-import fair from "/public/fair.jpg";
-import pic7 from "/public/pic7round.png";
 import { useEffect, useState } from "react";
 import tree from "/public/trace1.svg";
 
@@ -16,19 +11,8 @@ export const BookImage = ({
   lastPage,
   loading,
 }) => {
-  console.log("loading", loading);
-  // Helper function to get default image based on page
   const getDefaultImage = (page) => {
-    const defaultImages = [
-      // forest,
-      // fair,
-      mushrooms,
-      // fairys,
-      // flowers,
-      // pic7,
-      // pic7,
-      //tree
-    ];
+    const defaultImages = [mushrooms];
     return defaultImages[page] || defaultImages[0];
   };
   // Helper Component for Image Display
@@ -70,7 +54,6 @@ export const BookImage = ({
             }}
             width={950}
             height={950}
-            // src={imageSrc}
             src={imageLoadError ? tree : imageSrc}
             onError={handleImageError}
             className="font-antiqua border-2 border-stone-700 rounded-md "

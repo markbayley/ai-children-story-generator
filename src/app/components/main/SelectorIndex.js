@@ -1,11 +1,11 @@
-import { PreviewContent } from "./PreviewContent";
+import { PreviewContent } from "./selector/PreviewContent";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   FunnelIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
-export const StorySelector = ({
+export const SelectorIndex = ({
   myBooks,
   allBooks,
   extractTitleFromStory,
@@ -25,16 +25,15 @@ export const StorySelector = ({
   handleSearch,
   setSearchQuery,
   search,
-  showCreators,
-  filteredResults,
+  filterResults,
   showWithAudio,
   selectedTheme,
+  selectedCreator
 }) => {
   const booksPerPage = 6;
 
   const totalPages = Math.ceil(allBooks?.length / booksPerPage);
   const myPages = Math.ceil(myBooks?.length / booksPerPage);
-  // console.log("myPages", myPages);
 
   const PaginationBars = ({
     totalPages,
@@ -86,7 +85,7 @@ export const StorySelector = ({
       //case "Users"
       // return ...
       case "Filter":
-        return filteredResults;
+        return filterResults;
       case "Search":
         // setLength(() => searchResults.length)
         return searchResults;
@@ -130,7 +129,7 @@ export const StorySelector = ({
     <div className="">
       <div className={"text-2xl px-2 pt-4 pb-4 lg:pb-2 fade-in "}>
         <div className="text-sm 3xl:text-lg font-semibold w-full  rounded-t-lg flex justify-end sm:pr-6 gap-1 3xl:gap-2">
-          {/* {searchQuery &&  <span className="flex items-center text-white bg-blue-500 px-1 rounded h-5 -mt-4 -mr-8 z-10 text-xs">{searchQuery}</span> } */}
+      
           <button
             className={
               tabSelected == "Filter"
@@ -148,7 +147,8 @@ export const StorySelector = ({
               });
             }}
           >
-            <FunnelIcon className="icon" />
+              {filterResults?.length > 0 &&  <span className="flex items-center absolute justify-start pr-1 rounded-full h-3 w-12 z-10 text-xs text-amber-500">{filterResults.length}</span> }
+            <FunnelIcon className={selectedTheme?.length > 0 || selectedCreator?.length > 0 || showWithAudio ? "icon text-amber-500" : "icon" }/>
           </button>
 
           <button
@@ -171,7 +171,8 @@ export const StorySelector = ({
               });
             }}
           >
-            <MagnifyingGlassIcon className="icon" />
+            {searchResults?.length > 0 &&  <span className="flex items-center absolute justify-start pr-1 rounded-full h-3 w-12 z-10 text-xs text-amber-500">{searchResults.length}</span> }
+            <MagnifyingGlassIcon className={searchQuery ? "icon text-amber-500" : "icon" }/>
           </button>
 
           <button
@@ -231,11 +232,12 @@ export const StorySelector = ({
               className={` shadow-xs shadow-slate-950 w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 2xl:px-4 2xl:pt-4 p-2 min-h-[28vh] `}
             >
               <p className="text-white italic text-sm w-full flex justify-center items-center py-40 md:py-32  xl:py-16 2xl:py-24 2.5xl:py-32">
-                {search && searchResults == 0
+                {searchQuery || selectedTheme || showWithAudio || selectedCreator
                   ? "No matches found..."
-                  : search
+           :  search == 'search'
                   ? "Enter a search query..."
-                  : "No stories created..."}
+                  : "No filters selected"
+               }
               </p>
             </div>
           ) : (
@@ -268,6 +270,7 @@ export const StorySelector = ({
                         searchQuery={searchQuery}
                         showWithAudio={showWithAudio}
                         selectedTheme={selectedTheme}
+                        selectedCreator={selectedCreator}
                       />
                     </div>
                   ))}
