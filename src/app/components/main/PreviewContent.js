@@ -12,7 +12,8 @@ export const PreviewContent = ({
   handleSearch,
   setSearchQuery,
   searchQuery,
-  showWithAudio
+  showWithAudio,
+  selectedTheme
 }) => {
   const [imageLoadError, setImageLoadError] = useState(false);
 
@@ -135,7 +136,7 @@ export const PreviewContent = ({
 
       {/* Title */}
       <>
-      <span className="absolute bottom-2  left-0  px-1 text-xs  z-20  text-white font-semibold">{book?.theme}</span>
+      <span className={ selectedTheme == book?.theme ? "absolute bottom-2 left-0 px-1 pr-1 text-xs bg-amber-500 z-20 text-white rounded-r-full font-semibold" : "absolute bottom-2 left-0 px-1 text-xs  z-20 text-white font-semibold"}>{book?.theme}</span>
       <div className="absolute whitespace-nowrap bottom-1 left-0 h-[20%] z-10 max-w-fit capitalize overflow-x-hidden">
        
         <h5 className={ searchQuery != "" && book?.title

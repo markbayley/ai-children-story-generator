@@ -86,7 +86,7 @@ export const StatusBar = ({
   };
 
   return (
-    <div className=" cursor-pointer text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 lg:bg-transparent bg-sky-950">
+    <div className=" cursor-pointer text-white p-2 flex justify-between text-sm fixed top-0 w-full z-20 md:bg-transparent bg-sky-950">
       {/* Share Icons */}
       <div className="w-1/6 md:w-1/3 group flex items-center justify-start relative ">
         {show ? (
@@ -134,8 +134,8 @@ export const StatusBar = ({
             }}
             className={
               search == 'off'
-                ? "group  max-w-xs  text-sm bg-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
-                : "group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+                ? "group  max-w-xs  text-sm bg-sky-900 hover:bg-sky-900 hover:text-white rounded-md relative cursor-pointer"
+                : "group  max-w-xs  text-sm bg-sky-950 hover:bg-sky-900   hover:text-white rounded-md relative cursor-pointer"
             }
           >
             <HomeIcon className="icon p-2 2.5xl:p-3" />
@@ -153,8 +153,8 @@ export const StatusBar = ({
             }}
             className={
               search == 'search'
-                ? "group  max-w-xs  text-sm bg-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
-                : "group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+                ? "group  max-w-xs  text-sm bg-sky-900 hover:bg-sky-900 hover:text-white rounded-md relative cursor-pointer"
+                : "group  max-w-xs  text-sm bg-sky-950 hover:bg-sky-900   hover:text-white rounded-md relative cursor-pointer"
             }
           >
             <MagnifyingGlassIcon className="icon p-2 2.5xl:p-3" />
@@ -172,8 +172,8 @@ export const StatusBar = ({
             }}
             className={
               search == 'filter'
-                ? "group  max-w-xs  text-sm bg-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
-                : "group  max-w-xs  text-sm bg-sky-950 hover:bg-indigo-500 hover:text-white rounded-md relative cursor-pointer"
+                ? "group  max-w-xs  text-sm bg-sky-900 hover:bg-sky-900 hover:text-white rounded-md relative cursor-pointer"
+                : "group  max-w-xs  text-sm bg-sky-950 hover:bg-sky-900  hover:text-white rounded-md relative cursor-pointer"
             }
           >
             <FunnelIcon className="icon p-2 2.5xl:p-3" />

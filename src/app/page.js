@@ -87,8 +87,10 @@ export default function StoryPage() {
   // Fetch books when userId changes
   useEffect(() => {
     if (!fetched) {
+      setLoading(true);
       fetchAllBooks();
       setFetched(true);
+      setLoading(false);
     }
   }, [userId]);
 
@@ -125,7 +127,7 @@ export default function StoryPage() {
   //   }
   // };
   const fetchAllBooks = async () => {
-    setLoading(true);
+   
     try {
       const db = getFirestore();
       const q = query(
@@ -148,7 +150,7 @@ export default function StoryPage() {
       setMyBooks(userBooks);
 
       setMessage({ text: "Books Fetched", type: "success" });
-      setLoading(false);
+   
     } catch (error) {
       setMessage({ text: "Quota Exceeded", type: "error" });
       console.log(error);
@@ -783,7 +785,7 @@ export default function StoryPage() {
   const [showWithAudio, setShowWithAudio] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState(null);
 
-  const [selectedCreator, setselectedCreator] = useState(null)
+  //const [selectedCreator, setselectedCreator] = useState(null)
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -816,40 +818,6 @@ export default function StoryPage() {
   });
 
  
-
-
-// Step 1: Create an empty object to store the unique creator names, their corresponding photo URLs, and the count of their books
-const uniqueCreators = {};
-
-// Step 2: Iterate over the allBooks array
-allBooks.forEach(book => {
-    // Check if the creator name and photo URL are both not null
-    if (book.creatorName !== null && book.creatorPhotoURL !== null) {
-        // Check if the creator name already exists in the uniqueCreators object
-        if (!uniqueCreators.hasOwnProperty(book.creatorName)) {
-            // If not, add it to the uniqueCreators object with its corresponding photo URL and initialize the count of books to 1
-            uniqueCreators[book.creatorName] = {
-                name: book.creatorName,
-                photoURL: book.creatorPhotoURL,
-                bookCount: 1
-            };
-        } else {
-            // If the creator already exists, increment the count of books
-            uniqueCreators[book.creatorName].bookCount++;
-        }
-    }
-});
-
-// Step 3: Convert the uniqueCreators object into an array of objects
-const uniqueCreatorsArr = Object.values(uniqueCreators);
-
-// Step 4: Sort the uniqueCreatorsArray based on the book count in descending order
-const uniqueCreatorsArray = uniqueCreatorsArr.sort((a, b) => b.bookCount - a.bookCount).slice(0, 7);
-
-// Step 5: Use uniqueCreatorsArray as needed
-console.log(uniqueCreatorsArray);
-
-
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed  z-10 flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
@@ -901,20 +869,18 @@ console.log(uniqueCreatorsArray);
                 theme={theme}
                 setTheme={setTheme}
                 search={search}
+                setSearch={setSearch}
                 setSearchQuery={setSearchQuery}
                 searchQuery={searchQuery}
                 handleSearch={handleSearch}
-                //setTabSelected={setTabSelected}
-                uniqueCreatorsArray={uniqueCreatorsArray}
                 setShowCreators={setShowCreators}
                 showCreators={showCreators}
                 allBooks={allBooks}
-                // audioQuery={audioQuery}
-                // setAudioQuery={setAudioQuery}
                 showWithAudio={showWithAudio}
                 setShowWithAudio={setShowWithAudio}
                 selectedTheme={selectedTheme}
                 setSelectedTheme={setSelectedTheme}
+                setTabSelected={setTabSelected}
               />
 
               <StorySelector
@@ -947,6 +913,7 @@ console.log(uniqueCreatorsArray);
                 showCreators={showCreators}
                 filteredResults={filteredResults}
                 showWithAudio={showWithAudio}
+                selectedTheme={selectedTheme}
               />
             </div>
           ) : (

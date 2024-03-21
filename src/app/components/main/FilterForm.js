@@ -19,7 +19,7 @@ export const FilterForm = ({
   searchQuery,
   setSearchQuery,
   handleSearch,
-  uniqueCreatorsArray,
+  //uniqueCreatorsArray,
   setShowCreators,
   showCreators,
   allBooks,
@@ -28,89 +28,29 @@ export const FilterForm = ({
   showWithAudio,
   setShowWithAudio,
   selectedTheme,
-  setSelectedTheme
+  setSelectedTheme,
+  search,
+  setSearch,
+  setTabSelected,
 }) => {
   function ThemeDropdown() {
     return (
-      <div className="text-sm  font-semibold ">
-
-     {/* Filter by theme */}
-     <div className="flex justify-between text-orange-300 hover:text-amber-500 text-sm  font-semibold gap-2">
-      Theme
-        {['Spooky', 'Funny', 'Cute', 'Weird', 'Adventure'].map(theme => (
+      <div className="flex justify-between text-orange-300  text-sm  font-semibold gap-2">
+        <span className="hidden md:flex">Theme</span>
+        {["Spooky", "Funny", "Cute", "Weird", "Adventure"].map((theme) => (
           <button
             key={theme}
             // style={{ fontWeight: theme === selectedTheme ? 'bold' : 'normal' }}
             onClick={() => handleSelectTheme(theme)}
-            className={ theme == selectedTheme ? " text-white bg-amber-500 rounded-full py-1 px-2 font-normal text-xs " : " text-white  rounded-full py-1 px-2 font-normal text-xs bg-slate-700"}
+            className={
+              theme == selectedTheme
+                ? " text-white bg-amber-500 rounded-full py-1 px-2 font-normal text-xs shadow-md shadow-slate-900"
+                : " text-white  rounded-full py-1 px-2 font-normal text-xs bg-slate-700 hover:bg-amber-500 shadow-md shadow-slate-900"
+            }
           >
             {theme}
           </button>
         ))}
-      </div>
-
-
-
-        {/* <Menu>
-          <Menu.Button
-            className={
-              "flex justify-between text-orange-300 hover:text-amber-500  "
-            }
-          >
-            <div className="flex relative"> </div>
-            <ChevronDownIcon className="h-5 w-5 mr-2 text-orange-300" />
-            {selectedTheme} Theme
-          </Menu.Button>
-      
-          <Menu.Items
-            className={
-              "flex  text-white justify-between  z-30 ml-5 -mt-6 absolute  bg-sky-950 rounded  leading-loose"
-            }
-          >
-            <div className="flex justify-between ">
-              <Menu.Item>
-                <button
-                  onClick={() => setSelectedTheme("Spooky")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Spooky
-                </button>
-              </Menu.Item>
-              <Menu.Item>
-                <button
-                  onClick={() => setSelectedTheme("Pretty")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Pretty
-                </button>
-              </Menu.Item>
-              <Menu.Item>
-                <button
-                  onClick={() => setSelectedTheme("Funny")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Funny
-                </button>
-              </Menu.Item>
-              <Menu.Item>
-                <button
-                  onClick={() => setSelectedTheme("Cute")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Cute
-                </button>
-              </Menu.Item>
-              <Menu.Item>
-                <button
-                  onClick={() => setSelectedTheme("Weird")}
-                  className={"mx-2 hover:text-orange-300"}
-                >
-                  Weird
-                </button>
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        </Menu> */}
       </div>
     );
   }
@@ -123,17 +63,20 @@ export const FilterForm = ({
     setSelectedTheme(theme === selectedTheme ? null : theme);
   };
 
-
   function AudioSwitch() {
     //const [enabled, setEnabled] = useState(false)
 
     return (
-      <div className=" text-orange-300 flex items-center text-sm font-semibold">
+      <div className="w-full md:w-auto text-orange-300 flex items-center justify-center pt-2 md:pt-0 text-sm font-semibold">
         Audio
         <Switch
           checked={showWithAudio}
           onChange={setShowWithAudio}
-          className={`${showWithAudio ? "bg-amber-500" : "bg-slate-600"}
+          className={`${
+            showWithAudio
+              ? "bg-amber-500 hover:bg-amber-400 shadow-md shadow-slate-800"
+              : "bg-slate-500 hover:bg-slate-400 shadow-md shadow-slate-800"
+          }
         mx-2  relative inline-flex h-[24px] w-[60px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
         >
           <span className="sr-only">Use setting</span>
@@ -148,6 +91,39 @@ export const FilterForm = ({
       </div>
     );
   }
+
+  // Step 1: Create an empty object to store the unique creator names, their corresponding photo URLs, and the count of their books
+  const uniqueCreators = {};
+
+  // Step 2: Iterate over the allBooks array
+  allBooks.forEach((book) => {
+    // Check if the creator name and photo URL are both not null
+    if (book.creatorName !== null && book.creatorPhotoURL !== null) {
+      // Check if the creator name already exists in the uniqueCreators object
+      if (!uniqueCreators.hasOwnProperty(book.creatorName)) {
+        // If not, add it to the uniqueCreators object with its corresponding photo URL and initialize the count of books to 1
+        uniqueCreators[book.creatorName] = {
+          name: book.creatorName,
+          photoURL: book.creatorPhotoURL,
+          bookCount: 1,
+        };
+      } else {
+        // If the creator already exists, increment the count of books
+        uniqueCreators[book.creatorName].bookCount++;
+      }
+    }
+  });
+
+  // Step 3: Convert the uniqueCreators object into an array of objects
+  const uniqueCreatorsArr = Object.values(uniqueCreators);
+
+  // Step 4: Sort the uniqueCreatorsArray based on the book count in descending order
+  const uniqueCreatorsArray = uniqueCreatorsArr
+    .sort((a, b) => b.bookCount - a.bookCount)
+    .slice(0, 7);
+
+  // Step 5: Use uniqueCreatorsArray as needed
+  console.log(uniqueCreatorsArray[0]);
 
   return (
     <div
@@ -164,139 +140,113 @@ export const FilterForm = ({
         <h3 className="py-2 text-md font-normal text-white">
           Filter stories by our top creators. Enter a search prompt in the input
           field below to find your favourite story titles.
-          {/*  */}
+      
         </h3>
         <div className="flex items-center justify-center">
           <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}
           <SparklesIcon className=" w-10 aspect-square mx-2 text-orange-300" />{" "}
-          {/* <Image src={SparklesIcon} alt="sparkles-icon"  /> */}
+    
           <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
 
-        <div className="flex w-full justify-between items-center pb-2 text-sm font-semibold ">
-          <label
-            htmlFor="prompt"
-            className="block text-orange-300 text-sm font-semibold py-2 3xl:text-2xl"
+        <div className="backdrop-blur-md bg-sky-950/30 lg:bg-transparent  rounded-lg">
+          <div className="flex w-full justify-between items-center pb-2 text-sm font-semibold ">
+            <label
+              htmlFor="prompt"
+              className="block text-orange-300 text-sm font-semibold py-2 3xl:text-2xl"
+            >
+              Top Creators
+            </label>
+
+           {/* Reset Button */}
+            {searchQuery || selectedTheme || showWithAudio ? (
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setShowWithAudio(false);
+                  setSelectedTheme(null);
+                  setMessage({ text: "Search Cleared", type: "create" });
+                }}
+                htmlFor="prompt"
+                className="group fade-in  text-orange-300 bg-transparent cursor-pointer "
+              >
+                <p className="flex items-center text-sm font-semibold  3xl:text-2xl">
+                  Clear filter{" "}
+                  <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-2 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
+                    <ArrowPathIcon className="h-5 w-5" />
+                  </span>
+                </p>
+              </button>
+            ) : (
+              <button
+                htmlFor="prompt"
+                className="group   text-gray-500 bg-transparent cursor-pointer "
+              >
+                <p className="flex items-center text-sm font-semibold  3xl:text-2xl">
+                  <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-2 font-bold border-2 rounded-full border-gray-500 text-lg  transition-colors duration-200">
+                    <ArrowPathIcon className="h-5 w-5" />
+                  </span>
+                </p>
+              </button>
+            )}
+          </div>
+
+          {/* Creator Filter */}
+          <button
+            type="submit"
+            className="fade-in  text-white flex w-full justify-between items-start text-center cursor-pointer text-xs  h-16 "
           >
-            Top Creators
-          </label>
-
-          {searchQuery ? (
-            <button
-              type="submit"
-              onClick={() => {
-                setSearchQuery("");
-                setMessage({ text: "Search Cleared", type: "like" });
-              }}
-              htmlFor="prompt"
-              className="group   text-orange-300 bg-transparent cursor-pointer "
-            >
-              <p className="flex items-center text-sm font-semibold hover:text-orange-200 3xl:text-2xl">
-                Clear filter{" "}
-                <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-1 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
-                  <ArrowPathIcon className="h-5 w-5" />
-                </span>
-              </p>
-            </button>
-          ) : (
-            <button
-              type="submit"
-              onClick={() => {
-                setShowCreators(!showCreators);
-                // setSearchQuery("");
-                // setMessage({ text: "Search Cleared", type: "like" });
-              }}
-              htmlFor="prompt"
-              className="group   text-orange-300 bg-transparent cursor-pointer "
-            >
-              <p className="flex items-center text-sm font-semibold hover:text-orange-200 3xl:text-2xl">
-                {showCreators ? "Search by keyword" : "Search by creator"}
-                <span className="flex items-center justify-center bg-sky-950 h-8 w-8 ml-1 font-bold border-2 rounded-full border-orange-300 text-lg group-hover:bg-orange-300 group-hover:text-sky-900 transition-colors duration-200">
-                  {showCreators ? (
-                    <KeyIcon className="h-5 w-5" />
-                  ) : (
-                    <UsersIcon className="h-5 w-5" />
-                  )}
-                </span>
-              </p>
-            </button>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          className="fade-in  text-white flex w-full justify-between items-start text-center cursor-pointer text-xs  h-16 "
-        >
-          {uniqueCreatorsArray.map((creator, index) => (
-            <div
-              onClick={() => {
-                setSearchQuery(creator?.name);
-                //setShowCreators(false);
-                setMessage({
-                  text: "Search " + '"' + creator?.name + '"?',
-                  type: "like",
-                });
-              }}
-              key={index}
-              className="relative 2xl:mx-1  hover:text-orange-300 w-full flex flex-col items-center justify-center"
-            >
-              <div className="absolute bottom-0 left-1 md:left-6 lg:left-2 3xl:left-6 h-5 w-5  flex justify-center items-center group rounded-full  bg-amber-500  text-white ">
-                <div className="rounded-full text-center shadow-xl">
-                  {creator?.bookCount}
+            {uniqueCreatorsArray.map((creator, index) => (
+              <div
+                onClick={() => {
+                  setSearchQuery(creator?.name);
+                  //setShowCreators(false);
+                  setMessage({
+                    text: "Search " + '"' + creator?.name + '" ?',
+                    type: "create",
+                  });
+                }}
+                key={index}
+                className="relative 2xl:mx-1  hover:text-orange-300 w-full flex flex-col items-center justify-center "
+              >
+                <div className="absolute bottom-0 left-1 md:left-6 lg:left-2 3xl:left-6 h-5 w-5  flex justify-center items-center group rounded-full  bg-amber-500  text-white ">
+                  <div className="rounded-full text-center shadow-xl">
+                    {creator?.bookCount}
+                  </div>
                 </div>
-              </div>
-              <Image
-                src={creator?.photoURL}
-                // sizes="(max-width: 768px) 5vw,
-                // (max-width: 1200px) 5vw,
-                // 5vw"
-                // fill
-                width={100}
-                height={100}
-                alt="profile-image"
-                //onError={handleImageError}
-                className={
-                  searchQuery == creator?.name
-                    ? "max-w-xs h-12 w-12 rounded-full object-cover ring-4 ring-amber-500"
-                    : "max-w-xs h-8 w-8 xl:h-12 xl:w-12 rounded-full object-cover hover:border-2 hover:border-orange-300"
-                }
-              />
-              {/* <span className={ searchQuery == creator?.name ? "text-orange-300" : " hover:text-orange-300" }>
+                <Image
+                  src={creator?.photoURL}
+                  // sizes="(max-width: 768px) 5vw,
+                  // (max-width: 1200px) 5vw,
+                  // 5vw"
+                  // fill
+                  width={100}
+                  height={100}
+                  alt="profile-image"
+                  //onError={handleImageError}
+                  className={
+                    searchQuery == creator?.name
+                      ? "max-w-xs h-10 w-10 rounded-full object-cover ring-4 ring-amber-500 shadow-lg shadow-slate-900"
+                      : "max-w-xs h-10 w-10 rounded-full object-cover hover:ring-2 hover:ring-amber-500 shadow-lg shadow-slate-900"
+                  }
+                />
+                {/* <span className={ searchQuery == creator?.name ? "text-orange-300" : " hover:text-orange-300" }>
                     {" "}
                     {(creator?.name).length > 7
                       ? (creator?.name).substring(0, 6) + "..."
                       : creator?.name}
                   </span> */}
-            </div>
-          ))}
-        </button>
+              </div>
+            ))}
+          </button>
 
-        <div className="flex justify-between w-full items-center pb-2">
-          <ThemeDropdown />
-          <AudioSwitch />
+          {/* Theme & Audio Filter */}
+          <div className="md:flex md:justify-between w-full items-center pb-2 ">
+            <ThemeDropdown />
+            <AudioSwitch />
+          </div>
+
         </div>
-
-        {/* Toggle switch for audio availability */}
-        {/* <label className="pt-4 text-orange-300 flex items-center text-sm font-semibold">
-       Audio
-        <input
-          type="checkbox"
-          checked={showWithAudio}
-          onChange={handleToggleAudio}
-          className="m-2 h-5 w-5"
-        />
-      </label> */}
-        {/* <div className="flex items-center text-[15px] gap-4 pt-4 3xl:text-xl ">
-            <button
-              type="submit"
-              className={
-                "font-semibold w-full text-white py-2 rounded-md bg-blue-500 hover:bg-blue-400 flex justify-center border-stone-700 3xl:py-4"
-              }
-            >
-              Filter
-              <FunnelIcon className="h-6 w-6 mx-2" />
-            </button>
-          </div> */}
       </form>
     </div>
   );

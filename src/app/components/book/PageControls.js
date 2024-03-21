@@ -116,7 +116,7 @@ export const PageControls = ({
         }
       >
         <div className="icon flex items-center justify-center  ">{page}</div>
-        <span className="text-white scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -left-1 xl:top-1 xl:-left-12 2.5xl:-left-16 2.5xl:top-3 bg-stone-800 p-1 rounded">
+        <span className="text-white scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -left-1 xl:top-1 xl:-left-12 2.5xl:-left-16 2.5xl:top-3 bg-sky-950 p-1 rounded">
           Page
         </span>
       </div>

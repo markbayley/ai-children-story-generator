@@ -15,19 +15,18 @@ export const StoryForm = ({
   theme,
   setTheme,
   search,
+  setSearch,
   setSearchQuery,
   searchQuery,
   handleSearch,
-  uniqueCreatorsArray,
   setShowCreators,
   showCreators,
   allBooks,
-  // audioQuery,
-  // setAudioQuery
   showWithAudio,
   setShowWithAudio,
   selectedTheme,
   setSelectedTheme,
+  setTabSelected
 }) => {
   function ThemeDropdown() {
     return (
@@ -106,10 +105,13 @@ export const StoryForm = ({
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           handleSearch={handleSearch}
-          uniqueCreatorsArray={uniqueCreatorsArray}
           setShowCreators={setShowCreators}
           showCreators={showCreators}
           allBooks={allBooks}
+          search={search}
+          setSearch={setSearch}
+          setTabSelected={setTabSelected}
+       
         />
       ) : search == "filter" ? (
         <FilterForm
@@ -119,16 +121,16 @@ export const StoryForm = ({
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleSearch={handleSearch}
-        uniqueCreatorsArray={uniqueCreatorsArray}
         setShowCreators={setShowCreators}
         showCreators={showCreators}
         allBooks={allBooks}
-        // audioQuery={audioQuery}
-        // setAudioQuery={setAudioQuery}
         showWithAudio={showWithAudio}
         setShowWithAudio={setShowWithAudio}
         selectedTheme={selectedTheme}
         setSelectedTheme={setSelectedTheme}
+        search={search}
+        setSearch={setSearch}
+        setTabSelected={setTabSelected}
         />
       ) : (
         <CreateForm

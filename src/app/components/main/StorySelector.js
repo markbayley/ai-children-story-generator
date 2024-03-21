@@ -24,10 +24,11 @@ export const StorySelector = ({
   setMessage,
   handleSearch,
   setSearchQuery,
-  search, 
+  search,
   showCreators,
   filteredResults,
-  showWithAudio
+  showWithAudio,
+  selectedTheme,
 }) => {
   const booksPerPage = 6;
 
@@ -83,8 +84,8 @@ export const StorySelector = ({
   const getSortedBooks = () => {
     switch (tabSelected) {
       //case "Users"
-       // return ...
-       case "Filter":
+      // return ...
+      case "Filter":
         return filteredResults;
       case "Search":
         // setLength(() => searchResults.length)
@@ -129,60 +130,55 @@ export const StorySelector = ({
     <div className="">
       <div className={"text-2xl px-2 pt-4 pb-4 lg:pb-2 fade-in "}>
         <div className="text-sm 3xl:text-lg font-semibold w-full  rounded-t-lg flex justify-end sm:pr-6 gap-1 3xl:gap-2">
-
-        {/* {searchQuery &&  <span className="flex items-center text-white bg-blue-500 px-1 rounded h-5 -mt-4 -mr-8 z-10 text-xs">{searchQuery}</span> } */}
-        <button
+          {/* {searchQuery &&  <span className="flex items-center text-white bg-blue-500 px-1 rounded h-5 -mt-4 -mr-8 z-10 text-xs">{searchQuery}</span> } */}
+          <button
             className={
               tabSelected == "Filter"
                 ? "text-white p-1 rounded-t-md w-14 3xl:w-18 bg-sky-900 flex justify-center"
-                : "text-gray-500 p-1 hover:text-white rounded-t-md w-14 3xl:w-18 bg-sky-950 flex justify-center"
+                : "hover:bg-sky-900 text-white p-1 rounded-t-md w-14 3xl:w-18 bg-sky-950 flex justify-center"
             }
             onClick={() => {
               setTabSelected("Filter");
               setCurrentSliceIndex(0);
-              setSearch('filter');
-  
-               setMessage({
+              setSearch("filter");
+
+              setMessage({
                 text: `Filter Books`,
-                type: "like",
+                type: "create",
               });
             }}
           >
-             
             <FunnelIcon className="icon" />
           </button>
-      
-      
-      
+
           <button
             className={
               tabSelected == "Search"
                 ? "text-white p-1 rounded-t-md w-14 3xl:w-18 bg-sky-900 flex justify-center"
-                : "text-gray-500 p-1 hover:text-white rounded-t-md w-14 3xl:w-18 bg-sky-950 flex justify-center"
+                : "hover:bg-sky-900 text-white p-1 rounded-t-md w-14 3xl:w-18 bg-sky-950 flex justify-center"
             }
             onClick={() => {
               setTabSelected("Search");
               setCurrentSliceIndex(0);
-              setSearch('search');
+              setSearch("search");
               // setMessage({
               //   text: `${searchResults?.length} Search Results`,
               //   type: "like",
               // });
-               setMessage({
+              setMessage({
                 text: `Search Books`,
-                type: "like",
+                type: "create",
               });
             }}
           >
-             
             <MagnifyingGlassIcon className="icon" />
           </button>
-  
+
           <button
             className={
               tabSelected == "Recent"
                 ? "text-white  rounded-t-md w-28 3xl:w-36 bg-sky-900"
-                : "text-gray-500   hover:text-white rounded-t-md w-28 3xl:w-36 bg-sky-950"
+                : "hover:bg-sky-900 text-white rounded-t-md w-28 3xl:w-36 bg-sky-950"
             }
             onClick={() => {
               setTabSelected("Recent");
@@ -190,7 +186,7 @@ export const StorySelector = ({
               setSearch(false);
               setMessage({
                 text: " Recent Books",
-                type: "info",
+                type: "create",
               });
             }}
           >
@@ -200,13 +196,13 @@ export const StorySelector = ({
             className={
               tabSelected == "Popular"
                 ? "text-white  rounded-t-md w-28 3xl:w-36 bg-sky-900"
-                : "text-gray-500  hover:text-white rounded-t-md w-28 3xl:w-36 bg-sky-950"
+                : "hover:bg-sky-900 text-white rounded-t-md w-28 3xl:w-36 bg-sky-950"
             }
             onClick={() => {
               setTabSelected("Popular");
               setCurrentSliceIndex(0);
               setSearch(false);
-              setMessage({ text: "Popular Books", type: "info" });
+              setMessage({ text: "Popular Books", type: "create" });
             }}
           >
             Popular
@@ -216,13 +212,13 @@ export const StorySelector = ({
             className={
               tabSelected == "My Stories"
                 ? "text-white  rounded-t-md w-28 3xl:w-36 bg-sky-900"
-                : "text-gray-500  hover:text-white rounded-t-md w-28 3xl:w-36 bg-sky-950"
+                : " hover:bg-sky-900 text-white rounded-t-md w-28 3xl:w-36 bg-sky-950"
             }
             onClick={() => {
               setTabSelected("My Stories");
               setCurrentSliceIndex(0);
               setSearch(false);
-              setMessage({ text: myBooks.length + " Results", type: "info" });
+              setMessage({ text: myBooks.length + " Results", type: "create" });
             }}
           >
             My Stories
@@ -235,7 +231,11 @@ export const StorySelector = ({
               className={` shadow-xs shadow-slate-950 w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 2xl:px-4 2xl:pt-4 p-2 min-h-[28vh] `}
             >
               <p className="text-white italic text-sm w-full flex justify-center items-center py-40 md:py-32  xl:py-16 2xl:py-24 2.5xl:py-32">
-               { search && searchResults == 0 ? "No matches found..." : search ? "Enter a search query..." : "No stories created..."}
+                {search && searchResults == 0
+                  ? "No matches found..."
+                  : search
+                  ? "Enter a search query..."
+                  : "No stories created..."}
               </p>
             </div>
           ) : (
@@ -253,8 +253,8 @@ export const StorySelector = ({
                       key={book.id}
                       className={
                         selectedBook?.id != book?.id
-                          ? "z-50 relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-sky-600 duration-200 rounded-tr-lg"
-                          : " z-50 relative flex items-end justify-center cursor-pointer ring-2 ring-sky-600 transition ease-in-out  hover:ring-sky-600 duration-200 rounded-tr-lg"
+                          ? "z-50 relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-amber-500 duration-200 rounded-tr-lg"
+                          : " z-50 relative flex items-end justify-center cursor-pointer ring-2 ring-amber-500 transition ease-in-out  hover:ring-amber-500 duration-200 rounded-tr-lg"
                       }
                     >
                       <PreviewContent
@@ -267,6 +267,7 @@ export const StorySelector = ({
                         setSearchQuery={setSearchQuery}
                         searchQuery={searchQuery}
                         showWithAudio={showWithAudio}
+                        selectedTheme={selectedTheme}
                       />
                     </div>
                   ))}
