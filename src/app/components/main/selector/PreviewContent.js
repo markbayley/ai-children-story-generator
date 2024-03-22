@@ -42,25 +42,25 @@ export const PreviewContent = ({
     return previewTitle;
   };
 
-  console.log("searchQueryPC", searchQuery);
+ // console.log("searchQueryPC", searchQuery);
 
   return (
     <>
       {/* User Icon */}
       <div
-        className={`z-10 left-2 top-2 absolute h-1/6 w-fit flex items-center justify-center ${
+        className={`z-10 left-1 top-1 absolute h-1/6 w-fit flex items-center justify-center ${
           // userId != book?.userId
           selectedCreator?.includes(book?.creatorName || book?.displayName)
             ? "bg-amber-500 ring-white text-white"
             : "bg-slate-700 ring-amber-500 text-amber-500"
         } ring-2 rounded-tl-lg rounded-full`}
       >
-        <div className="px-1 flex items-start ">
+        <div className="px-1 flex items-center xl:items-start 2.5xl:items-center">
           <span className="text-lg md:text-md xl:text-sm 3xl:text-lg h-full">
             {book?.creatorName || book?.displayName || "Anonymous"}
           </span>
           {book?.creatorPhotoURL && !imageLoadError ? (
-            <div className="relative rounded-full w-10 h-10 xl:w-6 xl:h-6 ml-1">
+            <div className="relative rounded-full w-10 h-10 xl:w-6 xl:h-6 2.5xl:h-8 2.5xl:w-8 3xl:h-11 3xl:w-11  ml-1">
               <Image
                 src={book?.creatorPhotoURL}
                 alt="profile-mini"
@@ -80,6 +80,41 @@ export const PreviewContent = ({
         </div>
       </div>
 
+      
+        {/* <div
+          className={
+            selectedCreator?.includes(book?.creatorName || book?.displayName)
+              ? "z-10 absolute top-1 left-1  w-fit h-1/6 rounded-tl-lg  bg-amber-500 border-white flex justify-between  items-center font-normal border-2 "
+              : "z-10 absolute top-1 left-1  w-fit h-1/6 rounded-tl-lg  bg-slate-700 border-amber-500 text-amber-500 flex justify-between items-center font-normal border-2 "
+          }
+        >
+          <div className="  pl-2  text-sm md:text-xs 3xl:text-lg  text-white font-semibold">
+            {book?.creatorName || book?.displayName || "Anonymous"}
+          </div>
+
+      
+            {book?.creatorPhotoURL && !imageLoadError ? (
+         
+                <Image
+                  src={book?.creatorPhotoURL}
+                  alt="profile-mini"
+                  fill
+                  sizes="10vw"
+                  className={
+                    userId != book?.userId
+                      ? "rounded-full object-fit aspect-square"
+                      : "rounded-full object-fit aspect-square border-white border-2"
+                  }
+                  onError={handleImageError}
+                />
+          
+            ) : (
+              <UserCircleIcon className="w-12 aspect-square md:w-7 -mr-1" />
+            )}
+          
+        </div> */}
+    
+
       <div className="absolute flex flex-col w-full h-full items-end gap-1 p-1">
         {/* Audio Icon */}
 
@@ -90,14 +125,14 @@ export const PreviewContent = ({
               : "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-slate-700 border-amber-500 text-amber-500 border-2"
           }
         >
-          <div className="rounded-full text-center shadow-xl">
+          <div className="rounded-full text-center shadow-xl ">
             <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
               {book?.audioUrl ? "audio" : "no audio"}
             </span>
             {book?.audioUrl ? (
-              <SpeakerWaveIcon className="icon p-1 xl:p-3 font-extrabold" />
+              <SpeakerWaveIcon className="text-green-700 font-bold w-6 h-6 xl:w-4 xl:h-4 2.5xl:h-5 2.5xl:w-5 3xl:h-7 3xl:w-7 " />
             ) : (
-              <SpeakerXMarkIcon className="icon p-1 xl:p-3" />
+              <SpeakerXMarkIcon className="text-rose-500 w-6 h-6 xl:w-4 xl:h-4 2.5xl:h-5 2.5xl:w-5 3xl:h-7 3xl:w-7" />
             )}
           </div>
         </div>
@@ -139,13 +174,16 @@ export const PreviewContent = ({
         )}
       </div>
 
+     
+
       {/* Title */}
       <>
         <div className=" absolute whitespace-nowrap bottom-1 left-0 h-1/6 xl:h-1/5 w-fit  z-10  capitalize overflow-x-hidden">
-          <h5
+          <div
             className={
-              (selectedTheme != [] && selectedTheme?.includes(book?.theme)) ||
-              book?.title?.toLowerCase().includes(searchQuery?.toLowerCase())
+              selectedTheme?.includes(book?.theme) ||
+              (searchQuery != "" &&
+                book?.title?.toLowerCase().includes(searchQuery?.toLowerCase()))
                 ? "bg-amber-500 border-white text-white h-full  text-lg md:text-md xl:text-sm 3xl:text-lg flex flex-col justify-center font-normal rounded-r-full rounded border-2 border-l-0"
                 : "bg-slate-700 border-amber-500 text-amber-500 h-full  text-lg md:text-md xl:text-sm 3xl:text-lg flex flex-col justify-center font-normal rounded-r-full rounded border-2 border-l-0"
             }
@@ -161,7 +199,7 @@ export const PreviewContent = ({
               {" "}
               {formatTitle()}
             </div>
-          </h5>
+          </div>
         </div>
       </>
 

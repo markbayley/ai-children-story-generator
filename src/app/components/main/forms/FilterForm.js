@@ -20,7 +20,7 @@ export const FilterForm = ({
     return (
       <div className="flex justify-between text-orange-300  text-sm  font-semibold gap-2">
         <span className="hidden md:flex">Theme</span>
-        {["Spooky", "Funny", "Cute", "Weird", "Adventure"].map((theme) => (
+        {["Spooky", "Funny", "Sweet", "Weird", "Action"].map((theme) => (
           <button
             key={theme}
             onClick={() => handleSelectTheme(theme)}
@@ -65,7 +65,7 @@ export const FilterForm = ({
 
   function AudioSwitch() {
     return (
-      <div className="w-full md:w-auto text-orange-300 flex items-center justify-center pt-2 md:pt-0 text-sm font-semibold">
+      <div className="hidden w-full md:w-auto text-orange-300 md:flex items-center justify-center pt-2 md:pt-0 text-sm font-semibold">
         Audio
         <Switch
           checked={showWithAudio}
@@ -116,7 +116,7 @@ export const FilterForm = ({
     .sort((a, b) => b.bookCount - a.bookCount)
     .slice(0, 7);
   // Step 5: Use uniqueCreatorsArray as needed
-  console.log(uniqueCreatorsArray[0]);
+  console.log("uniqueCreators", uniqueCreatorsArray);
 
 
 

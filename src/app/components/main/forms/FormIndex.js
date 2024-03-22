@@ -10,8 +10,8 @@ export const FormIndex = ({
   loading,
   handleOpen,
   storyUnsaved,
-  theme,
-  setTheme,
+  unsavedTheme,
+  setUnsavedTheme,
   search,
   setSearch,
   setSearchQuery,
@@ -28,7 +28,9 @@ export const FormIndex = ({
   selectedCreator,
   setSelectedCreator,
   setSearchResults,
-  //handleFilter
+  //handleFilter,
+  createWithAudio,
+  setCreateWithAudio
   
 }) => {
 
@@ -37,8 +39,6 @@ export const FormIndex = ({
       {search == "search" ? (
         <SearchForm
           setMessage={setMessage}
-          theme={theme}
-          setTheme={setTheme}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           handleSearch={handleSearch}
@@ -55,8 +55,6 @@ export const FormIndex = ({
       ) : search == "filter" ? (
         <FilterForm
           setMessage={setMessage}
-          theme={theme}
-          setTheme={setTheme}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           // handleSearch={handleSearch}
@@ -83,6 +81,10 @@ export const FormIndex = ({
           handleOpen={handleOpen}
           storyUnsaved={storyUnsaved}
           setMessage={setMessage}
+          unsavedTheme={unsavedTheme}
+          setUnsavedTheme={setUnsavedTheme}
+          createWithAudio={createWithAudio}
+          setCreateWithAudio={setCreateWithAudio}
         />
       )}
     </>

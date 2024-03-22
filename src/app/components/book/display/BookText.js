@@ -24,6 +24,8 @@ export const BookText = ({
   setLastPage,
   unsavedTitle,
   storyText,
+  unsavedTheme,
+  user
 }) => {
   const selectedTitle = extractTitleFromStory(storyText);
 
@@ -173,11 +175,11 @@ export const BookText = ({
       return (
         <div className="h-full w-full flex items-center justify-center text-center p-8">
           <div className="text-2xl 3xl:text-4xl font-antiqua">
-            {selectedBook?.creatorPhotoURL && (
+            {selectedBook?.creatorPhotoURL  && (
               <div className="w-full flex justify-center">
                 <div className="relative rounded-full w-24 2.5xl:w-32 3xl:w-40 aspect-square border-4 border-stone-600">
                   <Image
-                    src={selectedBook?.creatorPhotoURL}
+                    src={selectedBook?.creatorPhotoURL }
                     alt="profile-mini"
                     fill
                     sizes="(max-width: 768px) 100vw,
@@ -203,16 +205,17 @@ export const BookText = ({
                 Created by&nbsp;
                 {selectedBook?.creatorName ||
                   selectedBook?.displayName ||
+                  user?.displayName ||
                   "a mysterious author"}
                 .
               </p>
               ~
               <p>
                 {" "}
-                We hope you enjoyed reading{" "}
-                <p>
-                  <em>{selectedBook?.title}</em>.
-                </p>{" "}
+                We hope you enjoyed reading this <span className="lowercase">{selectedBook?.theme || unsavedTheme }</span>{" tale. "}
+                <span><br/>
+                  <em>{selectedBook?.title || unsavedTitle}</em>
+                </span>{" "}
                 {/* <span className="lowercase">
                     {imagesUnsaved ? theme : selectedBook?.theme}
                   </span>{" "} */}
@@ -224,7 +227,7 @@ export const BookText = ({
                 }
               >
                 {!loading
-                  ? `Viewed ${selectedBook?.views} times.`
+                  ? `Viewed ${selectedBook?.views || 0} times.`
                   : "The story is loading... please wait."}
               </p>
             </div>
@@ -261,7 +264,7 @@ export const BookText = ({
               {" "}
               as told by{" "}
               <span className="capitalize">
-                {selectedBook?.creatorName || selectedBook?.displayName || (
+                {selectedBook?.creatorName || selectedBook?.displayName || user?.displayName || (
                   <span className="lowercase"> a mysterious author</span>
                 )}
               </span>

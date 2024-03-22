@@ -20,6 +20,7 @@ export const BookIndex = ({
   handleShareBook,
   selectedBook,
   userId,
+  user,
   setMessage,
   unsavedTitle,
   extractTitleFromStory,
@@ -42,6 +43,7 @@ export const BookIndex = ({
   setAudio,
   handleViewBook,
   handleAudio,
+  unsavedTheme
 }) => {
   const storyText = storySelected || storyUnsaved;
 
@@ -108,6 +110,8 @@ export const BookIndex = ({
               setLastPage={setLastPage}
               unsavedTitle={unsavedTitle}
               storyText={storyText}
+              unsavedTheme={unsavedTheme}
+              user={user}
             />
 
             {/* <MessageFeature

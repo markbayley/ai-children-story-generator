@@ -40,10 +40,13 @@ export default function StoryPage() {
 
   // Book Creation
   const [unsavedTitle, setUnsavedTitle] = useState("");
-  const [theme, setTheme] = useState("");
+  const [unsavedTheme, setUnsavedTheme] = useState("");
+  console.log("unsavedThemeSP", unsavedTheme);
   const [userPrompt, setUserPrompt] = useState("");
   const [storyUnsaved, setStoryUnsaved] = useState("");
   const [imagesUnsaved, setImagesUnsaved] = useState([]);
+  const [createWithAudio, setCreateWithAudio] = useState(false);
+  console.log("createWithAudioSP", createWithAudio);
 
   // Book Audio
   const [page, setPage] = useState(0);
@@ -66,8 +69,8 @@ export default function StoryPage() {
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(5);
   const [message, setMessage] = useState({ text: `Welcome`, type: "share" });
-  const [search, setSearch] = useState('');
-  const [showCreators, setShowCreators ] = useState(false)
+  const [search, setSearch] = useState("");
+  const [showCreators, setShowCreators] = useState(false);
 
   // Book Collections
   const [myBooks, setMyBooks] = useState([]);
@@ -127,13 +130,12 @@ export default function StoryPage() {
   //   }
   // };
   const fetchAllBooks = async () => {
-   
     try {
       const db = getFirestore();
       const q = query(
         collection(db, "books"),
         orderBy("createdAt", "desc"), // Order by createdAt field in descending order
-        limit(40) // Limit the results to the last 20 books
+        limit(60) // Limit the results to the last 20 books
       );
       const querySnapshot = await getDocs(q);
 
@@ -150,7 +152,6 @@ export default function StoryPage() {
       setMyBooks(userBooks);
 
       setMessage({ text: "Books Fetched", type: "success" });
-   
     } catch (error) {
       setMessage({ text: "Quota Exceeded", type: "error" });
       console.log(error);
@@ -171,16 +172,17 @@ export default function StoryPage() {
       return;
     }
     resetStory();
-    //setTheme("Spooky")
+    setUnsavedTheme(unsavedTheme);
     // const theme = "Spooky"
-    const inputPrompt = userPrompt + ", " + theme + " story theme";
+    console.log("unsavedThemeHS", unsavedTheme);
+    const inputPrompt = userPrompt + ", " + unsavedTheme + " story theme";
     setUserPrompt(inputPrompt);
     try {
       setMessage({ text: "Writing Story...", type: "create" });
       // setLoading(true);
       // Fetching story text
-      const hero = user?.displayName || " chosen randomly.";
-      const storyData = await fetchStory(inputPrompt, hero);
+      //const hero = user?.displayName || " chosen randomly.";
+      const storyData = await fetchStory(inputPrompt);
       setMessage({ text: "Story Created!", type: "create" });
       setStoryUnsaved(storyData.story);
 
@@ -195,21 +197,27 @@ export default function StoryPage() {
       const allImages = await fetchImagesTwice(storyData.story);
       setImagesUnsaved(allImages);
 
-      setUnsaved(true);
-      // Fetching audio
-      // const audioResponse = await fetch("/api/elevenlabs", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ textInput: storyData.story }),
-      // });
+      if (createWithAudio) {
+        // Fetching audio
+        setMessage({ text: "Generating Audio", type: "audio" });
 
-      // // Converting audio
-      //  const arrayBuffer = await audioResponse.arrayBuffer();
-      //  const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
-      //  const blobUrl = URL.createObjectURL(blob);
-      //  setAudio(blobUrl);
-      //  console.log("blobUrlHS", blobUrl);
-      //  console.log("audioHS", audio);
+        const audioResponse = await fetch("/api/elevenlabs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ textInput: storyData.story }),
+        });
+
+        setMessage({ text: "Finishing Up...", type: "audio" });
+        // Converting audio
+        const arrayBuffer = await audioResponse.arrayBuffer();
+        const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+        const blobUrl = URL.createObjectURL(blob);
+        setAudio(blobUrl);
+        console.log("blobUrlHS", blobUrl);
+        console.log("audioHS", audio);
+        setMessage({ text: "Generated Audio...", type: "audio" });
+      }
+      setUnsaved(true);
 
       setMessage({ text: "Save Story", type: "save" });
       setUserPrompt("");
@@ -254,14 +262,12 @@ export default function StoryPage() {
       .substring(0, titleEndIndex)
       .trim()
       .split(" ")
-      //.slice(0, 6)
       .join(" ");
 
-    if (title == "") {
-      return prompt;
-    } else {
-      return title;
-    }
+    // if (title == "") {
+    //   return "Storybook";
+    // } else {
+    return title;
   };
 
   // SAVING A BOOK //
@@ -284,20 +290,35 @@ export default function StoryPage() {
       );
 
       const { bookId, imageUrls } = await uploadImages(convertedImages, userId);
-      // Upload the audio and get its URL
-      setMessage({ text: "Saving Audio...", type: "save" });
-      // Convert the blob URL to a blob if necessary
-      const audioBlob = await fetch(audio).then((r) => r.blob());
-      const audioUrl = await uploadAudio(audioBlob, userId, bookId);
-      setMessage({ text: "Finishing Up...", type: "save" });
-      // Use bookId and imageUrls to save the book's data
-      await saveBookToFirestore(
-        userId,
-        storyUnsaved,
-        imageUrls,
-        audioUrl,
-        bookId
-      );
+
+      if (createWithAudio) {
+        // Upload the audio and get its URL
+        setMessage({ text: "Saving Audio...", type: "save" });
+        // Convert the blob URL to a blob if necessary
+        const audioBlob = await fetch(audio).then((r) => r.blob());
+        const audioUrl = await uploadAudio(audioBlob, userId, bookId);
+        setMessage({ text: "Finishing Up...", type: "save" });
+        // Use bookId and imageUrls to save the book's data
+
+        await saveBookToFirestore(
+          userId,
+          storyUnsaved,
+          imageUrls,
+          audioUrl,
+          bookId
+        );
+      } else {
+        const audioUrl = ""
+        await saveBookToFirestore(
+          userId,
+          storyUnsaved,
+          imageUrls,
+          audioUrl,
+          bookId
+        );
+      }
+
+    
       // After saving the book, refetch the books list
       await fetchAllBooks();
 
@@ -332,6 +353,7 @@ export default function StoryPage() {
     const creatorPhotoURL = user.photoURL;
     const title = unsavedTitle;
     const story = storyUnsaved;
+    const theme = unsavedTheme;
     const likedBy = [];
     const likes = 0;
     const sharedBy = [];
@@ -349,6 +371,7 @@ export default function StoryPage() {
       viewedBy,
       story,
       title,
+      theme,
       audioUrl,
       imageUrls,
       creatorName,
@@ -653,7 +676,7 @@ export default function StoryPage() {
     setShow(false);
     setOpen(false);
     setUnsavedTitle("");
-    setTheme("");
+    setUnsavedTheme("");
     setUserPrompt("");
     setStoryUnsaved("");
     setImagesUnsaved([]);
@@ -784,7 +807,7 @@ export default function StoryPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showWithAudio, setShowWithAudio] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState([]);
-  const [selectedCreator, setSelectedCreator] = useState([])
+  const [selectedCreator, setSelectedCreator] = useState([]);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -798,14 +821,15 @@ export default function StoryPage() {
         ?.toLowerCase()
         .includes(query.toLowerCase());
 
-      return titleMatches ;
+      return titleMatches;
     });
   };
 
-  const filterResults = allBooks.filter(book => {
+  const filterResults = allBooks.filter((book) => {
     // Check if any filters are applied
-    const hasFilters = showWithAudio || (selectedTheme?.length > 0) || (selectedCreator?.length > 0);
-  
+    const hasFilters =
+      showWithAudio || selectedTheme?.length > 0 || selectedCreator?.length > 0;
+
     if (hasFilters) {
       // Filter books with audio if showWithAudio is true
       if (showWithAudio && !book?.audioUrl) {
@@ -816,7 +840,10 @@ export default function StoryPage() {
         return false;
       }
       // Filter books with the selected creator
-      if (selectedCreator?.length > 0 && !selectedCreator?.includes(book.creatorName)) {
+      if (
+        selectedCreator?.length > 0 &&
+        !selectedCreator?.includes(book.creatorName)
+      ) {
         return false;
       }
       return true; // Show books that pass all filters
@@ -825,9 +852,8 @@ export default function StoryPage() {
       return false;
     }
   });
-  
 
- console.log("searchResults", searchResults)
+  //console.log("searchResults", searchResults)
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed  z-10 flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
@@ -876,8 +902,8 @@ export default function StoryPage() {
                 handleOpen={handleOpen}
                 setMessage={setMessage}
                 storyUnsaved={storyUnsaved}
-                theme={theme}
-                setTheme={setTheme}
+                unsavedTheme={unsavedTheme}
+                setUnsavedTheme={setUnsavedTheme}
                 search={search}
                 setSearch={setSearch}
                 setSearchQuery={setSearchQuery}
@@ -894,6 +920,8 @@ export default function StoryPage() {
                 setSearchResults={setSearchResults}
                 selectedCreator={selectedCreator}
                 setSelectedCreator={setSelectedCreator}
+                createWithAudio={createWithAudio}
+                setCreateWithAudio={setCreateWithAudio}
               />
 
               <SelectorIndex
@@ -928,8 +956,6 @@ export default function StoryPage() {
                 showWithAudio={showWithAudio}
                 selectedTheme={selectedTheme}
                 selectedCreator={selectedCreator}
-            
-             
               />
             </div>
           ) : (
@@ -963,7 +989,7 @@ export default function StoryPage() {
               show={show}
               setShow={setShow}
               userPrompt={userPrompt}
-              theme={theme}
+              unsavedTheme={unsavedTheme}
               deleting={deleting}
               playing={playing}
               setPlaying={setPlaying}
@@ -982,6 +1008,7 @@ export default function StoryPage() {
               setFetched={setFetched}
               handleAudio={handleAudio}
               setSelectedBook={setSelectedBook}
+              user={user}
             />
           )}
         </div>

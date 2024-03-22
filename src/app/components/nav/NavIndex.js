@@ -50,6 +50,8 @@ export const NavIndex = ({
         return "fade-in bg-gradient-to-r from-amber-500/10 via-amber-500/75 to-amber-500";
       case "share":
         return "fade-in bg-gradient-to-r from-indigo-500/10 to-indigo-500";
+        case "audio":
+          return "fade-in bg-gradient-to-r from-blue-500/10 to-blue-500";
       case "create":
         return "fade-in bg-gradient-to-r from-amber-500/10 via-amber-500/75 to-amber-500";
       default:
@@ -82,7 +84,7 @@ export const NavIndex = ({
       </div>
 
       {show && (
-        <div className="backdrop-blur-md bg-sky-950/30 md:bg-transparent  p-2 lg:p-1 fade-in z-10 left-1 top-16 lg:left-2 2.5xl:top-24  3xl:left-3 3xl:top-28 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-6 3xl:gap-12 w-auto mt-2  ">
+        <div className="backdrop-blur-md bg-sky-950/30 md:bg-transparent  p-2 lg:p-1 fade-in z-10 left-1 top-14 lg:left-2 2.5xl:top-24  3xl:left-3 3xl:top-28 lg:pb-5 absolute flex flex-col justify-start xl:justify-end items-center  gap-6 3xl:gap-12 w-auto mt-2  ">
           <a
             onClick={() => {
               setSearch("off");
