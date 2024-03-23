@@ -35,6 +35,8 @@ export const SearchForm = ({
           <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
 
+     
+
         <div className="flex w-full justify-between items-center pb-2 text-sm font-semibold ">
           <label
             htmlFor="prompt"

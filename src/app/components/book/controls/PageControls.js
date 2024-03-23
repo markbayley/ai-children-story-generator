@@ -57,10 +57,10 @@ export const PageControls = ({
         }}
         className={
           isNaN(audioRef?.current?.duration)
-            ? "group relative border-2 xl:border-4 ml-1 border-rose-600 hover:border-stone-500 hover:bg-stone-500 bg-rose-600 text-white rounded-full cursor-pointer shadow-xl hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-950/30 "
+            ? "group relative border-2 xl:p-1 ml-1 border-rose-500 hover:border-rose-500 hover:bg-rose-500 bg-sky-950 hover:text-white text-rose-500 rounded-full cursor-pointer shadow-xl hover:shadow-lg hover:shadow-stone-800/50 shadow-stone-950/30 "
             : !playing
-            ? "group relative border-2 xl:border-4 ml-1 border-blue-500 hover:border-blue-400 hover:bg-blue-400 bg-blue-500 text-white rounded-full cursor-pointer"
-            : "group relative border-2 xl:border-4 ml-1 bg-blue-600 border-blue-600 text-white rounded-full cursor-pointer"
+            ? "group relative border-2 xl:p-1 ml-1 bg-sky-950 border-lime-500 hover:border-lime-500 hover:bg-lime-600  text-lime-500 hover:text-white rounded-full cursor-pointer"
+            : "group relative border-2 xl:p-1 ml-1 bg-lime-600 border-lime-600 text-white rounded-full cursor-pointer"
         }
       >
         {isNaN(audioRef?.current?.duration) ? (
@@ -104,7 +104,7 @@ export const PageControls = ({
         onClick={() => handlePage("down")}
         className={
           page == 0
-            ? "border-2 rounded-tl-full rounded-bl-full transition ease-in-out cursor-pointer border-stone-600 hover:cursor-pointer bg-stone-600  text-white"
+            ? "rounded-tl-full rounded-bl-full transition ease-in-out cursor-pointer border-2 border-sky-900 hover:border-sky-800 hover:cursor-pointer bg-sky-900 hover:bg-sky-800 text-white "
             : "border-2 rounded-tl-full rounded-bl-full transition ease-in-out cursor-pointer   border-amber-500 hover:cursor-pointer bg-amber-500 hover:bg-amber-400 text-white "
         }
       >
@@ -126,7 +126,7 @@ export const PageControls = ({
         onClick={() => handlePage("up")}
         className={
           page == lastPage
-            ? "border-2 rounded-tr-full rounded-br-full  transition ease-in-out cursor-pointer rounded  border-stone-600 hover:cursor-pointer bg-stone-600  text-white"
+            ? "rounded-tr-full rounded-br-full transition ease-in-out cursor-pointer border-2 border-sky-900 hover:border-sky-800 hover:cursor-pointer bg-sky-900 hover:bg-sky-800 text-white"
             : "border-2 rounded-tr-full rounded-br-full transition ease-in-out cursor-pointer rounded  border-amber-500 hover:cursor-pointer bg-amber-500 hover:bg-amber-400 text-white"
         }
       >

@@ -42,7 +42,7 @@ export const PreviewContent = ({
     return previewTitle;
   };
 
- // console.log("searchQueryPC", searchQuery);
+
 
   return (
     <>
@@ -51,8 +51,8 @@ export const PreviewContent = ({
         className={`z-10 left-1 top-1 absolute h-1/6 w-fit flex items-center justify-center ${
           // userId != book?.userId
           selectedCreator?.includes(book?.creatorName || book?.displayName)
-            ? "bg-amber-500 ring-white text-white"
-            : "bg-slate-700 ring-amber-500 text-amber-500"
+            ? "bg-amber-500 ring-white text-white shadow-md shadow-slate-800"
+            : "bg-slate-700 ring-amber-500 text-amber-500 shadow-md shadow-slate-800"
         } ring-2 rounded-tl-lg rounded-full`}
       >
         <div className="px-1 flex items-center xl:items-start 2.5xl:items-center">
@@ -68,7 +68,7 @@ export const PreviewContent = ({
                 sizes="10vw"
                 className={
                   userId != book?.userId
-                    ? "rounded-full object-cover "
+                    ? "rounded-full object-cover"
                     : "rounded-full object-cover ring-white ring-2"
                 }
                 onError={handleImageError}
@@ -81,38 +81,7 @@ export const PreviewContent = ({
       </div>
 
       
-        {/* <div
-          className={
-            selectedCreator?.includes(book?.creatorName || book?.displayName)
-              ? "z-10 absolute top-1 left-1  w-fit h-1/6 rounded-tl-lg  bg-amber-500 border-white flex justify-between  items-center font-normal border-2 "
-              : "z-10 absolute top-1 left-1  w-fit h-1/6 rounded-tl-lg  bg-slate-700 border-amber-500 text-amber-500 flex justify-between items-center font-normal border-2 "
-          }
-        >
-          <div className="  pl-2  text-sm md:text-xs 3xl:text-lg  text-white font-semibold">
-            {book?.creatorName || book?.displayName || "Anonymous"}
-          </div>
-
       
-            {book?.creatorPhotoURL && !imageLoadError ? (
-         
-                <Image
-                  src={book?.creatorPhotoURL}
-                  alt="profile-mini"
-                  fill
-                  sizes="10vw"
-                  className={
-                    userId != book?.userId
-                      ? "rounded-full object-fit aspect-square"
-                      : "rounded-full object-fit aspect-square border-white border-2"
-                  }
-                  onError={handleImageError}
-                />
-          
-            ) : (
-              <UserCircleIcon className="w-12 aspect-square md:w-7 -mr-1" />
-            )}
-          
-        </div> */}
     
 
       <div className="absolute flex flex-col w-full h-full items-end gap-1 p-1">
@@ -121,8 +90,8 @@ export const PreviewContent = ({
         <div
           className={
             showWithAudio && book?.audioUrl
-              ? "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-amber-500 border-white text-white border-2"
-              : "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-slate-700 border-amber-500 text-amber-500 border-2"
+              ? "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-amber-500 border-white text-white border-2 shadow-md shadow-slate-800"
+              : "z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-slate-700 border-amber-500 text-amber-500 border-2 shadow-md shadow-slate-800"
           }
         >
           <div className="rounded-full text-center shadow-xl ">
@@ -130,16 +99,16 @@ export const PreviewContent = ({
               {book?.audioUrl ? "audio" : "no audio"}
             </span>
             {book?.audioUrl ? (
-              <SpeakerWaveIcon className="text-green-700 font-bold w-6 h-6 xl:w-4 xl:h-4 2.5xl:h-5 2.5xl:w-5 3xl:h-7 3xl:w-7 " />
+              <SpeakerWaveIcon className=" font-bold w-6 h-6 xl:w-4 xl:h-4 2.5xl:h-5 2.5xl:w-5 3xl:h-7 3xl:w-7 " />
             ) : (
-              <SpeakerXMarkIcon className="text-rose-500 w-6 h-6 xl:w-4 xl:h-4 2.5xl:h-5 2.5xl:w-5 3xl:h-7 3xl:w-7" />
+              <SpeakerXMarkIcon className=" w-6 h-6 xl:w-4 xl:h-4 2.5xl:h-5 2.5xl:w-5 3xl:h-7 3xl:w-7" />
             )}
           </div>
         </div>
 
         {/* Likes Icon */}
         {book?.likes > 0 && (
-          <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full rounded-br bg-teal-500 border-teal-500 text-white border-2">
+          <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full rounded-br bg-teal-500 border-teal-500 text-white border-2 shadow-md shadow-slate-800">
             <div className="rounded-full text-center shadow-xl">
               <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                 {book?.likedBy?.includes(userId) ? "liked" : "likes"}
@@ -151,7 +120,7 @@ export const PreviewContent = ({
 
         {/* Shares Icon */}
         {book?.shares > 0 && (
-          <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-indigo-500 border-indigo-500 text-white border-2">
+          <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-indigo-500 border-indigo-500 text-white border-2 shadow-md shadow-slate-800">
             <div className="rounded-full text-center shadow-xl">
               <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                 {book?.sharedBy?.includes(userId) ? "shared" : "shares"}
@@ -163,7 +132,7 @@ export const PreviewContent = ({
 
         {/* Views Icon */}
         {book?.views > 0 && (
-          <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-fuchsia-500 border-fuchsia-500 text-white border-2">
+          <div className="z-10 w-1/6 h-1/6 text-lg md:text-sm 3xl:text-lg flex justify-center items-center group rounded-full bg-fuchsia-500 border-fuchsia-500 text-white border-2 shadow-md shadow-slate-800">
             <div className="rounded-full text-center shadow-xl">
               <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                 {book?.viewedBy?.includes(userId) ? "viewed" : "views"}
@@ -184,8 +153,8 @@ export const PreviewContent = ({
               selectedTheme?.includes(book?.theme) ||
               (searchQuery != "" &&
                 book?.title?.toLowerCase().includes(searchQuery?.toLowerCase()))
-                ? "bg-amber-500 border-white text-white h-full  text-lg md:text-md xl:text-sm 3xl:text-lg flex flex-col justify-center font-normal rounded-r-full rounded border-2 border-l-0"
-                : "bg-slate-700 border-amber-500 text-amber-500 h-full  text-lg md:text-md xl:text-sm 3xl:text-lg flex flex-col justify-center font-normal rounded-r-full rounded border-2 border-l-0"
+                ? "bg-amber-500 border-white text-white h-full  text-lg md:text-md xl:text-sm 3xl:text-lg flex flex-col justify-center font-normal rounded-r-full rounded border-2 border-l-0  "
+                : "bg-slate-700 border-amber-500 text-amber-500 h-full  text-lg md:text-md xl:text-sm 3xl:text-lg flex flex-col justify-center font-normal rounded-r-full rounded border-2 border-l-0 "
             }
           >
             <span

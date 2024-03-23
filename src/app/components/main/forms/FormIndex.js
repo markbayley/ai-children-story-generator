@@ -30,7 +30,8 @@ export const FormIndex = ({
   setSearchResults,
   //handleFilter,
   createWithAudio,
-  setCreateWithAudio
+  setCreateWithAudio,
+  tabSelected
   
 }) => {
 
@@ -51,6 +52,7 @@ export const FormIndex = ({
           setShowWithAudio={setShowWithAudio}
           setSelectedTheme={setSelectedTheme}
           setSearchResults={setSearchResults}
+          tabSelected={tabSelected}
         />
       ) : search == "filter" ? (
         <FilterForm
@@ -85,6 +87,7 @@ export const FormIndex = ({
           setUnsavedTheme={setUnsavedTheme}
           createWithAudio={createWithAudio}
           setCreateWithAudio={setCreateWithAudio}
+          tabSelected={tabSelected}
         />
       )}
     </>

@@ -29,7 +29,7 @@ export const BookText = ({
 }) => {
   const selectedTitle = extractTitleFromStory(storyText);
 
-  const paragraphsPerPage = 2.5;
+  const paragraphsPerPage = 2;
 
   // Function to prepare the text by splitting it into paragraphs
   const prepareText = (text) => {
@@ -250,7 +250,7 @@ export const BookText = ({
           ~
           <h1 className="text-4xl 2xl:text-5xl 3xl:text-7xl font-bold capitalize font-antiqua pt-2 text-center">
             {storySelected
-              ? selectedBook?.title || selectedTitle
+              ? selectedBook?.title || selectedTitle || "Untitled Storybook"
               : storyUnsaved
               ? unsavedTitle
               : "Once Upon A Time..."}
@@ -325,7 +325,7 @@ export const BookText = ({
             setPage(0);
             setAudio("");
           }}
-          className="cursor-pointer absolute bottom-4 xl:-top-10 xl:-right-9    text-center z-10 text-stone-700 hover:text-white xl:hover:text-stone-500  rounded"
+          className="cursor-pointer absolute bottom-4 xl:-top-10 xl:-right-9    text-center z-10 text-stone-700 hover:text-white   rounded"
         >
           <XMarkIcon className="icon " />
         </div>

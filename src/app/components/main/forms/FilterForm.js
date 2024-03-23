@@ -40,9 +40,17 @@ export const FilterForm = ({
   const handleSelectTheme = (theme) => {
     setSelectedTheme(prevThemes => {
       if (prevThemes?.includes(theme)) {
+        setMessage({
+          text: theme + " Unselected",
+          type: "create",
+        });
         // Remove the theme if it's already selected
         return prevThemes?.filter(t => t !== theme);
       } else {
+        setMessage({
+          text: theme + " Selected",
+          type: "create",
+        });
         // Add the theme if it's not already selected
         return [...prevThemes, theme];
       }
@@ -53,10 +61,18 @@ export const FilterForm = ({
   const handleSelectCreator = (name) => {
     setSelectedCreator(prevCreators => {
       if (prevCreators?.includes(name)) {
+        setMessage({
+          text: name + " Unselected",
+          type: "create",
+        });
         // Remove the theme if it's already selected
         return prevCreators?.filter(t => t !== name);
       } else {
         // Add the theme if it's not already selected
+        setMessage({
+          text: name + " Selected",
+          type: "create",
+        });
         return [...prevCreators, name];
       }
     });
@@ -69,7 +85,13 @@ export const FilterForm = ({
         Audio
         <Switch
           checked={showWithAudio}
-          onChange={setShowWithAudio}
+          onChange={() => {
+            setShowWithAudio((prevShowWithAudio) => !prevShowWithAudio);
+            setMessage({
+              text: "Audio " + (showWithAudio ? "Unselected" : "Selected"),
+              type: "create"
+            });
+          }}
           className={`${
             showWithAudio
               ? "bg-amber-500 hover:bg-amber-400 shadow-md shadow-slate-800"
@@ -197,10 +219,7 @@ export const FilterForm = ({
                 onClick={() => {
                   handleSelectCreator(creator?.name);
                   //setShowCreators(false);
-                  setMessage({
-                    text: "Search " + '"' + creator?.name + '" ?',
-                    type: "create",
-                  });
+              
                 }}
                 key={index}
                 className="relative 2xl:mx-1 group  hover:text-orange-300 w-full flex flex-col items-center justify-center "

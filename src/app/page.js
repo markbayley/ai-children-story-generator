@@ -496,6 +496,7 @@ export default function StoryPage() {
 
   // LIKE SHARE VIEW DELETE BOOK //
   const handleLikeBook = async (bookId, userId) => {
+    setMessage({ text: "Book Liked!", type: "like" });
     try {
       await fetchBookById(bookId, userId, "like");
     } catch (error) {
@@ -504,6 +505,7 @@ export default function StoryPage() {
     }
   };
   const handleShareBook = async (bookId, userId) => {
+    // setMessage({ text: "Book Shared!", type: "like" });
     try {
       await fetchBookById(bookId, userId, "share");
     } catch (error) {
@@ -578,7 +580,7 @@ export default function StoryPage() {
           }
           break;
         case "view":
-          if (bookData.viewedBy && !bookData.viewedBy.includes(userId)) {
+          // if (bookData.viewedBy && !bookData.viewedBy.includes(userId)) {
             updatedBookData = {
               ...bookData,
               views: (bookData.views || 0) + 1,
@@ -589,10 +591,10 @@ export default function StoryPage() {
               viewedBy: arrayUnion(userId),
               views: increment(1),
             };
-            messageText = "Book Viewed!";
-          } else {
-            messageText = "Already Viewed!";
-          }
+            messageText = "";
+          // } else {
+          //   messageText = "Already Viewed!";
+          // }
           break;
         case "delete":
           if (userId == bookData.userId) {
@@ -651,10 +653,12 @@ export default function StoryPage() {
   const handlePreviewAll = (bookId) => {
     const book = allBooks.find((b) => b.id === bookId);
     if (book) {
+      handleViewBook(bookId, userId)
       setSelectedBook(book);
       // if (audioRef && audioRef?.current != null) {
       //   setPlaying(true)
       // }
+      
     }
     setPlaying(true);
     audioRef?.current?.play();
@@ -854,6 +858,7 @@ export default function StoryPage() {
   });
 
   //console.log("searchResults", searchResults)
+  console.log("selectedBook", selectedBook)
 
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed  z-10 flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
@@ -922,6 +927,7 @@ export default function StoryPage() {
                 setSelectedCreator={setSelectedCreator}
                 createWithAudio={createWithAudio}
                 setCreateWithAudio={setCreateWithAudio}
+                tabSelected={tabSelected}
               />
 
               <SelectorIndex

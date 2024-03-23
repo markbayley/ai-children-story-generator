@@ -47,7 +47,7 @@ export const NavIndex = ({
       case "like":
         return "fade-in bg-gradient-to-r from-teal-500/10 to-teal-500";
       case "view":
-        return "fade-in bg-gradient-to-r from-amber-500/10 via-amber-500/75 to-amber-500";
+        return "fade-in bg-gradient-to-r from-fuchsia-500/10 to-fuchsia-500";
       case "share":
         return "fade-in bg-gradient-to-r from-indigo-500/10 to-indigo-500";
         case "audio":

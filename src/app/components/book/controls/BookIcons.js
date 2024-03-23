@@ -48,7 +48,7 @@ export const BookIcons = ({
 
   return (
     <div
-      className="max-x-sm xl:left-0 xl:absolute flex xl:flex-col justify-start xl:justify-center items-center xl:h-[90vh]
+      className="pt-2 md:pt-0 max-x-sm xl:left-0 xl:absolute flex xl:flex-col justify-start xl:justify-center items-center xl:h-[90vh]
        mx-2 md:mx-4 xl:mx-0 xl:w-28 2xl:w-32 2.5xl:w-40 3xl:w-52 text-sm"
     >
       <div className="flex xl:flex-col gap-6 xl:gap-8">
@@ -64,7 +64,7 @@ export const BookIcons = ({
             }
           >
             <ArrowUpTrayIcon className="icon" />
-            <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 right-12 bg-sky-950 p-1 rounded">
+            <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 -right-12 bg-sky-950 p-1 rounded">
               {unsaved ? "Save" : dismiss && unsaved ? "Saving..." : "Saved"}
             </span>
           </div>
@@ -101,7 +101,7 @@ export const BookIcons = ({
             />
 
             <TrashIcon className="icon" />
-            <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-2 xl:top-1 xl:right-12 bg-sky-950 p-1 rounded">
+            <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-2 xl:top-1 xl:-right-12 bg-sky-950 p-1 rounded">
               {!deleting ? "Delete" : "Deleting"}
             </span>
           </div>
@@ -173,9 +173,9 @@ export const BookIcons = ({
               });
             }}
             className={
-              selectedBook?.views == 0
-                ? "group relative  text-fuchsia-500 xl:border-2 rounded border-fuchsia-500 hover:cursor-pointer xl:hover:bg-fuchsia-500 hover:text-white xl:bg-sky-950"
-                : "group relative text-fuchsia-500  rounded hover:cursor-pointer xl:border-2 border-fuchsia-500 xl:hover:bg-fuchsia-500 hover:text-white"
+              selectedBook?.viewedBy?.includes(userId)
+                ? "group relative text-white rounded hover:cursor-pointer xl:border-2 border-fuchsia-500 bg-fuchsia-500"
+                : "group relative text-fuchsia-500 xl:border-2 rounded border-fuchsia-500 hover:cursor-pointer xl:hover:bg-fuchsia-500 hover:text-white xl:bg-sky-950"
             }
           >
             <EyeIcon className="icon" />
