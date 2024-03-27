@@ -1,6 +1,7 @@
 import { SearchForm } from "./SearchForm";
 import CreateForm from "./CreateForm";
 import { FilterForm } from "./FilterForm";
+import { ExploreForm } from "./ExploreForm";
 
 export const FormIndex = ({
   userPrompt,
@@ -12,8 +13,8 @@ export const FormIndex = ({
   storyUnsaved,
   unsavedTheme,
   setUnsavedTheme,
-  search,
-  setSearch,
+  //search,
+ // setSearch,
   setSearchQuery,
   searchQuery,
   handleSearch,
@@ -37,7 +38,7 @@ export const FormIndex = ({
 
   return (
     <>
-      {search == "search" ? (
+      { tabSelected == "Search" ? (
         <SearchForm
           setMessage={setMessage}
           searchQuery={searchQuery}
@@ -46,15 +47,16 @@ export const FormIndex = ({
           setShowCreators={setShowCreators}
           showCreators={showCreators}
           allBooks={allBooks}
-          search={search}
-          setSearch={setSearch}
+          //search={search}
+          //setSearch={setSearch}
           setTabSelected={setTabSelected}
           setShowWithAudio={setShowWithAudio}
           setSelectedTheme={setSelectedTheme}
           setSearchResults={setSearchResults}
           tabSelected={tabSelected}
+     
         />
-      ) : search == "filter" ? (
+      ) : tabSelected == "Filter" ? (
         <FilterForm
           setMessage={setMessage}
           searchQuery={searchQuery}
@@ -68,13 +70,13 @@ export const FormIndex = ({
           setShowWithAudio={setShowWithAudio}
           selectedTheme={selectedTheme}
           setSelectedTheme={setSelectedTheme}
-          search={search}
-          setSearch={setSearch}
+          //search={search}
+          //setSearch={setSearch}
           setTabSelected={setTabSelected}
           selectedCreator={selectedCreator}
           setSelectedCreator={setSelectedCreator}
         />
-      ) : (
+      ) : tabSelected == "Create" ?(
         <CreateForm
           userPrompt={userPrompt}
           setUserPrompt={setUserPrompt}
@@ -89,6 +91,8 @@ export const FormIndex = ({
           setCreateWithAudio={setCreateWithAudio}
           tabSelected={tabSelected}
         />
+      ) : (
+        <ExploreForm setTabSelected={setTabSelected} tabSelected={tabSelected} />
       )}
     </>
   );

@@ -12,7 +12,7 @@ export const BookImage = ({
   loading,
 }) => {
   const getDefaultImage = (page) => {
-    const defaultImages = [mushrooms];
+    const defaultImages = [tree];
     return defaultImages[page] || defaultImages[0];
   };
   // Helper Component for Image Display
@@ -29,7 +29,7 @@ export const BookImage = ({
       <div className="flex justify-center items-center relative fade-in rounded-md  font-antiqua ">
         {loading ? (
           <>
-            <div className="spinner w-full h-full absolute"></div>
+            <div className="z-50 spinner w-full h-full absolute  border-2 border-amber-500"></div>
             <Image
               alt="page-image"
               style={{
@@ -44,6 +44,7 @@ export const BookImage = ({
             />
           </>
         ) : (
+          <>{loading && <div className="z-50 spinner w-full h-full absolute border-2 border-amber-500"></div>}
           <Image
             // priority={true}
             // loading="eager"
@@ -58,6 +59,7 @@ export const BookImage = ({
             onError={handleImageError}
             className="font-antiqua border-2 border-stone-700 rounded-md "
           />
+          </>
         )}
       </div>
     );

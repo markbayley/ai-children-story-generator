@@ -157,6 +157,8 @@ export const BookIndex = ({
               storyText={storyText}
               handleAudio={handleAudio}
               selectedBook={selectedBook}
+              userId={userId}
+              handleViewBook={handleViewBook}
             />
           </div>
         </div>

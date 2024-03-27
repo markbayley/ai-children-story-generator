@@ -1,6 +1,9 @@
 import {
   ArrowPathIcon,
   BookOpenIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
   LightBulbIcon,
   PaintBrushIcon,
   SparklesIcon,
@@ -20,6 +23,7 @@ const CreateForm = ({
   createWithAudio,
   setCreateWithAudio,
   tabSelected,
+  loading,
 }) => {
   const randomNouns = [
     "fairy",
@@ -104,7 +108,7 @@ const CreateForm = ({
 
   function ThemeDropdown() {
     return (
-      <div className="flex justify-between text-orange-300  text-sm  font-semibold gap-2 ">
+      <div className="flex justify-between text-orange-300  text-sm 3xl:text-2xl font-semibold gap-2 ">
         <span className="hidden md:flex">Theme</span>
         {["Spooky", "Funny", "Sweet", "Weird", "Action"].map((item) => (
           <button
@@ -112,8 +116,8 @@ const CreateForm = ({
             onClick={() => handleSelectTheme(item)}
             className={
               unsavedTheme == item
-                ? " text-white bg-amber-500 rounded-full py-1 px-2 font-normal text-xs shadow-md shadow-slate-900"
-                : " text-white  rounded-full py-1 px-2 font-normal text-xs bg-slate-700 hover:bg-slate-600 shadow-md shadow-slate-900"
+                ? " text-white bg-amber-500 rounded-full py-1 px-2 font-normal text-xs shadow-md shadow-slate-900 w-1/6"
+                : " text-white  rounded-full py-1 px-2 font-normal text-xs bg-slate-700 hover:bg-slate-600 shadow-md shadow-slate-900 w-1/6"
             }
           >
             {item}
@@ -129,7 +133,7 @@ const CreateForm = ({
 
   function AudioSwitch() {
     return (
-      <div className="hidden w-full md:w-auto text-orange-300 md:flex items-center justify-center pt-2 md:pt-0 text-sm font-semibold">
+      <div className="hidden w-full md:w-auto text-orange-300 md:flex items-center justify-center pt-2 md:pt-0 text-sm 3xl:text-2xl font-semibold">
         Audio
         <Switch
           checked={createWithAudio}
@@ -139,7 +143,7 @@ const CreateForm = ({
               ? "bg-amber-500 hover:bg-amber-400 shadow-md shadow-slate-800"
               : "bg-slate-500 hover:bg-slate-400 shadow-md shadow-slate-800"
           }
-        mx-2  relative inline-flex h-[24px] w-[60px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+        mx-2  relative inline-flex h-full w-[60px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
         >
           <span className="sr-only">Use setting</span>
           <span
@@ -152,16 +156,42 @@ const CreateForm = ({
     );
   }
 
+  const [show, setShow] = useState(false);
+
   return (
-    <div className="flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-2 py-0 md:pt-4">
-      <form onSubmit={handleSubmit} className="mt-4 lg:mt-0 rounded-xl w-full">
-        <div className="text-orange-300 ">
+    <div className="fade-in flex justify-start w-full lg:w-2/3 xl:w-5/12 3xl:text-2xl px-2 py-0 md:pt-4">
+      <form
+        onSubmit={handleSubmit}
+        className="  mt-4 lg:mt-0 rounded-xl w-full"
+      >
+        <div className="text-orange-300 flex w-full justify-between items-center">
           <h1 className="font-bold font-antiqua text-5xl 2.5xl:text-7xl 3xl:text-8xl">
-            {tabSelected == "MyBooks" ? "Create" : "Storytime AI"}
+           Create
           </h1>
+          {tabSelected == "Create" && (
+            <button
+              onClick={() => setShow(!show)}
+              className={
+                show
+                  ? "flex items-center font-semibold text-sm shadow-md shadow-slate-900 px-3 py-2 rounded-md   bg-sky-950 hover:bg-sky-900"
+                  : "flex items-center font-semibold text-sm shadow-md shadow-slate-900 px-3 py-2 rounded-md  bg-sky-950 hover:bg-sky-900"
+              }
+            >
+              Create
+              {show ? (
+                <ChevronUpIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" />
+              ) : (
+                <ChevronDownIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" />
+              )}
+            </button>
+          )}
         </div>
         <h3 className="py-2 text-md font-normal text-white">
-          {/* Create stories with AI and bring your imagination to life! */}
+          {tabSelected == "Recent" ||
+          tabSelected == "Popular" ||
+          (!show && tabSelected == "Create")
+            ? "Create original stories with AI! Your books will appear in the library below."
+            : ""}
           {/* Write your own prompt or generate one to get started. */}
         </h3>
         <div className="flex items-center justify-center">
@@ -170,9 +200,9 @@ const CreateForm = ({
           <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
 
-        {tabSelected == "MyBooks" ? (
+        {show && tabSelected == "Create" ? (
           <>
-            <div className="flex w-full justify-between items-center  text-sm font-semibold pb-2">
+            <div className="fade-in flex w-full justify-between items-center  text-sm font-semibold pb-2">
               <label
                 htmlFor="prompt"
                 className="block text-orange-300 text-sm font-semibold py-2 3xl:text-2xl"
@@ -226,24 +256,33 @@ const CreateForm = ({
               onChange={(e) => {
                 setUserPrompt(e.target.value), setMessage("");
               }}
-              className="w-full p-2 rounded outline-none text-black placeholder-gray-500 bg-white text-[16px] 3xl:text-xl 3xl:py-4"
+              className="fade-in w-full p-2 rounded outline-none text-black placeholder-gray-500 bg-white text-[16px] 3xl:text-xl 3xl:py-4"
             />
             {/* Theme & Audio Filter */}
 
-            <div className="md:flex md:justify-between w-full items-center pt-5 pb-1 ">
+            <div className="fade-in md:flex md:justify-between w-full items-center pt-5 pb-1 ">
               <ThemeDropdown />
               <AudioSwitch />
             </div>
 
-            <div className="flex items-center text-[15px] gap-4 pt-4 3xl:text-xl pb-4">
+            <div className="fade-in flex items-center text-[15px] gap-4 pt-4 3xl:text-xl pb-4">
               <button
                 type="submit"
                 className={
                   "font-semibold w-full text-white py-2 rounded-md bg-amber-500 hover:bg-amber-400 flex justify-center border-stone-700 3xl:py-4"
                 }
               >
-                Create
-                <PaintBrushIcon className="h-6 w-6 mx-2" />
+                {loading ? (
+                  <span className="flex animate-pulse">
+                    Creating... <PaintBrushIcon className="h-6 w-6 mx-2" />
+                  </span>
+                ) : (
+                  <>
+                    {" "}
+                    Create
+                    <PaintBrushIcon className="h-6 w-6 mx-2" />
+                  </>
+                )}
               </button>
 
               {storyUnsaved && (

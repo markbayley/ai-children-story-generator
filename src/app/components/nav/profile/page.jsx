@@ -51,7 +51,7 @@ const Profile = ({ user, setMessage }) => {
                 //height={100}
                 alt="profile-image"
                 onError={handleImageError}
-                className="max-w-xs rounded-full object-cover border-2 border-sky-950"
+                className="max-w-xs rounded-full object-cover border-2 border-sky-900"
               />
               </div>
             ) : (

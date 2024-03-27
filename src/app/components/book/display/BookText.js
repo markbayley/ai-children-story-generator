@@ -151,6 +151,7 @@ export const BookText = ({
     if (playing && page == 0 && audioCurrent.currentTime > 5) {
       setPage(1);
       setAudioPage(1);
+      //setMessage({ text: "", type: "" });
     }
 
     audioCurrent.addEventListener("timeupdate", handleTimeUpdate);

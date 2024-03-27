@@ -1,5 +1,6 @@
 import { PreviewContent } from "./selector/PreviewContent";
 import {
+  AdjustmentsHorizontalIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   FunnelIcon,
@@ -20,12 +21,12 @@ export const SelectorIndex = ({
   tabSelected,
   setTabSelected,
   searchResults,
-  setSearch,
+  // setSearch,
   searchQuery,
   setMessage,
   handleSearch,
   setSearchQuery,
-  search,
+  // search,
   filterResults,
   showWithAudio,
   selectedTheme,
@@ -37,11 +38,9 @@ export const SelectorIndex = ({
       ? searchResults.length
       : tabSelected == "Filter"
       ? filterResults.length
-      : tabSelected == "MyBooks"
+      : tabSelected == "Create"
       ? myBooks.length
       : allBooks.length;
-  // const totalPages = Math.ceil(allBooks?.length / booksPerPage);
-  // const myPages = Math.ceil(myBooks?.length / booksPerPage);
 
   const PaginationBars = ({ totalItems, currentSliceIndex, itemsPerPage }) => {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -59,6 +58,7 @@ export const SelectorIndex = ({
             ></div>
           ))}
         </div>
+        <span className={(tabSelected = "Create" ? "p-[10px]" : "")}></span>
       </div>
     );
   };
@@ -91,7 +91,7 @@ export const SelectorIndex = ({
       case "Search":
         // setLength(() => searchResults.length)
         return searchResults;
-      case "Recent":
+      case "Explore":
         return [...allBooks].sort((a, b) => b.createdAt - a.createdAt);
       case "Popular":
         return [...allBooks].sort((a, b) => {
@@ -103,7 +103,10 @@ export const SelectorIndex = ({
           return sumB - sumA;
         });
 
-      case "MyBooks":
+      case "Liked":
+        return [...allBooks].filter((book) => book?.likedBy?.includes(userId));
+
+      case "Create":
         return [...allBooks]
           .filter((book) => book?.userId == userId)
           .sort((a, b) => b.createdAt - a.createdAt);
@@ -112,44 +115,40 @@ export const SelectorIndex = ({
     }
   };
 
-  // const [newLength, setNewLength] = useState("full");
-  // const [newCol, setNewCol] = useState("6");
-
-  // useEffect(() => {
-  //   if (getSortedBooks().length >= 6) {
-  //     setNewLength("full");
-  //     setNewCol("6");
-  //   } else if (getSortedBooks().length < 6) {
-  //     const len = getSortedBooks().length.toString();
-  //     setNewLength(`${len}/6`);
-  //     setNewCol(len);
-  //   }
-  //   console.log("newLength", newLength, "newCol", newCol);
-  // }, [tabSelected, searchResults, allBooks]);
-
   return (
-    <div className="z-30">
-      <div className={"text-2xl px-2 pt-4 pb-4 lg:pb-2 fade-in "}>
+    <div className="z-10">
+      <div className={"text-2xl px-2 pt-4 xl:pt-0 pb-4 lg:pb-2 fade-in "}>
         <div className="text-sm 3xl:text-lg font-semibold w-full  rounded-t-lg flex justify-end sm:pr-6 gap-1 3xl:gap-2">
           <button
             className={
-              tabSelected == "Recent"
+              tabSelected == "Explore" ||
+              tabSelected == "Popular" ||
+              tabSelected == "Liked"
                 ? "text-white  rounded-t-md w-28 3xl:w-36 bg-sky-900"
                 : "hover:bg-sky-900 text-white rounded-t-md w-28 3xl:w-36 bg-sky-950"
             }
             onClick={() => {
-              setTabSelected("Recent");
+              setTabSelected("Explore");
               setCurrentSliceIndex(0);
-              setSearch(false);
+              //setSearch(false);
               setMessage({
-                text: " Recent Books",
+                text: "Explore Books",
                 type: "create",
               });
             }}
           >
-            Recent
+
+<div className="flex items-center justify-center w-full">
+              <span className="hidden xl:flex"> Sort</span>{" "}
+              <AdjustmentsHorizontalIcon
+                className={"icon"}
+              />
+            </div>
+
+
+          
           </button>
-          <button
+          {/* <button
             className={
               tabSelected == "Popular"
                 ? "text-white  rounded-t-md w-28 3xl:w-36 bg-sky-900"
@@ -158,43 +157,26 @@ export const SelectorIndex = ({
             onClick={() => {
               setTabSelected("Popular");
               setCurrentSliceIndex(0);
-              setSearch(false);
+             // setSearch(false);
               setMessage({ text: "Popular Books", type: "create" });
             }}
           >
             Popular
-          </button>
+          </button> */}
 
-          <button
-            className={
-              tabSelected == "MyBooks"
-                ? "text-white  rounded-t-md w-28 3xl:w-36 bg-sky-900"
-                : " hover:bg-sky-900 text-white rounded-t-md w-28 3xl:w-36 bg-sky-950"
-            }
-            onClick={() => {
-              setTabSelected("MyBooks");
-              setCurrentSliceIndex(0);
-              setSearch(false);
-              setMessage({ text: myBooks.length + " Results", type: "create" });
-            }}
-          >
-            <span className="flex items-center justify-center w-full">
-              {" "}
-              Create
-              {/* <PaintBrushIcon className="icon" /> */}
-            </span>
-          </button>
+       
 
+          {/* Filter Tab */}
           <button
             className={
               tabSelected == "Filter"
-                ? "text-white p-1 rounded-t-md w-14 xl:w-28 3xl:w-36 bg-sky-900 flex justify-center"
-                : "hover:bg-sky-900 text-white p-1 rounded-t-md w-14 xl:w-28 3xl:w-36 bg-sky-950 flex justify-center"
+                ? "text-white p-1 rounded-t-md w-24 xl:w-28 3xl:w-36 bg-sky-900 flex justify-center"
+                : "hover:bg-sky-900 text-white p-1 rounded-t-md w-24 xl:w-28 3xl:w-36 bg-sky-950 flex justify-center"
             }
             onClick={() => {
               setTabSelected("Filter");
               setCurrentSliceIndex(0);
-              setSearch("filter");
+              //setSearch("filter");
 
               setMessage({
                 text: `Filter Books`,
@@ -203,8 +185,8 @@ export const SelectorIndex = ({
             }}
           >
             {filterResults?.length > 0 && (
-              <span className=" flex items-center absolute justify-end pr-1 rounded-full h-3 w-12 xl:w-20 3xl:w-34 z-10 text-xs text-amber-500">
-                {filterResults.length}
+              <span className=" flex items-center absolute justify-end  rounded-full h-3 w-14 xl:w-20 3xl:w-34 z-10 text-xs text-amber-500">
+                {filterResults?.length}
               </span>
             )}
 
@@ -222,16 +204,17 @@ export const SelectorIndex = ({
             </div>
           </button>
 
+          {/* Search Tab */}
           <button
             className={
-              tabSelected == "Search"
-                ? "text-white p-1 rounded-t-md w-14 xl:w-28 3xl:w-36 bg-sky-900 flex justify-center"
-                : "hover:bg-sky-900 text-white p-1 rounded-t-md w-14 xl:w-28 3xl:w-36 bg-sky-950 flex justify-center"
+              tabSelected == "Search" 
+                ? "text-white p-1 rounded-t-md w-24 xl:w-28 3xl:w-36 bg-sky-900 flex justify-center"
+                : "hover:bg-sky-900 text-white p-1 rounded-t-md w-24 xl:w-28 3xl:w-36 bg-sky-950 flex justify-center"
             }
             onClick={() => {
               setTabSelected("Search");
               setCurrentSliceIndex(0);
-              setSearch("search");
+              //setSearch("search");
               // setMessage({
               //   text: `${searchResults?.length} Search Results`,
               //   type: "like",
@@ -243,8 +226,8 @@ export const SelectorIndex = ({
             }}
           >
             {searchResults?.length > 0 && (
-              <span className="flex items-center absolute justify-end pr-1 rounded-full h-3 w-12 xl:w-20 3xl:w-36 z-10 text-xs text-amber-500">
-                {searchResults.length}
+              <span className="flex items-center absolute justify-end rounded-full h-3 w-12 xl:w-20 3xl:w-36 z-10 text-xs text-amber-500">
+                {searchResults?.length}
               </span>
             )}
 
@@ -255,24 +238,54 @@ export const SelectorIndex = ({
               />
             </div>
           </button>
+
+             {/* Create Tab */}
+             <button
+            className={
+              tabSelected == "Create"
+                ? "text-white  rounded-t-md w-28 3xl:w-36 bg-sky-900"
+                : " hover:bg-sky-900 text-white rounded-t-md w-28 3xl:w-36 bg-sky-950"
+            }
+            onClick={() => {
+              setTabSelected("Create");
+              setCurrentSliceIndex(0);
+              //setSearch(false);
+              setMessage({ text: "Create Books", type: "create" });
+            }}
+          >
+              <div className="flex items-center justify-center w-full">
+              <span className="hidden xl:flex"> Create</span>{" "}
+              <PaintBrushIcon
+                className={"icon"}
+              />
+            </div>
+          </button>
         </div>
 
-        <div className="flex justify-end">
+        <div className="w-full flex justify-center items-center">
+          {loading && (
+            <div className="z-50 spinner w-full h-full absolute border-2 border-amber-500"></div>
+          )}
           {getSortedBooks().length === 0 ? (
-            <div
-              className={` shadow-xs shadow-slate-950 w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 2xl:px-4 2xl:pt-4 p-2 min-h-[28vh] `}
-            >
-              <p className="text-white italic text-sm w-full flex justify-center items-center py-40 md:py-32  xl:py-16 2xl:py-24 2.5xl:py-32">
-                {searchQuery ||
-                selectedTheme ||
-                showWithAudio ||
-                selectedCreator
-                  ? "No matches found..."
-                  : search == "search"
-                  ? "Enter a search query..."
-                  : "No filters selected"}
-              </p>
-            </div>
+            <>
+              <div
+                className={`w-full flex flex-col justify-center items-center shadow-xs shadow-slate-950  bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 2xl:px-4 2xl:pt-4 p-2 min-h-[32.5vh] `}
+              >
+                <p className=" text-white italic text-sm w-full h-full flex justify-center items-center">
+                  {tabSelected == "Search" && !searchQuery
+                    ? "Enter a search query..."
+                    : tabSelected == "Filter" &&
+                      selectedTheme?.length == 0 &&
+                      selectedCreator?.length == 0 &&
+                      showWithAudio == false
+                    ? "No filters seleceted..."
+                    : !loading
+                    ? "No matches found..."
+                    : "loading..."}
+                </p>
+                {/* <span className="p-[10px] border border-red-500"></span> */}
+              </div>
+            </>
           ) : (
             <div
               className={` shadow-xs shadow-slate-950 w-full relative bg-sky-950 rounded-b-xl md:rounded-xl md:px-2 md:pt-2 2xl:px-4 2xl:pt-4 p-2 min-h-[28vh] `}
@@ -288,8 +301,8 @@ export const SelectorIndex = ({
                       key={book.id}
                       className={
                         selectedBook?.id != book?.id
-                          ? "z-30 relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-amber-500 duration-200 rounded-tr-lg"
-                          : " z-30 relative flex items-end justify-center cursor-pointer ring-2 ring-amber-500 transition ease-in-out  hover:ring-amber-500 duration-200 rounded-tr-lg"
+                          ? "z-10 relative flex items-end justify-center cursor-pointer fade-in hover:ring-2 transition ease-in-out hover:ring-amber-500 duration-200 rounded-tr-lg"
+                          : " z-10 relative flex items-end justify-center cursor-pointer ring-2 ring-amber-500 transition ease-in-out  hover:ring-amber-500 duration-200 rounded-tr-lg"
                       }
                     >
                       <PreviewContent

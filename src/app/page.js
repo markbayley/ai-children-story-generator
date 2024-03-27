@@ -69,7 +69,7 @@ export default function StoryPage() {
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(5);
   const [message, setMessage] = useState({ text: `Welcome`, type: "share" });
-  const [search, setSearch] = useState("");
+  //const [search, setSearch] = useState("");
   const [showCreators, setShowCreators] = useState(false);
 
   // Book Collections
@@ -78,7 +78,7 @@ export default function StoryPage() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [myStoriesSelected, setMyStoriesSelected] = useState(false);
   const [currentSliceIndex, setCurrentSliceIndex] = useState(0);
-  const [tabSelected, setTabSelected] = useState("Recent");
+  const [tabSelected, setTabSelected] = useState("Explore");
 
   const [fetched, setFetched] = useState(false);
   const [bookId, setBookId] = useState("");
@@ -90,10 +90,10 @@ export default function StoryPage() {
   // Fetch books when userId changes
   useEffect(() => {
     if (!fetched) {
-      setLoading(true);
+    
+      setMessage({ text: "Loading...", type: "info" });
       fetchAllBooks();
       setFetched(true);
-      setLoading(false);
     }
   }, [userId]);
 
@@ -130,6 +130,7 @@ export default function StoryPage() {
   //   }
   // };
   const fetchAllBooks = async () => {
+    setLoading(true);
     try {
       const db = getFirestore();
       const q = query(
@@ -152,6 +153,7 @@ export default function StoryPage() {
       setMyBooks(userBooks);
 
       setMessage({ text: "Books Fetched", type: "success" });
+      setLoading(false);
     } catch (error) {
       setMessage({ text: "Quota Exceeded", type: "error" });
       console.log(error);
@@ -180,6 +182,7 @@ export default function StoryPage() {
     try {
       setMessage({ text: "Writing Story...", type: "create" });
       // setLoading(true);
+
       // Fetching story text
       //const hero = user?.displayName || " chosen randomly.";
       const storyData = await fetchStory(inputPrompt);
@@ -191,14 +194,15 @@ export default function StoryPage() {
       console.log("storyTitle", storyTitle);
       setUnsavedTitle(storyTitle);
       setOpen(true);
-
+      setLoading(true);
       // Fetching images
       setMessage({ text: "Creating Images...", type: "create" });
       const allImages = await fetchImagesTwice(storyData.story);
       setImagesUnsaved(allImages);
 
+      // Fetching audio
       if (createWithAudio) {
-        // Fetching audio
+     
         setMessage({ text: "Generating Audio", type: "audio" });
 
         const audioResponse = await fetch("/api/elevenlabs", {
@@ -221,12 +225,12 @@ export default function StoryPage() {
 
       setMessage({ text: "Save Story", type: "save" });
       setUserPrompt("");
-      //setLoading(false);
+      setLoading(false);
       // Catch errors
     } catch (error) {
       console.error("Error:", error);
       setMessage({ text: "No Credits!", type: "error" });
-      // setLoading(false);
+      setLoading(false);
     }
   };
   async function fetchImagesTwice(story) {
@@ -258,8 +262,7 @@ export default function StoryPage() {
       return "Untitled Story";
     }
     // Extract the first three words as the title
-    let title = storyText
-      .substring(0, titleEndIndex)
+    let title = storyText?.substring(0, titleEndIndex)
       .trim()
       .split(" ")
       .join(" ");
@@ -291,7 +294,7 @@ export default function StoryPage() {
 
       const { bookId, imageUrls } = await uploadImages(convertedImages, userId);
 
-      if (createWithAudio) {
+     if (createWithAudio == true) {
         // Upload the audio and get its URL
         setMessage({ text: "Saving Audio...", type: "save" });
         // Convert the blob URL to a blob if necessary
@@ -299,7 +302,7 @@ export default function StoryPage() {
         const audioUrl = await uploadAudio(audioBlob, userId, bookId);
         setMessage({ text: "Finishing Up...", type: "save" });
         // Use bookId and imageUrls to save the book's data
-
+     }
         await saveBookToFirestore(
           userId,
           storyUnsaved,
@@ -307,16 +310,16 @@ export default function StoryPage() {
           audioUrl,
           bookId
         );
-      } else {
-        const audioUrl = ""
-        await saveBookToFirestore(
-          userId,
-          storyUnsaved,
-          imageUrls,
-          audioUrl,
-          bookId
-        );
-      }
+      // } else {
+      //   const audioUrl = ""
+      //   await saveBookToFirestore(
+      //     userId,
+      //     storyUnsaved,
+      //     imageUrls,
+      //     audioUrl,
+      //     bookId
+      //   );
+      // }
 
     
       // After saving the book, refetch the books list
@@ -514,9 +517,11 @@ export default function StoryPage() {
     }
   };
   const handleViewBook = async (bookId, userId) => {
+    console.log("viewBook", bookId, userId)
     try {
       await fetchBookById(bookId, userId, "view");
     } catch (error) {
+      setMessage({ text: "Already Viewed!", type: "view" });
       console.error("Error updating book views: ", error);
     }
   };
@@ -591,7 +596,7 @@ export default function StoryPage() {
               viewedBy: arrayUnion(userId),
               views: increment(1),
             };
-            messageText = "";
+            messageText = "Book Viewed";
           // } else {
           //   messageText = "Already Viewed!";
           // }
@@ -653,11 +658,12 @@ export default function StoryPage() {
   const handlePreviewAll = (bookId) => {
     const book = allBooks.find((b) => b.id === bookId);
     if (book) {
-      handleViewBook(bookId, userId)
+      //handleViewBook(bookId, userId)
       setSelectedBook(book);
       // if (audioRef && audioRef?.current != null) {
       //   setPlaying(true)
       // }
+      setMessage({ text: "", type: "" })
       
     }
     setPlaying(true);
@@ -668,7 +674,7 @@ export default function StoryPage() {
     //   : setMessage({ text: "Audio Book", type: "info" });
 
     setOpen(true);
-    setMessage({ text: "Book Opened", type: "create" });
+    //setMessage({ text: "Book Opened", type: "create" });
     //setPage(0);
   };
   const handleOpen = () => {
@@ -858,8 +864,8 @@ export default function StoryPage() {
   });
 
   //console.log("searchResults", searchResults)
-  console.log("selectedBook", selectedBook)
-
+  //console.log("selectedBook", selectedBook)
+  console.log("tabSelected", tabSelected)
   return (
     <div className="bg-[url('../../public/background5.png')] bg-cover bg-fixed  z-10 flex flex-col justify-center min-h-screen overflow-hidden no-scroll">
       {/* <Stars /> */}
@@ -890,15 +896,16 @@ export default function StoryPage() {
           page={page}
           audioRef={audioRef}
           setSearchQuery={setSearchQuery}
-          search={search}
-          setSearch={setSearch}
+          //search={search}
+         // setSearch={setSearch}
           setTabSelected={setTabSelected}
+          tabSelected={tabSelected}
         />
         {/* } */}
 
-        <div className="mx-0 md:mx-[8%] no-scroll pt-16 2.5xl:pt-20  ">
+        <div className="mx-0 md:mx-[8%] no-scroll pt-16 3xl:pt-20  ">
           {!open ? (
-            <div className="2.5xl:my-[8%]">
+            <div className="">
               <FormIndex
                 loading={loading}
                 userPrompt={userPrompt}
@@ -909,8 +916,8 @@ export default function StoryPage() {
                 storyUnsaved={storyUnsaved}
                 unsavedTheme={unsavedTheme}
                 setUnsavedTheme={setUnsavedTheme}
-                search={search}
-                setSearch={setSearch}
+               // search={search}
+               // setSearch={setSearch}
                 setSearchQuery={setSearchQuery}
                 searchQuery={searchQuery}
                 handleSearch={handleSearch}
@@ -952,11 +959,11 @@ export default function StoryPage() {
                 tabSelected={tabSelected}
                 setTabSelected={setTabSelected}
                 searchResults={searchResults}
-                setSearch={setSearch}
+                //setSearch={setSearch}
                 searchQuery={searchQuery}
                 handleSearch={handleSearch}
                 setSearchQuery={setSearchQuery}
-                search={search}
+               // search={search}
                 showCreators={showCreators}
                 filterResults={filterResults}
                 showWithAudio={showWithAudio}

@@ -1,5 +1,6 @@
 import {
   ArrowPathIcon,
+  FunnelIcon,
   MagnifyingGlassIcon,
   SparklesIcon
 } from "@heroicons/react/24/outline";
@@ -11,23 +12,48 @@ export const SearchForm = ({
   handleSearch,
   setShowWithAudio,
   setSelectedTheme,
-  setSearchResults
+  setSearchResults,
+  setTabSelected,
+  tabSelected
 }) => {
   return (
     <div
       className={
-        "flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-2 py-0 md:py-4"
+        "fade-in flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-2 py-0 md:py-4"
       }
     >
       <form onSubmit={handleSearch} className="mt-4 lg:mt-0 rounded-xl w-full">
+
+      <div className="text-orange-300 md:flex w-full justify-between items-center ">
         <div className="text-orange-300 ">
           <h1 className="font-bold font-antiqua text-5xl 2.5xl:text-7xl 3xl:text-8xl">
             Search
           </h1>
         </div>
+
+        {/* <div className="flex items-end justify-start  md:justify-between text-sm 3xl:text-xl bg-sky-950 py-2 px-3 rounded-md shadow-md shadow-slate-900 ">
+          <div onChange={() => setTabSelected("Search")}  className="flex items-center">
+    <input id="radio1" type="radio" name="radio" className="hidden" defaultChecked />
+    <label htmlFor="radio1" className="flex items-center cursor-pointer font-semibold">
+     <span className="w-5 h-5 inline-block mr-1 rounded-full border-2 border-amber-500"></span>
+     Search</label>
+   </div>
+
+   <div onChange={() => setTabSelected("Filter")} className="flex items-center ml-6">
+    <input id="radio2" type="radio" name="radio" className="hidden"  />
+    <label htmlFor="radio2" className="flex items-center cursor-pointer font-semibold">
+     <span className="w-5 h-5 inline-block mr-1 rounded-full border-2 border-amber-500"></span>
+     Filter</label>
+   </div>
+
+   </div> */}
+
+</div>
+
+
         <h3 className="py-2 text-md font-normal text-white">
           Enter a search prompt in the input field below to find your favourite
-          story titles and start reading!
+          story. Filter stories by the creator name, story theme, or by audiobook content.
         </h3>
         <div className="flex items-center justify-center">
           <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}
@@ -91,7 +117,7 @@ export const SearchForm = ({
         />
 
         {/* Search Button */}
-        <div className="flex items-center text-[15px] gap-4 pt-4 3xl:text-xl ">
+        <div className="fade-in flex items-center text-[15px] gap-4 pt-4 3xl:text-xl ">
           <button
             type="submit"
             className={

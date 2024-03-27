@@ -5,7 +5,7 @@ import {
   HandThumbUpIcon,
   ShareIcon
 } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IconModal from "./IconModal";
 
 export const BookIcons = ({
@@ -13,6 +13,7 @@ export const BookIcons = ({
   handleSaveBook,
   handleLikeBook,
   handleShareBook,
+  handleViewBook,
   dismiss,
   unsaved,
   selectedBook,
@@ -28,6 +29,7 @@ export const BookIcons = ({
   audioPages,
   setAudioPage,
   setOpen,
+  lastPage
 }) => {
   // Delete Modal
   let [isOpen, setIsOpen] = useState(false);
@@ -45,6 +47,9 @@ export const BookIcons = ({
     "audioRef.current.paused",
     audioRef?.current?.paused
   );
+
+
+
 
   return (
     <div
@@ -64,7 +69,7 @@ export const BookIcons = ({
             }
           >
             <ArrowUpTrayIcon className="icon" />
-            <span className="scale-0 group-hover:scale-100 transition-all absolute top-1 -right-12 bg-sky-950 p-1 rounded">
+            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-2 xl:-right-12  2.5xl:-right-14 3xl:-right-20 2.5xl:top-3 bg-sky-950 p-1 rounded">
               {unsaved ? "Save" : dismiss && unsaved ? "Saving..." : "Saved"}
             </span>
           </div>
@@ -101,7 +106,7 @@ export const BookIcons = ({
             />
 
             <TrashIcon className="icon" />
-            <span className="scale-0 group-hover:scale-100 transition-all absolute -top-10 -right-2 xl:top-1 xl:-right-12 bg-sky-950 p-1 rounded">
+            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-2 xl:-right-12  2.5xl:-right-14 3xl:-right-20 2.5xl:top-3 bg-sky-950 p-1 rounded">
               {!deleting ? "Delete" : "Deleting"}
             </span>
           </div>
@@ -118,13 +123,13 @@ export const BookIcons = ({
             }
           >
             <HandThumbUpIcon className="icon" />
-            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-1 xl:-right-10 2.5xl:-right-14 2.5xl:top-3 bg-sky-950 p-1 rounded">
+            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-md 3xl:text-lg absolute -top-10 xl:top-2 xl:-right-12  2.5xl:-right-12 3xl:-right-16 2.5xl:top-3 bg-sky-950 p-1 rounded">
               {selectedBook?.likedBy?.includes(userId) ? "Liked" : "Likes"}
             </span>
             {selectedBook?.likes > 0 && (
               <span
                 className={
-                  "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8  h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2  flex justify-center ring-2 ring-white bg-teal-500  text-white rounded-full "
+                  "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-6  h-4 aspect-square 2.5xl:h-6 3xl:h-7 px-1 3xl:px-2  flex justify-center items-center ring-2 ring-white bg-teal-500  text-white rounded-full "
                 }
               >
                 {selectedBook?.likes || 0}
@@ -147,13 +152,13 @@ export const BookIcons = ({
             }
           >
             <ShareIcon className="icon " />
-            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-1 xl:-right-12 2.5xl:-right-16 2.5xl:top-3 bg-sky-950 p-1 rounded">
-              {selectedBook?.sharedBy?.includes(userId) ? "Shared" : "Share"}
+            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-md 3xl:text-lg absolute -top-10 xl:top-2 xl:-right-14  2.5xl:-right-14 3xl:-right-20 2.5xl:top-3 bg-sky-950 p-1 rounded">
+              {selectedBook?.sharedBy?.includes(userId) ? "Shared" : "Shares"}
             </span>
             {selectedBook?.shares > 0 && (
               <span
                 className={
-                  "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8   h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2 flex justify-center ring-2 ring-white bg-indigo-500  text-white rounded-full "
+                  "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-6   h-4 aspect-square 2.5xl:h-6 3xl:h-7 px-1 3xl:px-2 flex justify-center items-center ring-2 ring-white bg-indigo-500  text-white rounded-full "
                 }
               >
                 {selectedBook?.shares || 0}
@@ -179,14 +184,14 @@ export const BookIcons = ({
             }
           >
             <EyeIcon className="icon" />
-            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -right-1 xl:top-1 xl:-right-12 2.5xl:-right-16 2.5xl:top-3 bg-sky-950 p-1 rounded">
-              {page != audioPages + 1 ? "Views" : "Viewed"}
+            <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-md 3xl:text-lg absolute -top-10 xl:top-2 xl:-right-14  2.5xl:-right-14 3xl:-right-20 2.5xl:top-3 bg-sky-950 p-1 rounded">
+              {selectedBook?.viewedBy?.includes(userId)  ? "Viewed" : "Views"}
             </span>
             {/* {selectedBook?.viewedBy?.includes(userId) && ( */}
             {selectedBook?.views > 0 && (
               <span
                 className={
-                  "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-8   h-4 aspect-square 2.5xl:h-7 px-1 2.5xl:px-2 flex justify-center ring-2 ring-white bg-fuchsia-500  text-white rounded-full "
+                  "absolute text-xs 2.5xl:text-lg -top-3 -right-3 2.5xl:-top-5 2.5xl:-right-6   h-4 aspect-square 2.5xl:h-6 3xl:h-7 px-1 3xl:px-2 flex justify-center items-center ring-2 ring-white bg-fuchsia-500  text-white rounded-full "
                 }
               >
                 {selectedBook?.views || 0}

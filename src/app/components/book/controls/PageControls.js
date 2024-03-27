@@ -6,7 +6,7 @@ import {
   SpeakerXMarkIcon,
 } from "@heroicons/react/24/outline";
 import IconModal from "./IconModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const PageControls = ({
   page,
@@ -22,6 +22,8 @@ export const PageControls = ({
   selectedBook,
   storyText,
   handleAudio,
+  userId,
+  handleViewBook
 }) => {
   const handlePage = (direction) => {
     let max = audioPages + 1;
@@ -43,10 +45,17 @@ export const PageControls = ({
     setIsOpen(true);
   }
 
+  // useEffect(() => {
+  //   if (page == audioPages + 1) {
+  //     console.log("lastPage", selectedBook?.id, userId)
+  //      handleViewBook(selectedBook?.id, userId)
+  //   }
+  // }, [page]);
+
 
   return (
     <div
-      className="flex justify-between xl:items-center xl:absolute xl:flex-col xl:justify-center xl:h-[90vh] z-40 
+      className="flex justify-between xl:items-center xl:absolute xl:flex-col xl:justify-center xl:h-[90vh] z-20 
       xl:right-0 gap-6 xl:gap-8 mx-2 md:mx-4 xl:mx-0 xl:w-28 2xl:w-32 2.5xl:w-40 3xl:w-52 pb-2 xl:pb-0
       "
     >
@@ -91,7 +100,7 @@ export const PageControls = ({
             }}
           />
         )}
-        <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -left-1 xl:top-1 xl:-left-12 2.5xl:-left-16 2.5xl:top-3 bg-sky-950 p-1 rounded">
+        <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-md 3xl:text-lg absolute -top-10  xl:top-2 xl:-left-10 2.5xl:-left-10 3xl:-left-14 2.5xl:top-3 bg-sky-950 p-1 rounded">
           {isNaN(audioRef?.current?.duration)
             ? "Audio"
             : playing
@@ -117,7 +126,7 @@ export const PageControls = ({
         }
       >
         <div className="icon flex items-center justify-center  ">{page}</div>
-        <span className="text-white scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-lg absolute -top-10 -left-1 xl:top-1 xl:-left-12 2.5xl:-left-16 2.5xl:top-3 bg-sky-950 p-1 rounded">
+        <span className="scale-0 group-hover:scale-100 transition-all text-xs 2.5xl:text-md 3xl:text-lg absolute -top-10  xl:top-2 xl:-left-12 2.5xl:-left-10 3xl:-left-14 2.5xl:top-3 bg-sky-950 p-1 rounded">
           Page
         </span>
       </div>

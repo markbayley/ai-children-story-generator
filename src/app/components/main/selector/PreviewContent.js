@@ -33,10 +33,10 @@ export const PreviewContent = ({
   const formatTitle = () => {
     const previewTitle = extractTitleFromStory(book?.story);
 
-    if (previewTitle.length > 25) {
-      return previewTitle.substr(0, 20) + "...";
+    if (previewTitle?.length > 25) {
+      return previewTitle?.substr(0, 20) + "...";
     }
-    if (previewTitle.length == 0) {
+    if (previewTitle?.length == 0) {
       return "Untitled Storybook";
     }
     return previewTitle;
@@ -113,7 +113,7 @@ export const PreviewContent = ({
               <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                 {book?.likedBy?.includes(userId) ? "liked" : "likes"}
               </span>
-              {book.likes || 0}
+              {book?.likes || 0}
             </div>
           </div>
         )}
@@ -125,7 +125,7 @@ export const PreviewContent = ({
               <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                 {book?.sharedBy?.includes(userId) ? "shared" : "shares"}
               </span>
-              {book.shares || 0}
+              {book?.shares || 0}
             </div>
           </div>
         )}
@@ -137,7 +137,7 @@ export const PreviewContent = ({
               <span className="scale-0 group-hover:scale-100 transition-all absolute right-10 bg-slate-700 px-1 rounded text-white">
                 {book?.viewedBy?.includes(userId) ? "viewed" : "views"}
               </span>
-              {book.views || 0}
+              {book?.views || 0}
             </div>
           </div>
         )}
@@ -187,7 +187,7 @@ export const PreviewContent = ({
             src={
               imageLoadError
                 ? tree
-                : book?.imageUrls && book.imageUrls.length > 0
+                : book?.imageUrls && book?.imageUrls?.length > 0
                 ? book.imageUrls[0]
                 : tree
             }
@@ -197,7 +197,7 @@ export const PreviewContent = ({
             blur="true"
             blurDataURL={tree}
             onError={handleImageError}
-            className="rounded-tr-lg w-64 bg-stone-500"
+            className="rounded-tr-lg w-64 bg-stone-600"
           />
         )}
       </div>
