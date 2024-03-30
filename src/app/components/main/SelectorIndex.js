@@ -31,8 +31,11 @@ export const SelectorIndex = ({
   showWithAudio,
   selectedTheme,
   selectedCreator,
+
+  showForm,
+  setShowForm
 }) => {
-  const itemsPerPage = 12;
+
   const totalItems =
     tabSelected == "Search"
       ? searchResults.length
@@ -41,6 +44,8 @@ export const SelectorIndex = ({
       : tabSelected == "Create"
       ? myBooks.length
       : allBooks.length;
+
+      const itemsPerPage = showForm ? 6 : 12;
 
   const PaginationBars = ({ totalItems, currentSliceIndex, itemsPerPage }) => {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -131,6 +136,7 @@ export const SelectorIndex = ({
               setTabSelected("Explore");
               setCurrentSliceIndex(0);
               //setSearch(false);
+              setShowForm(false)
               setMessage({
                 text: "Explore Books",
                 type: "create",
@@ -281,7 +287,7 @@ export const SelectorIndex = ({
                     ? "No filters seleceted..."
                     : !loading
                     ? "No matches found..."
-                    : "loading..."}
+                    : ""}
                 </p>
                 {/* <span className="p-[10px] border border-red-500"></span> */}
               </div>

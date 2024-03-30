@@ -83,6 +83,9 @@ export default function StoryPage() {
   const [fetched, setFetched] = useState(false);
   const [bookId, setBookId] = useState("");
 
+
+  const [showForm, setShowForm] = useState(true);
+
   // Book Auth
   const [userId, setUserId] = useState();
   // console.log("userId", userId);
@@ -935,6 +938,9 @@ export default function StoryPage() {
                 createWithAudio={createWithAudio}
                 setCreateWithAudio={setCreateWithAudio}
                 tabSelected={tabSelected}
+
+                showForm={showForm}
+                setShowForm={setShowForm}
               />
 
               <SelectorIndex
@@ -969,6 +975,9 @@ export default function StoryPage() {
                 showWithAudio={showWithAudio}
                 selectedTheme={selectedTheme}
                 selectedCreator={selectedCreator}
+
+                showForm={showForm}
+                setShowForm={setShowForm}
               />
             </div>
           ) : (

@@ -24,6 +24,8 @@ const CreateForm = ({
   setCreateWithAudio,
   tabSelected,
   loading,
+  showForm,
+  setShowForm
 }) => {
   const randomNouns = [
     "fairy",
@@ -156,7 +158,7 @@ const CreateForm = ({
     );
   }
 
-  const [show, setShow] = useState(false);
+ 
 
   return (
     <div className="fade-in flex justify-start w-full lg:w-2/3 xl:w-5/12 3xl:text-2xl px-2 py-0 md:pt-4">
@@ -168,30 +170,32 @@ const CreateForm = ({
           <h1 className="font-bold font-antiqua text-5xl 2.5xl:text-7xl 3xl:text-8xl">
            Create
           </h1>
-          {tabSelected == "Create" && (
+          {/* {tabSelected == "Create" && ( */}
             <button
-              onClick={() => setShow(!show)}
+              onClick={() => setShowForm(!showForm)}
               className={
-                show
+                showForm
                   ? "flex items-center font-semibold text-sm shadow-md shadow-slate-900 px-3 py-2 rounded-md   bg-sky-950 hover:bg-sky-900"
                   : "flex items-center font-semibold text-sm shadow-md shadow-slate-900 px-3 py-2 rounded-md  bg-sky-950 hover:bg-sky-900"
               }
             >
-              Create
-              {show ? (
-                <ChevronUpIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" />
+            
+              {showForm ? (
+               <>Close <ChevronUpIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" /></>
               ) : (
-                <ChevronDownIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" />
+               <>Open <ChevronDownIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" /></>
               )}
             </button>
-          )}
+          {/* )} */}
         </div>
+
+{ !showForm &&
+        <>
+
         <h3 className="py-2 text-md font-normal text-white">
-          {tabSelected == "Recent" ||
-          tabSelected == "Popular" ||
-          (!show && tabSelected == "Create")
-            ? "Create original stories with AI! Your books will appear in the library below."
-            : ""}
+ 
+           Create original stories with AI! Your books will appear below.
+        
           {/* Write your own prompt or generate one to get started. */}
         </h3>
         <div className="flex items-center justify-center">
@@ -200,7 +204,11 @@ const CreateForm = ({
           <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
 
-        {show && tabSelected == "Create" ? (
+        </>
+
+}
+
+        {showForm &&  (
           <>
             <div className="fade-in flex w-full justify-between items-center  text-sm font-semibold pb-2">
               <label
@@ -260,12 +268,12 @@ const CreateForm = ({
             />
             {/* Theme & Audio Filter */}
 
-            <div className="fade-in md:flex md:justify-between w-full items-center pt-5 pb-1 ">
+            <div className="fade-in xl:flex md:justify-between w-full items-center pt-5 pb-[3px]">
               <ThemeDropdown />
               <AudioSwitch />
             </div>
 
-            <div className="fade-in flex items-center text-[15px] gap-4 pt-4 3xl:text-xl pb-4">
+            <div className="fade-in flex items-center text-[15px] gap-4 pt-4 3xl:text-xl pb-3">
               <button
                 type="submit"
                 className={
@@ -298,8 +306,6 @@ const CreateForm = ({
               )}
             </div>
           </>
-        ) : (
-          ""
         )}
       </form>
     </div>

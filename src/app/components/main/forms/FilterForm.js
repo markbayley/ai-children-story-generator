@@ -1,5 +1,5 @@
 import { Switch } from "@headlessui/react";
-import { ArrowPathIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, ChevronDownIcon, ChevronUpIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
 export const FilterForm = ({
@@ -15,7 +15,9 @@ export const FilterForm = ({
   setSelectedTheme,
   selectedCreator,
   setSelectedCreator,
-  setTabSelected
+  setTabSelected,
+  showForm,
+  setShowForm
 }) => {
   function ThemeDropdown() {
     return (
@@ -147,7 +149,7 @@ export const FilterForm = ({
   return (
     <div
       className={
-        "fade-in flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-2 py-0 md:py-4"
+        "fade-in flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-2 py-0 md:pt-4"
       }
     >
       {/* onSubmit={handleFilter}  */}
@@ -164,6 +166,23 @@ export const FilterForm = ({
             Filter
           </h1>
         </div>
+
+
+        <button
+              onClick={() => setShowForm(!showForm)}
+              className={
+                showForm
+                  ? "flex items-center font-semibold text-sm shadow-md shadow-slate-900 px-3 py-2 rounded-md   bg-sky-950 hover:bg-sky-900"
+                  : "flex items-center font-semibold text-sm shadow-md shadow-slate-900 px-3 py-2 rounded-md  bg-sky-950 hover:bg-sky-900"
+              }
+            >
+            
+              {showForm ? (
+               <>Close <ChevronUpIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" /></>
+              ) : (
+               <>Open <ChevronDownIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" /></>
+              )}
+            </button>
      
 
         {/* <div className="flex items-end justify-start  md:justify-between text-sm 3xl:text-xl bg-sky-950 py-2 px-3 rounded-md shadow-md shadow-slate-900 ">
@@ -187,8 +206,8 @@ export const FilterForm = ({
 </div>
 
 <h3 className="py-2 text-md font-normal text-white">
-           Filter stories by the creator name, story theme, or by audiobook content.
-           Filter stories by our top creators.
+           Filter stories by the creator name, story theme, or audiobook.
+           {/* Filter stories by our top creators. */}
         </h3>
 
 
@@ -198,6 +217,9 @@ export const FilterForm = ({
           <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
 
+       
+       { showForm &&
+       
         <div className="backdrop-blur-md bg-sky-950/30 lg:bg-transparent  rounded-lg">
           <div className="flex w-full justify-between items-center pb-2 text-sm font-semibold ">
             <label
@@ -294,6 +316,9 @@ export const FilterForm = ({
             <AudioSwitch />
           </div>
         </div>
+
+}
+
       </div>
     </div>
   );

@@ -37,7 +37,7 @@ export const ExploreForm = ({setTabSelected, tabSelected}) => {
 
         </div>
         <h3 className="py-2 text-md font-normal text-white">
-          Find stories created by others with AI and bring your imagination to life!
+          Sort all stories created with AI. Bring your imagination to life!
         </h3>
         <div className="flex items-center justify-center">
           <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}

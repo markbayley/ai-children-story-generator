@@ -1,5 +1,7 @@
 import {
   ArrowPathIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
   FunnelIcon,
   MagnifyingGlassIcon,
   SparklesIcon
@@ -14,12 +16,15 @@ export const SearchForm = ({
   setSelectedTheme,
   setSearchResults,
   setTabSelected,
-  tabSelected
+  tabSelected,
+
+  showForm,
+  setShowForm
 }) => {
   return (
     <div
       className={
-        "fade-in flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-2 py-0 md:py-4"
+        "fade-in flex justify-start w-full lg:w-[45vw] xl:w-[35vw] 2.5xl:w-[30vw] 3xl:text-2xl px-2 py-0 md:pt-4"
       }
     >
       <form onSubmit={handleSearch} className="mt-4 lg:mt-0 rounded-xl w-full">
@@ -30,6 +35,23 @@ export const SearchForm = ({
             Search
           </h1>
         </div>
+
+
+        <button
+              onClick={() => setShowForm(!showForm)}
+              className={
+                showForm
+                  ? "flex items-center font-semibold text-sm shadow-md shadow-slate-900 px-3 py-2 rounded-md   bg-sky-950 hover:bg-sky-900"
+                  : "flex items-center font-semibold text-sm shadow-md shadow-slate-900 px-3 py-2 rounded-md  bg-sky-950 hover:bg-sky-900"
+              }
+            >
+            
+              {showForm ? (
+               <>Close <ChevronUpIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" /></>
+              ) : (
+               <>Open <ChevronDownIcon className=" w-4 ml-2 font-extrabold  aspect-square  cursor-pointer" /></>
+              )}
+            </button>
 
         {/* <div className="flex items-end justify-start  md:justify-between text-sm 3xl:text-xl bg-sky-950 py-2 px-3 rounded-md shadow-md shadow-slate-900 ">
           <div onChange={() => setTabSelected("Search")}  className="flex items-center">
@@ -52,8 +74,8 @@ export const SearchForm = ({
 
 
         <h3 className="py-2 text-md font-normal text-white">
-          Enter a search prompt in the input field below to find your favourite
-          story. Filter stories by the creator name, story theme, or by audiobook content.
+          Enter a search prompt in the input field to find a book.
+           {/* Filter stories by the creator name, story theme, or by audiobook content. */}
         </h3>
         <div className="flex items-center justify-center">
           <hr className="h-px  bg-orange-300 border-0  w-full" />{" "}
@@ -61,8 +83,8 @@ export const SearchForm = ({
           <hr className="h-px  bg-orange-300 border-0  w-full" />
         </div>
 
-     
-
+  { showForm &&   
+<>
         <div className="flex w-full justify-between items-center pb-2 text-sm font-semibold ">
           <label
             htmlFor="prompt"
@@ -128,7 +150,9 @@ export const SearchForm = ({
             <MagnifyingGlassIcon className="h-6 w-6 mx-2" />
           </button>
         </div>
+        </>
 
+        }
       </form>
     </div>
   );

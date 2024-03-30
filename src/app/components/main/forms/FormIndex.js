@@ -32,7 +32,9 @@ export const FormIndex = ({
   //handleFilter,
   createWithAudio,
   setCreateWithAudio,
-  tabSelected
+  tabSelected,
+  showForm,
+  setShowForm
   
 }) => {
 
@@ -54,6 +56,9 @@ export const FormIndex = ({
           setSelectedTheme={setSelectedTheme}
           setSearchResults={setSearchResults}
           tabSelected={tabSelected}
+
+          showForm={showForm}
+          setShowForm={setShowForm}
      
         />
       ) : tabSelected == "Filter" ? (
@@ -75,6 +80,9 @@ export const FormIndex = ({
           setTabSelected={setTabSelected}
           selectedCreator={selectedCreator}
           setSelectedCreator={setSelectedCreator}
+
+          showForm={showForm}
+          setShowForm={setShowForm}
         />
       ) : tabSelected == "Create" ?(
         <CreateForm
@@ -90,6 +98,8 @@ export const FormIndex = ({
           createWithAudio={createWithAudio}
           setCreateWithAudio={setCreateWithAudio}
           tabSelected={tabSelected}
+          showForm={showForm}
+          setShowForm={setShowForm}
         />
       ) : (
         <ExploreForm setTabSelected={setTabSelected} tabSelected={tabSelected} />
